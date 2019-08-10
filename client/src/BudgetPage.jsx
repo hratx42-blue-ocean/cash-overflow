@@ -39,3 +39,24 @@ export default function Budget() {
     </div>
   );
 }
+
+export default function BudgetCategory() {
+  return (
+    <>
+      <Grid container direction="row">
+        <Grid item xs={3}>
+          <span textAlign> Category</span>
+        </Grid>
+        <Grid item xs={3}>
+          Remaining $
+        </Grid>
+        <Grid item xs={3}>
+          Alloted $
+        </Grid>
+        <Grid item xs={3}>
+          Spent $
+        </Grid>
+      </Grid>
+    </>
+  );
+}

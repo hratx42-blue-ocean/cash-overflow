@@ -22,6 +22,7 @@ export default class App extends Component {
         <Container maxWidth="sm">
           <h1>Welcome to Green Ocean!</h1>
         </Container>
+        <Budget />
       </div>
     );
   }
