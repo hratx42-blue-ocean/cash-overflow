@@ -7,6 +7,7 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import TrendsOverview from './TrendsOverview.jsx';
+import TrendsHabits from './TrendsHabits.jsx';
 
 const useStyles = makeStyles({
   root: {
@@ -69,7 +70,7 @@ export default function CenteredTabs() {
         <TrendsOverview />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        Item Two
+        <TrendsHabits />
       </TabPanel>
       <TabPanel value={value} index={2}>
         Item Three
