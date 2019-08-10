@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Header from './Components/Header.jsx';
 import Container from '@material-ui/core/Container';
 // import './App.css';
-import Budget from './Components/BudgetPage.jsx';
+// import Budget from './Components/BudgetPage.jsx';
 import fakeData from '../../db/dataSeeder.js';
 
 export default class App extends Component {
@@ -28,7 +28,6 @@ export default class App extends Component {
         <Container maxWidth="sm">
           <h1>Welcome to Green Ocean!</h1>
         </Container>
-        <Budget categories={this.state.budgetCategories} />
       </div>
     );
   }
