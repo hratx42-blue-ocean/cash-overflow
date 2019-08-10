@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { createData } from '../../../db/dataSeeder.js';
+import Grid from '@material-ui/core/Grid';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -35,10 +36,15 @@ export default class Dashboard extends Component {
   render() {
     const classes = useStyles();
 
-    return(
-      <div className={class.root}>
-        
+    return (
+      <div className={classes.root}>
+        <Grid
+          container
+          direction="column"
+          justify="flex-start"
+          alignItems="center"
+        ></Grid>
       </div>
-    )
+    );
   }
 }

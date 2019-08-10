@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Header from './Components/Header.jsx';
 import Container from '@material-ui/core/Container';
 // import './App.css';
+import Dashboard from './Components/Dashboard.jsx';
 
 export default class App extends Component {
   constructor(props) {
@@ -17,9 +18,10 @@ export default class App extends Component {
     return (
       <div className="app">
         <Header />
-        <Container maxWidth="sm">
+        {/* <Container maxWidth="sm">
           <h1>Welcome to Green Ocean!</h1>
-        </Container>
+        </Container> */}
+        <Dashboard />
       </div>
     );
   }
