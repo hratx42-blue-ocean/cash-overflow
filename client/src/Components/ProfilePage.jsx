@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
 import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
 
@@ -23,6 +22,7 @@ export default class ProfilePage extends React.Component {
     this.firstNameButtonHandler = this.firstNameButtonHandler.bind(this);
     this.lastNameButtonHandler = this.lastNameButtonHandler.bind(this);
     this.handleInput = this.handleInput.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   emailButtonHandler(e) {
@@ -31,7 +31,6 @@ export default class ProfilePage extends React.Component {
     });
   }
   firstNameButtonHandler(e) {
-    console.log('click');
     this.setState({
       firstNameIsHidden: !this.state.firstNameIsHidden
     });
@@ -47,44 +46,62 @@ export default class ProfilePage extends React.Component {
     this.setState({ input });
   }
 
+  handleSubmit(e) {
+    //send input to updatedatabase
+    console.log('submit');
+  }
+
   render() {
     return (
-      <Grid justify="center" alignItems="center">
+      <>
         <h1>Profile Page</h1>
-        {/* {make the following clickable for editing} */}
+
         <p>
           {this.state.firstName}
           <Button onClick={this.firstNameButtonHandler}>Edit</Button>
           {!this.state.firstNameIsHidden && (
-            <Child handleInput={this.handleInput} />
+            <Child
+              handleInput={this.handleInput}
+              handleSubmit={this.handleSubmit}
+            />
           )}
         </p>
         <p>
           {this.state.lastName}
           <Button onClick={this.lastNameButtonHandler}>Edit</Button>
           {!this.state.lastNameIsHidden && (
-            <Child handleInput={this.handleInput} />
+            <Child
+              handleInput={this.handleInput}
+              handleSubmit={this.handleSubmit}
+            />
           )}
         </p>
         <p>
           {this.state.email}
           <Button onClick={this.emailButtonHandler}>Edit</Button>
           {!this.state.emailIsHidden && (
-            <Child handleInput={this.handleInput} />
+            <Child
+              handleInput={this.handleInput}
+              handleSubmit={this.handleSubmit}
+            />
           )}
         </p>
-      </Grid>
+      </>
     );
   }
 }
 
-const Child = props =>
-  (Child.propTypes = {
-    inputHandler: PropTypes.func
-  })(
+const Child = props => {
+  Child.propTypes = {
+    handleInput: PropTypes.func,
+    handleSubmit: PropTypes.func
+  };
+  return (
     <form autoComplete="off">
       <FormControl>
         <Input onChange={props.handleInput} />
       </FormControl>
+      <Button onClick={props.handleSubmit}>Save</Button>
     </form>
   );
+};
