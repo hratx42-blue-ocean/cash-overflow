@@ -1,4 +1,5 @@
 import React from 'react';
+import Button from '@material-ui/core/Button';
 
 export default class ProfilePage extends React.Component {
     constructor (props) {
@@ -8,7 +9,7 @@ export default class ProfilePage extends React.Component {
             email: 'email',
             firstName: 'name1',
             lastName: 'name2',
-            notifications: [],
+            notifications: ['budget met', '% of limit reached']
         }
     }
 
@@ -16,9 +17,19 @@ export default class ProfilePage extends React.Component {
         return (
             <>
                 <h1>Profile Page</h1>
-                <p>{this.state.firstName}</p>
-                <p>{this.state.lastName}</p>
-                <p>{this.state.email}</p>
+                {/* {make the following clickable for editing} */}
+                <p>
+                    {this.state.firstName}
+                    <Button>Edit</Button>
+                </p>
+                <p>
+                    {this.state.lastName}
+                    <Button>Edit</Button>
+                </p>
+                <p>
+                    {this.state.email}
+                    <Button>Edit</Button>
+                </p>
             </>
         )
     }
