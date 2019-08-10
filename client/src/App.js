@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import fetch from 'node-fetch';
+import Header from './Components/Header.jsx';
+import Container from '@material-ui/core/Container';
 // import './App.css';
 import CenteredTabs from './Components/TrendsPage.jsx';
 
@@ -7,28 +8,19 @@ export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      seaCreatures: []
+      auth: false
     };
     this.api = `http://localhost:8000/api/example`;
   }
-  componentDidMount() {
-    fetch(this.api)
-      .then(res => res.json())
-      .then(seaCreatures => {
-        this.setState({ seaCreatures: seaCreatures.data });
-      });
-  }
+  componentDidMount() {}
 
   render() {
     return (
       <div className="app">
-        <h1>Welcome to Blue Ocean!</h1>
-        <CenteredTabs />
-        <ul>
-          {this.state.seaCreatures.map((creature, index) => (
-            <li key={index}>{creature}</li>
-          ))}
-        </ul>
+        <Header />
+        <Container maxWidth="sm">
+          <h1>Welcome to Green Ocean!</h1>
+        </Container>
       </div>
     );
   }
