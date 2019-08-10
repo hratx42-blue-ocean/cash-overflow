@@ -1,22 +1,24 @@
 import React from 'react';
-// import Container from '@material-ui/core/Container';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
+import PropTypes from 'prop-types';
+import BudgetCategory from './BudgetCategory.jsx';
 
 const useStyles = makeStyles(() => ({
   root: {
     backgroundColor: 'purple',
-    borderWidth: 5,
-    borderColor: 'black',
     color: 'white',
-    flexGrow: 1
+    flexGrow: 1,
+    borderRadius: 6,
+    textAlign: 'center'
   },
   item: {
     backgroundColor: 'purple'
   }
 }));
 
-export default function Budget() {
+export default function Budget(props) {
+  console.log('categories are: ', props.categories);
   const classes = useStyles();
   return (
     <div className={classes.root}>
@@ -34,29 +36,19 @@ export default function Budget() {
           <Grid item xs={3}>
             Spent $
           </Grid>
+          {props.categories.map((category, i) => (
+            <BudgetCategory
+              name={category.name}
+              allotment={[category.allotment]}
+              key={`category${i}`}
+            />
+          ))}
         </Grid>
       </Grid>
     </div>
   );
 }
 
-export default function BudgetCategory() {
-  return (
-    <>
-      <Grid container direction="row">
-        <Grid item xs={3}>
-          <span textAlign> Category</span>
-        </Grid>
-        <Grid item xs={3}>
-          Remaining $
-        </Grid>
-        <Grid item xs={3}>
-          Alloted $
-        </Grid>
-        <Grid item xs={3}>
-          Spent $
-        </Grid>
-      </Grid>
-    </>
-  );
-}
+Budget.propTypes = {
+  categories: PropTypes.arrayOf(PropTypes.object)
+};
