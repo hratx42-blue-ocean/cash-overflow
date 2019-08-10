@@ -23,7 +23,8 @@
     "url": "https://github.com/hratx-blue-ocean/hratx42-green-ocean/"
   },
   "homepage": "https://github.com/hratx-blue-ocean/hratx42-green-ocean/#readme",
-  "dependencies": {},
+  "dependencies": {
+  },
   "devDependencies": {
     "dotenv": "^8.0.0",
     "eslint": "^6.1.0",
