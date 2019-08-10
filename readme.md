@@ -83,3 +83,5 @@ Now that you're at a real company with many people who might all need simultaneo
   1. [Consult this page](https://docs.aws.amazon.com/IAM/latest/UserGuide/console.html) about setting up permissions from primary AWS account. You will need to set up Identity and Access Management on the primary account and then distribute login credentials to those members of your team who need them. **You should never share your personal credentials with anyone, including other members of your team.**
   2. For SSH access, [review this page](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html). Each team member with an SSH key will be responsible for its security and should review this article on best practices for setting up secure access from your local machine. **You should never share your personal credentials with anyone, including other members of your team.**
   3. You will use Travis CI to run tests, compare branches, and generally manage the quality of the code. [Take a look at their docs here](https://docs.travis-ci.com/user/for-beginners/).
+  
+  Test
