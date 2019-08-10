@@ -6,11 +6,19 @@ module.exports.createData = () => {
     email: faker.internet.email(),
     firstName: faker.name.firstName(),
     lastName: faker.name.lastName(),
-    accounts: [],
+    accounts: [
+      {
+        name: faker.company.companyName(),
+        type: faker.finance.accountName(),
+        transactions: {
+          
+        }
+      },
+      {}.
+    ],
     recurringTransactions: [],
     budgetCategories: [],
     notifications: []
   };
-  for (let i =0 ; )
   return dummyObject;
 };
