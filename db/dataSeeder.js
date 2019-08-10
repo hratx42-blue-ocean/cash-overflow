@@ -50,7 +50,9 @@ module.exports.createData = () => {
       id: faker.random.uuid(),
       amount: faker.finance.amount(),
       category: categories[Math.floor(Math.random() * categories.length)],
-      payee: faker.company.companyName()
+      payee: faker.company.companyName(),
+      startDate: faker.date.recent(30),
+      frequency: faker.random.
     });
   }
   return dummyObject;
