@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import fetch from 'node-fetch';
+import Accounts from './Components/Accounts.jsx';
 // import './App.css';
 
 export default class App extends Component {
@@ -27,6 +28,7 @@ export default class App extends Component {
             <li key={index}>{creature}</li>
           ))}
         </ul>
+        <Accounts />
       </div>
     );
   }
