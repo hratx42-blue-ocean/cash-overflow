@@ -75,8 +75,13 @@ export default class Dashboard extends Component {
   render() {
     return (
       <div style={styles.root}>
-        <Grid container direction="column" justify="center" alignItems="center">
-          <Paper>
+        <Grid
+          container
+          direction="column"
+          justify="space-between"
+          alignItems="center"
+        >
+          <Paper style={{ width: '50%' }}>
             <Typography variant="h1" gutterBottom>
               Hello, {this.state.accountData.firstName}!
             </Typography>
@@ -89,7 +94,7 @@ export default class Dashboard extends Component {
               </Typography>
             </Tooltip>
           </Paper>
-          <Paper>
+          <Paper style={{ width: '50%' }}>
             <Grid
               container
               direction="column"
