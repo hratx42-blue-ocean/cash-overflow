@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
-import { Typography } from '@material-ui/core';
 
 export default class ProfilePage extends React.Component {
   constructor(props) {
@@ -54,7 +53,7 @@ export default class ProfilePage extends React.Component {
 
   render() {
     return (
-      <Typography>
+      <div className="profilePage">
         <h1>Profile Page</h1>
 
         <p>
@@ -87,7 +86,7 @@ export default class ProfilePage extends React.Component {
             />
           )}
         </p>
-      </Typography>
+      </div>
     );
   }
 }
