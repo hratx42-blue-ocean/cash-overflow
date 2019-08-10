@@ -1,4 +1,6 @@
 const createError = require('http-errors');
+const path = require('path');
+const bodyParser = require('body-parser');
 const logger = require('morgan');
 const express = require('express');
 const app = express();
@@ -20,8 +22,20 @@ const { example } = require('./routes');
 app.use('/api/example', example);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
+app.use(express.static(path.join(__dirname, '../client/public')));
+
+app.use(
+  bodyParser.json({
+    strict: false
+  })
+);
+
+app.get('/*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/public/index.html'), err => {
+    if (err) {
+      res.status(500).send(err);
+    }
+  });
 });
 
 // error handler
