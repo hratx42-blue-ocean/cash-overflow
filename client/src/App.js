@@ -3,6 +3,8 @@ import { Switch, Route } from 'react-router-dom';
 
 // Material Components
 import Container from '@material-ui/core/Container';
+// import './App.css';
+import CenteredTabs from './Components/TrendsPage.jsx';
 
 // Custom Components
 import Header from './Components/Header.jsx';
