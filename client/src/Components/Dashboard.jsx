@@ -6,6 +6,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import TextField from '@material-ui/core/TextField';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
+import Button from '@material-ui/core/Button';
 import MomentUtils from '@date-io/moment';
 import {
   KeyboardDatePicker,
@@ -28,13 +29,14 @@ export default class Dashboard extends Component {
       ],
       netBalance: 0,
       inputAmount: 0,
-      inputCategory: '',
+      inputCategory: 'category',
       inputPayee: '',
       inputDate: new Date()
     };
     this.handleDateInput = this.handleDateInput.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
     this.handleCategoryInput = this.handleCategoryInput.bind(this);
+    this.handlePayeeInput = this.handlePayeeInput.bind(this);
   }
 
   componentDidMount() {
@@ -59,12 +61,17 @@ export default class Dashboard extends Component {
     });
   }
 
-  handleCategoryInput(value) {
+  handleCategoryInput(event) {
     this.setState({
-      inputCategory: value
+      inputCategory: event.target.value
     });
   }
 
+  handlePayeeInput(value) {
+    this.setState({
+      inputPayee: value
+    });
+  }
   render() {
     return (
       <div style={styles.root}>
@@ -109,9 +116,6 @@ export default class Dashboard extends Component {
               <Select
                 value={this.state.inputCategory}
                 onChange={this.handleCategoryInput}
-                inputProps={{
-                  name: 'category'
-                }}
               >
                 {this.state.categories.map((category, i) => {
                   return (
@@ -121,6 +125,14 @@ export default class Dashboard extends Component {
                   );
                 })}
               </Select>
+              <TextField
+                id="payee"
+                label="payee"
+                value={this.state.inputPayee}
+                onChange={this.handleAmountInput}
+                margin="normal"
+              />
+              <Button color="primary">Add transaction</Button>
             </Grid>
           </Paper>
         </Grid>
