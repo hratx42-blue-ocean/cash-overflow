@@ -39,6 +39,20 @@ module.exports = {
   devServer: {
     contentBase: DIST_DIR,
     compress: true,
-    port: 9000
+    port: 9000,
+    historyApiFallback: true, //navigation
+    proxy: [
+      {
+        context: () => true,
+        target: 'http://localhost:8000',
+        secure: false
+      }
+    ]
+  },
+  devtool: 'cheap-eval-source-map', //fast build, super fast rebuilds
+  performance: {
+    maxEntrypointSize: 10000,
+    maxAssetSize: 10000,
+    hints: false
   }
 };
