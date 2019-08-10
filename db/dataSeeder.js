@@ -31,6 +31,7 @@ module.exports.createData = () => {
     'going out',
     'household expenses'
   ];
+  const frequencies = ['daily', 'weekly', 'monthly', 'yearly'];
 
   // seed August 2019 with 40 transactions
   for (let i = 0; i < 40; i++) {
@@ -52,8 +53,21 @@ module.exports.createData = () => {
       category: categories[Math.floor(Math.random() * categories.length)],
       payee: faker.company.companyName(),
       startDate: faker.date.recent(30),
-      frequency: faker.random.
+      frequency: frequencies[Math.floor(Math.random() * frequencies.length)]
     });
   }
+
+  // generate budget categories with $0 allotments by default
+  categories.forEach(category => {
+    dummyObject.budgetCategories.push({
+      id: faker.random.uuid(),
+      name: category,
+      allotment: {
+        2019: {
+          8: 0
+        }
+      }
+    });
+  });
   return dummyObject;
 };
