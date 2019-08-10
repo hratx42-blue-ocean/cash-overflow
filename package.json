@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/hratx-blue-ocean/hratx42-green-ocean/#readme",
   "dependencies": {
+    "@material-ui/pickers": "^3.2.2"
   },
   "devDependencies": {
     "dotenv": "^8.0.0",
