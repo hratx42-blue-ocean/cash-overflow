@@ -2,33 +2,43 @@ import React, { Component } from 'react';
 import fetch from 'node-fetch';
 import ProfilePage from './Components/ProfilePage.jsx';
 // import './App.css';
+import CenteredTabs from './Components/TrendsPage.jsx';
 
+// Custom Components
+import Header from './Components/Header.jsx';
+import AccountsPage from './Components/AccountsPage.jsx';
+import BudgetPage from './Components/BudgetPage.jsx';
+import DashboardPage from './Components/DashboardPage.jsx';
+import LandingPage from './Components/LandingPage.jsx';
+import TrendsPage from './Components/TrendsPage.jsx';
+import LoginPage from './Components/LoginPage.jsx';
+import ProfilePage from './Components/ProfilePage.jsx';
 export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      seaCreatures: []
+      auth: false
     };
     this.api = `http://localhost:8000/api/example`;
   }
-  componentDidMount() {
-    fetch(this.api)
-      .then(res => res.json())
-      .then(seaCreatures => {
-        this.setState({ seaCreatures: seaCreatures.data });
-      });
-  }
+  componentDidMount() {}
 
   render() {
     return (
       <div className="app">
-        <h1>Welcome to Blue Ocean!</h1>
-        <ul>
-          {this.state.seaCreatures.map((creature, index) => (
-            <li key={index}>{creature}</li>
-          ))}
-        </ul>
-        <ProfilePage className="profilePage" />
+        <Header />
+        <Container maxWidth="sm">
+          <h1>Welcome to Green Ocean!</h1>
+          <Switch>
+            <Route exact path="/" component={LandingPage} />
+            <Route path="/accounts" component={AccountsPage} />
+            <Route path="/budget" component={BudgetPage} />
+            <Route path="/dashboard" component={DashboardPage} />
+            <Route path="/login" component={LoginPage} />
+            <Route path="/profile" component={ProfilePage} />
+            <Route path="/trends" component={TrendsPage} />
+          </Switch>
+        </Container>
       </div>
     );
   }
