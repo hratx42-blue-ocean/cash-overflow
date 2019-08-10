@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import fetch from 'node-fetch';
 // import './App.css';
+import Budget from './BudgetPage.jsx';
 
 export default class App extends Component {
   constructor(props) {
@@ -27,6 +28,7 @@ export default class App extends Component {
             <li key={index}>{creature}</li>
           ))}
         </ul>
+        <Budget />
       </div>
     );
   }

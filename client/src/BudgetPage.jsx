@@ -5,14 +5,14 @@ import Grid from '@material-ui/core/Grid';
 
 const useStyles = makeStyles(() => ({
   root: {
-    backgroundColor: 'green',
+    backgroundColor: 'purple',
     borderWidth: 5,
     borderColor: 'black',
-    color: 'blue',
+    color: 'white',
     flexGrow: 1
   },
   item: {
-    backgroundColor: 'yellow'
+    backgroundColor: 'purple'
   }
 }));
 
