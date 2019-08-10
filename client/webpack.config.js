@@ -48,5 +48,11 @@ module.exports = {
         secure: false
       }
     ]
+  },
+  devtool: 'cheap-eval-source-map', //fast build, super fast rebuilds
+  performance: {
+    maxEntrypointSize: 10000,
+    maxAssetSize: 10000,
+    hints: false
   }
 };
