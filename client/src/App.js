@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Header from './Components/Header.jsx';
 import Container from '@material-ui/core/Container';
 // import './App.css';
+import CenteredTabs from './Components/TrendsPage.jsx';
 
 export default class App extends Component {
   constructor(props) {
