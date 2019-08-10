@@ -35,15 +35,6 @@ export default class App extends Component {
   render() {
     return (
       <div className="app">
-<<<<<<< HEAD
-        <h1>Welcome to Blue Ocean!</h1>
-        <ul>
-          {this.state.seaCreatures.map((creature, index) => (
-            <li key={index}>{creature}</li>
-          ))}
-        </ul>
-        <Accounts />
-=======
         <Header />
         <Container maxWidth="sm">
           <h1>Welcome to Green Ocean!</h1>
@@ -57,7 +48,6 @@ export default class App extends Component {
             <Route path="/trends" component={TrendsPage} />
           </Switch>
         </Container>
->>>>>>> e3cb1ecef66f72f5ba0478c424a040164a87e8d5
       </div>
     );
   }
