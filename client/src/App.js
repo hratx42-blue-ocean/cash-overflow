@@ -39,7 +39,7 @@ export default class App extends Component {
     return (
       <div className="app">
         <Header />
-        {/* <Container maxWidth="sm">
+        <Container maxWidth="sm">
           <h1>Welcome to Green Ocean!</h1>
           <Switch>
             <Route exact path="/" component={LandingPage} />
