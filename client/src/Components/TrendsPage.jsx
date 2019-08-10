@@ -8,6 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import TrendsOverview from './TrendsOverview.jsx';
 import TrendsHabits from './TrendsHabits.jsx';
+import TrendsComparison from './TrendsComparison.jsx';
 
 const useStyles = makeStyles({
   root: {
@@ -73,7 +74,7 @@ export default function CenteredTabs() {
         <TrendsHabits />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        Item Three
+        <TrendsComparison />
       </TabPanel>
     </Paper>
   );
