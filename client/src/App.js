@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import Header from './Components/Header.jsx';
+import Container from '@material-ui/core/Container';
 // import './App.css';
 
 export default class App extends Component {
@@ -17,7 +17,9 @@ export default class App extends Component {
     return (
       <div className="app">
         <Header />
-        <h1>Welcome to Green Ocean!</h1>
+        <Container maxWidth="sm">
+          <h1>Welcome to Green Ocean!</h1>
+        </Container>
       </div>
     );
   }
