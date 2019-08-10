@@ -11,7 +11,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: 'Geen Ocean',
+      title: 'Green Ocean',
       template: __dirname + '/src/index.html', //create index.html with js script
       inject: 'body',
       filename: 'index.html'
