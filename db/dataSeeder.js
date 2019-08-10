@@ -13,6 +13,8 @@ module.exports.createData = () => {
         type: faker.finance.accountName(),
         transactions: {
           2019: {
+            6: [],
+            7: [],
             8: []
           }
         }
@@ -33,16 +35,18 @@ module.exports.createData = () => {
   ];
   const frequencies = ['daily', 'weekly', 'monthly', 'yearly'];
 
-  // seed August 2019 with 40 transactions
-  for (let i = 0; i < 40; i++) {
-    dummyObject.accounts[0].transactions[2019][8].push({
-      id: faker.random.uuid(),
-      amount: faker.finance.amount(),
-      category: categories[Math.floor(Math.random() * categories.length)],
-      date: faker.date.between('2019-08-01', '2019-08-31'),
-      payee: faker.company.companyName(),
-      recurring: faker.random.boolean()
-    });
+  // seed June-August 2019 with 40 transactions each
+  for (let month = 6; month < 9; month++) {
+    for (let i = 0; i < 40; i++) {
+      dummyObject.accounts[0].transactions[2019][month].push({
+        id: faker.random.uuid(),
+        amount: faker.finance.amount(),
+        category: categories[Math.floor(Math.random() * categories.length)],
+        date: faker.date.between(`2019-0${month}-01`, `2019-0${month}-30`),
+        payee: faker.company.companyName(),
+        recurring: faker.random.boolean()
+      });
+    }
   }
 
   // generate 5 recurring transactions
@@ -64,6 +68,8 @@ module.exports.createData = () => {
       name: category,
       allotment: {
         2019: {
+          6: 0,
+          7: 0,
           8: 0
         }
       }
