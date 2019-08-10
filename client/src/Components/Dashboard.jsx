@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
+import Tooltip from '@material-ui/core/Tooltip';
 
 export default class Dashboard extends Component {
   constructor(props) {
@@ -38,13 +39,14 @@ export default class Dashboard extends Component {
             <Typography variant="h1" gutterBottom>
               Hello, {this.state.accountData.firstName}!
             </Typography>
-            <Typography variant="h2">
-              You have ${this.state.netBalance} total
-            </Typography>
-            <Typography variant="subtitle1">
-              This is your "safe to spend" balance, reflecting your bank
-              accounts less any credit card debt
-            </Typography>
+            <Tooltip
+              placement="bottom"
+              title="Safe to spend balance: bank accounts less credit card debt"
+            >
+              <Typography variant="h2">
+                You have ${this.state.netBalance} total
+              </Typography>
+            </Tooltip>
           </Paper>
         </Grid>
       </div>
