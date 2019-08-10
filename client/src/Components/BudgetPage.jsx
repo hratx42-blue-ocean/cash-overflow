@@ -1,31 +1,54 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
+import PropTypes from 'prop-types';
+import BudgetCategory from './BudgetCategory.jsx';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
   root: {
-    flexGrow: 1
+    backgroundColor: 'purple',
+    color: 'white',
+    flexGrow: 1,
+    borderRadius: 6,
+    textAlign: 'center'
   },
-  paper: {
-    padding: theme.spacing(2),
-    textAlign: 'center',
-    color: theme.palette.text.secondary
+  item: {
+    backgroundColor: 'purple'
   }
 }));
 
-function BudgetPage() {
+export default function Budget(props) {
+  console.log('categories are: ', props.categories);
   const classes = useStyles();
-
   return (
-    <>
-      <Grid item />
-      <Grid item xs={12}>
-        <Paper className={classes.paper}>BudgetPage</Paper>
+    <div className={classes.root}>
+      <Grid container direction="column">
+        <Grid container direction="row">
+          <Grid item xs={3}>
+            <span textAlign> Category</span>
+          </Grid>
+          <Grid item xs={3}>
+            Remaining $
+          </Grid>
+          <Grid item xs={3}>
+            Alloted $
+          </Grid>
+          <Grid item xs={3}>
+            Spent $
+          </Grid>
+          {props.categories.map((category, i) => (
+            <BudgetCategory
+              name={category.name}
+              allotment={[category.allotment]}
+              key={`category${i}`}
+            />
+          ))}
+        </Grid>
       </Grid>
-      <Grid item />
-    </>
+    </div>
   );
 }
 
-export default BudgetPage;
+Budget.propTypes = {
+  categories: PropTypes.arrayOf(PropTypes.object)
+};

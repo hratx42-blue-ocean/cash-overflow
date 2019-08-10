@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import fetch from 'node-fetch';
 // import './App.css';
-import CenteredTabs from './Components/TrendsPage.jsx';
+// import Budget from './Components/BudgetPage.jsx';
+import fakeData from '../../db/dataSeeder.js';
 
 // Custom Components
 import Header from './Components/Header.jsx';
@@ -16,11 +17,17 @@ export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      auth: false
+      auth: false,
+      budgetCategories: []
     };
     this.api = `http://localhost:8000/api/example`;
   }
-  componentDidMount() {}
+  componentDidMount() {
+    const data = fakeData.createData();
+    this.setState({
+      budgetCategories: data.budgetCategories
+    });
+  }
 
   render() {
     return (
