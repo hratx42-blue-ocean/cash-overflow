@@ -23,11 +23,7 @@
     "url": "https://github.com/hratx-blue-ocean/hratx42-green-ocean/"
   },
   "homepage": "https://github.com/hratx-blue-ocean/hratx42-green-ocean/#readme",
-  "dependencies": {
-    "@material-ui/core": "^4.3.1",
-    "chart.js": "^2.8.0",
-    "react-chartjs-2": "^2.7.6"
-  },
+  "dependencies": {},
   "devDependencies": {
     "dotenv": "^8.0.0",
     "eslint": "^6.1.0",
