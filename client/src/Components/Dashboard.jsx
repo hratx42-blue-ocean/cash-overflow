@@ -35,8 +35,15 @@ export default class Dashboard extends Component {
           alignItems="center"
         >
           <Paper>
-            <Typography variant="h1">
+            <Typography variant="h1" gutterBottom>
               Hello, {this.state.accountData.firstName}!
+            </Typography>
+            <Typography variant="h2">
+              You have ${this.state.netBalance} total
+            </Typography>
+            <Typography variant="subtitle1">
+              This is your "safe to spend" balance, reflecting your bank
+              accounts less any credit card debt
             </Typography>
           </Paper>
         </Grid>
