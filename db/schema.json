@@ -1,0 +1,44 @@
+{
+  "userID": "UUID",
+  "email": "string",
+  "firstName": "string",
+  "lastName": "string",
+  "accounts": [
+    {
+      "name": "string",
+      "transactions": {
+        "month/year": [
+          {
+            "id": "UUID",
+            "amount": "int",
+            "category": "string",
+            "date": "date",
+            "payee": "string",
+            "recurring": "bool"
+          }
+        ]
+      },
+      "type": "checking"
+    }
+  ],
+  "recurringTransactions": [
+    {
+      "id": "UUID",
+      "amount": "int",
+      "category": "string",
+      "payee": "string",
+      "startDate": "date",
+      "frequency": "daily || weekly || monthly || yearly"
+    }
+  ],
+  "budgetCategories": [
+    {
+      "id": "UUID",
+      "name": "string",
+      "allotment": {
+        "month/year": "amount (int)"
+      }
+    }
+  ],
+  "notifications": [null]
+}
