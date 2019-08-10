@@ -24,7 +24,8 @@
   },
   "homepage": "https://github.com/hratx-blue-ocean/hratx42-green-ocean/#readme",
   "dependencies": {
-    "chart.js": "^2.8.0"
+    "chart.js": "^2.8.0",
+    "react-chartjs-2": "^2.7.6"
   },
   "devDependencies": {
     "dotenv": "^8.0.0",
