@@ -1,19 +1,7 @@
 import React, { Component } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import { createData } from '../../../db/dataSeeder.js';
 import Grid from '@material-ui/core/Grid';
-
-const useStyles = makeStyles(theme => ({
-  root: {
-    flexGrow: 1
-  },
-  menuButton: {
-    marginRight: theme.spacing(2)
-  },
-  title: {
-    flexGrow: 1
-  }
-}));
+import Typography from '@material-ui/core/Typography';
+import Paper from '@material-ui/core/Paper';
 
 export default class Dashboard extends Component {
   constructor(props) {
@@ -29,21 +17,29 @@ export default class Dashboard extends Component {
 
   componentDidMount() {
     this.setState({
-      data: createData()
+      accountData: {
+        firstName: 'Chad',
+        lastName: 'Cramer'
+      },
+      netBalance: 1000
     });
   }
 
   render() {
-    const classes = useStyles();
-
     return (
-      <div className={classes.root}>
+      <div>
         <Grid
           container
           direction="column"
           justify="flex-start"
           alignItems="center"
-        ></Grid>
+        >
+          <Paper>
+            <Typography variant="h1">
+              Hello, {this.state.accountData.firstName}!
+            </Typography>
+          </Paper>
+        </Grid>
       </div>
     );
   }
