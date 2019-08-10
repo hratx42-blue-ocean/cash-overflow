@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import fetch from 'node-fetch';
-import ProfilePage from './Components/ProfilePage.jsx';
 // import './App.css';
 import CenteredTabs from './Components/TrendsPage.jsx';
 
