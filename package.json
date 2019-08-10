@@ -6,7 +6,10 @@
   "scripts": {
     "setup": "npm install && cd ./client && npm install ; cd ../server && npm install",
     "test": "cd ./client && npm test",
-    "launch": "cd ./client && npm run-script build && cd ../server && node bin/www && cd ../client webpack-dev-server &",
+    "travis-launch": "cd ./client && npm run-script build && cd ../server && node bin/www && cd ../client webpack-dev-server &",
+    "build": "cd ./client && npm run-script build",
+    "dev-client": "cd ./client && npm run-script server",
+    "dev-server": "cd ./server && npm run-script start",
     "lint:client": "cd ./client && ./node_modules/.bin/eslint \"src/**/*.{js,jsx}\" && echo 'Your code has passed the linting guidelines' || echo 'Please fix the errors listed above'",
     "lint:server": "cd ./server && ../node_modules/.bin/eslint \"routes/**/*.js\" 2>/dev/null && echo 'Your code has passed the linting guidelines' || echo 'Please fix the errors listed above'"
   },
@@ -22,18 +25,12 @@
   "homepage": "https://github.com/hratx-blue-ocean/hratx42-green-ocean/#readme",
   "dependencies": {},
   "devDependencies": {
-    "babel-eslint": "^10.0.2",
     "dotenv": "^8.0.0",
     "eslint": "^6.1.0",
-    "eslint-config-react-app": "^4.0.1",
-    "eslint-config-standard": "^13.0.1",
-    "eslint-plugin-flowtype": "^4.2.0",
-    "eslint-plugin-import": "^2.18.2",
-    "eslint-plugin-jsx-a11y": "^6.2.3",
-    "eslint-plugin-node": "^9.1.0",
-    "eslint-plugin-promise": "^4.2.1",
+    "eslint-config-prettier": "^6.0.0",
+    "eslint-plugin-prettier": "^3.1.0",
     "eslint-plugin-react": "^7.14.3",
     "eslint-plugin-react-hooks": "^1.7.0",
-    "eslint-plugin-standard": "^4.0.0"
+    "prettier": "^1.18.2"
   }
 }

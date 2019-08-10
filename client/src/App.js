@@ -20,14 +20,14 @@ export default class App extends Component {
 
   render() {
     return (
-      <>
+      <div className="app">
         <h1>Welcome to Blue Ocean!</h1>
         <ul>
           {this.state.seaCreatures.map((creature, index) => (
             <li key={index}>{creature}</li>
           ))}
         </ul>
-      </>
+      </div>
     );
   }
 }

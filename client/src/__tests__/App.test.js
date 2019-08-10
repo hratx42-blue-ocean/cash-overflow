@@ -1,17 +1,18 @@
-import React from 'react'
-import {render, fireEvent, cleanup, waitForElement} from 'react-testing-library'
+import React from 'react';
+import { shallow, mount, render } from 'enzyme';
 
-// this adds custom jest matchers from jest-dom
-import 'jest-dom/extend-expect'
 import App from '../App';
 
-afterEach(cleanup);
+describe('App component --->', function() {
+  test('should render without throwing an error', async function() {
+    expect(await shallow(<App />));
+  });
 
+  test('should be selectable by class "App"', async function() {
+    expect(await shallow(<App />).is('.app')).toBe(true);
+  });
 
-it('CheckboxWithLabel changes the text after click', async () => {
-    const { getByText } = render(<App/>,);
-
-    const dolphin = await waitForElement(() => getByText(/dolphin/i),)
-
-    expect(dolphin).toBeTruthy();
+  test('should mount in a full DOM', async function() {
+    expect(await mount(<App />).find('.app').length).toBe(1);
+  });
 });
