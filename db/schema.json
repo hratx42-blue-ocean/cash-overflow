@@ -7,16 +7,18 @@
     {
       "name": "string",
       "transactions": {
-        "month/year": [
-          {
-            "id": "UUID",
-            "amount": "int",
-            "category": "string",
-            "date": "date",
-            "payee": "string",
-            "recurring": "bool"
-          }
-        ]
+        "year (int)": {
+          "month (int)": [
+            {
+              "id": "UUID",
+              "amount": "int",
+              "category": "string",
+              "date": "date",
+              "payee": "string",
+              "recurring": "bool"
+            }
+          ]
+        }
       },
       "type": "checking"
     }
@@ -36,7 +38,9 @@
       "id": "UUID",
       "name": "string",
       "allotment": {
-        "month/year": "amount (int)"
+        "year (int)": {
+          "month (int)": "allotment (int)"
+        }
       }
     }
   ],
