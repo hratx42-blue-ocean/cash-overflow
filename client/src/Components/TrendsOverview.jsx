@@ -1,7 +1,6 @@
 import React from 'react';
 import { Doughnut } from 'react-chartjs-2';
 
-
 // test data for display
 const data = {
   labels: ['Red', 'Green', 'Yellow'],
