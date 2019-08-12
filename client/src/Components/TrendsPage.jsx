@@ -6,6 +6,9 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
+import TrendsOverview from './TrendsOverview.jsx';
+import TrendsHabits from './TrendsHabits.jsx';
+import TrendsComparison from './TrendsComparison.jsx';
 
 const useStyles = makeStyles({
   root: {
@@ -43,7 +46,7 @@ function a11yProps(index) {
   };
 }
 
-export default function CenteredTabs() {
+export default function TrendsPage() {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
@@ -60,18 +63,18 @@ export default function CenteredTabs() {
         textColor="primary"
         centered
       >
-        <Tab label="Item One" {...a11yProps(0)} />
-        <Tab label="Item Two" {...a11yProps(1)} />
-        <Tab label="Item Three" {...a11yProps(2)} />
+        <Tab label="Overview" {...a11yProps(0)} />
+        <Tab label="Habits" {...a11yProps(1)} />
+        <Tab label="Comparison" {...a11yProps(2)} />
       </Tabs>
       <TabPanel value={value} index={0}>
-        Item One
+        <TrendsOverview />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        Item Two
+        <TrendsHabits />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        Item Three
+        <TrendsComparison />
       </TabPanel>
     </Paper>
   );
