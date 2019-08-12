@@ -5,8 +5,22 @@ import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles(theme => ({
+  root: {
+    flexGrow: 1
+  },
+  paper: {
+    padding: theme.spacing(2),
+    textAlign: 'center'
+  }
+}));
 
 const ProfileEmail = props => {
+  const classes = useStyles();
+
   ProfileEmail.propTypes = {
     email: PropTypes.string,
     emailIsHidden: PropTypes.bool,
@@ -15,21 +29,27 @@ const ProfileEmail = props => {
     handleEmailSubmit: PropTypes.func
   };
   return (
-    <Paper>
-      <Typography>
-        <h5>email</h5>
-        <p>{props.email}</p>
-        <Button onClick={props.emailButtonHandler}>Edit</Button>
-        {!props.emailIsHidden && (
-          <form autoComplete="off">
-            <FormControl>
-              <Input onChange={props.handleInput} />
-            </FormControl>
-            <Button onClick={props.handleEmailSubmit}>Save</Button>
-          </form>
-        )}
-      </Typography>
-    </Paper>
+    <div className={classes.root}>
+      <Grid container spacing={3}>
+        <Grid item xs>
+          <Paper className={classes.paper}>
+            <Typography>
+              <h5>email</h5>
+              <p>{props.email}</p>
+              <Button onClick={props.emailButtonHandler}>Edit</Button>
+              {!props.emailIsHidden && (
+                <form autoComplete="off">
+                  <FormControl>
+                    <Input onChange={props.handleInput} />
+                  </FormControl>
+                  <Button onClick={props.handleEmailSubmit}>Save</Button>
+                </form>
+              )}
+            </Typography>
+          </Paper>
+        </Grid>
+      </Grid>
+    </div>
   );
 };
 

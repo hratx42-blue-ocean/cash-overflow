@@ -5,8 +5,22 @@ import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles(theme => ({
+  root: {
+    flexGrow: 1
+  },
+  paper: {
+    padding: theme.spacing(2),
+    textAlign: 'center'
+  }
+}));
 
 const ProfileLastName = props => {
+  const classes = useStyles();
+
   ProfileLastName.propTypes = {
     lastName: PropTypes.string,
     lastNameIsHidden: PropTypes.bool,
@@ -15,21 +29,27 @@ const ProfileLastName = props => {
     handleLastNameSubmit: PropTypes.func
   };
   return (
-    <Paper>
-      <Typography>
-        <h5>Last Name</h5>
-        <p>{props.lastName}</p>
-        <Button onClick={props.lastNameButtonHandler}>Edit</Button>
-        {!props.lastNameIsHidden && (
-          <form autoComplete="off">
-            <FormControl>
-              <Input onChange={props.handleInput} />
-            </FormControl>
-            <Button onClick={props.handleLastNameSubmit}>Save</Button>
-          </form>
-        )}
-      </Typography>
-    </Paper>
+    <div className={classes.root}>
+      <Grid container spacing={3}>
+        <Grid item xs>
+          <Paper className={classes.paper}>
+            <Typography>
+              <h5>Last Name</h5>
+              <p>{props.lastName}</p>
+              <Button onClick={props.lastNameButtonHandler}>Edit</Button>
+              {!props.lastNameIsHidden && (
+                <form autoComplete="off">
+                  <FormControl>
+                    <Input onChange={props.handleInput} />
+                  </FormControl>
+                  <Button onClick={props.handleLastNameSubmit}>Save</Button>
+                </form>
+              )}
+            </Typography>
+          </Paper>
+        </Grid>
+      </Grid>
+    </div>
   );
 };
 

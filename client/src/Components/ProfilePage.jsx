@@ -78,7 +78,14 @@ export default class ProfilePage extends React.Component {
         <Typography>
           <h1>Profile Page</h1>
         </Typography>
-        <Grid container className="profilePage">
+        <Grid
+          container
+          direction="row"
+          justify="center"
+          alignItems="center"
+          spacing={3}
+          className="profilePage"
+        >
           <ProfileFirstName
             firstNameIsHidden={this.state.firstNameIsHidden}
             firstName={this.state.firstName}
