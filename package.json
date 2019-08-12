@@ -23,7 +23,9 @@
     "url": "https://github.com/hratx-blue-ocean/hratx42-green-ocean/"
   },
   "homepage": "https://github.com/hratx-blue-ocean/hratx42-green-ocean/#readme",
-  "dependencies": {},
+  "dependencies": {
+    "@material-ui/pickers": "^3.2.2"
+  },
   "devDependencies": {
     "dotenv": "^8.0.0",
     "eslint": "^6.1.0",

@@ -1,8 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import ProfileFirstName from './ProfileFirstName.jsx';
 import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
+import Paper from '@material-ui/core/Paper';
 
 export default class ProfilePage extends React.Component {
   constructor(props) {
@@ -22,7 +24,9 @@ export default class ProfilePage extends React.Component {
     this.firstNameButtonHandler = this.firstNameButtonHandler.bind(this);
     this.lastNameButtonHandler = this.lastNameButtonHandler.bind(this);
     this.handleInput = this.handleInput.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleFirstNameSubmit = this.handleFirstNameSubmit.bind(this);
+    this.handleLastNameSubmit = this.handleLastNameSubmit.bind(this);
+    this.handleEmailSubmit = this.handleEmailSubmit.bind(this);
   }
 
   emailButtonHandler(e) {
@@ -46,26 +50,42 @@ export default class ProfilePage extends React.Component {
     this.setState({ input });
   }
 
-  handleSubmit(e) {
+  handleFirstNameSubmit(e) {
     //send input to updatedatabase
-    console.log('submit');
+    console.log(this.state.input);
+    this.setState({
+      firstNameIsHidden: !this.state.firstNameIsHidden
+    });
+  }
+
+  handleLastNameSubmit(e) {
+    //send input to updatedatabase
+    this.setState({
+      lastNameIsHidden: !this.state.lastNameIsHidden
+    });
+    console.log(this.state.input);
+  }
+
+  handleEmailSubmit(e) {
+    //send input to updatedatabase
+    this.setState({
+      emailIsHidden: !this.state.emailIsHidden
+    });
+    console.log(this.state.input);
   }
 
   render() {
     return (
       <div className="profilePage">
         <h1>Profile Page</h1>
+        <ProfileFirstName
+          firstNameIsHidden={this.state.firstNameIsHidden}
+          firstName={this.state.firstName}
+          firstNameButtonHandler={this.firstNameButtonHandler}
+          handleInput={this.handleInput}
+          handleFirstNameSubmit={this.handleFirstNameSubmit}
+        ></ProfileFirstName>
 
-        <p>
-          {this.state.firstName}
-          <Button onClick={this.firstNameButtonHandler}>Edit</Button>
-          {!this.state.firstNameIsHidden && (
-            <Child
-              handleInput={this.handleInput}
-              handleSubmit={this.handleSubmit}
-            />
-          )}
-        </p>
         <p>
           {this.state.lastName}
           <Button onClick={this.lastNameButtonHandler}>Edit</Button>
