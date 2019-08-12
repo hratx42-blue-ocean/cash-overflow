@@ -17,7 +17,7 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-export default function Budget(props) {
+export default function BudgetPage(props) {
   console.log('categories are: ', props.categories);
   const classes = useStyles();
   return (
@@ -49,6 +49,6 @@ export default function Budget(props) {
   );
 }
 
-Budget.propTypes = {
+BudgetPage.propTypes = {
   categories: PropTypes.arrayOf(PropTypes.object)
 };
