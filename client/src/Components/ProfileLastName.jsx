@@ -14,6 +14,7 @@ const useStyles = makeStyles(theme => ({
   },
   paper: {
     padding: theme.spacing(2),
+    margin: 20,
     textAlign: 'center'
   }
 }));
@@ -30,12 +31,14 @@ const ProfileLastName = props => {
   };
   return (
     <div className={classes.root}>
-      <Grid container spacing={3}>
+      <Grid container spacing={1}>
         <Grid item xs>
           <Paper className={classes.paper}>
+            <Typography variant="h5" component="h5">
+              Last Name
+            </Typography>
+            <Typography>{props.lastName}</Typography>
             <Typography>
-              <h5>Last Name</h5>
-              <p>{props.lastName}</p>
               <Button onClick={props.lastNameButtonHandler}>Edit</Button>
               {!props.lastNameIsHidden && (
                 <form autoComplete="off">

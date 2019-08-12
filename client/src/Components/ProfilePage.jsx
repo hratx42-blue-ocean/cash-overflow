@@ -74,43 +74,38 @@ export default class ProfilePage extends React.Component {
 
   render() {
     return (
-      <>
-        <Typography>
-          <h1>Profile Page</h1>
-        </Typography>
-        <Grid
-          container
-          direction="row"
-          justify="center"
-          alignItems="center"
-          spacing={3}
-          className="profilePage"
-        >
-          <ProfileFirstName
-            firstNameIsHidden={this.state.firstNameIsHidden}
-            firstName={this.state.firstName}
-            firstNameButtonHandler={this.firstNameButtonHandler}
-            handleInput={this.handleInput}
-            handleFirstNameSubmit={this.handleFirstNameSubmit}
-          ></ProfileFirstName>
+      <Grid
+        container
+        direction="column"
+        justify="center"
+        alignItems="center"
+        spacing={1}
+        className="profilePage"
+      >
+        <ProfileFirstName
+          firstNameIsHidden={this.state.firstNameIsHidden}
+          firstName={this.state.firstName}
+          firstNameButtonHandler={this.firstNameButtonHandler}
+          handleInput={this.handleInput}
+          handleFirstNameSubmit={this.handleFirstNameSubmit}
+        ></ProfileFirstName>
 
-          <ProfileLastName
-            lastNameIsHidden={this.state.lastNameIsHidden}
-            lastName={this.state.lastName}
-            lastNameButtonHandler={this.lastNameButtonHandler}
-            handleInput={this.handleInput}
-            handleLastNameSubmit={this.handleLastNameSubmit}
-          ></ProfileLastName>
+        <ProfileLastName
+          lastNameIsHidden={this.state.lastNameIsHidden}
+          lastName={this.state.lastName}
+          lastNameButtonHandler={this.lastNameButtonHandler}
+          handleInput={this.handleInput}
+          handleLastNameSubmit={this.handleLastNameSubmit}
+        ></ProfileLastName>
 
-          <ProfileEmail
-            emailIsHidden={this.state.emailIsHidden}
-            email={this.state.email}
-            emailButtonHandler={this.emailButtonHandler}
-            handleInput={this.handleInput}
-            handleEmailSubmit={this.handleEmailSubmit}
-          ></ProfileEmail>
-        </Grid>
-      </>
+        <ProfileEmail
+          emailIsHidden={this.state.emailIsHidden}
+          email={this.state.email}
+          emailButtonHandler={this.emailButtonHandler}
+          handleInput={this.handleInput}
+          handleEmailSubmit={this.handleEmailSubmit}
+        ></ProfileEmail>
+      </Grid>
     );
   }
 }

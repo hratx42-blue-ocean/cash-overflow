@@ -14,6 +14,7 @@ const useStyles = makeStyles(theme => ({
   },
   paper: {
     padding: theme.spacing(2),
+    margin: 20,
     textAlign: 'center'
   }
 }));
@@ -30,17 +31,19 @@ const ProfileEmail = props => {
   };
   return (
     <div className={classes.root}>
-      <Grid container spacing={3}>
+      <Grid container spacing={1}>
         <Grid item xs>
           <Paper className={classes.paper}>
+            <Typography variant="h5" component="h5">
+              Email
+            </Typography>
+            <Typography>{props.email}</Typography>
             <Typography>
-              <h5>email</h5>
-              <p>{props.email}</p>
               <Button onClick={props.emailButtonHandler}>Edit</Button>
               {!props.emailIsHidden && (
                 <form autoComplete="off">
                   <FormControl>
-                    <Input onChange={props.handleInput} />
+                    <Input fullwidth="true" onChange={props.handleInput} />
                   </FormControl>
                   <Button onClick={props.handleEmailSubmit}>Save</Button>
                 </form>
