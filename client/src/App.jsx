@@ -18,36 +18,78 @@ import LandingPage from './Components/LandingPage.jsx';
 import TrendsPage from './Components/TrendsPage.jsx';
 import LoginPage from './Components/LoginPage.jsx';
 import ProfilePage from './Components/ProfilePage.jsx';
+import Budget from './Components/BudgetPage.jsx';
+import ErrorPage from './Components/ErrorPage.jsx';
 export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       auth: false,
-      budgetCategories: []
+      budgetCategories: [],
+      accountData: {}
     };
     this.api = `http://localhost:8000/api/example`;
   }
   componentDidMount() {
     const data = fakeData.createData();
     this.setState({
-      budgetCategories: data.budgetCategories
+      budgetCategories: data.budgetCategories,
+      accountData: data
     });
   }
 
   render() {
+    const { accountData } = this.state;
     return (
       <div className="app">
         <Header />
         <Container maxWidth="sm">
           <h1>Welcome to Green Ocean!</h1>
           <Switch>
-            <Route exact path="/" component={LandingPage} />
-            <Route path="/accounts" component={AccountsPage} />
-            <Route path="/budget" component={BudgetPage} />
-            <Route path="/dashboard" component={DashboardPage} />
-            <Route path="/login" component={LoginPage} />
-            <Route path="/profile" component={ProfilePage} />
-            <Route path="/trends" component={TrendsPage} />
+            <Route
+              exact
+              path="/"
+              render={props => (
+                <LandingPage {...props} accountData={accountData} />
+              )}
+            />
+            <Route
+              path="/accounts"
+              render={props => (
+                <AccountsPage {...props} accountData={accountData} />
+              )}
+            />
+            <Route
+              path="/budget"
+              render={props => (
+                <BudgetPage {...props} accountData={accountData} />
+              )}
+            />
+            <Route
+              path="/dashboard"
+              render={props => (
+                <DashboardPage {...props} accountData={accountData} />
+              )}
+            />
+            <Route
+              path="/login"
+              render={props => (
+                <LoginPage {...props} accountData={accountData} />
+              )}
+            />
+            <Route
+              path="/profile"
+              render={props => (
+                <ProfilePage {...props} accountData={accountData} />
+              )}
+            />
+            <Route
+              path="/trends"
+              render={props => (
+                <TrendsPage {...props} accountData={accountData} />
+              )}
+            />
+            <Route component={ErrorPage} />
           </Switch>
         </Container>
       </div>
