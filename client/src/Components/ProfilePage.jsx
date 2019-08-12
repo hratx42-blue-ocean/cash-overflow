@@ -1,11 +1,8 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import ProfileFirstName from './ProfileFirstName.jsx';
 import ProfileLastName from './ProfileLastName.jsx';
-import Button from '@material-ui/core/Button';
-import FormControl from '@material-ui/core/FormControl';
-import Input from '@material-ui/core/Input';
-import Paper from '@material-ui/core/Paper';
+import ProfileEmail from './ProfileEmail.jsx';
+import { Typography, Grid } from '@material-ui/core';
 
 export default class ProfilePage extends React.Component {
   constructor(props) {
@@ -77,50 +74,36 @@ export default class ProfilePage extends React.Component {
 
   render() {
     return (
-      <div className="profilePage">
-        <h1>Profile Page</h1>
-        <ProfileFirstName
-          firstNameIsHidden={this.state.firstNameIsHidden}
-          firstName={this.state.firstName}
-          firstNameButtonHandler={this.firstNameButtonHandler}
-          handleInput={this.handleInput}
-          handleFirstNameSubmit={this.handleFirstNameSubmit}
-        ></ProfileFirstName>
+      <>
+        <Typography>
+          <h1>Profile Page</h1>
+        </Typography>
+        <Grid container className="profilePage">
+          <ProfileFirstName
+            firstNameIsHidden={this.state.firstNameIsHidden}
+            firstName={this.state.firstName}
+            firstNameButtonHandler={this.firstNameButtonHandler}
+            handleInput={this.handleInput}
+            handleFirstNameSubmit={this.handleFirstNameSubmit}
+          ></ProfileFirstName>
 
-        <ProfileLastName
-          lastNameIsHidden={this.state.lastNameIsHidden}
-          lastName={this.state.lastName}
-          lastNameButtonHandler={this.lastNameButtonHandler}
-          handleInput={this.handleInput}
-          handleLastNameSubmit={this.handleLastNameSubmit}
-        ></ProfileLastName>
+          <ProfileLastName
+            lastNameIsHidden={this.state.lastNameIsHidden}
+            lastName={this.state.lastName}
+            lastNameButtonHandler={this.lastNameButtonHandler}
+            handleInput={this.handleInput}
+            handleLastNameSubmit={this.handleLastNameSubmit}
+          ></ProfileLastName>
 
-        <p>
-          {this.state.email}
-          <Button onClick={this.emailButtonHandler}>Edit</Button>
-          {!this.state.emailIsHidden && (
-            <Child
-              handleInput={this.handleInput}
-              handleSubmit={this.handleSubmit}
-            />
-          )}
-        </p>
-      </div>
+          <ProfileEmail
+            emailIsHidden={this.state.emailIsHidden}
+            email={this.state.email}
+            emailButtonHandler={this.emailButtonHandler}
+            handleInput={this.handleInput}
+            handleEmailSubmit={this.handleEmailSubmit}
+          ></ProfileEmail>
+        </Grid>
+      </>
     );
   }
 }
-
-const Child = props => {
-  Child.propTypes = {
-    handleInput: PropTypes.func,
-    handleSubmit: PropTypes.func
-  };
-  return (
-    <form autoComplete="off">
-      <FormControl>
-        <Input onChange={props.handleInput} />
-      </FormControl>
-      <Button onClick={props.handleSubmit}>Save</Button>
-    </form>
-  );
-};

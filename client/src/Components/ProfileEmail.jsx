@@ -6,26 +6,26 @@ import Input from '@material-ui/core/Input';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 
-const ProfileFirstName = props => {
-  ProfileFirstName.propTypes = {
-    firstName: PropTypes.string,
-    firstNameIsHidden: PropTypes.bool,
-    firstNameButtonHandler: PropTypes.func,
+const ProfileEmail = props => {
+  ProfileEmail.propTypes = {
+    email: PropTypes.string,
+    emailIsHidden: PropTypes.bool,
+    emailButtonHandler: PropTypes.func,
     handleInput: PropTypes.func,
-    handleFirstNameSubmit: PropTypes.func
+    handleEmailSubmit: PropTypes.func
   };
   return (
     <Paper>
       <Typography>
-        <h5>First Name</h5>
-        <p>{props.firstName}</p>
-        <Button onClick={props.firstNameButtonHandler}>Edit</Button>
-        {!props.firstNameIsHidden && (
+        <h5>email</h5>
+        <p>{props.email}</p>
+        <Button onClick={props.emailButtonHandler}>Edit</Button>
+        {!props.emailIsHidden && (
           <form autoComplete="off">
             <FormControl>
               <Input onChange={props.handleInput} />
             </FormControl>
-            <Button onClick={props.handleFirstNameSubmit}>Save</Button>
+            <Button onClick={props.handleEmailSubmit}>Save</Button>
           </form>
         )}
       </Typography>
@@ -33,4 +33,4 @@ const ProfileFirstName = props => {
   );
 };
 
-export default ProfileFirstName;
+export default ProfileEmail;
