@@ -22,6 +22,8 @@ const getUserData = async userEmail => {
   }
 };
 
+// below functions are used for seeding DB with 5 fake users and testing schema enforecement
+
 const seedFakeUserData = async () => {
   try {
     await client.connect();
@@ -37,7 +39,26 @@ const seedFakeUserData = async () => {
   }
 };
 
+const testSchema = async () => {
+  const fakeFella = dataSeeder.createData();
+  console.log(fakeFella.budgetCategories[0].allotment);
+
+  // uncomment line below to test schema enforcement (should fail when uncommented)
+  // fake.middleName = 'ron';
+
+  try {
+    await client.connect();
+    const collection = await client.db('greenOcean').collection('userData');
+    await collection.insertOne(fakeFella);
+  } catch (err) {
+    console.log(err);
+  } finally {
+    client.close();
+  }
+};
+
+// getUserData('Webster21@gmail.com');
 // seedFakeUserData();
-getUserData('test@gmail.com');
+// testSchema();
 
 module.exports = { getUserData };
