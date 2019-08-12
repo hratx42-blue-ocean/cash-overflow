@@ -4,7 +4,6 @@ import { Switch, Route } from 'react-router-dom';
 
 // Material Components
 import Container from '@material-ui/core/Container';
-import fetch from 'node-fetch';
 
 // import './App.css';
 // import Budget from './Components/BudgetPage.jsx';
