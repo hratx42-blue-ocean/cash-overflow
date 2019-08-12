@@ -1,9 +1,18 @@
-const createError = require('http-errors');
 const path = require('path');
 const bodyParser = require('body-parser');
 const logger = require('morgan');
 const express = require('express');
 const app = express();
+
+// auth imports
+const SESSION_SECRET = require('./config.js');
+const expressSession = require('express-session');
+const session = {
+  secret: SESSION_SECRET,
+  cookie: {},
+  resave: false,
+  saveUninitialized: false
+};
 
 // open up CORS
 app.use((_, res, next) => {
