@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ProfileFirstName from './ProfileFirstName.jsx';
+import ProfileLastName from './ProfileLastName.jsx';
 import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
@@ -86,16 +87,14 @@ export default class ProfilePage extends React.Component {
           handleFirstNameSubmit={this.handleFirstNameSubmit}
         ></ProfileFirstName>
 
-        <p>
-          {this.state.lastName}
-          <Button onClick={this.lastNameButtonHandler}>Edit</Button>
-          {!this.state.lastNameIsHidden && (
-            <Child
-              handleInput={this.handleInput}
-              handleSubmit={this.handleSubmit}
-            />
-          )}
-        </p>
+        <ProfileLastName
+          lastNameIsHidden={this.state.lastNameIsHidden}
+          lastName={this.state.lastName}
+          lastNameButtonHandler={this.lastNameButtonHandler}
+          handleInput={this.handleInput}
+          handleLastNameSubmit={this.handleLastNameSubmit}
+        ></ProfileLastName>
+
         <p>
           {this.state.email}
           <Button onClick={this.emailButtonHandler}>Edit</Button>
