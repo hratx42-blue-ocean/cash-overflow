@@ -46,7 +46,7 @@ function a11yProps(index) {
   };
 }
 
-export default function CenteredTabs() {
+export default function TrendsPage() {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 

@@ -51,7 +51,6 @@ export default class App extends Component {
             <Route path="/trends" component={TrendsPage} />
           </Switch>
         </Container>
-        <CenteredTabs />
       </div>
     );
   }
