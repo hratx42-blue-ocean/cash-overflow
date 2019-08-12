@@ -19,6 +19,7 @@ import TrendsPage from './Components/TrendsPage.jsx';
 import LoginPage from './Components/LoginPage.jsx';
 import ProfilePage from './Components/ProfilePage.jsx';
 import Budget from './Components/BudgetPage.jsx';
+import ErrorPage from './Components/ErrorPage.jsx';
 export default class App extends Component {
   constructor(props) {
     super(props);
@@ -88,6 +89,7 @@ export default class App extends Component {
                 <TrendsPage {...props} accountData={accountData} />
               )}
             />
+            <Route component={ErrorPage} />
           </Switch>
         </Container>
       </div>
