@@ -9,7 +9,7 @@
     "travis-launch": "cd ./client && npm run-script build && cd ../server && node bin/www && cd ../client webpack-dev-server &",
     "build": "cd ./client && npm run-script build",
     "dev-client": "cd ./client && npm run-script server",
-    "dev-server": "cd ./server && npm run-script start",
+    "dev-server": "cd ./server && nodemon -r dotenv/config bin/www",
     "lint:client": "cd ./client && ./node_modules/.bin/eslint \"src/**/*.{js,jsx}\" && echo 'Your code has passed the linting guidelines' || echo 'Please fix the errors listed above'",
     "lint:server": "cd ./server && ../node_modules/.bin/eslint \"routes/**/*.js\" 2>/dev/null && echo 'Your code has passed the linting guidelines' || echo 'Please fix the errors listed above'"
   },
@@ -24,7 +24,8 @@
   },
   "homepage": "https://github.com/hratx-blue-ocean/hratx42-green-ocean/#readme",
   "dependencies": {
-    "@material-ui/pickers": "^3.2.2"
+    "@material-ui/pickers": "^3.2.2",
+    "mongodb": "^3.3.0-beta2"
   },
   "devDependencies": {
     "dotenv": "^8.0.0",
