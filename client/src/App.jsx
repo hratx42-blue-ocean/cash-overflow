@@ -63,11 +63,7 @@ export default class App extends Component {
               <Route
                 path="/budget"
                 render={props => (
-<<<<<<< HEAD
                   <BudgetPage {...props} accountData={accountData} />
-=======
-                  <BudgetPage {...props} categories={budgetCategories} />
->>>>>>> 20ef5796b7ed6ccd44ccc19e2f8d70bb0054f815
                 )}
               />
               <PrivateRoute
