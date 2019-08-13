@@ -19,14 +19,8 @@ describe('Profile component --->', function() {
 
 // describe('Profile edit buttons should toggle input fields', function() {
 //   test('first name', async function() {
-//     const wrapper = shallow(
-//       <ProfilePage>
-//         <ProfileFirstName />
-//       </ProfilePage>
-//     );
-//     const editButton = wrapper.find('.edit').at(0);
-
-//     editButton.simulate('click');
-//     expect(await wrapper.props().firstNameIsHidden.toEqual(false));
+//     const wrapper = mount(<ProfilePage />).at(0);
+//     const simulate = wrapper.find('edit').first().simulate('click');
+//     expect(await wrapper.find('edit').props().firstNameIsHidden.toEqual(true));
 //   });
-//});
+// });

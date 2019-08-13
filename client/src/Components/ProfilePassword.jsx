@@ -14,6 +14,7 @@ const useStyles = makeStyles(theme => ({
   },
   paper: {
     padding: theme.spacing(2),
+    width: 600,
     margin: 20,
     textAlign: 'center'
   }
@@ -26,6 +27,7 @@ const ProfilePassword = props => {
     // lastName: PropTypes.string,
     passwordIsHidden: PropTypes.bool,
     passwordButtonHandler: PropTypes.func,
+    closePasswordResetMessage: PropTypes.func,
     handleInput: PropTypes.func,
     handleLastNameSubmit: PropTypes.func
   };
@@ -39,17 +41,16 @@ const ProfilePassword = props => {
             </Typography>
             {/* <Typography>{props.lastName}</Typography> */}
             <Typography>
-              <Button onClick={props.passwordButtonHandler}>Edit</Button>
+              <Button onClick={props.passwordButtonHandler}>
+                Reset Password
+              </Button>
               {!props.passwordIsHidden && (
-                <form autoComplete="off">
-                  <FormControl>
-                    <Input
-                      placeholder="current password"
-                      onChange={props.handleInput}
-                    />
-                  </FormControl>
-                  {/* <Button onClick={props.handleLastNameSubmit}>Save</Button> */}
-                </form>
+                <>
+                  <p>Check your email for password reset instructions!</p>
+                  <Button onClick={props.closePasswordResetMessage}>
+                    Close
+                  </Button>
+                </>
               )}
             </Typography>
           </Paper>
@@ -60,10 +61,3 @@ const ProfilePassword = props => {
 };
 
 export default ProfilePassword;
-
-//create field for current password
-//needs endpoint for password check
-//.then(if response is correct, allow user to input new password (render new input field))
-//.then(render new input field to confirm new password)
-//.then(if the two inputs match, send new password to db)
-//.catch('incorrect password')
