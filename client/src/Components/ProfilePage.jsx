@@ -2,7 +2,7 @@ import React from 'react';
 import ProfileFirstName from './ProfileFirstName.jsx';
 import ProfileLastName from './ProfileLastName.jsx';
 import ProfileEmail from './ProfileEmail.jsx';
-import { Typography, Grid } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 
 export default class ProfilePage extends React.Component {
   constructor(props) {

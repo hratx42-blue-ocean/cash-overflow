@@ -24,6 +24,7 @@ app.use((_, res, next) => {
   next();
 });
 
+// Logging and other Utilities
 app.use(logger('dev'));
 
 // You can place your routes here, feel free to refactor
