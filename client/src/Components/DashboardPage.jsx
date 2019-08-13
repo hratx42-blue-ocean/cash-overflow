@@ -64,7 +64,7 @@ export default class DashboardPage extends Component {
   }
   render() {
     return (
-      <div style={styles.root}>
+      <div style={styles.root} className="dashboardPage">
         <Grid
           container
           direction="column"

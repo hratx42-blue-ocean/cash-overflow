@@ -1,6 +1,11 @@
 import React from 'react';
 import { shallow, mount, render } from 'enzyme';
+<<<<<<< HEAD
 import { act } from 'react-dom/test-utils';
+=======
+import { MemoryRouter } from 'react-router-dom';
+
+>>>>>>> 0b87433baf235a2be8a7a226bc9f1778cc064c84
 import App from '../App.jsx';
 
 // // A function that routes the user to the right place
