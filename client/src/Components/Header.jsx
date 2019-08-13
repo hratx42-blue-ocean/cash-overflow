@@ -17,28 +17,12 @@ const useStyles = makeStyles(theme => ({
   },
   title: {
     flexGrow: 1
+  },
+  link: {
+    textDecoration: 'none',
+    color: '#ffffff'
   }
 }));
-
-const DashboardLink = React.forwardRef((props, ref) => (
-  <Link innerRef={ref} to="/dashboard" {...props} />
-));
-
-const AccountsLink = React.forwardRef((props, ref) => (
-  <Link innerRef={ref} to="/accounts" {...props} />
-));
-
-const BudgetLink = React.forwardRef((props, ref) => (
-  <Link innerRef={ref} to="/budget" {...props} />
-));
-
-const TrendsLink = React.forwardRef((props, ref) => (
-  <Link innerRef={ref} to="/trends" {...props} />
-));
-
-const ProfileLink = React.forwardRef((props, ref) => (
-  <Link innerRef={ref} to="/profile" {...props} />
-));
 
 export default function ButtonAppBar() {
   const classes = useStyles();
@@ -51,40 +35,30 @@ export default function ButtonAppBar() {
             Green Ocean
           </Typography>
           <Box className={classes.navBox}>
-            <Button
-              color="inherit"
-              component={DashboardLink}
-              className={classes.menuButton}
-            >
-              Dashboard
+            <Button color="inherit" className={classes.link}>
+              <Link to="/dashboard" className={classes.link}>
+                Dashboard
+              </Link>
             </Button>
-            <Button
-              color="inherit"
-              component={AccountsLink}
-              className={classes.menuButton}
-            >
-              Accounts
+            <Button color="inherit" className={classes.link}>
+              <Link to="/accounts" className={classes.link}>
+                Accounts
+              </Link>
             </Button>
-            <Button
-              color="inherit"
-              component={BudgetLink}
-              className={classes.menuButton}
-            >
-              Budget
+            <Button color="inherit" className={classes.link}>
+              <Link to="/budget" className={classes.link}>
+                Budget
+              </Link>
             </Button>
-            <Button
-              color="inherit"
-              component={TrendsLink}
-              className={classes.menuButton}
-            >
-              Trends
+            <Button color="inherit" className={classes.link}>
+              <Link to="/trends" className={classes.link}>
+                Trends
+              </Link>
             </Button>
-            <Button
-              color="inherit"
-              component={ProfileLink}
-              className={classes.menuButton}
-            >
-              Profile
+            <Button color="inherit" className={classes.link}>
+              <Link to="/profile" className={classes.link}>
+                Profile
+              </Link>
             </Button>
           </Box>
           <Button color="inherit">Login</Button>
