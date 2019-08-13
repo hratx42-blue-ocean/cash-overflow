@@ -21,7 +21,9 @@ function ErrorPage() {
     <>
       <Grid item />
       <Grid item xs={12}>
-        <Paper className={classes.paper}>You found our 404 page!</Paper>
+        <Paper className={classes.paper}>
+          Oh no! You&apos;ve found our 404 page!
+        </Paper>
       </Grid>
       <Grid item />
     </>
