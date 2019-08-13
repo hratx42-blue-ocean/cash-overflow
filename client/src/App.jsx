@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 // Routing
 import { Switch, Route, BrowserRouter } from 'react-router-dom';
-import PrivateRoute from './components/PrivateRoute.jsx';
+import PrivateRoute from './Components/PrivateRoute.jsx';
 
 // Material Components
 import Container from '@material-ui/core/Container';
