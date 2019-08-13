@@ -33,7 +33,6 @@ export default class AccountsPage extends React.Component {
   render() {
     const accountData = this.props.accountData;
     let data = [];
-    console.log(accountData.accounts[0]);
     if (
       accountData &&
       accountData.accounts[0] &&
