@@ -7,6 +7,11 @@ import TextField from '@material-ui/core/TextField';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import Button from '@material-ui/core/Button';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
+import FormLabel from '@material-ui/core/FormLabel';
 import MomentUtils from '@date-io/moment';
 import {
   KeyboardDatePicker,
@@ -14,10 +19,13 @@ import {
 } from '@material-ui/pickers';
 import PropTypes from 'prop-types';
 
+import axios from 'axios';
+
 export default class DashboardPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      error: false,
       categories: [
         'rent',
         'groceries',
@@ -28,15 +36,21 @@ export default class DashboardPage extends Component {
         'household expenses'
       ],
       netBalance: 10000,
+      accounts: ['checking', 'savings', 'Visa', 'AmEx'],
       inputAmount: 0,
       inputCategory: 'category',
       inputPayee: '',
-      inputDate: new Date()
+      inputDate: new Date(),
+      inputAccount: 'account',
+      typeOfTransaction: ''
     };
     this.handleDateInput = this.handleDateInput.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
     this.handleCategoryInput = this.handleCategoryInput.bind(this);
     this.handlePayeeInput = this.handlePayeeInput.bind(this);
+    this.handleAccountInput = this.handleAccountInput.bind(this);
+    this.handleAddTransaction = this.handleAddTransaction.bind(this);
+    this.depositOrDebit = this.depositOrDebit.bind(this);
   }
 
   handleDateInput(value) {
@@ -47,7 +61,7 @@ export default class DashboardPage extends Component {
 
   handleAmountInput(value) {
     this.setState({
-      inputAmount: value
+      inputAmount: value.target.value
     });
   }
 
@@ -57,10 +71,36 @@ export default class DashboardPage extends Component {
     });
   }
 
+  handleAccountInput(event) {
+    let inputAccount = event.target.value;
+
+    this.setState({
+      inputAccount: inputAccount
+    });
+  }
+
   handlePayeeInput(value) {
     this.setState({
-      inputPayee: value
+      inputPayee: value.target.value
     });
+  }
+
+  depositOrDebit(value) {
+    console.log(value.target.value);
+  }
+
+  handleAddTransaction() {
+    //write post request at app level
+    let month = this.state.inputDate.getMonth();
+    let year = this.state.inputDate.getFullYear();
+
+    const data = {
+      category: this.state.inputCategory,
+      account: this.state.inputAccount,
+      amount: Number(this.state.inputAmount),
+      payee: this.state.inputPayee,
+      date: this.state.inputDate.toString()
+    };
   }
   render() {
     return (
@@ -101,13 +141,38 @@ export default class DashboardPage extends Component {
                   onChange={this.handleDateInput}
                 />
               </MuiPickersUtilsProvider>
+
               <TextField
                 id="amount"
                 label="amount"
+                type="number"
                 value={this.state.inputAmount}
                 onChange={this.handleAmountInput}
                 margin="normal"
               />
+              <FormLabel component="legend">
+                Is this a deposit or debit?{' '}
+              </FormLabel>
+              <RadioGroup
+                aria-label="position"
+                name="position"
+                //value="deposit"
+                onChange={this.depositOrDebit}
+                row
+              >
+                <FormControlLabel
+                  value="debit"
+                  control={<Radio color="primary" />}
+                  label="debit"
+                  labelPlacement="start"
+                />
+                <FormControlLabel
+                  value="deposit"
+                  control={<Radio color="primary" />}
+                  label="deposit"
+                  labelPlacement="start"
+                />
+              </RadioGroup>
               <Select
                 value={this.state.inputCategory}
                 onChange={this.handleCategoryInput}
@@ -120,14 +185,28 @@ export default class DashboardPage extends Component {
                   );
                 })}
               </Select>
+              <Select
+                value={this.state.inputAccount}
+                onChange={this.handleAccountInput}
+              >
+                {this.state.accounts.map((account, i) => {
+                  return (
+                    <MenuItem key={`accountInput_${i}`} value={account}>
+                      {account}
+                    </MenuItem>
+                  );
+                })}
+              </Select>
               <TextField
                 id="payee"
                 label="payee"
                 value={this.state.inputPayee}
-                onChange={this.handleAmountInput}
+                onChange={this.handlePayeeInput}
                 margin="normal"
               />
-              <Button color="primary">Add transaction</Button>
+              <Button onClick={this.handleAddTransaction} color="primary">
+                Add transaction
+              </Button>
             </Grid>
           </Paper>
         </Grid>
