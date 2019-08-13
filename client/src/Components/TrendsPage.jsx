@@ -46,14 +46,13 @@ function a11yProps(index) {
   };
 }
 
-export default function TrendsPage() {
+export default function TrendsPage(props) {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
   function handleChange(event, newValue) {
     setValue(newValue);
   }
-
   return (
     <Paper className={classes.root}>
       <Tabs
@@ -68,13 +67,13 @@ export default function TrendsPage() {
         <Tab label="Comparison" {...a11yProps(2)} />
       </Tabs>
       <TabPanel value={value} index={0}>
-        <TrendsOverview />
+        <TrendsOverview data={props} />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <TrendsHabits />
+        <TrendsHabits data={props} />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <TrendsComparison />
+        <TrendsComparison data={props} />
       </TabPanel>
     </Paper>
   );
