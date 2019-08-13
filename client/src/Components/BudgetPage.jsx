@@ -32,10 +32,17 @@ const totalSpent = txs => {
 const curYear = 2019;
 const curMonth = 8;
 
-export default function BudgetPage({ categories = [], transactions = {} }) {
+export default function BudgetPage({
+  allotments = [],
+  categories = [],
+  transactions = {}
+}) {
   const classes = useStyles();
   const mapped = {};
+  const alloted = {};
   const rows = [];
+
+  console.log(allotments);
 
   categories.forEach(({ name }) => (mapped[name] = []));
   if (
@@ -46,10 +53,15 @@ export default function BudgetPage({ categories = [], transactions = {} }) {
     transactions[curYear][curMonth].forEach(transaction =>
       mapped[transaction.category].push(transaction)
     );
+
+    allotments.forEach(allotment => {
+      alloted[allotment.name] = allotment.allotment[curYear][curMonth];
+    });
+
     Object.keys(mapped).forEach(key => {
       const val = {};
       val.category = key;
-      val.allotted = 10000;
+      val.allotted = alloted[key];
       val.spent = totalSpent(mapped[key]);
       val.remaining = val.allotted - val.spent;
       val.transactions = mapped[key];
@@ -91,6 +103,7 @@ export default function BudgetPage({ categories = [], transactions = {} }) {
 }
 
 BudgetPage.propTypes = {
+  allotments: PropTypes.arrayOf(PropTypes.object),
   categories: PropTypes.arrayOf(PropTypes.object),
   transactions: PropTypes.object
 };
