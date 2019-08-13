@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Axios from 'axios';
 
 // Routing
 import { Switch, Route, BrowserRouter } from 'react-router-dom';
@@ -25,17 +26,40 @@ export default class App extends Component {
     super(props);
     this.state = {
       auth: false,
+      currentUser: null,
       budgetCategories: [],
       accountData: {}
     };
-    this.api = `http://localhost:8000/api/example`;
+    this.getUserData = this.getUserData.bind(this);
+    this.setCurrentUser = this.setCurrentUser.bind(this);
+    this.passAccountAndBudgetCategories = this.passAccountAndBudgetCategories.bind(
+      this
+    );
   }
-  componentDidMount() {
-    const data = fakeData.createData();
+
+  getUserData(userEmail) {
+    return Axios.get(`http://0.0.0.0:8000/api/users/getData?user=${userEmail}`);
+  }
+
+  setCurrentUser(userData) {
     this.setState({
-      budgetCategories: data.budgetCategories,
-      accountData: data
+      currentUser: userData.data[0]
     });
+
+    return userData;
+  }
+
+  passAccountAndBudgetCategories(userData) {
+    this.setState({
+      budgetCategories: userData.data[0].budgetCategories,
+      accountData: userData.data[0]
+    });
+  }
+
+  componentDidMount() {
+    this.getUserData('Eda80@hotmail.com')
+      .then(this.setCurrentUser)
+      .then(this.passAccountAndBudgetCategories);
   }
 
   render() {
