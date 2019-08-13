@@ -25,6 +25,7 @@ const server = http.createServer(app);
 /**
  * Listen on provided port, on all network interfaces.
  */
+
 const { initializeDatabases } = require('../../db/mongoDB.js');
 initializeDatabases().then(() => {
   server.listen(port);
