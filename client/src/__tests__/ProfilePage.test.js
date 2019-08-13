@@ -13,6 +13,6 @@ describe('Profile component --->', function() {
   });
 
   test('should mount in a full DOM', async function() {
-    expect(await mount(<ProfilePage />).find('.profilePage').length).toBe(1);
+    expect(await mount(<ProfilePage />).find('.profilePage').length).toBe(3);
   });
 });
