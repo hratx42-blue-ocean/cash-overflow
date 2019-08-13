@@ -27,8 +27,7 @@ app.use((_, res, next) => {
 app.use(logger('dev'));
 
 // You can place your routes here, feel free to refactor
-const { example } = require('./routes');
-app.use('/api/example', example);
+const { usersRoute } = require('./routes');
 
 // catch 404 and forward to error handler
 app.use(express.static(path.join(__dirname, '../client/public')));
@@ -38,6 +37,8 @@ app.use(
     strict: false
   })
 );
+
+app.use('/api/users', usersRoute);
 
 app.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/public/index.html'), err => {
