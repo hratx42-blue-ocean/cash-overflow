@@ -35,10 +35,10 @@
   },
   "devDependencies": {
     "@babel/core": "^7.5.5",
-    "@babel/runtime": "^7.5.5",
     "@babel/plugin-transform-runtime": "^7.5.5",
     "@babel/preset-env": "^7.5.5",
     "@babel/preset-react": "^7.0.0",
+    "@babel/runtime": "^7.5.5",
     "@typescript-eslint/eslint-plugin": "^1.13.0",
     "@typescript-eslint/parser": "^1.13.0",
     "babel-cli": "^6.26.0",
@@ -59,11 +59,11 @@
     "file-loader": "^4.2.0",
     "html-webpack-plugin": "^3.2.0",
     "jest": "^24.8.0",
-    "url-loader": "^2.1.0",
     "regenerator-runtime": "^0.13.3",
+    "typescript": "^3.5.3",
+    "url-loader": "^2.1.0",
     "webpack": "^4.39.1",
     "webpack-cli": "^3.3.6",
-    "webpack-dev-server": "^3.8.0",
-    "typescript": "^3.5.3"
+    "webpack-dev-server": "^3.8.0"
   }
 }
