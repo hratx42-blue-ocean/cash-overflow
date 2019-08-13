@@ -9,7 +9,6 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Button from '@material-ui/core/Button';
 import MomentUtils from '@date-io/moment';
 import Loading from './Loading.jsx';
-import { Auth0Context } from '../react-auth0-wrapper';
 
 import {
   KeyboardDatePicker,
@@ -67,8 +66,12 @@ export default class DashboardPage extends Component {
     });
   }
   render() {
-    if (this.context.loading || !this.context.user) {
-      return <Loading />;
+    if (this.props.loading || !this.props.user) {
+      return (
+        <div className="dashboardPage">
+          <Loading />
+        </div>
+      );
     }
 
     return (
@@ -150,8 +153,8 @@ const styles = {
   }
 };
 
-DashboardPage.contextType = Auth0Context;
-
 DashboardPage.propTypes = {
-  accountData: PropTypes.object
+  accountData: PropTypes.object,
+  isAuthenticated: PropTypes.bool,
+  user: PropTypes.object
 };

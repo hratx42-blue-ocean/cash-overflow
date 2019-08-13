@@ -3,36 +3,30 @@ import { shallow, mount, render } from 'enzyme';
 import { act } from 'react-dom/test-utils';
 import App from '../App.jsx';
 
-// // A function that routes the user to the right place
-// // after login
-// const onRedirectCallback = appState => {
-//   window.history.replaceState(
-//     {},
-//     document.title,
-//     appState && appState.targetUrl
-//       ? appState.targetUrl
-//       : window.location.pathname
-//   );
-// };
+import { Auth0Provider } from '../react-auth0-wrapper';
+import config from '../auth_config';
 
-// let container;
+import { shallowWithAuth, mountWithAuth } from './util/authContextWrapper';
+// import './index.css';
 
-// beforeEach(() => {
-//   container = document.createElement('div');
-//   document.body.appendChild(container);
-// });
-
-// afterEach(() => {
-//   document.body.removeChild(container);
-//   container = null;
-// });
+// A function that routes the user to the right place
+// after login
+const onRedirectCallback = appState => {
+  window.history.replaceState(
+    {},
+    document.title,
+    appState && appState.targetUrl
+      ? appState.targetUrl
+      : window.location.pathname
+  );
+};
 
 describe('App component --->', function() {
   test('should shallow render without throwing an error', function() {
-    expect(shallow(<App />));
+    expect(shallowWithAuth(<App />));
   });
 
   test('should mount in a full DOM render', function() {
-    expect(mount(<App />));
+    expect(mountWithAuth(<App />));
   });
 });
