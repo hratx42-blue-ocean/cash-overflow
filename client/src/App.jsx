@@ -25,7 +25,9 @@ export default class App extends Component {
     super(props);
     this.state = {
       budgetCategories: [],
-      accountData: {}
+      accountData: {
+        accounts: [{ transactions: { year: { month: [] } } }]
+      }
     };
     this.api = `http://localhost:8000/api/example`;
   }

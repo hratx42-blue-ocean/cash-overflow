@@ -20,13 +20,14 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const ProfileLastName = props => {
+const ProfilePassword = props => {
   const classes = useStyles();
 
-  ProfileLastName.propTypes = {
-    lastName: PropTypes.string,
-    lastNameIsHidden: PropTypes.bool,
-    lastNameButtonHandler: PropTypes.func,
+  ProfilePassword.propTypes = {
+    // lastName: PropTypes.string,
+    passwordIsHidden: PropTypes.bool,
+    passwordButtonHandler: PropTypes.func,
+    closePasswordResetMessage: PropTypes.func,
     handleInput: PropTypes.func,
     handleLastNameSubmit: PropTypes.func
   };
@@ -36,18 +37,20 @@ const ProfileLastName = props => {
         <Grid item xs>
           <Paper className={classes.paper}>
             <Typography variant="h5" component="h5">
-              Last Name
+              Password
             </Typography>
-            <Typography>{props.lastName}</Typography>
+            {/* <Typography>{props.lastName}</Typography> */}
             <Typography>
-              <Button onClick={props.lastNameButtonHandler}>Edit</Button>
-              {!props.lastNameIsHidden && (
-                <form autoComplete="off">
-                  <FormControl>
-                    <Input onChange={props.handleInput} />
-                  </FormControl>
-                  <Button onClick={props.handleLastNameSubmit}>Save</Button>
-                </form>
+              <Button onClick={props.passwordButtonHandler}>
+                Reset Password
+              </Button>
+              {!props.passwordIsHidden && (
+                <>
+                  <p>Check your email for password reset instructions!</p>
+                  <Button onClick={props.closePasswordResetMessage}>
+                    Close
+                  </Button>
+                </>
               )}
             </Typography>
           </Paper>
@@ -57,4 +60,4 @@ const ProfileLastName = props => {
   );
 };
 
-export default ProfileLastName;
+export default ProfilePassword;

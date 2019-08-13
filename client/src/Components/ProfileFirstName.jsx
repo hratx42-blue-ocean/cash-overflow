@@ -14,6 +14,7 @@ const useStyles = makeStyles(theme => ({
   },
   paper: {
     padding: theme.spacing(2),
+    width: 600,
     margin: 20,
     textAlign: 'center'
   }
@@ -38,7 +39,9 @@ const ProfileFirstName = props => {
             </Typography>
             <Typography>{props.firstName}</Typography>
             <Typography>
-              <Button onClick={props.firstNameButtonHandler}>Edit</Button>
+              <Button className="edit" onClick={props.firstNameButtonHandler}>
+                Edit
+              </Button>
               {!props.firstNameIsHidden && (
                 <form autoComplete="off">
                   <FormControl>
