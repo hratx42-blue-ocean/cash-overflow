@@ -1,19 +1,19 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
 import PropTypes from 'prop-types';
-import BudgetCategory from './BudgetCategory.jsx';
+import { textAlign } from '@material-ui/system';
+// import BudgetCategory from './BudgetCategory.jsx';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles(theme => ({
   root: {
-    backgroundColor: 'purple',
-    color: 'white',
-    flexGrow: 1,
-    borderRadius: 6,
-    textAlign: 'center'
+    flexGrow: 1
   },
-  item: {
-    backgroundColor: 'purple'
+  paper: {
+    fontSize: '2rem',
+    padding: theme.spacing(5),
+    textAlign: 'center'
   }
 }));
 
@@ -22,27 +22,30 @@ export default function BudgetPage(props) {
   const classes = useStyles();
   return (
     <div className={classes.root}>
-      <Grid container direction="column">
-        <Grid container direction="row">
-          <Grid item xs={3}>
-            <span textAlign> Category</span>
-          </Grid>
-          <Grid item xs={3}>
-            Remaining $
-          </Grid>
-          <Grid item xs={3}>
-            Alloted $
-          </Grid>
-          <Grid item xs={3}>
-            Spent $
-          </Grid>
-          {props.categories.map((category, i) => (
-            <BudgetCategory
-              name={category.name}
-              allotment={[category.allotment]}
-              key={`category${i}`}
-            />
-          ))}
+      <Grid container justify="center" spacing={1}>
+        <Grid item xs={12}>
+          <Paper className={classes.paper}>
+            <Grid
+              container
+              direction="row"
+              justify="center"
+              alignItems="stretch"
+              spacing={1}
+            >
+              <Grid item xs={6}>
+                <Paper className={classes.paper}>col 0</Paper>
+              </Grid>
+              <Grid item xs={2}>
+                <Paper className={classes.paper}>col 1</Paper>
+              </Grid>
+              <Grid item xs={2}>
+                <Paper className={classes.paper}>col 2</Paper>
+              </Grid>
+              <Grid item xs={2}>
+                <Paper className={classes.paper}>col 3</Paper>
+              </Grid>
+            </Grid>
+          </Paper>
         </Grid>
       </Grid>
     </div>
