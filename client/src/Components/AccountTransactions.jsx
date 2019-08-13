@@ -16,12 +16,32 @@ const AccountTransactions = props => {
         <Paper style={{ maxHeight: 450, overflow: 'auto' }}>
           <List>
             <Table>
-              <TableHead style={{ position: 'sticky' }}>
+              <TableHead>
                 <TableRow>
-                  <TableCell align="center">Date</TableCell>
-                  <TableCell align="center">Payee</TableCell>
-                  <TableCell align="center">Category</TableCell>
-                  <TableCell align="center">Amount</TableCell>
+                  <TableCell
+                    style={{ position: 'sticky', top: 0, background: 'white' }}
+                    align="center"
+                  >
+                    Date
+                  </TableCell>
+                  <TableCell
+                    style={{ position: 'sticky', top: 0, background: 'white'  }}
+                    align="center"
+                  >
+                    Payee
+                  </TableCell>
+                  <TableCell
+                    style={{ position: 'sticky', top: 0, background: 'white'  }}
+                    align="center"
+                  >
+                    Category
+                  </TableCell>
+                  <TableCell
+                    style={{ position: 'sticky', top: 0, background: 'white'  }}
+                    align="center"
+                  >
+                    Amount
+                  </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -35,7 +55,7 @@ const AccountTransactions = props => {
                       <TableCell key={`tx_Category${i}`}>
                         {tx.category}
                       </TableCell>
-                      <TableCell key={`txAmount_${i}`}>{tx.amount}</TableCell>
+                      <TableCell key={`txAmount_${i}`}>${tx.amount}</TableCell>
                     </TableRow>
                   );
                 })}
