@@ -18,7 +18,7 @@ const AccountTransactions = props => {
   return (
     <>
       <Grid item xs={8}>
-        <FormControl>
+        <FormControl style={{ minWidth: 200 }}>
           <InputLabel htmlFor="account-filter">Account</InputLabel>
           <Select
             value={props.accountFilter}

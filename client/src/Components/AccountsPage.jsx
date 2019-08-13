@@ -40,17 +40,21 @@ export default class AccountsPage extends React.Component {
     const accountData = this.props.accountData;
     let data = [];
     let accountsList = [];
+    let currentDate = new Date();
+    let currentMonth = currentDate.getMonth().toString();
+    let currentYear = currentDate.getFullYear().toString();
     if (
       accountData &&
       accountData.accounts[0] &&
       accountData.accounts[0].transactions &&
-      accountData.accounts[0].transactions['2019'] &&
-      accountData.accounts[0].transactions['2019']['8']
+      accountData.accounts[0].transactions[currentYear] &&
+      accountData.accounts[0].transactions[currentYear][currentMonth]
     ) {
-      data = accountData.accounts[0].transactions['2019']['8'];
+      data = accountData.accounts[0].transactions[currentYear][currentMonth];
       data = data.sort((a, b) => b.date - a.date);
       accountsList = accountData.accounts;
       console.log('account list', accountsList);
+      console.log(currentMonth, currentYear);
       console.log('data is', data);
     }
     return (
