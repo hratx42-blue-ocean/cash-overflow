@@ -8,6 +8,9 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import Button from '@material-ui/core/Button';
 import MomentUtils from '@date-io/moment';
+import Loading from './Loading.jsx';
+import { Auth0Context } from '../react-auth0-wrapper';
+
 import {
   KeyboardDatePicker,
   MuiPickersUtilsProvider
@@ -17,6 +20,7 @@ import PropTypes from 'prop-types';
 export default class DashboardPage extends Component {
   constructor(props) {
     super(props);
+    this.state = { ...props };
     this.state = {
       categories: [
         'rent',
@@ -63,6 +67,10 @@ export default class DashboardPage extends Component {
     });
   }
   render() {
+    if (this.context.loading || !this.context.user) {
+      return <Loading />;
+    }
+
     return (
       <div style={styles.root} className="dashboardPage">
         <Grid
@@ -141,6 +149,8 @@ const styles = {
     flexGrow: 1
   }
 };
+
+DashboardPage.contextType = Auth0Context;
 
 DashboardPage.propTypes = {
   accountData: PropTypes.object
