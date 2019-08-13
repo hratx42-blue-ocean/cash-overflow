@@ -19,7 +19,6 @@ import LandingPage from './Components/LandingPage.jsx';
 import TrendsPage from './Components/TrendsPage.jsx';
 import LoginPage from './Components/LoginPage.jsx';
 import ProfilePage from './Components/ProfilePage.jsx';
-import Budget from './Components/BudgetPage.jsx';
 import ErrorPage from './Components/ErrorPage.jsx';
 export default class App extends Component {
   constructor(props) {
@@ -40,7 +39,7 @@ export default class App extends Component {
   }
 
   render() {
-    const { accountData } = this.state;
+    const { accountData, budgetCategories } = this.state;
     return (
       <div className="app">
         <BrowserRouter>
@@ -64,7 +63,7 @@ export default class App extends Component {
               <Route
                 path="/budget"
                 render={props => (
-                  <BudgetPage {...props} accountData={accountData} />
+                  <BudgetPage {...props} categories={budgetCategories} />
                 )}
               />
               <PrivateRoute
