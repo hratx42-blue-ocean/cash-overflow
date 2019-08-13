@@ -1,15 +1,35 @@
 const MongoClient = require('mongodb').MongoClient;
 const assert = require('assert');
-require('dotenv').config();
 const dataSeeder = require('./dataSeeder.js');
+const URI = require('../server/config.js');
 
-const uri = `mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@greenocean-naa2k.gcp.mongodb.net/greenOcean?retryWrites=true&w=majority`;
-const client = new MongoClient(uri, { useNewUrlParser: true });
+const options = {
+  useNewUrlParser: true
+};
+
+const databases = {};
+
+function connect(uri, database) {
+  return MongoClient.connect(uri, options).then(client => client.db(database));
+}
+
+async function initializeDatabases() {
+  const greenOcean = await connect(
+    URI,
+    'greenocean'
+  );
+  databases.greenOcean = greenOcean;
+}
+
+function getUserDatabase() {
+  return databases.greenOcean;
+}
+console.log(URI);
 
 const getUserData = async userEmail => {
   try {
-    await client.connect();
-    const collection = await client.db('greenOcean').collection('userData');
+    console.log(databases);
+    const collection = await getUserDatabase().collection('userData');
     const userData = await collection
       .find({ email: userEmail })
       .limit(1)
@@ -17,8 +37,8 @@ const getUserData = async userEmail => {
     assert.equal(1, userData.length);
     console.log(userData);
     return userData;
-  } finally {
-    client.close();
+  } catch (err) {
+    console.log(err);
   }
 };
 
@@ -57,8 +77,8 @@ const testSchema = async () => {
   }
 };
 
-// getUserData('Webster21@gmail.com');
+getUserData('Webster21@gmail.com');
 // seedFakeUserData();
 // testSchema();
 
-module.exports = { getUserData };
+module.exports = { getUserData, getUserDatabase, initializeDatabases };
