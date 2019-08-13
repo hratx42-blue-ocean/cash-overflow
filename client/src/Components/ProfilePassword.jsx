@@ -19,14 +19,15 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const ProfileFirstName = props => {
+const ProfilePassword = props => {
   const classes = useStyles();
-  ProfileFirstName.propTypes = {
-    firstName: PropTypes.string,
-    firstNameIsHidden: PropTypes.bool,
-    firstNameButtonHandler: PropTypes.func,
+
+  ProfilePassword.propTypes = {
+    // lastName: PropTypes.string,
+    passwordIsHidden: PropTypes.bool,
+    passwordButtonHandler: PropTypes.func,
     handleInput: PropTypes.func,
-    handleFirstNameSubmit: PropTypes.func
+    handleLastNameSubmit: PropTypes.func
   };
   return (
     <div className={classes.root}>
@@ -34,19 +35,20 @@ const ProfileFirstName = props => {
         <Grid item xs>
           <Paper className={classes.paper}>
             <Typography variant="h5" component="h5">
-              First Name
+              Password
             </Typography>
-            <Typography>{props.firstName}</Typography>
+            {/* <Typography>{props.lastName}</Typography> */}
             <Typography>
-              <Button className="edit" onClick={props.firstNameButtonHandler}>
-                Edit
-              </Button>
-              {!props.firstNameIsHidden && (
+              <Button onClick={props.passwordButtonHandler}>Edit</Button>
+              {!props.passwordIsHidden && (
                 <form autoComplete="off">
                   <FormControl>
-                    <Input onChange={props.handleInput} />
+                    <Input
+                      placeholder="current password"
+                      onChange={props.handleInput}
+                    />
                   </FormControl>
-                  <Button onClick={props.handleFirstNameSubmit}>Save</Button>
+                  {/* <Button onClick={props.handleLastNameSubmit}>Save</Button> */}
                 </form>
               )}
             </Typography>
@@ -57,4 +59,11 @@ const ProfileFirstName = props => {
   );
 };
 
-export default ProfileFirstName;
+export default ProfilePassword;
+
+//create field for current password
+//needs endpoint for password check
+//.then(if response is correct, allow user to input new password (render new input field))
+//.then(render new input field to confirm new password)
+//.then(if the two inputs match, send new password to db)
+//.catch('incorrect password')

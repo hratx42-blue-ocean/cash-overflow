@@ -2,6 +2,7 @@ import React from 'react';
 import ProfileFirstName from './ProfileFirstName.jsx';
 import ProfileLastName from './ProfileLastName.jsx';
 import ProfileEmail from './ProfileEmail.jsx';
+import ProfilePassword from './ProfilePassword.jsx';
 import { Typography, Grid } from '@material-ui/core';
 
 export default class ProfilePage extends React.Component {
@@ -15,12 +16,14 @@ export default class ProfilePage extends React.Component {
       firstNameIsHidden: true,
       lastName: 'CHAD',
       lastNameIsHidden: true,
-      input: ''
+      input: '',
+      passwordIsHidden: true
     };
 
     this.emailButtonHandler = this.emailButtonHandler.bind(this);
     this.firstNameButtonHandler = this.firstNameButtonHandler.bind(this);
     this.lastNameButtonHandler = this.lastNameButtonHandler.bind(this);
+    this.passwordButtonHandler = this.passwordButtonHandler.bind(this);
     this.handleInput = this.handleInput.bind(this);
     this.handleFirstNameSubmit = this.handleFirstNameSubmit.bind(this);
     this.handleLastNameSubmit = this.handleLastNameSubmit.bind(this);
@@ -40,6 +43,12 @@ export default class ProfilePage extends React.Component {
   lastNameButtonHandler(e) {
     this.setState({
       lastNameIsHidden: !this.state.lastNameIsHidden
+    });
+  }
+
+  passwordButtonHandler(e) {
+    this.setState({
+      passwordIsHidden: !this.state.passwordIsHidden
     });
   }
 
@@ -83,6 +92,7 @@ export default class ProfilePage extends React.Component {
         className="profilePage"
       >
         <ProfileFirstName
+          className="firstName"
           firstNameIsHidden={this.state.firstNameIsHidden}
           firstName={this.state.firstName}
           firstNameButtonHandler={this.firstNameButtonHandler}
@@ -105,6 +115,11 @@ export default class ProfilePage extends React.Component {
           handleInput={this.handleInput}
           handleEmailSubmit={this.handleEmailSubmit}
         ></ProfileEmail>
+
+        <ProfilePassword
+          passwordIsHidden={this.state.passwordIsHidden}
+          passwordButtonHandler={this.passwordButtonHandler}
+        ></ProfilePassword>
       </Grid>
     );
   }
