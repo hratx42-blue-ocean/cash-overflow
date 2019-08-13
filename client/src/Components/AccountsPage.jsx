@@ -1,26 +1,8 @@
 import React from 'react';
+import AccountsTable from './AccountsTable.jsx';
+import AccountTransactions from './AccountTransactions.jsx';
 import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
-import Chip from '@material-ui/core/Chip';
-import Avatar from '@material-ui/core/Avatar';
-import AddIcon from '@material-ui/icons/Add';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import InputLabel from '@material-ui/core/InputLabel';
-import Input from '@material-ui/core/Input';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
+import PropTypes from 'prop-types';
 
 export default class AccountsPage extends React.Component {
   constructor(props) {
@@ -41,6 +23,7 @@ export default class AccountsPage extends React.Component {
 
   handleClose() {
     this.setState({ open: false });
+    console.log(this.props.accountData.accounts);
   }
 
   handleSelect(event) {
@@ -48,97 +31,38 @@ export default class AccountsPage extends React.Component {
   }
 
   render() {
+    const accountData = this.props.accountData;
+    let data = [];
+    console.log(accountData.accounts[0]);
+    if (
+      accountData &&
+      accountData.accounts[0] &&
+      accountData.accounts[0].transactions &&
+      accountData.accounts[0].transactions['2019'] &&
+      accountData.accounts[0].transactions['2019']['8']
+    ) {
+      data = accountData.accounts[0].transactions['2019']['8'];
+      console.log('data is', data);
+    }
     return (
       <div>
         <h1>Accounts</h1>
         <Grid container spacing={3}>
-          <Grid item xs={6}>
-            <Paper>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell align="center">Account</TableCell>
-                    <TableCell align="center">Balance</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  <TableRow>
-                    <TableCell>Account Name</TableCell>
-                    <TableCell>$ Balance.00</TableCell>
-                  </TableRow>
-                </TableBody>
-              </Table>
-            </Paper>
-            <Chip
-              avatar={
-                <Avatar>
-                  <AddIcon />
-                </Avatar>
-              }
-              label="Add an account"
-              color="primary"
-              onClick={this.handleAddAccount}
-              variant="outlined"
-            />
-            <Dialog
-              open={this.state.open}
-              onClose={this.handleClose}
-              aria-labelledby="form-dialog-title"
-            >
-              <DialogTitle id="form-dialog-title">New Account</DialogTitle>
-              <DialogContent>
-                <DialogContentText>
-                  Please enter the details of the account you wish to add:
-                </DialogContentText>
-                <TextField
-                  autoFocus
-                  margin="dense"
-                  id="name"
-                  label="Account Name"
-                  fullWidth
-                />
-
-                <FormControl style={{ minWidth: '100%' }}>
-                  <InputLabel htmlFor="account-type">Account Type</InputLabel>
-                  <Select
-                    value={this.state.accountType}
-                    onChange={this.handleSelect}
-                    input={<Input id="account-type" />}
-                  >
-                    <MenuItem value={'Checkings'}>Checking</MenuItem>
-                    <MenuItem value={'Savings'}>Savings</MenuItem>
-                    <MenuItem value={'Credit'}>Credit</MenuItem>
-                  </Select>
-                </FormControl>
-              </DialogContent>
-              <DialogActions>
-                <Button onClick={this.handleClose} color="primary">
-                  Cancel
-                </Button>
-                <Button onClick={this.handleClose} color="primary">
-                  Save
-                </Button>
-              </DialogActions>
-            </Dialog>
-          </Grid>
-          <Grid item xs={6}>
-            <Paper>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell align="center">Transactions</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  <TableRow>
-                    <TableCell>Transaction 1</TableCell>
-                  </TableRow>
-                </TableBody>
-              </Table>
-            </Paper>
-          </Grid>
+          <AccountsTable
+            accountData={this.props.accountData}
+            handleAddAccount={this.handleAddAccount}
+            handleClose={this.handleClose}
+            handleSelect={this.handleSelect}
+            accountType={this.state.accountType}
+            open={this.state.open}
+          />
+          <AccountTransactions data={data} />
         </Grid>
       </div>
     );
   }
 }
+
+AccountsPage.propTypes = {
+  accountData: PropTypes.object
+};
