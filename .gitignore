@@ -67,4 +67,4 @@ typings/
 bundle.js
 
 # Auth0
-client/src/auth_config.json
+client/src/auth_config.js
