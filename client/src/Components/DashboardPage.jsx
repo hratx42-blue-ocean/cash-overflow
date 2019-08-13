@@ -155,6 +155,6 @@ const styles = {
 
 DashboardPage.propTypes = {
   accountData: PropTypes.object,
-  isAuthenticated: PropTypes.bool,
+  loading: PropTypes.bool,
   user: PropTypes.object
 };

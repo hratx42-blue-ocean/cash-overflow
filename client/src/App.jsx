@@ -39,7 +39,7 @@ export default class App extends Component {
 
   render() {
     const { accountData, budgetCategories } = this.state;
-    const { user, loading } = Auth0Context;
+    const { user, loading } = this.context;
 
     return (
       <div className="app">
