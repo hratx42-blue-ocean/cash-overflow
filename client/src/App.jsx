@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
 
 // import './App.css';
-// import Budget from './Components/BudgetPage.jsx';
 import fakeData from '../../db/dataSeeder.js';
 
 // Custom Components
@@ -15,7 +14,6 @@ import LandingPage from './Components/LandingPage.jsx';
 import TrendsPage from './Components/TrendsPage.jsx';
 import LoginPage from './Components/LoginPage.jsx';
 import ProfilePage from './Components/ProfilePage.jsx';
-// import Budget from './Components/BudgetPage.jsx';
 import ErrorPage from './Components/ErrorPage.jsx';
 export default class App extends Component {
   constructor(props) {
