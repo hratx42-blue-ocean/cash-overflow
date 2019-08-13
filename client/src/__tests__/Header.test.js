@@ -1,5 +1,6 @@
 import React from 'react';
 import { shallow, mount, render } from 'enzyme';
+import { MemoryRouter } from 'react-router-dom';
 
 import Header from '../Components/Header.jsx';
 
@@ -9,6 +10,12 @@ describe('Header component --->', function() {
   });
 
   test('should mount in a full DOM', async function() {
-    expect(await mount(<Header />));
+    expect(
+      await mount(
+        <MemoryRouter initialEntries={['/random']}>
+          <Header />
+        </MemoryRouter>
+      )
+    );
   });
 });
