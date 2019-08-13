@@ -9,12 +9,14 @@ export default class AccountsPage extends React.Component {
     super(props);
     this.state = {
       open: false,
-      accountType: ''
+      accountType: '',
+      accountFilter: ''
     };
 
     this.handleAddAccount = this.handleAddAccount.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.handleSelect = this.handleSelect.bind(this);
+    this.handleAccountFilter = this.handleAccountFilter.bind(this);
   }
 
   handleAddAccount() {
@@ -30,9 +32,14 @@ export default class AccountsPage extends React.Component {
     this.setState({ accountType: event.target.value });
   }
 
+  handleAccountFilter(event) {
+    this.setState({ accountFilter: event.target.value });
+  }
+
   render() {
     const accountData = this.props.accountData;
     let data = [];
+    let accountsList = [];
     if (
       accountData &&
       accountData.accounts[0] &&
@@ -42,6 +49,8 @@ export default class AccountsPage extends React.Component {
     ) {
       data = accountData.accounts[0].transactions['2019']['8'];
       data = data.sort((a, b) => b.date - a.date);
+      accountsList = accountData.accounts;
+      console.log('account list', accountsList);
       console.log('data is', data);
     }
     return (
@@ -56,7 +65,12 @@ export default class AccountsPage extends React.Component {
             accountType={this.state.accountType}
             open={this.state.open}
           />
-          <AccountTransactions data={data} />
+          <AccountTransactions
+            data={data}
+            accountsList={accountsList}
+            accountFilter={this.state.accountFilter}
+            handleAccountFilter={this.handleAccountFilter}
+          />
         </Grid>
       </div>
     );

@@ -37,10 +37,10 @@ const AccountsTable = props => {
               </TableRow>
             </TableHead>
             <TableBody>
-              <TableRow>
-                {props.accountData.accounts.map((account, i) => {
-                  return (
-                    <>
+              {props.accountData.accounts.map((account, i) => {
+                return (
+                  <>
+                    <TableRow>
                       <TableCell key={`accountName_${i}`}>
                         {account.name}
                       </TableCell>
@@ -48,10 +48,10 @@ const AccountsTable = props => {
                         {account.type}
                       </TableCell>
                       <TableCell>$ Balance.00 </TableCell>
-                    </>
-                  );
-                })}
-              </TableRow>
+                    </TableRow>
+                  </>
+                );
+              })}
             </TableBody>
           </Table>
         </Paper>
