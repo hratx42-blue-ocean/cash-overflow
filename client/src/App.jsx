@@ -42,6 +42,7 @@ export default class App extends Component {
 
   render() {
     const { accountData, budgetCategories } = this.state;
+    console.log('account', accountData, 'budget', budgetCategories);
     return (
       <div className="app">
         <BrowserRouter>
@@ -65,7 +66,11 @@ export default class App extends Component {
               <Route
                 path="/budget"
                 render={props => (
-                  <BudgetPage {...props} categories={budgetCategories} />
+                  <BudgetPage
+                    {...props}
+                    categories={accountData.budgetCategories}
+                    transactions={accountData.accounts[0].transactions}
+                  />
                 )}
               />
               <PrivateRoute
