@@ -12,12 +12,12 @@ import {
   KeyboardDatePicker,
   MuiPickersUtilsProvider
 } from '@material-ui/pickers';
-import PropTypes from 'prop-types';
 
-export default class DashboardPage extends Component {
+export default class Dashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      accountData: {},
       categories: [
         'rent',
         'groceries',
@@ -27,7 +27,7 @@ export default class DashboardPage extends Component {
         'going out',
         'household expenses'
       ],
-      netBalance: 10000,
+      netBalance: 0,
       inputAmount: 0,
       inputCategory: 'category',
       inputPayee: '',
@@ -37,6 +37,16 @@ export default class DashboardPage extends Component {
     this.handleAmountInput = this.handleAmountInput.bind(this);
     this.handleCategoryInput = this.handleCategoryInput.bind(this);
     this.handlePayeeInput = this.handlePayeeInput.bind(this);
+  }
+
+  componentDidMount() {
+    this.setState({
+      accountData: {
+        firstName: 'Chad',
+        lastName: 'Cramer'
+      },
+      netBalance: 1000
+    });
   }
 
   handleDateInput(value) {
@@ -64,7 +74,7 @@ export default class DashboardPage extends Component {
   }
   render() {
     return (
-      <div style={styles.root} className="dashboardPage">
+      <div style={styles.root}>
         <Grid
           container
           direction="column"
@@ -73,7 +83,7 @@ export default class DashboardPage extends Component {
         >
           <Paper style={{ width: '50%' }}>
             <Typography variant="h1" gutterBottom>
-              Hello, {this.props.accountData.firstName}!
+              Hello, {this.state.accountData.firstName}!
             </Typography>
             <Tooltip
               placement="top"
@@ -140,8 +150,4 @@ const styles = {
   root: {
     flexGrow: 1
   }
-};
-
-DashboardPage.propTypes = {
-  accountData: PropTypes.object
 };
