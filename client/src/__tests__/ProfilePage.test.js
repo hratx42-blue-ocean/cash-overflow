@@ -16,3 +16,11 @@ describe('Profile component --->', function() {
     expect(await mount(<ProfilePage />).find('.profilePage').length).toBe(3);
   });
 });
+
+// describe('Profile edit buttons should toggle input fields', function() {
+//   test('first name', async function() {
+//     const wrapper = mount(<ProfilePage />).at(0);
+//     const simulate = wrapper.find('edit').first().simulate('click');
+//     expect(await wrapper.find('edit').props().firstNameIsHidden.toEqual(true));
+//   });
+// });
