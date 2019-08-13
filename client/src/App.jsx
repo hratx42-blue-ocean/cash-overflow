@@ -46,7 +46,7 @@ export default class App extends Component {
       <div className="app">
         <BrowserRouter>
           <Header />
-          <Container maxWidth="sm">
+          <Container>
             <h1>Welcome to Green Ocean!</h1>
             <Switch>
               <Route

@@ -41,6 +41,7 @@ export default class AccountsPage extends React.Component {
       accountData.accounts[0].transactions['2019']['8']
     ) {
       data = accountData.accounts[0].transactions['2019']['8'];
+      data = data.sort((a, b) => b.date - a.date);
       console.log('data is', data);
     }
     return (
