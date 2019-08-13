@@ -42,7 +42,6 @@ export default class App extends Component {
 
   render() {
     const { accountData, budgetCategories } = this.state;
-    console.log('account', accountData, 'budget', budgetCategories);
     return (
       <div className="app">
         <BrowserRouter>

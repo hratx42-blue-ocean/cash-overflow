@@ -24,37 +24,63 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const createData = (category, allotted, spent, remaining) => {
-  return { category, allotted, spent, remaining };
+const totalSpent = txs => {
+  const total = txs.reduce((total, { amount }) => total + Number(amount), 0);
+  return Number.parseInt(total);
 };
 
-export default function BudgetPage({ categories, transactions }) {
+const curYear = 2019;
+const curMonth = 8;
+
+export default function BudgetPage({ categories = [], transactions = {} }) {
   const classes = useStyles();
+  const mapped = {};
+  const rows = [];
+
+  categories.forEach(({ name }) => (mapped[name] = []));
+  if (
+    transactions &&
+    transactions[curYear] &&
+    transactions[curYear][curMonth]
+  ) {
+    transactions[curYear][curMonth].forEach(transaction =>
+      mapped[transaction.category].push(transaction)
+    );
+    Object.keys(mapped).forEach(key => {
+      const val = {};
+      val.category = key;
+      val.allotted = 10000;
+      val.spent = totalSpent(mapped[key]);
+      val.remaining = val.allotted - val.spent;
+      val.transactions = mapped[key];
+      rows.push(val);
+    });
+  }
   return (
     <div className={classes.root}>
       <Grid container justify="center" spacing={1}>
-        <Grid item xs={12}>
+        <Grid item xs={12} xl={8}>
           <Paper className={classes.paper}>
             <Table className={classes.table} size="small">
               <TableHead>
                 <TableRow>
-                  <TableCell>Dessert</TableCell>
-                  <TableCell align="right">Calories</TableCell>
-                  <TableCell align="right">Fat&nbsp;(g)</TableCell>
-                  <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-                  <TableCell align="right">Protein&nbsp;(g)</TableCell>
+                  <TableCell>Category</TableCell>
+                  <TableCell align="right">Allotted</TableCell>
+                  <TableCell align="right">Spent</TableCell>
+                  <TableCell align="right">Remaining</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {/* <TableRow key={row.name}>
-                  <TableCell component="th" scope="row">
-                    {row.name}
-                  </TableCell>
-                  <TableCell align="right">{row.calories}</TableCell>
-                  <TableCell align="right">{row.fat}</TableCell>
-                  <TableCell align="right">{row.carbs}</TableCell>
-                  <TableCell align="right">{row.protein}</TableCell>
-                </TableRow> */}
+                {rows.map(row => (
+                  <TableRow key={row.category}>
+                    <TableCell component="th" scope="row">
+                      {row.category}
+                    </TableCell>
+                    <TableCell align="right">{row.allotted}</TableCell>
+                    <TableCell align="right">{row.spent}</TableCell>
+                    <TableCell align="right">{row.remaining}</TableCell>
+                  </TableRow>
+                ))}
               </TableBody>
             </Table>
           </Paper>
@@ -66,5 +92,5 @@ export default function BudgetPage({ categories, transactions }) {
 
 BudgetPage.propTypes = {
   categories: PropTypes.arrayOf(PropTypes.object),
-  transactions: PropTypes.arrayOf(PropTypes.object)
+  transactions: PropTypes.object
 };
