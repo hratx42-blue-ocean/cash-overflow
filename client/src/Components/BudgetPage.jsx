@@ -103,5 +103,6 @@ export default function BudgetPage({
 BudgetPage.propTypes = {
   allotments: PropTypes.arrayOf(PropTypes.object),
   categories: PropTypes.arrayOf(PropTypes.object),
-  transactions: PropTypes.object
+  transactions: PropTypes.object,
+  updateAccountData: PropTypes.func
 };

@@ -32,12 +32,12 @@ export default class App extends Component {
       }
     };
     this.getUserData = this.getUserData.bind(this);
-    this.postUserData = this.postUserData.bind.bind(this);
+    this.postUserData = this.postUserData.bind(this);
     this.setCurrentUser = this.setCurrentUser.bind(this);
+    this.updateAccountData = this.updateAccountData.bind(this);
     this.setAccountDataAndBudgetCategories = this.setAccountDataAndBudgetCategories.bind(
       this
     );
-    this.updateAccountData = this.updateAccountData.bind(this);
   }
 
   getUserData(userEmail) {

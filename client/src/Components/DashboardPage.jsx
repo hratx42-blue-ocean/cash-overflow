@@ -40,6 +40,7 @@ export default class DashboardPage extends Component {
     this.handleAmountInput = this.handleAmountInput.bind(this);
     this.handleCategoryInput = this.handleCategoryInput.bind(this);
     this.handlePayeeInput = this.handlePayeeInput.bind(this);
+    this.click = this.click.bind(this);
   }
 
   handleDateInput(value) {
@@ -65,6 +66,34 @@ export default class DashboardPage extends Component {
       inputPayee: value
     });
   }
+
+  click(e) {
+    console.log('event is: ', e);
+    this.props.updateAccountData(
+      this.insertTransaction(this.buildTransaction())
+    );
+  }
+
+  buildTransaction() {
+    const transaction = {
+      id: 123460923489,
+      amount: this.state.inputAmount,
+      category: this.state.inputCategory,
+      date: this.state.inputDate._d,
+      payee: this.state.inputPayee,
+      recurring: false
+    };
+    console.log('transaction is: ', transaction);
+    return transaction;
+  }
+
+  insertTransaction(transaction) {
+    const userUpdate = this.props.accountData;
+    console.log('AccountData is: ', userUpdate);
+    userUpdate.accounts[0].transactions['2019']['7'].push(transaction);
+    return userUpdate;
+  }
+
   render() {
     if (this.props.loading || !this.props.user) {
       return (
@@ -138,7 +167,9 @@ export default class DashboardPage extends Component {
                 onChange={this.handleAmountInput}
                 margin="normal"
               />
-              <Button color="primary">Add transaction</Button>
+              <Button color="primary" onClick={this.click}>
+                Add transaction
+              </Button>
             </Grid>
           </Paper>
         </Grid>
@@ -156,5 +187,6 @@ const styles = {
 DashboardPage.propTypes = {
   accountData: PropTypes.object,
   loading: PropTypes.bool,
-  user: PropTypes.object
+  user: PropTypes.object,
+  updateAccountData: PropTypes.func
 };
