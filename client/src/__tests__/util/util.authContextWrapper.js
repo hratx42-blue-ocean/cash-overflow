@@ -49,6 +49,7 @@ export function mountWithAuth(children) {
   );
 }
 
+
 export function shallowWithAuth(children) {
   return shallow(
     <Auth0Provider

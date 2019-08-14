@@ -8,7 +8,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 
-const totalSpent = (txs) => {
+const totalSpent = txs => {
   const total = txs.reduce((total, { amount }) => total + Number(amount), 0);
   return Number.parseInt(total);
 };
@@ -22,7 +22,7 @@ class BudgetPage extends Component {
       curMonth: 7,
       curYear: 2019,
       rows: [],
-      transactions: props.transactions || {},
+      transactions: props.transactions || {}
     };
   }
 
@@ -32,25 +32,27 @@ class BudgetPage extends Component {
       categories,
       curMonth,
       curYear,
-      transactions,
+      transactions
     } = this.state;
 
     const mapped = {};
     const allotted = {};
     const rows = [];
     categories.forEach(({ name }) => (mapped[name] = []));
-    if (transactions
-        && transactions[curYear]
-        && transactions[curYear][curMonth]) {
-      transactions[curYear][curMonth].forEach((transaction) => {
+    if (
+      transactions &&
+      transactions[curYear] &&
+      transactions[curYear][curMonth]
+    ) {
+      transactions[curYear][curMonth].forEach(transaction => {
         mapped[transaction.category].push(transaction);
       });
 
-      allotments.forEach((allotment) => {
+      allotments.forEach(allotment => {
         allotted[allotment.name] = allotment.allotment[curYear][curMonth];
       });
 
-      Object.keys(mapped).forEach((key) => {
+      Object.keys(mapped).forEach(key => {
         const val = {};
         val.category = key;
         val.allotted = allotted[key];
@@ -76,7 +78,7 @@ class BudgetPage extends Component {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {rows.map((row) => (
+                  {rows.map(row => (
                     <TableRow key={row.category}>
                       <TableCell component="th" scope="row">
                         {row.category}
@@ -99,7 +101,7 @@ class BudgetPage extends Component {
 BudgetPage.propTypes = {
   allotments: PropTypes.arrayOf(PropTypes.object),
   categories: PropTypes.arrayOf(PropTypes.object),
-  transactions: PropTypes.object,
+  transactions: PropTypes.object
 };
 
 export default BudgetPage;
