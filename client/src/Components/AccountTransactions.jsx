@@ -13,27 +13,44 @@ import Input from '@material-ui/core/Input';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import ChevronLeft from '@material-ui/icons/ChevronLeft';
+import ChevronRight from '@material-ui/icons/ChevronRight';
+import IconButton from '@material-ui/core/IconButton';
+import Typography from '@material-ui/core/Typography';
 
 const AccountTransactions = props => {
+  let date = new Date();
+  let currentMonth = date.toLocaleString('default', { month: 'long' });
   return (
     <>
       <Grid item xs={8}>
-        <FormControl style={{ minWidth: 200 }}>
-          <InputLabel htmlFor="account-filter">Account</InputLabel>
-          <Select
-            value={props.accountFilter}
-            onChange={props.handleAccountFilter}
-            input={<Input id="account-filter" />}
-          >
-            {props.accountsList.map((acct, i) => {
-              return (
-                <MenuItem key={`accountFilter_${i}`} value={acct.name}>
-                  {acct.name}
-                </MenuItem>
-              );
-            })}
-          </Select>
-        </FormControl>
+        <Grid item xs={12}>
+          <IconButton aria-label="previous-month">
+            <ChevronLeft />
+          </IconButton>
+          <Typography variant="button">{currentMonth} Transactions</Typography>
+          <IconButton aria-label="next-month">
+            <ChevronRight />
+          </IconButton>
+        </Grid>
+        <Grid item xs={3} justify="flex-end">
+          <FormControl>
+            <InputLabel htmlFor="account-filter">Account</InputLabel>
+            <Select
+              value={props.accountFilter}
+              onChange={props.handleAccountFilter}
+              input={<Input id="account-filter" />}
+            >
+              {props.accountsList.map((acct, i) => {
+                return (
+                  <MenuItem key={`accountFilter_${i}`} value={acct.name}>
+                    {acct.name}
+                  </MenuItem>
+                );
+              })}
+            </Select>
+          </FormControl>
+        </Grid>
         <Paper style={{ maxHeight: 450, overflow: 'auto' }}>
           <List>
             <Table>
