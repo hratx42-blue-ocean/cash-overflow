@@ -3,7 +3,7 @@ import { shallow, mount } from 'enzyme';
 import {
   Auth0Provider,
   Auth0Context,
-  useAuth0
+  useAuth0,
 } from '../../react-auth0-wrapper';
 import config from '../../auth_config';
 
@@ -16,7 +16,7 @@ beforeAll(() => {
   jest.spyOn(console, 'error').mockImplementation((...args) => {
     if (
       !args[0].includes(
-        'Warning: An update to %s inside a test was not wrapped in act'
+        'Warning: An update to %s inside a test was not wrapped in act',
       )
     ) {
       consoleError(...args);
@@ -26,13 +26,13 @@ beforeAll(() => {
 
 // A function that routes the user to the right place
 // after login
-const onRedirectCallback = appState => {
+const onRedirectCallback = (appState) => {
   window.history.replaceState(
     {},
     document.title,
     appState && appState.targetUrl
       ? appState.targetUrl
-      : window.location.pathname
+      : window.location.pathname,
   );
 };
 
@@ -45,7 +45,7 @@ export function mountWithAuth(children) {
       onRedirectCallback={onRedirectCallback}
     >
       {children}
-    </Auth0Provider>
+    </Auth0Provider>,
   );
 }
 
@@ -58,6 +58,6 @@ export function shallowWithAuth(children) {
       onRedirectCallback={onRedirectCallback}
     >
       {children}
-    </Auth0Provider>
+    </Auth0Provider>,
   );
 }

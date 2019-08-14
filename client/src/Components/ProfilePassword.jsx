@@ -8,19 +8,19 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
-    flexGrow: 1
+    flexGrow: 1,
   },
   paper: {
     padding: theme.spacing(2),
     width: 600,
     margin: 20,
-    textAlign: 'center'
-  }
+    textAlign: 'center',
+  },
 }));
 
-const ProfilePassword = props => {
+const ProfilePassword = (props) => {
   const classes = useStyles();
 
   ProfilePassword.propTypes = {
@@ -29,7 +29,7 @@ const ProfilePassword = props => {
     passwordButtonHandler: PropTypes.func,
     closePasswordResetMessage: PropTypes.func,
     handleInput: PropTypes.func,
-    handleLastNameSubmit: PropTypes.func
+    handleLastNameSubmit: PropTypes.func,
   };
   return (
     <div className={classes.root}>

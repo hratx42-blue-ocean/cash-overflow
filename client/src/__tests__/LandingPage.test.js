@@ -4,22 +4,22 @@ import { MemoryRouter } from 'react-router-dom';
 
 import LandingPage from '../Components/LandingPage';
 
-describe('Dashboard component --->', function() {
-  test('should render without throwing an error', async function() {
+describe('Dashboard component --->', () => {
+  test('should render without throwing an error', async () => {
     expect(await shallow(<LandingPage />));
   });
 
-  test('should mount in a full DOM', async function() {
+  test('should mount in a full DOM', async () => {
     expect(
       await mount(
         <MemoryRouter>
           <LandingPage />
-        </MemoryRouter>
-      )
+        </MemoryRouter>,
+      ),
     );
   });
 
-  test('should be selectable by class "dashboardPage"', async function() {
+  test('should be selectable by class "dashboardPage"', async () => {
     expect(await shallow(<LandingPage />).is('.landingPage')).toBe(true);
   });
 });

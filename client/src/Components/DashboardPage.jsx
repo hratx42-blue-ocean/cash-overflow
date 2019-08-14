@@ -8,13 +8,13 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import Button from '@material-ui/core/Button';
 import MomentUtils from '@date-io/moment';
-import Loading from './Loading.jsx';
 
 import {
   KeyboardDatePicker,
-  MuiPickersUtilsProvider
+  MuiPickersUtilsProvider,
 } from '@material-ui/pickers';
 import PropTypes from 'prop-types';
+import Loading from './Loading.jsx';
 
 export default class DashboardPage extends Component {
   constructor(props) {
@@ -28,13 +28,13 @@ export default class DashboardPage extends Component {
         'bills',
         'clothes',
         'going out',
-        'household expenses'
+        'household expenses',
       ],
       netBalance: 10000,
       inputAmount: 0,
       inputCategory: 'category',
       inputPayee: '',
-      inputDate: new Date()
+      inputDate: new Date(),
     };
     this.handleDateInput = this.handleDateInput.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
@@ -45,28 +45,29 @@ export default class DashboardPage extends Component {
 
   handleDateInput(value) {
     this.setState({
-      inputDate: value
+      inputDate: value,
     });
   }
 
   handleAmountInput(value) {
     this.setState({
-      inputAmount: value
+      inputAmount: value,
     });
   }
 
   handleCategoryInput(event) {
     this.setState({
-      inputCategory: event.target.value
+      inputCategory: event.target.value,
     });
   }
 
   handlePayeeInput(value) {
     this.setState({
-      inputPayee: value
+      inputPayee: value,
     });
   }
 
+<<<<<<< HEAD
   click(e) {
     console.log('event is: ', e);
     this.props.updateAccountData(
@@ -94,6 +95,8 @@ export default class DashboardPage extends Component {
     return userUpdate;
   }
 
+=======
+>>>>>>> 819123f38b07bbdd7ae2abe5a7a8fb39194962a0
   render() {
     if (this.props.loading || !this.props.user) {
       return (
@@ -113,14 +116,20 @@ export default class DashboardPage extends Component {
         >
           <Paper style={{ width: '50%' }}>
             <Typography variant="h1" gutterBottom>
-              Hello, {this.props.accountData.firstName}!
+              Hello,
+              {' '}
+              {this.props.accountData.firstName}
+!
             </Typography>
             <Tooltip
               placement="top"
               title="Safe to spend balance: bank accounts less credit card debt"
             >
               <Typography variant="h2">
-                You have ${this.state.netBalance} total
+                You have $
+                {this.state.netBalance}
+                {' '}
+total
               </Typography>
             </Tooltip>
           </Paper>
@@ -152,13 +161,11 @@ export default class DashboardPage extends Component {
                 value={this.state.inputCategory}
                 onChange={this.handleCategoryInput}
               >
-                {this.state.categories.map((category, i) => {
-                  return (
-                    <MenuItem key={`categoryInput_${i}`} value={category}>
-                      {category}
-                    </MenuItem>
-                  );
-                })}
+                {this.state.categories.map((category, i) => (
+                  <MenuItem key={`categoryInput_${i}`} value={category}>
+                    {category}
+                  </MenuItem>
+                ))}
               </Select>
               <TextField
                 id="payee"
@@ -180,13 +187,16 @@ export default class DashboardPage extends Component {
 
 const styles = {
   root: {
-    flexGrow: 1
-  }
+    flexGrow: 1,
+  },
 };
 
 DashboardPage.propTypes = {
   accountData: PropTypes.object,
   loading: PropTypes.bool,
   user: PropTypes.object,
+<<<<<<< HEAD
   updateAccountData: PropTypes.func
+=======
+>>>>>>> 819123f38b07bbdd7ae2abe5a7a8fb39194962a0
 };

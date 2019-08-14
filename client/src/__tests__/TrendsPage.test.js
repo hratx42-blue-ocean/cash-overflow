@@ -3,12 +3,12 @@ import { shallow, mount, render } from 'enzyme';
 
 import TrendsPage from '../Components/TrendsPage.jsx';
 
-describe('TrendsPage --->', function() {
-  test('should render without throwing an error', async function() {
+describe('TrendsPage --->', () => {
+  test('should render without throwing an error', async () => {
     expect(await shallow(<TrendsPage />));
   });
 
-  test('should mount in a full DOM', async function() {
+  test('should mount in a full DOM', async () => {
     expect(await mount(<TrendsPage />));
   });
 });

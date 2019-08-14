@@ -9,13 +9,11 @@ const data = {
       data: [300, 50, 100],
       backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
       hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
-      lineTension: 0
-    }
-  ]
+      lineTension: 0,
+    },
+  ],
 };
 
-const TrendsHabits = () => {
-  return <Line data={data} />;
-};
+const TrendsHabits = () => <Line data={data} />;
 
 export default TrendsHabits;

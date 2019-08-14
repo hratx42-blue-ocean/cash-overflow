@@ -37,10 +37,10 @@ const AccountsTable = props => {
               </TableRow>
             </TableHead>
             <TableBody>
-              <TableRow>
-                {props.accountData.accounts.map((account, i) => {
-                  return (
-                    <>
+              {props.accountData.accounts.map((account, i) => {
+                return (
+                  <>
+                    <TableRow>
                       <TableCell key={`accountName_${i}`}>
                         {account.name}
                       </TableCell>
@@ -48,10 +48,10 @@ const AccountsTable = props => {
                         {account.type}
                       </TableCell>
                       <TableCell>$ Balance.00 </TableCell>
-                    </>
-                  );
-                })}
-              </TableRow>
+                    </TableRow>
+                  </>
+                );
+              })}
             </TableBody>
           </Table>
         </Paper>
@@ -91,9 +91,9 @@ const AccountsTable = props => {
                 onChange={props.handleSelect}
                 input={<Input id="account-type" />}
               >
-                <MenuItem value={'Checkings'}>Checking</MenuItem>
-                <MenuItem value={'Savings'}>Savings</MenuItem>
-                <MenuItem value={'Credit'}>Credit</MenuItem>
+                <MenuItem value="Checkings">Checking</MenuItem>
+                <MenuItem value="Savings">Savings</MenuItem>
+                <MenuItem value="Credit">Credit</MenuItem>
               </Select>
             </FormControl>
           </DialogContent>
