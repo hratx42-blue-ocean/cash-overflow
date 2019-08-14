@@ -24,34 +24,30 @@ const AccountTransactions = props => {
   return (
     <>
       <Grid item xs={8}>
-        <Grid item xs={12}>
-          <IconButton aria-label="previous-month">
-            <ChevronLeft />
-          </IconButton>
-          <Typography variant="button">{currentMonth} Transactions</Typography>
-          <IconButton aria-label="next-month">
-            <ChevronRight />
-          </IconButton>
-        </Grid>
-        <Grid item xs={3} justify="flex-end">
-          <FormControl>
-            <InputLabel htmlFor="account-filter">Account</InputLabel>
-            <Select
-              value={props.accountFilter}
-              onChange={props.handleAccountFilter}
-              input={<Input id="account-filter" />}
-            >
-              {props.accountsList.map((acct, i) => {
-                return (
-                  <MenuItem key={`accountFilter_${i}`} value={acct.name}>
-                    {acct.name}
-                  </MenuItem>
-                );
-              })}
-            </Select>
-          </FormControl>
-        </Grid>
-        <Paper style={{ maxHeight: 450, overflow: 'auto' }}>
+        <IconButton aria-label="previous-month">
+          <ChevronLeft />
+        </IconButton>
+        <Typography variant="button">{currentMonth}</Typography>
+        <IconButton aria-label="next-month">
+          <ChevronRight />
+        </IconButton>
+        <FormControl style={{ minWidth: '30%' }}>
+          <InputLabel htmlFor="account-filter">Filter by Account</InputLabel>
+          <Select
+            value={props.accountFilter}
+            onChange={props.handleAccountFilter}
+            input={<Input id="account-filter" />}
+          >
+            {props.accountsList.map((acct, i) => {
+              return (
+                <MenuItem key={`accountFilter_${i}`} value={acct.name}>
+                  {acct.name}
+                </MenuItem>
+              );
+            })}
+          </Select>
+        </FormControl>
+        <Paper style={{ maxHeight: 500, overflow: 'auto' }}>
           <List>
             <Table>
               <TableHead>
