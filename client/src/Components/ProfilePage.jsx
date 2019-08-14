@@ -12,11 +12,11 @@ export default class ProfilePage extends React.Component {
     super(props);
 
     this.state = {
-      email: this.props.user.email,
+      email: this.props.currentUser.email,
       emailIsHidden: true,
-      firstName: this.props.user.firstName,
+      firstName: this.props.currentUser.firstName,
       firstNameIsHidden: true,
-      lastName: this.props.user.lastName,
+      lastName: this.props.currentUser.lastName,
       lastNameIsHidden: true,
       input: '',
       passwordIsHidden: true
@@ -81,7 +81,6 @@ export default class ProfilePage extends React.Component {
 
   handleFirstNameSubmit(e) {
     // send input to updatedatabase
-    console.log(this.state.input);
     this.setState({
       firstNameIsHidden: !this.state.firstNameIsHidden
     });
@@ -92,7 +91,6 @@ export default class ProfilePage extends React.Component {
     this.setState({
       lastNameIsHidden: !this.state.lastNameIsHidden
     });
-    console.log(this.state.input);
   }
 
   handleEmailSubmit(e) {
@@ -100,7 +98,6 @@ export default class ProfilePage extends React.Component {
     this.setState({
       emailIsHidden: !this.state.emailIsHidden
     });
-    console.log(this.state.input);
   }
 
   render() {
@@ -149,5 +146,5 @@ export default class ProfilePage extends React.Component {
 }
 
 ProfilePage.propTypes = {
-  user: PropTypes.object
+  currentUser: PropTypes.object
 };
