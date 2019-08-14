@@ -37,7 +37,7 @@ function LandingPage() {
   const classes = useStyles();
 
   return (
-    <>
+    <div className="landingPage">
       <Grid item />
       <Grid item xs={12}>
         <Paper className={classes.paper}>
@@ -56,7 +56,7 @@ function LandingPage() {
         </Paper>
       </Grid>
       <Grid item />
-    </>
+    </div>
   );
 }
 
