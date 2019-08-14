@@ -23,89 +23,93 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import PropTypes from 'prop-types';
 
-const AccountsTable = (props) => (
-  <>
-    <Grid item xs={4}>
-      <Paper>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell align="center">Account</TableCell>
-              <TableCell align="center">Type</TableCell>
-              <TableCell align="center">Balance</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            <TableRow>
-              {props.accountData.accounts.map((account, i) => (
-                <>
-                  <TableCell key={`accountName_${i}`}>
-                    {account.name}
-                  </TableCell>
-                  <TableCell key={`accountType_${i}`}>
-                    {account.type}
-                  </TableCell>
-                  <TableCell>$ Balance.00 </TableCell>
-                </>
-              ))}
-            </TableRow>
-          </TableBody>
-        </Table>
-      </Paper>
-      <Chip
-        avatar={(
-          <Avatar>
-            <AddIcon />
-          </Avatar>
-)}
-        label="Add an account"
-        color="primary"
-        onClick={props.handleAddAccount}
-        variant="outlined"
-      />
-      <Dialog
-        open={props.open}
-        onClose={props.handleClose}
-        aria-labelledby="form-dialog-title"
-      >
-        <DialogTitle id="form-dialog-title">New Account</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
+const AccountsTable = props => {
+  return (
+    <>
+      <Grid item xs={4}>
+        <Paper>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell align="center">Account</TableCell>
+                <TableCell align="center">Type</TableCell>
+                <TableCell align="center">Balance</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {props.accountData.accounts.map((account, i) => {
+                return (
+                  <>
+                    <TableRow>
+                      <TableCell key={`accountName_${i}`}>
+                        {account.name}
+                      </TableCell>
+                      <TableCell key={`accountType_${i}`}>
+                        {account.type}
+                      </TableCell>
+                      <TableCell>$ Balance.00 </TableCell>
+                    </TableRow>
+                  </>
+                );
+              })}
+            </TableBody>
+          </Table>
+        </Paper>
+        <Chip
+          avatar={
+            <Avatar>
+              <AddIcon />
+            </Avatar>
+          }
+          label="Add an account"
+          color="primary"
+          onClick={props.handleAddAccount}
+          variant="outlined"
+        />
+        <Dialog
+          open={props.open}
+          onClose={props.handleClose}
+          aria-labelledby="form-dialog-title"
+        >
+          <DialogTitle id="form-dialog-title">New Account</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
               Please enter the details of the account you wish to add:
-          </DialogContentText>
-          <TextField
-            autoFocus
-            margin="dense"
-            id="name"
-            label="Account Name"
-            fullWidth
-          />
+            </DialogContentText>
+            <TextField
+              autoFocus
+              margin="dense"
+              id="name"
+              label="Account Name"
+              fullWidth
+            />
 
-          <FormControl style={{ minWidth: '100%' }}>
-            <InputLabel htmlFor="account-type">Account Type</InputLabel>
-            <Select
-              value={props.accountType}
-              onChange={props.handleSelect}
-              input={<Input id="account-type" />}
-            >
-              <MenuItem value="Checkings">Checking</MenuItem>
-              <MenuItem value="Savings">Savings</MenuItem>
-              <MenuItem value="Credit">Credit</MenuItem>
-            </Select>
-          </FormControl>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={props.handleClose} color="primary">
+            <FormControl style={{ minWidth: '100%' }}>
+              <InputLabel htmlFor="account-type">Account Type</InputLabel>
+              <Select
+                value={props.accountType}
+                onChange={props.handleSelect}
+                input={<Input id="account-type" />}
+              >
+                <MenuItem value="Checkings">Checking</MenuItem>
+                <MenuItem value="Savings">Savings</MenuItem>
+                <MenuItem value="Credit">Credit</MenuItem>
+              </Select>
+            </FormControl>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={props.handleClose} color="primary">
               Cancel
-          </Button>
-          <Button onClick={props.handleClose} color="primary">
+            </Button>
+            <Button onClick={props.handleClose} color="primary">
               Save
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </Grid>
-  </>
-);
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </Grid>
+    </>
+  );
+};
 
 AccountsTable.propTypes = {
   accountData: PropTypes.object,
@@ -113,7 +117,7 @@ AccountsTable.propTypes = {
   handleSelect: PropTypes.func,
   handleClose: PropTypes.func,
   accountType: PropTypes.string,
-  open: PropTypes.bool,
+  open: PropTypes.bool
 };
 
 export default AccountsTable;
