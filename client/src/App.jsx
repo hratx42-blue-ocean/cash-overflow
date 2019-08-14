@@ -27,10 +27,35 @@ export default class App extends Component {
     this.state = {
       budgetCategories: [],
       accountData: {
-        accounts: [{ transactions: { year: { month: [] } } }],
+        accounts: [{ transactions: { year: { month: [] } } }]
       },
+      currentUser: {}
     };
-    this.api = 'http://localhost:8000/api/example';
+    this.api = `http://localhost:8000/api/example`;
+    this.handleAddTransaction = this.handleAddTransaction.bind(this);
+  }
+
+  handleAddTransaction(stateObject) {
+    let month = stateObject.inputDate._d.getMonth();
+    let year = stateObject.inputDate._d.getFullYear();
+    const accounts = this.state.currentUser.accounts;
+
+    let placeholder = this.state.currentUser;
+    for (let i = 0; i < accounts.length; i++) {
+      if (accounts[i].name === stateObject.inputAccount) {
+        placeholder.accounts[i].transactions[year][month].push({
+          amount: stateObject.inputAmount,
+          category: stateObject.inputCategory,
+          date: stateObject.inputDate._d,
+          payee: stateObject.inputPayee,
+          recurring: false
+        });
+        break;
+      }
+    }
+    this.setState({
+      currentUser: placeholder
+    });
   }
 
   componentDidMount() {
@@ -38,6 +63,7 @@ export default class App extends Component {
     this.setState({
       budgetCategories: data.budgetCategories,
       accountData: data,
+      currentUser: data
     });
   }
 
@@ -54,19 +80,19 @@ export default class App extends Component {
               <Route
                 exact
                 path="/"
-                render={(props) => (
+                render={props => (
                   <LandingPage {...props} accountData={accountData} />
                 )}
               />
               <Route
                 path="/accounts"
-                render={(props) => (
+                render={props => (
                   <AccountsPage {...props} accountData={accountData} />
                 )}
               />
               <Route
                 path="/budget"
-                render={(props) => (
+                render={props => (
                   <BudgetPage
                     {...props}
                     allotments={budgetCategories}
@@ -77,30 +103,36 @@ export default class App extends Component {
               />
               <PrivateRoute
                 path="/dashboard"
-                render={(props) => (
+                render={props => (
                   <DashboardPage
                     {...props}
+                    handleAddTransaction={this.handleAddTransaction}
                     accountData={accountData}
-                    user={user}
+                    currentUser={this.state.currentUser}
+                    accountData={accountData}
                     loading={loading}
                   />
                 )}
               />
               <Route
                 path="/login"
-                render={(props) => (
+                render={props => (
                   <LoginPage {...props} accountData={accountData} />
                 )}
               />
               <Route
                 path="/profile"
-                render={(props) => (
-                  <ProfilePage {...props} accountData={accountData} />
+                render={props => (
+                  <ProfilePage
+                    {...props}
+                    currentUser={this.state.currentUser}
+                    accountData={accountData}
+                  />
                 )}
               />
               <Route
                 path="/trends"
-                render={(props) => (
+                render={props => (
                   <TrendsPage {...props} accountData={accountData} />
                 )}
               />

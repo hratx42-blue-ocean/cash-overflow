@@ -6,31 +6,31 @@ import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
-    flexGrow: 1,
+    flexGrow: 1
   },
   paper: {
     padding: theme.spacing(2),
     textAlign: 'center',
-    color: theme.palette.text.secondary,
+    color: theme.palette.text.secondary
   },
   mainTitle: {
     fontFamily: 'Lobster Two',
-    color: '#58355e',
+    color: '#58355e'
   },
   subtitle: {
-    fontFamily: 'Open Sans',
+    fontFamily: 'Open Sans'
   },
   button: {
     fontFamily: 'Lobster Two',
     backgroundColor: '#71E7C7',
-    color: '#ffffff',
+    color: '#ffffff'
   },
   link: {
     textDecoration: 'none',
-    color: '#ffffff',
-  },
+    color: '#ffffff'
+  }
 }));
 
 function LandingPage() {
