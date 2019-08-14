@@ -136,9 +136,9 @@ export default class DashboardPage extends Component {
   }
 
   render() {
-    const { user, loading } = this.context;
+    const { loading } = this.props;
 
-    if (loading || user) {
+    if (loading) {
       return (
         <div className="dashboardPage">
           <Loading />
@@ -278,15 +278,16 @@ const styles = {
   }
 };
 
+DashboardPage.defaultProps = {
+  accountData: {
+    email: 'asdf@asdf.com',
+    firstName: 'lsdkfj',
+    lastName: 'lkdasjf'
+  }
+};
+
 DashboardPage.propTypes = {
   accountData: PropTypes.object,
-  currentUser: PropTypes.object,
   handleAddTransaction: PropTypes.func,
-  loading: PropTypes.bool
+  loading: PropTypes.bool.isRequired
 };
-
-DashboardPage.contextType = {
-  Auth0Context: PropTypes.object.isRequired
-};
-
-DashboardPage.contextType = Auth0Context;

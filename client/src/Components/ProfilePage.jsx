@@ -106,9 +106,9 @@ export default class ProfilePage extends React.Component {
   }
 
   render() {
-    const { loading, user } = this.props;
+    const { loading } = this.props;
 
-    if (loading || user) {
+    if (loading) {
       return (
         <div className="dashboardPage">
           <Loading />
@@ -167,5 +167,6 @@ ProfilePage.defaultProps = {
   }
 };
 ProfilePage.propTypes = {
-  accountData: PropTypes.object
+  accountData: PropTypes.object,
+  loading: PropTypes.bool.isRequired
 };
