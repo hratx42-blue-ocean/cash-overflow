@@ -42,12 +42,7 @@
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.14.3",
     "eslint-plugin-react-hooks": "^1.7.0",
-<<<<<<< HEAD
     "faker": "^4.1.0",
-    "nodemon": "^1.19.1",
-    "prettier": "^1.18.2"
-=======
-    "faker": "^4.1.0"
->>>>>>> 819123f38b07bbdd7ae2abe5a7a8fb39194962a0
+    "nodemon": "^1.19.1"
   }
 }
