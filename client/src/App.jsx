@@ -36,6 +36,7 @@ export default class App extends Component {
     this.setAccountDataAndBudgetCategories = this.setAccountDataAndBudgetCategories.bind(
       this
     );
+    this.handleAddTransaction = this.handleAddTransaction.bind(this);
   }
 
   getUserData(userEmail) {
@@ -66,6 +67,29 @@ export default class App extends Component {
 
   updateAccountData(updatedAccountData) {
     this.postUserData(updatedAccountData);
+  }
+
+  handleAddTransaction(stateObject) {
+    const month = stateObject.inputDate._d.getMonth();
+    const year = stateObject.inputDate._d.getFullYear();
+    const {accounts} = this.state.currentUser;
+
+    const placeholder = this.state.currentUser;
+    for (let i = 0; i < accounts.length; i++) {
+      if (accounts[i].name === stateObject.inputAccount) {
+        placeholder.accounts[i].transactions[year][month].push({
+          amount: stateObject.inputAmount,
+          category: stateObject.inputCategory,
+          date: stateObject.inputDate._d,
+          payee: stateObject.inputPayee,
+          recurring: false
+        });
+        break;
+      }
+    }
+    this.setState({
+      currentUser: placeholder
+    });
   }
 
   componentDidMount() {
@@ -117,8 +141,10 @@ export default class App extends Component {
                 render={props => (
                   <DashboardPage
                     {...props}
+                    handleAddTransaction={this.handleAddTransaction}
                     accountData={accountData}
-                    user={user}
+                    currentUser={this.state.currentUser}
+                    accountData={accountData}
                     loading={loading}
                     updateAccountData={this.updateAccountData}
                   />
@@ -133,7 +159,11 @@ export default class App extends Component {
               <Route
                 path="/profile"
                 render={props => (
-                  <ProfilePage {...props} accountData={accountData} />
+                  <ProfilePage
+                    {...props}
+                    currentUser={this.state.currentUser}
+                    accountData={accountData}
+                  />
                 )}
               />
               <Route

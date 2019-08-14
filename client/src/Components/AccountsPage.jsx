@@ -82,5 +82,5 @@ export default class AccountsPage extends React.Component {
 }
 
 AccountsPage.propTypes = {
-  accountData: PropTypes.object,
+  accountData: PropTypes.object
 };

@@ -4,21 +4,27 @@ import axios from 'axios';
 import ProfileFirstName from './ProfileFirstName.jsx';
 import ProfileLastName from './ProfileLastName.jsx';
 import ProfileEmail from './ProfileEmail.jsx';
+import PropTypes from 'prop-types';
 import ProfilePassword from './ProfilePassword.jsx';
+import Loading from './Loading.jsx';
 
 export default class ProfilePage extends React.Component {
   constructor(props) {
     super(props);
+    const { accountData } = this.props;
+    const { email, firstName, lastName } = accountData;
+
+    console.log('Account Data that page recieves:', accountData);
 
     this.state = {
-      email: 'chad@chad.chad',
+      email: email,
       emailIsHidden: true,
-      firstName: 'Chad',
+      firstName: firstName,
       firstNameIsHidden: true,
-      lastName: 'CHAD',
+      lastName: lastName,
       lastNameIsHidden: true,
       input: '',
-      passwordIsHidden: true,
+      passwordIsHidden: true
     };
 
     this.emailButtonHandler = this.emailButtonHandler.bind(this);
@@ -34,19 +40,19 @@ export default class ProfilePage extends React.Component {
 
   emailButtonHandler(e) {
     this.setState({
-      emailIsHidden: !this.state.emailIsHidden,
+      emailIsHidden: !this.state.emailIsHidden
     });
   }
 
   firstNameButtonHandler(e) {
     this.setState({
-      firstNameIsHidden: !this.state.firstNameIsHidden,
+      firstNameIsHidden: !this.state.firstNameIsHidden
     });
   }
 
   lastNameButtonHandler(e) {
     this.setState({
-      lastNameIsHidden: !this.state.lastNameIsHidden,
+      lastNameIsHidden: !this.state.lastNameIsHidden
     });
   }
 
@@ -59,12 +65,12 @@ export default class ProfilePage extends React.Component {
         body: {
           client_id: '05RvxwAP7dSW5I9uPHxP6m7hVKHoIjS3',
           email: this.state.email,
-          connection: 'Username-Password-Authentication',
+          connection: 'Username-Password-Authentication'
         },
-        json: true,
+        json: true
       })
       .then(this.setState({ passwordIsHidden: !this.state.passwordIsHidden }))
-      .catch((err) => {
+      .catch(err => {
         throw err;
       });
   }
@@ -80,29 +86,35 @@ export default class ProfilePage extends React.Component {
 
   handleFirstNameSubmit(e) {
     // send input to updatedatabase
-    console.log(this.state.input);
     this.setState({
-      firstNameIsHidden: !this.state.firstNameIsHidden,
+      firstNameIsHidden: !this.state.firstNameIsHidden
     });
   }
 
   handleLastNameSubmit(e) {
     // send input to updatedatabase
     this.setState({
-      lastNameIsHidden: !this.state.lastNameIsHidden,
+      lastNameIsHidden: !this.state.lastNameIsHidden
     });
-    console.log(this.state.input);
   }
 
   handleEmailSubmit(e) {
     // send input to updatedatabase
     this.setState({
-      emailIsHidden: !this.state.emailIsHidden,
+      emailIsHidden: !this.state.emailIsHidden
     });
-    console.log(this.state.input);
   }
 
   render() {
+    const { loading } = this.props;
+
+    if (loading) {
+      return (
+        <div className="dashboardPage">
+          <Loading />
+        </div>
+      );
+    }
     return (
       <Grid
         container
@@ -146,3 +158,15 @@ export default class ProfilePage extends React.Component {
     );
   }
 }
+
+ProfilePage.defaultProps = {
+  accountData: {
+    email: 'asdf@asdf.com',
+    firstName: 'lsdkfj',
+    lastName: 'lkdasjf'
+  }
+};
+ProfilePage.propTypes = {
+  accountData: PropTypes.object,
+  loading: PropTypes.bool.isRequired
+};

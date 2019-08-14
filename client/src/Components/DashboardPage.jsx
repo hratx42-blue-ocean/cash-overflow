@@ -7,39 +7,55 @@ import TextField from '@material-ui/core/TextField';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import Button from '@material-ui/core/Button';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormLabel from '@material-ui/core/FormLabel';
 import MomentUtils from '@date-io/moment';
-
+import moment from 'moment';
 import {
   KeyboardDatePicker,
   MuiPickersUtilsProvider
 } from '@material-ui/pickers';
 import PropTypes from 'prop-types';
 import Loading from './Loading.jsx';
+import { Auth0Context } from '../react-auth0-wrapper';
 
 export default class DashboardPage extends Component {
   constructor(props) {
     super(props);
-    this.state = { ...props };
+
+    const { accountData } = this.props;
+    const {
+      firstName,
+      lastName,
+      email,
+      budgetCategories,
+      accounts
+    } = accountData;
+
     this.state = {
-      categories: [
-        'rent',
-        'groceries',
-        'transportation',
-        'bills',
-        'clothes',
-        'going out',
-        'household expenses'
-      ],
+      firstName,
+      lastName,
+      email,
+      categories: budgetCategories,
       netBalance: 10000,
-      inputAmount: 0,
+      accounts,
+      accountNames: accounts.map(account => account.name),
+      inputAmount: undefined,
       inputCategory: 'category',
       inputPayee: '',
-      inputDate: new Date()
+      inputDate: moment(),
+      inputAccount: 'account',
+      typeOfTransaction: ''
     };
     this.handleDateInput = this.handleDateInput.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
     this.handleCategoryInput = this.handleCategoryInput.bind(this);
     this.handlePayeeInput = this.handlePayeeInput.bind(this);
+    this.handleAccountInput = this.handleAccountInput.bind(this);
+    this.depositOrDebit = this.depositOrDebit.bind(this);
+    this.findBalance = this.findBalance.bind(this);
   }
 
   handleDateInput(value) {
@@ -49,8 +65,9 @@ export default class DashboardPage extends Component {
   }
 
   handleAmountInput(value) {
+    const inputAmount = Number(value.target.value);
     this.setState({
-      inputAmount: value
+      inputAmount
     });
   }
 
@@ -60,14 +77,68 @@ export default class DashboardPage extends Component {
     });
   }
 
+  handleAccountInput(event) {
+    const inputAccount = event.target.value;
+
+    this.setState({
+      inputAccount
+    });
+  }
+
   handlePayeeInput(value) {
     this.setState({
-      inputPayee: value
+      inputPayee: value.target.value
+    });
+  }
+
+  depositOrDebit(value) {
+    const typeOfTransaction = value.target.value;
+    if (typeOfTransaction === 'debit') {
+      this.setState({
+        typeOfTransaction,
+        inputAmount: -this.state.inputAmount
+      });
+    } else {
+      this.setState({ typeOfTransaction });
+    }
+  }
+
+  findBalance() {
+    const today = new Date();
+    // todays year
+    const year = today.getFullYear();
+    // todays month
+    const month = today.getMonth();
+    // months allotment
+    let totalBudget = 0;
+    // currently spent
+    let currentlySpent = 0;
+    // for each budgetCategory
+    this.state.categories.forEach(category => {
+      // find allotment at year and month
+
+      totalBudget += category.allotment[year][month];
+      // add to months allotment
+    });
+    // for each account
+    this.state.accounts.forEach(account => {
+      // at account at year and month
+      account.transactions[year][month].forEach(transaction => {
+        currentlySpent += Number(transaction.amount);
+      });
+      // go through each and add ammount to currently spent
+    });
+
+    return (totalBudget - currentlySpent).toLocaleString('en-US', {
+      style: 'currency',
+      currency: 'USD'
     });
   }
 
   render() {
-    if (this.props.loading || !this.props.user) {
+    const { loading } = this.props;
+
+    if (loading) {
       return (
         <div className="dashboardPage">
           <Loading />
@@ -79,24 +150,35 @@ export default class DashboardPage extends Component {
       <div style={styles.root} className="dashboardPage">
         <Grid
           container
-          direction="column"
+          direction="row"
           justify="space-between"
           alignItems="center"
         >
-          <Paper style={{ width: '50%' }}>
-            <Typography variant="h1" gutterBottom>
-              Hello, {this.props.accountData.firstName}!
+          <Paper
+            style={{
+              width: '40%',
+              height: 150,
+              margin: 20,
+              padding: 25
+            }}
+          >
+            <Typography
+              style={{ textAlign: 'center' }}
+              variant="h3"
+              gutterBottom
+            >
+              Hello, {this.state.firstName}!
             </Typography>
             <Tooltip
               placement="top"
               title="Safe to spend balance: bank accounts less credit card debt"
             >
-              <Typography variant="h2">
-                You have ${this.state.netBalance} total
+              <Typography style={{ textAlign: 'center' }} variant="h5">
+                You have {this.findBalance()} total
               </Typography>
             </Tooltip>
           </Paper>
-          <Paper style={{ width: '50%' }}>
+          <Paper style={{ width: '40%', margin: 20, padding: 15 }}>
             <Grid
               container
               direction="column"
@@ -113,31 +195,75 @@ export default class DashboardPage extends Component {
                   onChange={this.handleDateInput}
                 />
               </MuiPickersUtilsProvider>
+
               <TextField
                 id="amount"
                 label="amount"
+                type="number"
                 value={this.state.inputAmount}
                 onChange={this.handleAmountInput}
                 margin="normal"
               />
+              <FormLabel component="legend">
+                Is this a deposit or debit?{' '}
+              </FormLabel>
+              <RadioGroup
+                aria-label="position"
+                name="position"
+                // value="deposit"
+                onChange={this.depositOrDebit}
+                row
+              >
+                <FormControlLabel
+                  value="debit"
+                  control={<Radio color="primary" />}
+                  label="debit"
+                  labelPlacement="start"
+                />
+                <FormControlLabel
+                  value="deposit"
+                  control={<Radio color="primary" />}
+                  label="deposit"
+                  labelPlacement="start"
+                />
+              </RadioGroup>
               <Select
                 value={this.state.inputCategory}
                 onChange={this.handleCategoryInput}
               >
-                {this.state.categories.map((category, i) => (
-                  <MenuItem key={`categoryInput_${i}`} value={category}>
-                    {category}
-                  </MenuItem>
-                ))}
+                {this.state.categories.map((category, i) => {
+                  return (
+                    <MenuItem key={`categoryInput_${i}`} value={category.name}>
+                      {category.name}
+                    </MenuItem>
+                  );
+                })}
+              </Select>
+              <Select
+                value={this.state.inputAccount}
+                onChange={this.handleAccountInput}
+              >
+                {this.state.accountNames.map((account, i) => {
+                  return (
+                    <MenuItem key={`accountInput_${i}`} value={account}>
+                      {account}
+                    </MenuItem>
+                  );
+                })}
               </Select>
               <TextField
                 id="payee"
                 label="payee"
                 value={this.state.inputPayee}
-                onChange={this.handleAmountInput}
+                onChange={this.handlePayeeInput}
                 margin="normal"
               />
-              <Button color="primary">Add transaction</Button>
+              <Button
+                onClick={() => this.props.handleAddTransaction(this.state)}
+                color="primary"
+              >
+                Add transaction
+              </Button>
             </Grid>
           </Paper>
         </Grid>
@@ -152,9 +278,17 @@ const styles = {
   }
 };
 
+DashboardPage.defaultProps = {
+  accountData: {
+    email: 'asdf@asdf.com',
+    firstName: 'lsdkfj',
+    lastName: 'lkdasjf'
+  }
+};
+
 DashboardPage.propTypes = {
   accountData: PropTypes.object,
-  loading: PropTypes.bool,
-  user: PropTypes.object,
+  handleAddTransaction: PropTypes.func,
+  loading: PropTypes.bool.isRequired,
   updateAccountData: PropTypes.func
 };

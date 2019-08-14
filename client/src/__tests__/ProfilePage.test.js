@@ -1,6 +1,5 @@
 import React from 'react';
 import { shallow, mount, render } from 'enzyme';
-
 import ProfilePage from '../Components/ProfilePage.jsx';
 
 describe('Profile component --->', () => {
@@ -13,7 +12,18 @@ describe('Profile component --->', () => {
   });
 
   test('should mount in a full DOM', async () => {
-    expect(await mount(<ProfilePage />).find('.profilePage').length).toBe(3);
+    const wrapper = await mount(
+      <ProfilePage
+        loading={false}
+        accountData={{
+          email: 'test@example.com',
+          firstName: 'testFirstName',
+          lastName: 'testLastName'
+        }}
+      />
+    );
+    console.log(wrapper);
+    expect(wrapper.find('.profilePage').length).toBe(3);
   });
 });
 
@@ -23,4 +33,4 @@ describe('Profile component --->', () => {
 //     const simulate = wrapper.find('edit').first().simulate('click');
 //     expect(await wrapper.find('edit').props().firstNameIsHidden.toEqual(true));
 //   });
-// });
+//
