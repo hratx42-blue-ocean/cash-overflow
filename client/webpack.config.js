@@ -1,3 +1,4 @@
+const webpack = require('webpack');
 const path = require('path');
 const SRC_DIR = path.join(__dirname, '/src');
 const DIST_DIR = path.join(__dirname, '/public');
@@ -19,7 +20,7 @@ module.exports = {
       }
     ]
   },
-  devtool: 'cheap-eval-source-map', //fast build, super fast rebuilds
+  devtool: 'source-map', //fast build, super fast rebuilds
   entry: `${SRC_DIR}/index.js`,
   output: {
     filename: 'bundle.js',
@@ -72,6 +73,11 @@ module.exports = {
         chunkFilename: '[id][hash].css'
       }),
       new UglifyJsPlugin({ sourceMap: true }),
+      new webpack.DefinePlugin({
+        'process.env': {
+          'NODE_ENV': JSON.stringify('production')
+        }
+      })
     )
   ]
 };
