@@ -13,6 +13,8 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormLabel from '@material-ui/core/FormLabel';
 import MomentUtils from '@date-io/moment';
 import moment from 'moment';
+import Loading from './Loading.jsx';
+
 import {
   KeyboardDatePicker,
   MuiPickersUtilsProvider
@@ -22,6 +24,7 @@ import PropTypes from 'prop-types';
 export default class DashboardPage extends Component {
   constructor(props) {
     super(props);
+    this.state = { ...props };
     this.state = {
       firstName: this.props.user.firstName,
       lastName: this.props.user.lastName,
@@ -124,6 +127,14 @@ export default class DashboardPage extends Component {
     });
   }
   render() {
+    if (this.props.loading || !this.props.user) {
+      return (
+        <div className="dashboardPage">
+          <Loading />
+        </div>
+      );
+    }
+
     return (
       <div style={styles.root} className="dashboardPage">
         <Grid
@@ -259,5 +270,7 @@ const styles = {
 DashboardPage.propTypes = {
   accountData: PropTypes.object,
   user: PropTypes.object,
-  handleAddTransaction: PropTypes.func
+  handleAddTransaction: PropTypes.func,
+  loading: PropTypes.bool,
+  user: PropTypes.object
 };

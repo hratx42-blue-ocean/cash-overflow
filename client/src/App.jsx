@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 // Routing
 import { Switch, Route, BrowserRouter } from 'react-router-dom';
 import PrivateRoute from './Components/PrivateRoute.jsx';
-
+import { Auth0Context } from './react-auth0-wrapper';
 // Material Components
 import Container from '@material-ui/core/Container';
 
@@ -24,7 +24,6 @@ export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      auth: false,
       budgetCategories: [],
       accountData: {
         accounts: [{ transactions: { year: { month: [] } } }]
@@ -69,6 +68,8 @@ export default class App extends Component {
 
   render() {
     const { accountData, budgetCategories } = this.state;
+    const { user, loading } = this.context;
+
     return (
       <div className="app">
         <BrowserRouter>
@@ -92,7 +93,12 @@ export default class App extends Component {
               <Route
                 path="/budget"
                 render={props => (
-                  <BudgetPage {...props} categories={budgetCategories} />
+                  <BudgetPage
+                    {...props}
+                    allotments={budgetCategories}
+                    categories={accountData.budgetCategories}
+                    transactions={accountData.accounts[0].transactions}
+                  />
                 )}
               />
               <PrivateRoute
@@ -103,6 +109,9 @@ export default class App extends Component {
                     handleAddTransaction={this.handleAddTransaction}
                     accountData={accountData}
                     user={this.state.user}
+                    accountData={accountData}
+                    user={user}
+                    loading={loading}
                   />
                 )}
               />
@@ -136,3 +145,5 @@ export default class App extends Component {
     );
   }
 }
+
+App.contextType = Auth0Context;

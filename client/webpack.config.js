@@ -2,6 +2,8 @@ const path = require('path');
 const SRC_DIR = path.join(__dirname, '/src');
 const DIST_DIR = path.join(__dirname, '/public');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
   entry: `${SRC_DIR}/index.js`,
@@ -10,12 +12,19 @@ module.exports = {
     path: DIST_DIR
   },
   plugins: [
-    new HtmlWebpackPlugin({
-      title: 'Green Ocean',
-      template: __dirname + '/src/index.html', //create index.html with js script
-      inject: 'body',
-      filename: 'index.html'
-    })
+    new HtmlWebpackPlugin(
+      {
+        title: 'CashOverflow',
+        template: __dirname + '/src/index.html', //create index.html with js script
+        inject: 'body',
+        filename: 'index.html'
+      },
+      new MiniCssExtractPlugin({
+        filename: '[name]-[hash].css',
+        chunkFilename: '[id][hash].css'
+      }),
+      new UglifyJsPlugin({ sourceMap: true })
+    )
   ],
   module: {
     rules: [
