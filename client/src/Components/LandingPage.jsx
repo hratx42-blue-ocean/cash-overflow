@@ -24,7 +24,8 @@ const useStyles = makeStyles(theme => ({
   },
   button: {
     fontFamily: 'Lobster Two',
-    backgroundColor: '#71E7C7'
+    backgroundColor: '#71E7C7',
+    color: '#ffffff'
   },
   link: {
     textDecoration: 'none',
@@ -47,8 +48,8 @@ function LandingPage() {
             The simplest way to manage your money, figure out your overspending,
             and get peace of mind about your budget
           </Typography>
-          <Button className={classes.button}>
-            <Link to="/dashboard" className={classes.login}>
+          <Button color="inherit" className={classes.button}>
+            <Link to="/dashboard" className={classes.link}>
               Login
             </Link>
           </Button>
