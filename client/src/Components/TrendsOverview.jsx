@@ -17,7 +17,7 @@ const TrendsOverview = props => {
   const labels = props.data.accountData.budgetCategories.map(
     category => category.name
   );
-  console.log(labels);
+  console.log(props.data.accountData);
   const userData = {
     labels: labels,
     datasets: [

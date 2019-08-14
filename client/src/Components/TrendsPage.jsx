@@ -9,6 +9,7 @@ import Box from '@material-ui/core/Box';
 import TrendsOverview from './TrendsOverview.jsx';
 import TrendsHabits from './TrendsHabits.jsx';
 import TrendsComparison from './TrendsComparison.jsx';
+import NativeSelects from './TrendsOverviewSelector.jsx';
 
 const useStyles = makeStyles({
   root: {
@@ -68,6 +69,7 @@ export default function TrendsPage(props) {
       </Tabs>
       <TabPanel value={value} index={0}>
         <TrendsOverview data={props} />
+        <NativeSelects />
       </TabPanel>
       <TabPanel value={value} index={1}>
         <TrendsHabits data={props} />
