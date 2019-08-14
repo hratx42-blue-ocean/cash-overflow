@@ -7,6 +7,7 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import BudgetTable from './BudgetTable.jsx';
 
 const totalSpent = txs => {
   const total = txs.reduce((total, { amount }) => total + Number(amount), 0);
@@ -63,38 +64,7 @@ class BudgetPage extends Component {
       });
     }
 
-    return (
-      <div>
-        <Grid container justify="center" spacing={1}>
-          <Grid item xs={12} xl={8}>
-            <Paper>
-              <Table size="small">
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Category</TableCell>
-                    <TableCell align="right">Allotted</TableCell>
-                    <TableCell align="right">Spent</TableCell>
-                    <TableCell align="right">Remaining</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {rows.map(row => (
-                    <TableRow key={row.category}>
-                      <TableCell component="th" scope="row">
-                        {row.category}
-                      </TableCell>
-                      <TableCell align="right">{row.allotted}</TableCell>
-                      <TableCell align="right">{row.spent}</TableCell>
-                      <TableCell align="right">{row.remaining}</TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </Paper>
-          </Grid>
-        </Grid>
-      </div>
-    );
+    return <BudgetTable rows={rows} />;
   }
 }
 
