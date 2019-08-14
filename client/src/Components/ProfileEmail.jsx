@@ -8,19 +8,19 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
-    flexGrow: 1
+    flexGrow: 1,
   },
   paper: {
     padding: theme.spacing(2),
     width: 600,
     margin: 20,
-    textAlign: 'center'
-  }
+    textAlign: 'center',
+  },
 }));
 
-const ProfileEmail = props => {
+const ProfileEmail = (props) => {
   const classes = useStyles();
 
   ProfileEmail.propTypes = {
@@ -28,7 +28,7 @@ const ProfileEmail = props => {
     emailIsHidden: PropTypes.bool,
     emailButtonHandler: PropTypes.func,
     handleInput: PropTypes.func,
-    handleEmailSubmit: PropTypes.func
+    handleEmailSubmit: PropTypes.func,
   };
   return (
     <div className={classes.root}>
