@@ -24,7 +24,7 @@ import PropTypes from 'prop-types';
 export default class DashboardPage extends Component {
   constructor(props) {
     super(props);
-    this.state = { ...props };
+    //this.state = { ...props };
     this.state = {
       firstName: this.props.user.firstName,
       lastName: this.props.user.lastName,
@@ -115,7 +115,6 @@ export default class DashboardPage extends Component {
     this.state.accounts.forEach(account => {
       //at account at year and month
       account.transactions[year][month].forEach(transaction => {
-        console.log(typeof transaction.amount);
         currentlySpent += Number(transaction.amount);
       });
       //go through each and add ammount to currently spent
@@ -127,6 +126,7 @@ export default class DashboardPage extends Component {
     });
   }
   render() {
+    console.log(this.props.user);
     if (this.props.loading || !this.props.user) {
       return (
         <div className="dashboardPage">
@@ -271,6 +271,5 @@ DashboardPage.propTypes = {
   accountData: PropTypes.object,
   user: PropTypes.object,
   handleAddTransaction: PropTypes.func,
-  loading: PropTypes.bool,
-  user: PropTypes.object
+  loading: PropTypes.bool
 };

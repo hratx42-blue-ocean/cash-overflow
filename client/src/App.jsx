@@ -110,7 +110,7 @@ export default class App extends Component {
                     accountData={accountData}
                     user={this.state.user}
                     accountData={accountData}
-                    user={user}
+                    user={this.state.user}
                     loading={loading}
                   />
                 )}

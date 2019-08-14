@@ -2,7 +2,6 @@ import React from 'react';
 import ProfileFirstName from './ProfileFirstName.jsx';
 import ProfileLastName from './ProfileLastName.jsx';
 import ProfileEmail from './ProfileEmail.jsx';
-import { Grid } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import ProfilePassword from './ProfilePassword.jsx';
 import { Typography, Grid } from '@material-ui/core';
@@ -15,9 +14,9 @@ export default class ProfilePage extends React.Component {
     this.state = {
       email: this.props.user.email,
       emailIsHidden: true,
-      firstName: this.props.user.email,
+      firstName: this.props.user.firstName,
       firstNameIsHidden: true,
-      lastName: this.props.user.email,
+      lastName: this.props.user.lastName,
       lastNameIsHidden: true,
       input: '',
       passwordIsHidden: true
