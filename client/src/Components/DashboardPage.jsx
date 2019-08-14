@@ -10,37 +10,29 @@ import Button from '@material-ui/core/Button';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 import MomentUtils from '@date-io/moment';
+import moment from 'moment';
 import {
   KeyboardDatePicker,
   MuiPickersUtilsProvider
 } from '@material-ui/pickers';
 import PropTypes from 'prop-types';
 
-import axios from 'axios';
-
 export default class DashboardPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      error: false,
-      categories: [
-        'rent',
-        'groceries',
-        'transportation',
-        'bills',
-        'clothes',
-        'going out',
-        'household expenses'
-      ],
+      firstName: this.props.user.firstName,
+      lastName: this.props.user.lastName,
+      email: this.props.user.email,
+      categories: this.props.user.budgetCategories,
       netBalance: 10000,
-      accounts: ['checking', 'savings', 'Visa', 'AmEx'],
-      inputAmount: 0,
+      accounts: this.props.user.accounts.map(account => account.name),
+      inputAmount: undefined,
       inputCategory: 'category',
       inputPayee: '',
-      inputDate: new Date(),
+      inputDate: moment(),
       inputAccount: 'account',
       typeOfTransaction: ''
     };
@@ -49,7 +41,6 @@ export default class DashboardPage extends Component {
     this.handleCategoryInput = this.handleCategoryInput.bind(this);
     this.handlePayeeInput = this.handlePayeeInput.bind(this);
     this.handleAccountInput = this.handleAccountInput.bind(this);
-    this.handleAddTransaction = this.handleAddTransaction.bind(this);
     this.depositOrDebit = this.depositOrDebit.bind(this);
   }
 
@@ -60,8 +51,9 @@ export default class DashboardPage extends Component {
   }
 
   handleAmountInput(value) {
+    let inputAmount = Number(value.target.value);
     this.setState({
-      inputAmount: value.target.value
+      inputAmount
     });
   }
 
@@ -86,45 +78,50 @@ export default class DashboardPage extends Component {
   }
 
   depositOrDebit(value) {
-    console.log(value.target.value);
-  }
-
-  handleAddTransaction() {
-    //write post request at app level
-    let month = this.state.inputDate.getMonth();
-    let year = this.state.inputDate.getFullYear();
-
-    const data = {
-      category: this.state.inputCategory,
-      account: this.state.inputAccount,
-      amount: Number(this.state.inputAmount),
-      payee: this.state.inputPayee,
-      date: this.state.inputDate.toString()
-    };
+    let typeOfTransaction = value.target.value;
+    if (typeOfTransaction === 'debit') {
+      this.setState({
+        typeOfTransaction: typeOfTransaction,
+        inputAmount: -this.state.inputAmount
+      });
+    } else {
+      this.setState({ typeOfTransaction });
+    }
   }
   render() {
     return (
       <div style={styles.root} className="dashboardPage">
         <Grid
           container
-          direction="column"
+          direction="row"
           justify="space-between"
           alignItems="center"
         >
-          <Paper style={{ width: '50%' }}>
-            <Typography variant="h1" gutterBottom>
-              Hello, {this.props.accountData.firstName}!
+          <Paper
+            style={{
+              width: '40%',
+              height: 150,
+              margin: 20,
+              padding: 25
+            }}
+          >
+            <Typography
+              style={{ textAlign: 'center' }}
+              variant="h3"
+              gutterBottom
+            >
+              Hello, {this.state.firstName}!
             </Typography>
             <Tooltip
               placement="top"
               title="Safe to spend balance: bank accounts less credit card debt"
             >
-              <Typography variant="h2">
+              <Typography style={{ textAlign: 'center' }} variant="h5">
                 You have ${this.state.netBalance} total
               </Typography>
             </Tooltip>
           </Paper>
-          <Paper style={{ width: '50%' }}>
+          <Paper style={{ width: '40%', margin: 20, padding: 15 }}>
             <Grid
               container
               direction="column"
@@ -179,8 +176,8 @@ export default class DashboardPage extends Component {
               >
                 {this.state.categories.map((category, i) => {
                   return (
-                    <MenuItem key={`categoryInput_${i}`} value={category}>
-                      {category}
+                    <MenuItem key={`categoryInput_${i}`} value={category.name}>
+                      {category.name}
                     </MenuItem>
                   );
                 })}
@@ -204,7 +201,10 @@ export default class DashboardPage extends Component {
                 onChange={this.handlePayeeInput}
                 margin="normal"
               />
-              <Button onClick={this.handleAddTransaction} color="primary">
+              <Button
+                onClick={() => this.props.handleAddTransaction(this.state)}
+                color="primary"
+              >
                 Add transaction
               </Button>
             </Grid>
@@ -222,5 +222,7 @@ const styles = {
 };
 
 DashboardPage.propTypes = {
-  accountData: PropTypes.object
+  accountData: PropTypes.object,
+  user: PropTypes.object,
+  handleAddTransaction: PropTypes.func
 };

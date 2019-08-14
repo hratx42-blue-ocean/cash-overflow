@@ -28,15 +28,42 @@ export default class App extends Component {
       budgetCategories: [],
       accountData: {
         accounts: [{ transactions: { year: { month: [] } } }]
-      }
+      },
+      user: {}
     };
     this.api = `http://localhost:8000/api/example`;
+    this.handleAddTransaction = this.handleAddTransaction.bind(this);
   }
+
+  handleAddTransaction(stateObject) {
+    let month = stateObject.inputDate._d.getMonth();
+    let year = stateObject.inputDate._d.getFullYear();
+    const accounts = this.state.user.accounts;
+
+    let placeholder = this.state.user;
+    for (let i = 0; i < accounts.length; i++) {
+      if (accounts[i].name === stateObject.inputAccount) {
+        placeholder.accounts[i].transactions[year][month].push({
+          amount: stateObject.inputAmount,
+          category: stateObject.inputCategory,
+          date: stateObject.inputDate._d,
+          payee: stateObject.inputPayee,
+          recurring: false
+        });
+        break;
+      }
+    }
+    this.setState({
+      user: placeholder
+    });
+  }
+
   componentDidMount() {
     const data = fakeData.createData();
     this.setState({
       budgetCategories: data.budgetCategories,
-      accountData: data
+      accountData: data,
+      user: data
     });
   }
 
@@ -46,7 +73,7 @@ export default class App extends Component {
       <div className="app">
         <BrowserRouter>
           <Header />
-          <Container maxWidth="sm">
+          <Container>
             <h1>Welcome to Green Ocean!</h1>
             <Switch>
               <Route
@@ -71,7 +98,12 @@ export default class App extends Component {
               <PrivateRoute
                 path="/dashboard"
                 render={props => (
-                  <DashboardPage {...props} accountData={accountData} />
+                  <DashboardPage
+                    {...props}
+                    handleAddTransaction={this.handleAddTransaction}
+                    accountData={accountData}
+                    user={this.state.user}
+                  />
                 )}
               />
               <Route
@@ -83,7 +115,11 @@ export default class App extends Component {
               <Route
                 path="/profile"
                 render={props => (
-                  <ProfilePage {...props} accountData={accountData} />
+                  <ProfilePage
+                    {...props}
+                    user={this.state.user}
+                    accountData={accountData}
+                  />
                 )}
               />
               <Route

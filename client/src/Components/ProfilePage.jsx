@@ -3,17 +3,18 @@ import ProfileFirstName from './ProfileFirstName.jsx';
 import ProfileLastName from './ProfileLastName.jsx';
 import ProfileEmail from './ProfileEmail.jsx';
 import { Grid } from '@material-ui/core';
+import PropTypes from 'prop-types';
 
 export default class ProfilePage extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      email: 'chad@chad.chad',
+      email: this.props.user.email,
       emailIsHidden: true,
-      firstName: 'Chad',
+      firstName: this.props.user.email,
       firstNameIsHidden: true,
-      lastName: 'CHAD',
+      lastName: this.props.user.email,
       lastNameIsHidden: true,
       input: ''
     };
@@ -109,3 +110,7 @@ export default class ProfilePage extends React.Component {
     );
   }
 }
+
+ProfilePage.propTypes = {
+  user: PropTypes.object
+};
