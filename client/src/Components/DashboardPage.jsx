@@ -19,7 +19,6 @@ import {
 } from '@material-ui/pickers';
 import PropTypes from 'prop-types';
 import Loading from './Loading.jsx';
-import { Auth0Context } from '../react-auth0-wrapper';
 
 export default class DashboardPage extends Component {
   constructor(props) {
@@ -70,6 +69,17 @@ export default class DashboardPage extends Component {
   /**
    * Did not exist and was erroring on bind, I'm assuming it's for something but can't figure out what
    */
+  findBalance(value) {
+    console.log(
+      'findBalance should do something with this in DashboardPage',
+      value
+    );
+    this.setState({});
+  }
+
+  /**
+   * Did not exist and was erroring on bind, I'm assuming it's for something but can't figure out what
+   */
   depositOrDebit(value) {
     console.log(
       'depositOrDebit should do something with this in DashboardPage',
@@ -109,9 +119,9 @@ export default class DashboardPage extends Component {
   }
 
   render() {
-    const { loading, user } = this.props;
+    const { loading } = this.props;
 
-    if (loading || !user) {
+    if (loading) {
       return (
         <div className="dashboardPage">
           <Loading />
@@ -241,5 +251,6 @@ const styles = {
 };
 
 DashboardPage.propTypes = {
-  accountData: PropTypes.object
+  accountData: PropTypes.object,
+  loading: PropTypes.bool.isRequired
 };

@@ -15,21 +15,19 @@ describe('DashboardPage component --->', () => {
   });
 
   test('should display DashboardPage when a user is logged in', () => {
-    const { container } = render(
-      <DashboardPage accountData={data} user={{ yes: 'yes' }} loading={false} />
+    const { queryByTestId } = render(
+      <DashboardPage accountData={data} loading={false} />
     );
 
-    const loading = container.getElementsById('loading');
-    expect(loading).toBe(null);
+    expect(queryByTestId('loading')).not.toBeInTheDocument();
   });
 
   test('should display Loading when a user is not logged in', () => {
-    const { container } = render(
+    const { queryByTestId } = render(
       <DashboardPage accountData={data} loading={true} />
     );
 
-    const loading = container.getElementsById('loading');
-    expect(loading).toBe(null);
+    expect(queryByTestId('loading')).toBeInTheDocument();
   });
 
   test('should be selectable by class "dashboardPage"', async () => {
