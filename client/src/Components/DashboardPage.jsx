@@ -35,19 +35,22 @@ export default class DashboardPage extends Component {
     } = accountData;
 
     this.state = {
-      firstName: firstName,
-      lastName: lastName,
-      email: email,
-      categories: budgetCategories,
+      categories: [
+        'rent',
+        'groceries',
+        'transportation',
+        'bills',
+        'clothes',
+        'going out',
+        'household expenses'
+      ],
       netBalance: 10000,
       accounts: accounts,
       accountNames: accounts.map(account => account.name),
       inputAmount: undefined,
       inputCategory: 'category',
       inputPayee: '',
-      inputDate: moment(),
-      inputAccount: 'account',
-      typeOfTransaction: ''
+      inputDate: new Date()
     };
     this.handleDateInput = this.handleDateInput.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
@@ -67,7 +70,7 @@ export default class DashboardPage extends Component {
   handleAmountInput(value) {
     let inputAmount = Number(value.target.value);
     this.setState({
-      inputAmount
+      inputAmount: value
     });
   }
 
@@ -77,68 +80,16 @@ export default class DashboardPage extends Component {
     });
   }
 
-  handleAccountInput(event) {
-    let inputAccount = event.target.value;
-
-    this.setState({
-      inputAccount: inputAccount
-    });
-  }
-
   handlePayeeInput(value) {
     this.setState({
-      inputPayee: value.target.value
-    });
-  }
-
-  depositOrDebit(value) {
-    let typeOfTransaction = value.target.value;
-    if (typeOfTransaction === 'debit') {
-      this.setState({
-        typeOfTransaction: typeOfTransaction,
-        inputAmount: -this.state.inputAmount
-      });
-    } else {
-      this.setState({ typeOfTransaction });
-    }
-  }
-
-  findBalance() {
-    let today = new Date();
-    //todays year
-    let year = today.getFullYear();
-    //todays month
-    let month = today.getMonth();
-    //months allotment
-    let totalBudget = 0;
-    //currently spent
-    let currentlySpent = 0;
-    //for each budgetCategory
-    this.state.categories.forEach(category => {
-      //find allotment at year and month
-
-      totalBudget += category.allotment[year][month];
-      //add to months allotment
-    });
-    //for each account
-    this.state.accounts.forEach(account => {
-      //at account at year and month
-      account.transactions[year][month].forEach(transaction => {
-        currentlySpent += Number(transaction.amount);
-      });
-      //go through each and add ammount to currently spent
-    });
-
-    return (totalBudget - currentlySpent).toLocaleString('en-US', {
-      style: 'currency',
-      currency: 'USD'
+      inputPayee: value
     });
   }
 
   render() {
-    const { loading } = this.props;
+    const { loading, user } = this.props;
 
-    if (loading) {
+    if (loading || !user) {
       return (
         <div className="dashboardPage">
           <Loading />
@@ -154,27 +105,16 @@ export default class DashboardPage extends Component {
           justify="space-between"
           alignItems="center"
         >
-          <Paper
-            style={{
-              width: '40%',
-              height: 150,
-              margin: 20,
-              padding: 25
-            }}
-          >
-            <Typography
-              style={{ textAlign: 'center' }}
-              variant="h3"
-              gutterBottom
-            >
-              Hello, {this.state.firstName}!
+          <Paper style={{ width: '50%' }}>
+            <Typography variant="h1" gutterBottom>
+              Hello, {this.props.accountData.firstName}!
             </Typography>
             <Tooltip
               placement="top"
               title="Safe to spend balance: bank accounts less credit card debt"
             >
-              <Typography style={{ textAlign: 'center' }} variant="h5">
-                You have {this.findBalance()} total
+              <Typography variant="h2">
+                You have ${this.state.netBalance} total
               </Typography>
             </Tooltip>
           </Paper>
@@ -278,16 +218,6 @@ const styles = {
   }
 };
 
-DashboardPage.defaultProps = {
-  accountData: {
-    email: 'asdf@asdf.com',
-    firstName: 'lsdkfj',
-    lastName: 'lkdasjf'
-  }
-};
-
 DashboardPage.propTypes = {
-  accountData: PropTypes.object,
-  handleAddTransaction: PropTypes.func,
-  loading: PropTypes.bool.isRequired
+  accountData: PropTypes.object
 };

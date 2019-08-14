@@ -28,8 +28,7 @@ export default class App extends Component {
       budgetCategories: [],
       accountData: {
         accounts: [{ transactions: { year: { month: [] } } }]
-      },
-      currentUser: {}
+      }
     };
     this.api = `http://localhost:8000/api/example`;
     this.handleAddTransaction = this.handleAddTransaction.bind(this);
@@ -62,8 +61,7 @@ export default class App extends Component {
     const data = fakeData.createData();
     this.setState({
       budgetCategories: data.budgetCategories,
-      accountData: data,
-      currentUser: data
+      accountData: data
     });
   }
 
@@ -123,11 +121,7 @@ export default class App extends Component {
               <Route
                 path="/profile"
                 render={props => (
-                  <ProfilePage
-                    {...props}
-                    currentUser={this.state.currentUser}
-                    accountData={accountData}
-                  />
+                  <ProfilePage {...props} accountData={accountData} />
                 )}
               />
               <Route
