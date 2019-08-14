@@ -25,46 +25,58 @@ export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-<<<<<<< HEAD
-      auth: false,
-      currentUser: null,
-=======
->>>>>>> 3792f64c8b3d5a2216013e7b1ab1de42764c9c26
+      currentUser: '',
       budgetCategories: [],
       accountData: {
         accounts: [{ transactions: { year: { month: [] } } }]
       }
     };
     this.getUserData = this.getUserData.bind(this);
+    this.postUserData = this.postUserData.bind.bind(this);
     this.setCurrentUser = this.setCurrentUser.bind(this);
-    this.passAccountAndBudgetCategories = this.passAccountAndBudgetCategories.bind(
+    this.setAccountDataAndBudgetCategories = this.setAccountDataAndBudgetCategories.bind(
       this
     );
+    this.updateAccountData = this.updateAccountData.bind(this);
   }
 
   getUserData(userEmail) {
     return Axios.get(`http://0.0.0.0:8000/api/users/getData?user=${userEmail}`);
   }
 
-  setCurrentUser(userData) {
-    this.setState({
-      currentUser: userData.data[0]
-    });
-
-    return userData;
+  postUserData(userObject) {
+    Axios.post(`http://0.0.0.0:8000/api/users/upsertData`, {
+      userUpdate: userObject
+    }).then(okResponse => console.log(okResponse));
   }
 
-  passAccountAndBudgetCategories(userData) {
+  setCurrentUser(accountData) {
+    const [currentAccountData] = accountData.data;
     this.setState({
-      budgetCategories: userData.data[0].budgetCategories,
-      accountData: userData.data[0]
+      currentUser: currentAccountData.email
     });
+    return currentAccountData;
+  }
+
+  setAccountDataAndBudgetCategories(currentAccountData) {
+    const { budgetCategories } = currentAccountData;
+    this.setState({
+      budgetCategories: budgetCategories,
+      accountData: currentAccountData
+    });
+  }
+
+  updateAccountData(updatedAccountData) {
+    this.postUserData(updatedAccountData);
   }
 
   componentDidMount() {
     this.getUserData('Eda80@hotmail.com')
       .then(this.setCurrentUser)
-      .then(this.passAccountAndBudgetCategories);
+      .then(this.setAccountDataAndBudgetCategories)
+      .catch(err => {
+        console.log('mounting error: ', err);
+      });
   }
 
   render() {

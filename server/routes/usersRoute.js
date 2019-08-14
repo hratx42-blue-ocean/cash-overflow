@@ -18,7 +18,7 @@ router.get('/getData', (req, res) => {
 });
 
 router.post('/upsertData', (req, res) => {
-  db.upsertUserData(req.body).then(() => {
+  db.upsertUserData(req.body.userUpdate).then(() => {
     res.send('user updated!');
   });
 });
