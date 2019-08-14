@@ -20,15 +20,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ProfileEmail = (props) => {
+const ProfilePassword = (props) => {
   const classes = useStyles();
 
-  ProfileEmail.propTypes = {
-    email: PropTypes.string,
-    emailIsHidden: PropTypes.bool,
-    emailButtonHandler: PropTypes.func,
+  ProfilePassword.propTypes = {
+    // lastName: PropTypes.string,
+    passwordIsHidden: PropTypes.bool,
+    passwordButtonHandler: PropTypes.func,
+    closePasswordResetMessage: PropTypes.func,
     handleInput: PropTypes.func,
-    handleEmailSubmit: PropTypes.func,
+    handleLastNameSubmit: PropTypes.func,
   };
   return (
     <div className={classes.root}>
@@ -36,18 +37,20 @@ const ProfileEmail = (props) => {
         <Grid item xs>
           <Paper className={classes.paper}>
             <Typography variant="h5" component="h5">
-              Email
+              Password
             </Typography>
-            <Typography>{props.email}</Typography>
+            {/* <Typography>{props.lastName}</Typography> */}
             <Typography>
-              <Button onClick={props.emailButtonHandler}>Edit</Button>
-              {!props.emailIsHidden && (
-                <form autoComplete="off">
-                  <FormControl>
-                    <Input fullwidth="true" onChange={props.handleInput} />
-                  </FormControl>
-                  <Button onClick={props.handleEmailSubmit}>Save</Button>
-                </form>
+              <Button onClick={props.passwordButtonHandler}>
+                Reset Password
+              </Button>
+              {!props.passwordIsHidden && (
+                <>
+                  <p>Check your email for password reset instructions!</p>
+                  <Button onClick={props.closePasswordResetMessage}>
+                    Close
+                  </Button>
+                </>
               )}
             </Typography>
           </Paper>
@@ -57,4 +60,4 @@ const ProfileEmail = (props) => {
   );
 };
 
-export default ProfileEmail;
+export default ProfilePassword;

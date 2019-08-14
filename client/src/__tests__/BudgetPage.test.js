@@ -1,10 +1,10 @@
 import React from 'react';
 import { shallow, mount, render } from 'enzyme';
 
-import AccountsPage from '../Components/AccountsPage.jsx';
+import BudgetPage from '../Components/BudgetPage.jsx';
 
-describe('Accounts component --->', () => {
+describe('Profile component --->', () => {
   test('should render without throwing an error', async () => {
-    expect(await shallow(<AccountsPage />));
+    expect(await shallow(<BudgetPage />));
   });
 });

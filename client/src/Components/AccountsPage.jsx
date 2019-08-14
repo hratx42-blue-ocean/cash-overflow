@@ -1,8 +1,8 @@
 import React from 'react';
-import AccountsTable from './AccountsTable.jsx';
-import AccountTransactions from './AccountTransactions.jsx';
 import Grid from '@material-ui/core/Grid';
 import PropTypes from 'prop-types';
+import AccountsTable from './AccountsTable.jsx';
+import AccountTransactions from './AccountTransactions.jsx';
 
 export default class AccountsPage extends React.Component {
   constructor(props) {
@@ -37,7 +37,7 @@ export default class AccountsPage extends React.Component {
   }
 
   render() {
-    const accountData = this.props.accountData;
+    const { accountData } = this.props;
     let data = [];
     let accountsList = [];
     let currentDate = new Date();
@@ -82,5 +82,5 @@ export default class AccountsPage extends React.Component {
 }
 
 AccountsPage.propTypes = {
-  accountData: PropTypes.object
+  accountData: PropTypes.object,
 };

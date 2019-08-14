@@ -16,6 +16,44 @@ const getUserData = async userEmail => {
   }
 };
 
+// add a transaction
+
+const upsertUserData = async userObject => {
+  try {
+    const collection = await getUserDatabase().collection('userData');
+    await collection.replaceOne({ email: userObject.email }, userObject, {
+      upsert: true
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+/*
+{
+  userEmail: 'email',
+  accountID: 'uuid',
+  transactionData: {
+    "id": "UUID",
+    "amount": "int",
+    "category": "string",
+    "date": "date",
+    "payee": "string",
+    "recurring": "bool"
+  }
+}
+
+*/
+
+// get the correct user object
+
+// look at the transaction's date and determine if that month/year exists for the given account
+
+// if no, create an empty array at that month/year in that account's transactions object
+
+// get correct array
+
+// push new transaction object into it
+
 // below is used for seeding DB with n fake users
 
 const seedFakeUserData = async n => {
@@ -49,4 +87,4 @@ const testSchema = async () => {
   }
 };
 
-module.exports = { getUserData, seedFakeUserData, testSchema };
+module.exports = { getUserData, seedFakeUserData, testSchema, upsertUserData };

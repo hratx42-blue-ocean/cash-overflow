@@ -1,48 +1,97 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
 import PropTypes from 'prop-types';
-import BudgetCategory from './BudgetCategory.jsx';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   root: {
-    backgroundColor: 'purple',
-    color: 'white',
-    flexGrow: 1,
-    borderRadius: 6,
-    textAlign: 'center'
+    width: '100%',
   },
-  item: {
-    backgroundColor: 'purple'
-  }
+  paper: {
+    marginTop: theme.spacing(3),
+    width: '100%',
+    overflowX: 'auto',
+    marginBottom: theme.spacing(2),
+  },
+  table: {
+    minWidth: 350,
+  },
 }));
 
-export default function BudgetPage(props) {
-  console.log('categories are: ', props.categories);
+const totalSpent = (txs) => {
+  const total = txs.reduce((total, { amount }) => total + Number(amount), 0);
+  return Number.parseInt(total);
+};
+
+const curYear = 2019;
+const curMonth = 8;
+
+export default function BudgetPage({
+  allotments = [],
+  categories = [],
+  transactions = {},
+}) {
   const classes = useStyles();
+  const mapped = {};
+  const alloted = {};
+  const rows = [];
+
+  categories.forEach(({ name }) => (mapped[name] = []));
+  if (
+    transactions
+    && transactions[curYear]
+    && transactions[curYear][curMonth]
+  ) {
+    transactions[curYear][curMonth].forEach((transaction) => mapped[transaction.category].push(transaction));
+
+    allotments.forEach((allotment) => {
+      alloted[allotment.name] = allotment.allotment[curYear][curMonth];
+    });
+
+    Object.keys(mapped).forEach((key) => {
+      const val = {};
+      val.category = key;
+      val.allotted = alloted[key];
+      val.spent = totalSpent(mapped[key]);
+      val.remaining = val.allotted - val.spent;
+      val.transactions = mapped[key];
+      rows.push(val);
+    });
+  }
   return (
     <div className={classes.root}>
-      <Grid container direction="column">
-        <Grid container direction="row">
-          <Grid item xs={3}>
-            <span textAlign> Category</span>
-          </Grid>
-          <Grid item xs={3}>
-            Remaining $
-          </Grid>
-          <Grid item xs={3}>
-            Alloted $
-          </Grid>
-          <Grid item xs={3}>
-            Spent $
-          </Grid>
-          {props.categories.map((category, i) => (
-            <BudgetCategory
-              name={category.name}
-              allotment={[category.allotment]}
-              key={`category${i}`}
-            />
-          ))}
+      <Grid container justify="center" spacing={1}>
+        <Grid item xs={12} xl={8}>
+          <Paper className={classes.paper}>
+            <Table className={classes.table} size="small">
+              <TableHead>
+                <TableRow>
+                  <TableCell>Category</TableCell>
+                  <TableCell align="right">Allotted</TableCell>
+                  <TableCell align="right">Spent</TableCell>
+                  <TableCell align="right">Remaining</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {rows.map((row) => (
+                  <TableRow key={row.category}>
+                    <TableCell component="th" scope="row">
+                      {row.category}
+                    </TableCell>
+                    <TableCell align="right">{row.allotted}</TableCell>
+                    <TableCell align="right">{row.spent}</TableCell>
+                    <TableCell align="right">{row.remaining}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </Paper>
         </Grid>
       </Grid>
     </div>
@@ -50,5 +99,7 @@ export default function BudgetPage(props) {
 }
 
 BudgetPage.propTypes = {
-  categories: PropTypes.arrayOf(PropTypes.object)
+  allotments: PropTypes.arrayOf(PropTypes.object),
+  categories: PropTypes.arrayOf(PropTypes.object),
+  transactions: PropTypes.object,
 };

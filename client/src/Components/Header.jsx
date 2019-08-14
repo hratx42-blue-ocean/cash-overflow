@@ -6,26 +6,32 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
 import Box from '@material-ui/core/Box';
+import { useAuth0 } from '../react-auth0-wrapper';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
-    flexGrow: 1
+    flexGrow: 1,
   },
   navBox: {
     flexDirection: 'row',
-    justifyContent: 'flex-start'
+    justifyContent: 'flex-start',
   },
   title: {
-    flexGrow: 1
+    flexGrow: 1,
   },
   link: {
     textDecoration: 'none',
-    color: '#ffffff'
-  }
+    color: '#ffffff',
+  },
 }));
 
 export default function ButtonAppBar() {
   const classes = useStyles();
+  const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
+
+  const logoutWithRedirect = () => logout({
+    returnTo: window.location.origin,
+  });
 
   return (
     <div className={classes.root}>
@@ -61,7 +67,15 @@ export default function ButtonAppBar() {
               </Link>
             </Button>
           </Box>
-          <Button color="inherit">Login</Button>
+          {!isAuthenticated ? (
+            <Button onClick={() => loginWithRedirect({})} color="inherit">
+              Login
+            </Button>
+          ) : (
+            <Button onClick={() => logoutWithRedirect()} color="inherit">
+              Logout
+            </Button>
+          )}
         </Toolbar>
       </AppBar>
     </div>

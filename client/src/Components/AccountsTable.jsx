@@ -75,41 +75,40 @@ const AccountsTable = props => {
           <DialogContent>
             <DialogContentText>
               Please enter the details of the account you wish to add:
-            </DialogContentText>
-            <TextField
-              autoFocus
-              margin="dense"
-              id="name"
-              label="Account Name"
-              fullWidth
-            />
+          </DialogContentText>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="name"
+            label="Account Name"
+            fullWidth
+          />
 
-            <FormControl style={{ minWidth: '100%' }}>
-              <InputLabel htmlFor="account-type">Account Type</InputLabel>
-              <Select
-                value={props.accountType}
-                onChange={props.handleSelect}
-                input={<Input id="account-type" />}
-              >
-                <MenuItem value={'Checkings'}>Checking</MenuItem>
-                <MenuItem value={'Savings'}>Savings</MenuItem>
-                <MenuItem value={'Credit'}>Credit</MenuItem>
-              </Select>
-            </FormControl>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={props.handleClose} color="primary">
+          <FormControl style={{ minWidth: '100%' }}>
+            <InputLabel htmlFor="account-type">Account Type</InputLabel>
+            <Select
+              value={props.accountType}
+              onChange={props.handleSelect}
+              input={<Input id="account-type" />}
+            >
+              <MenuItem value="Checkings">Checking</MenuItem>
+              <MenuItem value="Savings">Savings</MenuItem>
+              <MenuItem value="Credit">Credit</MenuItem>
+            </Select>
+          </FormControl>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={props.handleClose} color="primary">
               Cancel
-            </Button>
-            <Button onClick={props.handleClose} color="primary">
+          </Button>
+          <Button onClick={props.handleClose} color="primary">
               Save
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </Grid>
-    </>
-  );
-};
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </Grid>
+  </>
+);
 
 AccountsTable.propTypes = {
   accountData: PropTypes.object,
@@ -117,7 +116,7 @@ AccountsTable.propTypes = {
   handleSelect: PropTypes.func,
   handleClose: PropTypes.func,
   accountType: PropTypes.string,
-  open: PropTypes.bool
+  open: PropTypes.bool,
 };
 
 export default AccountsTable;
