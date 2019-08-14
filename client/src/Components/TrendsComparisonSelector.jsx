@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import PropTypes from 'prop-types';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -18,13 +19,14 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function ComparisonSelector() {
+export default function ComparisonSelector(props) {
   const classes = useStyles();
   const [state, setState] = React.useState({
     month1: 0,
     year1: 2019,
     month2: 0,
-    year2: 2019
+    year2: 2019,
+    years: []
   });
 
   const handleChange = name => event => {
@@ -33,6 +35,23 @@ export default function ComparisonSelector() {
       [name]: event.target.value
     });
   };
+
+  const updateYear = () => {
+    let result = {};
+    for (let i = 0; i < props.data.accountData.accounts.length; i++) {
+      for (let obj in props.data.accountData.accounts[i].transactions) {
+        result[obj] = 1;
+      }
+    }
+    return Object.keys(result);
+  };
+
+  React.useEffect(() => {
+    setState({
+      ...state,
+      years: updateYear()
+    });
+  }, []);
 
   return (
     <div className={classes.root}>
@@ -73,9 +92,11 @@ export default function ComparisonSelector() {
             }}
           >
             <option value="" />
-            <option value={2018}>2018</option>
-            <option value={2019}>2019</option>
-            <option value={2020}>2020</option>
+            {state.years.map((year, i) => (
+              <option key={i} value={year}>
+                {year}
+              </option>
+            ))}
           </Select>
         </FormControl>
       </div>
@@ -116,12 +137,18 @@ export default function ComparisonSelector() {
             }}
           >
             <option value="" />
-            <option value={2018}>2018</option>
-            <option value={2019}>2019</option>
-            <option value={2020}>2020</option>
+            {state.years.map((year, i) => (
+              <option key={i} value={year}>
+                {year}
+              </option>
+            ))}
           </Select>
         </FormControl>
       </div>
     </div>
   );
 }
+
+ComparisonSelector.propTypes = {
+  data: PropTypes.object
+};

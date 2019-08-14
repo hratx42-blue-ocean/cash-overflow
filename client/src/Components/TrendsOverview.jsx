@@ -14,12 +14,27 @@ const data = {
 };
 
 const TrendsOverview = props => {
+  console.log(data, props.data, props.month);
   const labels = props.data.accountData.budgetCategories.map(
     category => category.name
   );
-  const data = props.data.accountData.budgetCategories.map(
-    category => category.allotment[2019][6]
-  );
+  const [data, setData] = React.useState([]);
+
+  React.useEffect(() => {
+    setData(
+      props.data.accountData.budgetCategories.map(category => {
+        if (category.allotment[props.year]) {
+          if (
+            category.allotment[props.year][props.month] ||
+            category.allotment[props.year][props.month] === 0
+          ) {
+            return category.allotment[props.year][props.month];
+          }
+        }
+      })
+    );
+  }, [props.year, props.month]);
+
   const userData = {
     labels: labels,
     datasets: [
@@ -36,5 +51,7 @@ const TrendsOverview = props => {
 export default TrendsOverview;
 
 TrendsOverview.propTypes = {
-  data: PropTypes.object
+  data: PropTypes.object,
+  month: PropTypes.string,
+  year: PropTypes.string
 };

@@ -7,6 +7,7 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormLabel from '@material-ui/core/FormLabel';
+import PropTypes from 'prop-types';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -28,10 +29,11 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function HabitsSelector() {
+export default function HabitsSelector(props) {
   const classes = useStyles();
   const [state, setState] = React.useState({
-    category: 0
+    category: '',
+    categories: []
   });
   const [value, setValue] = React.useState('time frame');
 
@@ -58,9 +60,12 @@ export default function HabitsSelector() {
             name: 'category'
           }}
         >
-          <option value={0}>Example 1</option>
-          <option value={1}>Example 2</option>
-          <option value={2}>Example 3</option>
+          <option></option>
+          {props.data.accountData.budgetCategories.map((category, i) => (
+            <option key={i} value={category.name}>
+              {category.name}
+            </option>
+          ))}
         </Select>
       </FormControl>
       <FormControl component="fieldset" className={classes.formControl}>
@@ -85,3 +90,7 @@ export default function HabitsSelector() {
     </div>
   );
 }
+
+HabitsSelector.propTypes = {
+  data: PropTypes.object
+};

@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import PropTypes, { object } from 'prop-types';
+import PropTypes from 'prop-types';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -41,17 +41,20 @@ export default function OverviewSelector(props) {
         result[obj] = 1;
       }
     }
-    console.log(Object.keys(result));
     return Object.keys(result);
   };
 
   React.useEffect(() => {
-    console.log('this');
     setState({
       ...state,
       years: updateYear()
     });
   }, []);
+
+  React.useEffect(() => {
+    props.setMonth(state.month);
+    props.setYear(state.year);
+  }, [state.month, state.year]);
 
   return (
     <div className={classes.root}>
@@ -103,5 +106,7 @@ export default function OverviewSelector(props) {
 }
 
 OverviewSelector.propTypes = {
-  data: PropTypes.object
+  data: PropTypes.object,
+  setMonth: PropTypes.func,
+  setYear: PropTypes.func
 };
