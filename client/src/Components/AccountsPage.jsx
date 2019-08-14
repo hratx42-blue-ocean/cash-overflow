@@ -1,15 +1,15 @@
 import React from 'react';
-import AccountsTable from './AccountsTable.jsx';
-import AccountTransactions from './AccountTransactions.jsx';
 import Grid from '@material-ui/core/Grid';
 import PropTypes from 'prop-types';
+import AccountsTable from './AccountsTable.jsx';
+import AccountTransactions from './AccountTransactions.jsx';
 
 export default class AccountsPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       open: false,
-      accountType: ''
+      accountType: '',
     };
 
     this.handleAddAccount = this.handleAddAccount.bind(this);
@@ -31,14 +31,14 @@ export default class AccountsPage extends React.Component {
   }
 
   render() {
-    const accountData = this.props.accountData;
+    const { accountData } = this.props;
     let data = [];
     if (
-      accountData &&
-      accountData.accounts[0] &&
-      accountData.accounts[0].transactions &&
-      accountData.accounts[0].transactions['2019'] &&
-      accountData.accounts[0].transactions['2019']['8']
+      accountData
+      && accountData.accounts[0]
+      && accountData.accounts[0].transactions
+      && accountData.accounts[0].transactions['2019']
+      && accountData.accounts[0].transactions['2019']['8']
     ) {
       data = accountData.accounts[0].transactions['2019']['8'];
       console.log('data is', data);
@@ -63,5 +63,5 @@ export default class AccountsPage extends React.Component {
 }
 
 AccountsPage.propTypes = {
-  accountData: PropTypes.object
+  accountData: PropTypes.object,
 };

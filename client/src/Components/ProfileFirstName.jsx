@@ -8,26 +8,26 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
-    flexGrow: 1
+    flexGrow: 1,
   },
   paper: {
     padding: theme.spacing(2),
     width: 600,
     margin: 20,
-    textAlign: 'center'
-  }
+    textAlign: 'center',
+  },
 }));
 
-const ProfileFirstName = props => {
+const ProfileFirstName = (props) => {
   const classes = useStyles();
   ProfileFirstName.propTypes = {
     firstName: PropTypes.string,
     firstNameIsHidden: PropTypes.bool,
     firstNameButtonHandler: PropTypes.func,
     handleInput: PropTypes.func,
-    handleFirstNameSubmit: PropTypes.func
+    handleFirstNameSubmit: PropTypes.func,
   };
   return (
     <div className={classes.root}>

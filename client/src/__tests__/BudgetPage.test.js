@@ -3,8 +3,8 @@ import { shallow, mount, render } from 'enzyme';
 
 import BudgetPage from '../Components/BudgetPage.jsx';
 
-describe('Profile component --->', function() {
-  test('should render without throwing an error', async function() {
+describe('Profile component --->', () => {
+  test('should render without throwing an error', async () => {
     expect(await shallow(<BudgetPage />));
   });
 });
