@@ -19,16 +19,17 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 
 const AccountTransactions = props => {
+  console.log(props.currentMonth, props.currentYear)
   let date = new Date();
-  let currentMonth = date.toLocaleString('default', { month: 'long' });
+  let currentMonthStr = date.toLocaleString('default', { month: 'long' });
   return (
     <>
       <Grid item xs={8}>
-        <IconButton aria-label="previous-month">
+        <IconButton onClick={props.handleLeftArrow} aria-label="previous-month">
           <ChevronLeft />
         </IconButton>
-        <Typography variant="button">{currentMonth}</Typography>
-        <IconButton aria-label="next-month">
+        <Typography variant="button">{currentMonthStr}</Typography>
+        <IconButton onClick={props.handleRightArrow} aria-label="next-month">
           <ChevronRight />
         </IconButton>
         <FormControl style={{ minWidth: '30%' }}>
