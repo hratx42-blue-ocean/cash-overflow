@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 // Routing
 import { Switch, Route, BrowserRouter } from 'react-router-dom';
 import PrivateRoute from './Components/PrivateRoute.jsx';
-
+import { Auth0Context } from './react-auth0-wrapper';
 // Material Components
 import Container from '@material-ui/core/Container';
 
@@ -24,9 +24,10 @@ export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      auth: false,
       budgetCategories: [],
-      accountData: {}
+      accountData: {
+        accounts: [{ transactions: { year: { month: [] } } }]
+      }
     };
     this.api = `http://localhost:8000/api/example`;
   }
@@ -40,11 +41,13 @@ export default class App extends Component {
 
   render() {
     const { accountData, budgetCategories } = this.state;
+    const { user, loading } = this.context;
+
     return (
       <div className="app">
         <BrowserRouter>
           <Header />
-          <Container maxWidth="sm">
+          <Container>
             <h1>Welcome to Green Ocean!</h1>
             <Switch>
               <Route
@@ -63,13 +66,23 @@ export default class App extends Component {
               <Route
                 path="/budget"
                 render={props => (
-                  <BudgetPage {...props} categories={budgetCategories} />
+                  <BudgetPage
+                    {...props}
+                    allotments={budgetCategories}
+                    categories={accountData.budgetCategories}
+                    transactions={accountData.accounts[0].transactions}
+                  />
                 )}
               />
               <PrivateRoute
                 path="/dashboard"
                 render={props => (
-                  <DashboardPage {...props} accountData={accountData} />
+                  <DashboardPage
+                    {...props}
+                    accountData={accountData}
+                    user={user}
+                    loading={loading}
+                  />
                 )}
               />
               <Route
@@ -98,3 +111,5 @@ export default class App extends Component {
     );
   }
 }
+
+App.contextType = Auth0Context;

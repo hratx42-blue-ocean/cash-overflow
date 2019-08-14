@@ -116,7 +116,7 @@ module.exports = {
   // setupFiles: []
 
   // A list of paths to modules that run some code to configure or set up the testing framework before each test
-  setupFilesAfterEnv: ['./setupTests.js']
+  setupFilesAfterEnv: ['./setupTests.js'],
 
   // A list of paths to snapshot serializer modules Jest should use for snapshot testing
   // snapshotSerializers: [],
@@ -137,9 +137,7 @@ module.exports = {
   // ],
 
   // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
-  // testPathIgnorePatterns: [
-  //   "/node_modules/"
-  // ],
+  testPathIgnorePatterns: ['/src/__tests__/util', '/node_modules/']
 
   // The regexp pattern or array of patterns that Jest uses to detect test files
   // testRegex: [],
