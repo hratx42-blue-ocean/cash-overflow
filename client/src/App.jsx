@@ -76,7 +76,6 @@ export default class App extends Component {
         <BrowserRouter>
           <Header />
           <Container maxWidth="sm">
-            <h1>Welcome to Green Ocean!</h1>
             <Switch>
               <Route
                 exact
@@ -94,7 +93,12 @@ export default class App extends Component {
               <Route
                 path="/budget"
                 render={props => (
-                  <BudgetPage {...props} categories={budgetCategories} />
+                  <BudgetPage
+                    {...props}
+                    allotments={budgetCategories}
+                    categories={accountData.budgetCategories}
+                    transactions={accountData.accounts[0].transactions}
+                  />
                 )}
               />
               <PrivateRoute
