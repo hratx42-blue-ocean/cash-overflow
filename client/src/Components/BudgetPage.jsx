@@ -42,8 +42,6 @@ export default function BudgetPage({
   const alloted = {};
   const rows = [];
 
-  console.log(allotments);
-
   categories.forEach(({ name }) => (mapped[name] = []));
   if (
     transactions &&
