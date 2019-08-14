@@ -14,7 +14,15 @@ describe('DashboardPage component --->', () => {
     expect(await shallow(<DashboardPage accountData={data} />));
   });
 
-  test('should display DashboardPage when a user is logged in', () => {
+  test('should be selectable by class "dashboardPage"', async () => {
+    expect(
+      await shallow(<DashboardPage accountData={data} />).is('.dashboardPage')
+    ).toBe(true);
+  });
+});
+
+describe('DashboardPage Loading and Auth --->', () => {
+  test('should not display Loading when a user is logged in', () => {
     const { queryByTestId } = render(
       <DashboardPage accountData={data} loading={false} />
     );
@@ -28,11 +36,5 @@ describe('DashboardPage component --->', () => {
     );
 
     expect(queryByTestId('loading')).toBeInTheDocument();
-  });
-
-  test('should be selectable by class "dashboardPage"', async () => {
-    expect(
-      await shallow(<DashboardPage accountData={data} />).is('.dashboardPage')
-    ).toBe(true);
   });
 });
