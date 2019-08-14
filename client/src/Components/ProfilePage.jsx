@@ -6,14 +6,16 @@ import ProfileLastName from './ProfileLastName.jsx';
 import ProfileEmail from './ProfileEmail.jsx';
 import PropTypes from 'prop-types';
 import ProfilePassword from './ProfilePassword.jsx';
-import Loading from './Loading.jsx'
+import Loading from './Loading.jsx';
 
 export default class ProfilePage extends React.Component {
   constructor(props) {
     super(props);
-    const {accountData} = this.props
-    const { email, firstName, lastName } = accountData
-    console.log(accountData)
+    const { accountData } = this.props;
+    const { email, firstName, lastName } = accountData;
+
+    console.log('Account Data that page recieves:', accountData);
+
     this.state = {
       email: email,
       emailIsHidden: true,
@@ -100,7 +102,7 @@ export default class ProfilePage extends React.Component {
     // send input to updatedatabase
     this.setState({
       emailIsHidden: !this.state.emailIsHidden
-    })
+    });
   }
 
   render() {
@@ -111,7 +113,7 @@ export default class ProfilePage extends React.Component {
         <div className="dashboardPage">
           <Loading />
         </div>
-      )
+      );
     }
     return (
       <Grid
@@ -158,8 +160,12 @@ export default class ProfilePage extends React.Component {
 }
 
 ProfilePage.defaultProps = {
-  accountData: {email: 'asdf@asdf.com', firstName: 'lsdkfj', lastName: 'lkdasjf'}
-}
+  accountData: {
+    email: 'asdf@asdf.com',
+    firstName: 'lsdkfj',
+    lastName: 'lkdasjf'
+  }
+};
 ProfilePage.propTypes = {
   accountData: PropTypes.object
 };

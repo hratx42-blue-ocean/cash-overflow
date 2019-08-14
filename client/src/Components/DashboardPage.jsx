@@ -24,17 +24,24 @@ import { Auth0Context } from '../react-auth0-wrapper';
 export default class DashboardPage extends Component {
   constructor(props) {
     super(props);
-    //this.state = { ...props };
+
+    const { accountData } = this.props;
+    const {
+      firstName,
+      lastName,
+      email,
+      budgetCategories,
+      accounts
+    } = accountData;
+
     this.state = {
-      firstName: this.props.currentUser.firstName,
-      lastName: this.props.currentUser.lastName,
-      email: this.props.currentUser.email,
-      categories: this.props.currentUser.budgetCategories,
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+      categories: budgetCategories,
       netBalance: 10000,
-      accounts: this.props.currentUser.accounts,
-      accountNames: this.props.currentUser.accounts.map(
-        account => account.name
-      ),
+      accounts: accounts,
+      accountNames: accounts.map(account => account.name),
       inputAmount: undefined,
       inputCategory: 'category',
       inputPayee: '',
