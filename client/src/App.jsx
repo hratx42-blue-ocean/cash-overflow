@@ -1,38 +1,37 @@
-import React, { Component } from 'react';
-import Axios from 'axios';
+import React, { Component } from "react";
+import Axios from "axios";
 
 // Routing
-import { Switch, Route, BrowserRouter } from 'react-router-dom';
-import Container from '@material-ui/core/Container';
-import PrivateRoute from './Components/PrivateRoute.jsx';
-import { Auth0Context } from './react-auth0-wrapper';
+import { Switch, Route, BrowserRouter } from "react-router-dom";
+import Container from "@material-ui/core/Container";
+import PrivateRoute from "./Components/PrivateRoute.jsx";
+import { Auth0Context } from "./react-auth0-wrapper";
 // Material Components
 
 // import Budget from './Components/BudgetPage.jsx';
-import fakeData from '../../db/dataSeeder.js';
+import fakeData from "../../db/dataSeeder.js";
 
 // Custom Components
-import Header from './Components/Header.jsx';
-import AccountsPage from './Components/AccountsPage.jsx';
-import BudgetPage from './Components/BudgetPage.jsx';
-import DashboardPage from './Components/DashboardPage.jsx';
-import LandingPage from './Components/LandingPage.jsx';
-import TrendsPage from './Components/TrendsPage.jsx';
-import LoginPage from './Components/LoginPage.jsx';
-import ProfilePage from './Components/ProfilePage.jsx';
-import ErrorPage from './Components/ErrorPage.jsx';
+import Header from "./Components/Header.jsx";
+import AccountsPage from "./Components/AccountsPage.jsx";
+import BudgetPage from "./Components/BudgetPage.jsx";
+import DashboardPage from "./Components/DashboardPage.jsx";
+import LandingPage from "./Components/LandingPage.jsx";
+import TrendsPage from "./Components/TrendsPage.jsx";
+import LoginPage from "./Components/LoginPage.jsx";
+import ProfilePage from "./Components/ProfilePage.jsx";
+import ErrorPage from "./Components/ErrorPage.jsx";
 
 export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentUser: '',
+      currentUser: "",
       budgetCategories: [],
       accountData: {
-        accounts: [{ transactions: { year: { month: [] } } }],
-      },
+        accounts: [{ transactions: { year: { month: [] } } }]
+      }
     };
-<<<<<<< HEAD
     this.getUserData = this.getUserData.bind(this);
     this.postUserData = this.postUserData.bind(this);
     this.setCurrentUser = this.setCurrentUser.bind(this);
@@ -65,16 +64,6 @@ export default class App extends Component {
     this.setState({
       budgetCategories: budgetCategories,
       accountData: currentAccountData
-=======
-    this.api = 'http://localhost:8000/api/example';
-  }
-
-  componentDidMount() {
-    const data = fakeData.createData();
-    this.setState({
-      budgetCategories: data.budgetCategories,
-      accountData: data,
->>>>>>> 819123f38b07bbdd7ae2abe5a7a8fb39194962a0
     });
   }
 
@@ -83,11 +72,11 @@ export default class App extends Component {
   }
 
   componentDidMount() {
-    this.getUserData('Eda80@hotmail.com')
+    this.getUserData("Eda80@hotmail.com")
       .then(this.setCurrentUser)
       .then(this.setAccountDataAndBudgetCategories)
       .catch(err => {
-        console.log('mounting error: ', err);
+        console.log("mounting error: ", err);
       });
   }
 
@@ -104,19 +93,19 @@ export default class App extends Component {
               <Route
                 exact
                 path="/"
-                render={(props) => (
+                render={props => (
                   <LandingPage {...props} accountData={accountData} />
                 )}
               />
               <Route
                 path="/accounts"
-                render={(props) => (
+                render={props => (
                   <AccountsPage {...props} accountData={accountData} />
                 )}
               />
               <Route
                 path="/budget"
-                render={(props) => (
+                render={props => (
                   <BudgetPage
                     {...props}
                     allotments={budgetCategories}
@@ -128,7 +117,7 @@ export default class App extends Component {
               />
               <PrivateRoute
                 path="/dashboard"
-                render={(props) => (
+                render={props => (
                   <DashboardPage
                     {...props}
                     accountData={accountData}
@@ -140,19 +129,19 @@ export default class App extends Component {
               />
               <Route
                 path="/login"
-                render={(props) => (
+                render={props => (
                   <LoginPage {...props} accountData={accountData} />
                 )}
               />
               <Route
                 path="/profile"
-                render={(props) => (
+                render={props => (
                   <ProfilePage {...props} accountData={accountData} />
                 )}
               />
               <Route
                 path="/trends"
-                render={(props) => (
+                render={props => (
                   <TrendsPage {...props} accountData={accountData} />
                 )}
               />
