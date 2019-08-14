@@ -1,32 +1,29 @@
-import React, { Component } from "react";
-import Axios from "axios";
+import React, { Component } from 'react';
+import Axios from 'axios';
 
 // Routing
-import { Switch, Route, BrowserRouter } from "react-router-dom";
-import Container from "@material-ui/core/Container";
-import PrivateRoute from "./Components/PrivateRoute.jsx";
-import { Auth0Context } from "./react-auth0-wrapper";
+import { Switch, Route, BrowserRouter } from 'react-router-dom';
+import Container from '@material-ui/core/Container';
+import PrivateRoute from './Components/PrivateRoute.jsx';
+import { Auth0Context } from './react-auth0-wrapper';
 // Material Components
 
-// import Budget from './Components/BudgetPage.jsx';
-import fakeData from "../../db/dataSeeder.js";
-
 // Custom Components
-import Header from "./Components/Header.jsx";
-import AccountsPage from "./Components/AccountsPage.jsx";
-import BudgetPage from "./Components/BudgetPage.jsx";
-import DashboardPage from "./Components/DashboardPage.jsx";
-import LandingPage from "./Components/LandingPage.jsx";
-import TrendsPage from "./Components/TrendsPage.jsx";
-import LoginPage from "./Components/LoginPage.jsx";
-import ProfilePage from "./Components/ProfilePage.jsx";
-import ErrorPage from "./Components/ErrorPage.jsx";
+import Header from './Components/Header.jsx';
+import AccountsPage from './Components/AccountsPage.jsx';
+import BudgetPage from './Components/BudgetPage.jsx';
+import DashboardPage from './Components/DashboardPage.jsx';
+import LandingPage from './Components/LandingPage.jsx';
+import TrendsPage from './Components/TrendsPage.jsx';
+import LoginPage from './Components/LoginPage.jsx';
+import ProfilePage from './Components/ProfilePage.jsx';
+import ErrorPage from './Components/ErrorPage.jsx';
 
 export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentUser: "",
+      currentUser: '',
       budgetCategories: [],
       accountData: {
         accounts: [{ transactions: { year: { month: [] } } }]
@@ -46,7 +43,7 @@ export default class App extends Component {
   }
 
   postUserData(userObject) {
-    Axios.post(`http://0.0.0.0:8000/api/users/upsertData`, {
+    Axios.post('http://0.0.0.0:8000/api/users/upsertData', {
       userUpdate: userObject
     }).then(okResponse => console.log(okResponse));
   }
@@ -62,7 +59,7 @@ export default class App extends Component {
   setAccountDataAndBudgetCategories(currentAccountData) {
     const { budgetCategories } = currentAccountData;
     this.setState({
-      budgetCategories: budgetCategories,
+      budgetCategories,
       accountData: currentAccountData
     });
   }
@@ -72,11 +69,11 @@ export default class App extends Component {
   }
 
   componentDidMount() {
-    this.getUserData("Eda80@hotmail.com")
+    this.getUserData('Eda80@hotmail.com')
       .then(this.setCurrentUser)
       .then(this.setAccountDataAndBudgetCategories)
       .catch(err => {
-        console.log("mounting error: ", err);
+        console.log('mounting error: ', err);
       });
   }
 

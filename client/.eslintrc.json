@@ -3,13 +3,11 @@
     "browser": true,
     "commonjs": true,
     "es6": true,
+    "jest": true,
     "node": true
   },
   "plugins": ["react", "react-hooks"],
-  "extends": [
-    "airbnb",
-    "plugin:react/recommended"
-  ],
+  "extends": ["airbnb", "plugin:prettier/recommended", "prettier/react"],
   "parserOptions": {
     "sourceType": "module",
     "ecmaVersion": 2018
@@ -22,6 +20,13 @@
   "rules": {
     "linebreak-style": ["error", "unix"],
     "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn"
+    "react-hooks/exhaustive-deps": "warn",
+    "import/extensions": [
+      "warn",
+      "never",
+      {
+        ".jsx": "always"
+      }
+    ]
   }
 }
