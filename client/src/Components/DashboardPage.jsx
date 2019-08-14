@@ -28,7 +28,8 @@ export default class DashboardPage extends Component {
       email: this.props.user.email,
       categories: this.props.user.budgetCategories,
       netBalance: 10000,
-      accounts: this.props.user.accounts.map(account => account.name),
+      accounts: this.props.user.accounts,
+      accountNames: this.props.user.accounts.map(account => account.name),
       inputAmount: undefined,
       inputCategory: 'category',
       inputPayee: '',
@@ -42,6 +43,7 @@ export default class DashboardPage extends Component {
     this.handlePayeeInput = this.handlePayeeInput.bind(this);
     this.handleAccountInput = this.handleAccountInput.bind(this);
     this.depositOrDebit = this.depositOrDebit.bind(this);
+    this.findBalance = this.findBalance.bind(this);
   }
 
   handleDateInput(value) {
@@ -88,6 +90,39 @@ export default class DashboardPage extends Component {
       this.setState({ typeOfTransaction });
     }
   }
+
+  findBalance() {
+    let today = new Date();
+    //todays year
+    let year = today.getFullYear();
+    //todays month
+    let month = today.getMonth();
+    //months allotment
+    let totalBudget = 0;
+    //currently spent
+    let currentlySpent = 0;
+    //for each budgetCategory
+    this.state.categories.forEach(category => {
+      //find allotment at year and month
+
+      totalBudget += category.allotment[year][month];
+      //add to months allotment
+    });
+    //for each account
+    this.state.accounts.forEach(account => {
+      //at account at year and month
+      account.transactions[year][month].forEach(transaction => {
+        console.log(typeof transaction.amount);
+        currentlySpent += Number(transaction.amount);
+      });
+      //go through each and add ammount to currently spent
+    });
+    console.log(totalBudget, currentlySpent);
+    return (totalBudget - currentlySpent).toLocaleString('en-US', {
+      style: 'currency',
+      currency: 'USD'
+    });
+  }
   render() {
     return (
       <div style={styles.root} className="dashboardPage">
@@ -117,7 +152,7 @@ export default class DashboardPage extends Component {
               title="Safe to spend balance: bank accounts less credit card debt"
             >
               <Typography style={{ textAlign: 'center' }} variant="h5">
-                You have ${this.state.netBalance} total
+                You have {this.findBalance()} total
               </Typography>
             </Tooltip>
           </Paper>
@@ -186,7 +221,7 @@ export default class DashboardPage extends Component {
                 value={this.state.inputAccount}
                 onChange={this.handleAccountInput}
               >
-                {this.state.accounts.map((account, i) => {
+                {this.state.accountNames.map((account, i) => {
                   return (
                     <MenuItem key={`accountInput_${i}`} value={account}>
                       {account}
