@@ -19,6 +19,7 @@ import {
 } from '@material-ui/pickers';
 import PropTypes from 'prop-types';
 import Loading from './Loading.jsx';
+import { Auth0Context } from '../react-auth0-wrapper';
 
 export default class DashboardPage extends Component {
   constructor(props) {
@@ -128,13 +129,15 @@ export default class DashboardPage extends Component {
   }
 
   render() {
-    // if (this.props.loading || !this.props.user) {
-    //   return (
-    //     <div className="dashboardPage">
-    //       <Loading />
-    //     </div>
-    //   );
-    // }
+    const { user, loading } = this.context;
+
+    if (loading || user) {
+      return (
+        <div className="dashboardPage">
+          <Loading />
+        </div>
+      );
+    }
 
     return (
       <div style={styles.root} className="dashboardPage">
@@ -274,3 +277,9 @@ DashboardPage.propTypes = {
   handleAddTransaction: PropTypes.func,
   loading: PropTypes.bool
 };
+
+DashboardPage.contextType = {
+  Auth0Context: PropTypes.object.isRequired
+};
+
+DashboardPage.contextType = Auth0Context;
