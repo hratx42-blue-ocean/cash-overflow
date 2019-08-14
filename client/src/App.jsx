@@ -49,7 +49,7 @@ export default class App extends Component {
       <div className="app">
         <BrowserRouter>
           <Header />
-          <Container maxWidth="sm">
+          <Container>
             <Switch>
               <Route
                 exact
