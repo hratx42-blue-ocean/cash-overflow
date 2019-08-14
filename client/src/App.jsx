@@ -110,6 +110,7 @@ export default class App extends Component {
                     allotments={budgetCategories}
                     categories={accountData.budgetCategories}
                     transactions={accountData.accounts[0].transactions}
+                    updateAccountData={this.updateAccountData}
                   />
                 )}
               />
@@ -121,6 +122,7 @@ export default class App extends Component {
                     accountData={accountData}
                     user={user}
                     loading={loading}
+                    updateAccountData={this.updateAccountData}
                   />
                 )}
               />
