@@ -10,11 +10,13 @@ export default class AccountsPage extends React.Component {
     this.state = {
       open: false,
       accountType: '',
+      accountFilter: ''
     };
 
     this.handleAddAccount = this.handleAddAccount.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.handleSelect = this.handleSelect.bind(this);
+    this.handleAccountFilter = this.handleAccountFilter.bind(this);
   }
 
   handleAddAccount() {
@@ -30,17 +32,29 @@ export default class AccountsPage extends React.Component {
     this.setState({ accountType: event.target.value });
   }
 
+  handleAccountFilter(event) {
+    this.setState({ accountFilter: event.target.value });
+  }
+
   render() {
     const { accountData } = this.props;
     let data = [];
+    let accountsList = [];
+    let currentDate = new Date();
+    let currentMonth = currentDate.getMonth().toString();
+    let currentYear = currentDate.getFullYear().toString();
     if (
-      accountData
-      && accountData.accounts[0]
-      && accountData.accounts[0].transactions
-      && accountData.accounts[0].transactions['2019']
-      && accountData.accounts[0].transactions['2019']['8']
+      accountData &&
+      accountData.accounts[0] &&
+      accountData.accounts[0].transactions &&
+      accountData.accounts[0].transactions[currentYear] &&
+      accountData.accounts[0].transactions[currentYear][currentMonth]
     ) {
-      data = accountData.accounts[0].transactions['2019']['8'];
+      data = accountData.accounts[0].transactions[currentYear][currentMonth];
+      data = data.sort((a, b) => b.date - a.date);
+      accountsList = accountData.accounts;
+      console.log('account list', accountsList);
+      console.log(currentMonth, currentYear);
       console.log('data is', data);
     }
     return (
@@ -55,7 +69,12 @@ export default class AccountsPage extends React.Component {
             accountType={this.state.accountType}
             open={this.state.open}
           />
-          <AccountTransactions data={data} />
+          <AccountTransactions
+            data={data}
+            accountsList={accountsList}
+            accountFilter={this.state.accountFilter}
+            handleAccountFilter={this.handleAccountFilter}
+          />
         </Grid>
       </div>
     );
