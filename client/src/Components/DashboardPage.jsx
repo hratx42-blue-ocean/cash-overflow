@@ -1,20 +1,20 @@
-import React, { Component } from "react";
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
-import Paper from "@material-ui/core/Paper";
-import Tooltip from "@material-ui/core/Tooltip";
-import TextField from "@material-ui/core/TextField";
-import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem";
-import Button from "@material-ui/core/Button";
-import MomentUtils from "@date-io/moment";
+import React, { Component } from 'react';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+import Paper from '@material-ui/core/Paper';
+import Tooltip from '@material-ui/core/Tooltip';
+import TextField from '@material-ui/core/TextField';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import Button from '@material-ui/core/Button';
+import MomentUtils from '@date-io/moment';
 
 import {
   KeyboardDatePicker,
   MuiPickersUtilsProvider
-} from "@material-ui/pickers";
-import PropTypes from "prop-types";
-import Loading from "./Loading.jsx";
+} from '@material-ui/pickers';
+import PropTypes from 'prop-types';
+import Loading from './Loading.jsx';
 
 export default class DashboardPage extends Component {
   constructor(props) {
@@ -22,25 +22,24 @@ export default class DashboardPage extends Component {
     this.state = { ...props };
     this.state = {
       categories: [
-        "rent",
-        "groceries",
-        "transportation",
-        "bills",
-        "clothes",
-        "going out",
-        "household expenses"
+        'rent',
+        'groceries',
+        'transportation',
+        'bills',
+        'clothes',
+        'going out',
+        'household expenses'
       ],
       netBalance: 10000,
       inputAmount: 0,
-      inputCategory: "category",
-      inputPayee: "",
+      inputCategory: 'category',
+      inputPayee: '',
       inputDate: new Date()
     };
     this.handleDateInput = this.handleDateInput.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
     this.handleCategoryInput = this.handleCategoryInput.bind(this);
     this.handlePayeeInput = this.handlePayeeInput.bind(this);
-    this.click = this.click.bind(this);
   }
 
   handleDateInput(value) {
@@ -84,7 +83,7 @@ export default class DashboardPage extends Component {
           justify="space-between"
           alignItems="center"
         >
-          <Paper style={{ width: "50%" }}>
+          <Paper style={{ width: '50%' }}>
             <Typography variant="h1" gutterBottom>
               Hello, {this.props.accountData.firstName}!
             </Typography>
@@ -97,7 +96,7 @@ export default class DashboardPage extends Component {
               </Typography>
             </Tooltip>
           </Paper>
-          <Paper style={{ width: "50%" }}>
+          <Paper style={{ width: '50%' }}>
             <Grid
               container
               direction="column"
