@@ -13,8 +13,6 @@ const data = {
   ]
 };
 
-const TrendsOverview = () => {
-  return <Doughnut data={data} />;
-};
+const TrendsOverview = () => <Doughnut data={data} />;
 
 export default TrendsOverview;

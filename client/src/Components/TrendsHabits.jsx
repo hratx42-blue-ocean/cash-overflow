@@ -14,8 +14,6 @@ const data = {
   ]
 };
 
-const TrendsHabits = () => {
-  return <Line data={data} />;
-};
+const TrendsHabits = () => <Line data={data} />;
 
 export default TrendsHabits;

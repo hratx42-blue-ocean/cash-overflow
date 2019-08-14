@@ -9,44 +9,38 @@ import TableRow from '@material-ui/core/TableRow';
 import List from '@material-ui/core/List';
 import PropTypes from 'prop-types';
 
-const AccountTransactions = props => {
-  return (
-    <>
-      <Grid item xs={8}>
-        <Paper style={{ maxHeight: 450, overflow: 'auto' }}>
-          <List>
-            <Table>
-              <TableHead style={{ position: 'sticky' }}>
-                <TableRow>
-                  <TableCell align="center">Date</TableCell>
-                  <TableCell align="center">Payee</TableCell>
-                  <TableCell align="center">Category</TableCell>
-                  <TableCell align="center">Amount</TableCell>
+const AccountTransactions = props => (
+  <>
+    <Grid item xs={8}>
+      <Paper style={{ maxHeight: 450, overflow: 'auto' }}>
+        <List>
+          <Table>
+            <TableHead style={{ position: 'sticky' }}>
+              <TableRow>
+                <TableCell align="center">Date</TableCell>
+                <TableCell align="center">Payee</TableCell>
+                <TableCell align="center">Category</TableCell>
+                <TableCell align="center">Amount</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {props.data.map((tx, i) => (
+                <TableRow key={`txRow_${i}`}>
+                  <TableCell key={`txDate_${i}`}>
+                    {tx.date.toLocaleDateString('en-US')}
+                  </TableCell>
+                  <TableCell key={`tx_Payee${i}`}>{tx.payee}</TableCell>
+                  <TableCell key={`tx_Category${i}`}>{tx.category}</TableCell>
+                  <TableCell key={`txAmount_${i}`}>{tx.amount}</TableCell>
                 </TableRow>
-              </TableHead>
-              <TableBody>
-                {props.data.map((tx, i) => {
-                  return (
-                    <TableRow key={`txRow_${i}`}>
-                      <TableCell key={`txDate_${i}`}>
-                        {tx.date.toLocaleDateString('en-US')}
-                      </TableCell>
-                      <TableCell key={`tx_Payee${i}`}>{tx.payee}</TableCell>
-                      <TableCell key={`tx_Category${i}`}>
-                        {tx.category}
-                      </TableCell>
-                      <TableCell key={`txAmount_${i}`}>{tx.amount}</TableCell>
-                    </TableRow>
-                  );
-                })}
-              </TableBody>
-            </Table>
-          </List>
-        </Paper>
-      </Grid>
-    </>
-  );
-};
+              ))}
+            </TableBody>
+          </Table>
+        </List>
+      </Paper>
+    </Grid>
+  </>
+);
 
 AccountTransactions.propTypes = {
   data: PropTypes.array

@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 
 // Routing
 import { Switch, Route, BrowserRouter } from 'react-router-dom';
+import Container from '@material-ui/core/Container';
 import PrivateRoute from './Components/PrivateRoute.jsx';
 import { Auth0Context } from './react-auth0-wrapper';
 // Material Components
-import Container from '@material-ui/core/Container';
 
 // import Budget from './Components/BudgetPage.jsx';
 import fakeData from '../../db/dataSeeder.js';
@@ -20,6 +20,7 @@ import TrendsPage from './Components/TrendsPage.jsx';
 import LoginPage from './Components/LoginPage.jsx';
 import ProfilePage from './Components/ProfilePage.jsx';
 import ErrorPage from './Components/ErrorPage.jsx';
+
 export default class App extends Component {
   constructor(props) {
     super(props);
@@ -28,7 +29,7 @@ export default class App extends Component {
       accountData: {
         accounts: [{ transactions: { year: { month: [] } } }]
       },
-      user: {}
+      currentUser: {}
     };
     this.api = `http://localhost:8000/api/example`;
     this.handleAddTransaction = this.handleAddTransaction.bind(this);
@@ -37,9 +38,9 @@ export default class App extends Component {
   handleAddTransaction(stateObject) {
     let month = stateObject.inputDate._d.getMonth();
     let year = stateObject.inputDate._d.getFullYear();
-    const accounts = this.state.user.accounts;
+    const accounts = this.state.currentUser.accounts;
 
-    let placeholder = this.state.user;
+    let placeholder = this.state.currentUser;
     for (let i = 0; i < accounts.length; i++) {
       if (accounts[i].name === stateObject.inputAccount) {
         placeholder.accounts[i].transactions[year][month].push({
@@ -53,7 +54,7 @@ export default class App extends Component {
       }
     }
     this.setState({
-      user: placeholder
+      currentUser: placeholder
     });
   }
 
@@ -62,7 +63,7 @@ export default class App extends Component {
     this.setState({
       budgetCategories: data.budgetCategories,
       accountData: data,
-      user: data
+      currentUser: data
     });
   }
 
@@ -75,7 +76,6 @@ export default class App extends Component {
         <BrowserRouter>
           <Header />
           <Container>
-            <h1>Welcome to Green Ocean!</h1>
             <Switch>
               <Route
                 exact
@@ -108,9 +108,8 @@ export default class App extends Component {
                     {...props}
                     handleAddTransaction={this.handleAddTransaction}
                     accountData={accountData}
-                    user={this.state.user}
+                    currentUser={this.state.currentUser}
                     accountData={accountData}
-                    user={this.state.user}
                     loading={loading}
                   />
                 )}
@@ -126,7 +125,7 @@ export default class App extends Component {
                 render={props => (
                   <ProfilePage
                     {...props}
-                    user={this.state.user}
+                    currentUser={this.state.currentUser}
                     accountData={accountData}
                   />
                 )}

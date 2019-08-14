@@ -13,8 +13,6 @@ const data = {
   ]
 };
 
-const TrendsComparison = () => {
-  return <Bar data={data} />;
-};
+const TrendsComparison = () => <Bar data={data} />;
 
 export default TrendsComparison;

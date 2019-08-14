@@ -13,26 +13,27 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormLabel from '@material-ui/core/FormLabel';
 import MomentUtils from '@date-io/moment';
 import moment from 'moment';
-import Loading from './Loading.jsx';
-
 import {
   KeyboardDatePicker,
   MuiPickersUtilsProvider
 } from '@material-ui/pickers';
 import PropTypes from 'prop-types';
+import Loading from './Loading.jsx';
 
 export default class DashboardPage extends Component {
   constructor(props) {
     super(props);
     //this.state = { ...props };
     this.state = {
-      firstName: this.props.user.firstName,
-      lastName: this.props.user.lastName,
-      email: this.props.user.email,
-      categories: this.props.user.budgetCategories,
+      firstName: this.props.currentUser.firstName,
+      lastName: this.props.currentUser.lastName,
+      email: this.props.currentUser.email,
+      categories: this.props.currentUser.budgetCategories,
       netBalance: 10000,
-      accounts: this.props.user.accounts,
-      accountNames: this.props.user.accounts.map(account => account.name),
+      accounts: this.props.currentUser.accounts,
+      accountNames: this.props.currentUser.accounts.map(
+        account => account.name
+      ),
       inputAmount: undefined,
       inputCategory: 'category',
       inputPayee: '',
@@ -119,21 +120,21 @@ export default class DashboardPage extends Component {
       });
       //go through each and add ammount to currently spent
     });
-    console.log(totalBudget, currentlySpent);
+
     return (totalBudget - currentlySpent).toLocaleString('en-US', {
       style: 'currency',
       currency: 'USD'
     });
   }
+
   render() {
-    console.log(this.props.user);
-    if (this.props.loading || !this.props.user) {
-      return (
-        <div className="dashboardPage">
-          <Loading />
-        </div>
-      );
-    }
+    // if (this.props.loading || !this.props.user) {
+    //   return (
+    //     <div className="dashboardPage">
+    //       <Loading />
+    //     </div>
+    //   );
+    // }
 
     return (
       <div style={styles.root} className="dashboardPage">
@@ -269,7 +270,7 @@ const styles = {
 
 DashboardPage.propTypes = {
   accountData: PropTypes.object,
-  user: PropTypes.object,
+  currentUser: PropTypes.object,
   handleAddTransaction: PropTypes.func,
   loading: PropTypes.bool
 };
