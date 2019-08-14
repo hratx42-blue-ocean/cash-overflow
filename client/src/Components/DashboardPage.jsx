@@ -11,10 +11,11 @@ import MomentUtils from '@date-io/moment';
 
 import {
   KeyboardDatePicker,
-  MuiPickersUtilsProvider,
+  MuiPickersUtilsProvider
 } from '@material-ui/pickers';
 import PropTypes from 'prop-types';
 import Loading from './Loading.jsx';
+import { Auth0Context } from '../react-auth0-wrapper';
 
 export default class DashboardPage extends Component {
   constructor(props) {
@@ -28,13 +29,13 @@ export default class DashboardPage extends Component {
         'bills',
         'clothes',
         'going out',
-        'household expenses',
+        'household expenses'
       ],
       netBalance: 10000,
       inputAmount: 0,
       inputCategory: 'category',
       inputPayee: '',
-      inputDate: new Date(),
+      inputDate: new Date()
     };
     this.handleDateInput = this.handleDateInput.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
@@ -44,30 +45,32 @@ export default class DashboardPage extends Component {
 
   handleDateInput(value) {
     this.setState({
-      inputDate: value,
+      inputDate: value
     });
   }
 
   handleAmountInput(value) {
     this.setState({
-      inputAmount: value,
+      inputAmount: value
     });
   }
 
   handleCategoryInput(event) {
     this.setState({
-      inputCategory: event.target.value,
+      inputCategory: event.target.value
     });
   }
 
   handlePayeeInput(value) {
     this.setState({
-      inputPayee: value,
+      inputPayee: value
     });
   }
 
   render() {
-    if (this.props.loading || !this.props.user) {
+    const { loading, user } = this.props;
+
+    if (loading || !user) {
       return (
         <div className="dashboardPage">
           <Loading />
@@ -85,20 +88,14 @@ export default class DashboardPage extends Component {
         >
           <Paper style={{ width: '50%' }}>
             <Typography variant="h1" gutterBottom>
-              Hello,
-              {' '}
-              {this.props.accountData.firstName}
-!
+              Hello, {this.props.accountData.firstName}!
             </Typography>
             <Tooltip
               placement="top"
               title="Safe to spend balance: bank accounts less credit card debt"
             >
               <Typography variant="h2">
-                You have $
-                {this.state.netBalance}
-                {' '}
-total
+                You have ${this.state.netBalance} total
               </Typography>
             </Tooltip>
           </Paper>
@@ -154,12 +151,10 @@ total
 
 const styles = {
   root: {
-    flexGrow: 1,
-  },
+    flexGrow: 1
+  }
 };
 
 DashboardPage.propTypes = {
-  accountData: PropTypes.object,
-  loading: PropTypes.bool,
-  user: PropTypes.object,
+  accountData: PropTypes.object
 };

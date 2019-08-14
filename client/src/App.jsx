@@ -27,8 +27,8 @@ export default class App extends Component {
     this.state = {
       budgetCategories: [],
       accountData: {
-        accounts: [{ transactions: { year: { month: [] } } }],
-      },
+        accounts: [{ transactions: { year: { month: [] } } }]
+      }
     };
     this.api = 'http://localhost:8000/api/example';
   }
@@ -37,7 +37,7 @@ export default class App extends Component {
     const data = fakeData.createData();
     this.setState({
       budgetCategories: data.budgetCategories,
-      accountData: data,
+      accountData: data
     });
   }
 
@@ -54,19 +54,19 @@ export default class App extends Component {
               <Route
                 exact
                 path="/"
-                render={(props) => (
+                render={props => (
                   <LandingPage {...props} accountData={accountData} />
                 )}
               />
               <Route
                 path="/accounts"
-                render={(props) => (
+                render={props => (
                   <AccountsPage {...props} accountData={accountData} />
                 )}
               />
               <Route
                 path="/budget"
-                render={(props) => (
+                render={props => (
                   <BudgetPage
                     {...props}
                     allotments={budgetCategories}
@@ -77,7 +77,7 @@ export default class App extends Component {
               />
               <PrivateRoute
                 path="/dashboard"
-                render={(props) => (
+                render={props => (
                   <DashboardPage
                     {...props}
                     accountData={accountData}
@@ -88,19 +88,19 @@ export default class App extends Component {
               />
               <Route
                 path="/login"
-                render={(props) => (
+                render={props => (
                   <LoginPage {...props} accountData={accountData} />
                 )}
               />
               <Route
                 path="/profile"
-                render={(props) => (
+                render={props => (
                   <ProfilePage {...props} accountData={accountData} />
                 )}
               />
               <Route
                 path="/trends"
-                render={(props) => (
+                render={props => (
                   <TrendsPage {...props} accountData={accountData} />
                 )}
               />
