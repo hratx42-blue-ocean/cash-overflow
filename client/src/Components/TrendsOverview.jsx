@@ -17,12 +17,14 @@ const TrendsOverview = props => {
   const labels = props.data.accountData.budgetCategories.map(
     category => category.name
   );
-  console.log(props.data.accountData);
+  const data = props.data.accountData.budgetCategories.map(
+    category => category.allotment[2019][6]
+  );
   const userData = {
     labels: labels,
     datasets: [
       {
-        data: [300, 50, 100],
+        data: data,
         backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
         hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56']
       }

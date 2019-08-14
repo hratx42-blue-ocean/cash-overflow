@@ -9,7 +9,9 @@ import Box from '@material-ui/core/Box';
 import TrendsOverview from './TrendsOverview.jsx';
 import TrendsHabits from './TrendsHabits.jsx';
 import TrendsComparison from './TrendsComparison.jsx';
-import NativeSelects from './TrendsOverviewSelector.jsx';
+import OverviewSelector from './TrendsOverviewSelector.jsx';
+import HabitsSelector from './TrendsHabitsSelector.jsx';
+import ComparisonSelector from './TrendsComparisonSelector.jsx';
 
 const useStyles = makeStyles({
   root: {
@@ -54,6 +56,7 @@ export default function TrendsPage(props) {
   function handleChange(event, newValue) {
     setValue(newValue);
   }
+
   return (
     <Paper className={classes.root}>
       <Tabs
@@ -69,13 +72,15 @@ export default function TrendsPage(props) {
       </Tabs>
       <TabPanel value={value} index={0}>
         <TrendsOverview data={props} />
-        <NativeSelects />
+        <OverviewSelector data={props} />
       </TabPanel>
       <TabPanel value={value} index={1}>
         <TrendsHabits data={props} />
+        <HabitsSelector />
       </TabPanel>
       <TabPanel value={value} index={2}>
         <TrendsComparison data={props} />
+        <ComparisonSelector />
       </TabPanel>
     </Paper>
   );

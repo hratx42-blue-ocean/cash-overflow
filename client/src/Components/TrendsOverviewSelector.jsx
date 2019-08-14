@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import PropTypes, { object } from 'prop-types';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -18,11 +19,12 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function NativeSelects() {
+export default function OverviewSelector(props) {
   const classes = useStyles();
   const [state, setState] = React.useState({
-    month: 0,
-    year: 2019
+    month: '',
+    year: '',
+    years: []
   });
 
   const handleChange = name => event => {
@@ -31,6 +33,25 @@ export default function NativeSelects() {
       [name]: event.target.value
     });
   };
+
+  const updateYear = () => {
+    let result = {};
+    for (let i = 0; i < props.data.accountData.accounts.length; i++) {
+      for (let obj in props.data.accountData.accounts[i].transactions) {
+        result[obj] = 1;
+      }
+    }
+    console.log(Object.keys(result));
+    return Object.keys(result);
+  };
+
+  React.useEffect(() => {
+    console.log('this');
+    setState({
+      ...state,
+      years: updateYear()
+    });
+  }, []);
 
   return (
     <div className={classes.root}>
@@ -44,7 +65,7 @@ export default function NativeSelects() {
             name: 'month'
           }}
         >
-          <option value="" />
+          <option value=""></option>
           <option value={0}>January</option>
           <option value={1}>February</option>
           <option value={2}>March</option>
@@ -70,11 +91,17 @@ export default function NativeSelects() {
           }}
         >
           <option value="" />
-          <option value={2018}>2018</option>
-          <option value={2019}>2019</option>
-          <option value={2020}>2020</option>
+          {state.years.map((year, i) => (
+            <option value={year} key={i}>
+              {year}
+            </option>
+          ))}
         </Select>
       </FormControl>
     </div>
   );
 }
+
+OverviewSelector.propTypes = {
+  data: PropTypes.object
+};
