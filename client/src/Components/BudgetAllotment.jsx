@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 export default class BudgetAllottment extends Component {
   constructor(props) {
@@ -20,3 +21,8 @@ export default class BudgetAllottment extends Component {
     return <div onClick={this.handleClick}>{allotment}</div>;
   }
 }
+
+BudgetAllottment.propTypes = {
+  allotment: PropTypes.number,
+  clicked: PropTypes.bool
+};
