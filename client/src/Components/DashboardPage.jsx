@@ -67,6 +67,28 @@ export default class DashboardPage extends Component {
     });
   }
 
+  /**
+   * Did not exist and was erroring on bind, I'm assuming it's for something but can't figure out what
+   */
+  depositOrDebit(value) {
+    console.log(
+      'depositOrDebit should do something with this in DashboardPage',
+      value
+    );
+    this.setState({});
+  }
+
+  /**
+   * Did not exist and was erroring on bind, I'm assuming it's for something but can't figure out what
+   */
+  handleAccountInput(value) {
+    console.log(
+      'Acount Input should do something with this in DashboardPage',
+      value
+    );
+    this.setState({});
+  }
+
   handleAmountInput(value) {
     let inputAmount = Number(value.target.value);
     this.setState({

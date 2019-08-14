@@ -3,7 +3,6 @@ import { shallow, mount } from 'enzyme';
 import { render } from '@testing-library/react';
 import fakeData from '../../../db/dataSeeder';
 import Loading from '../Components/Loading';
-import { AuthContextProvider } from './util/util.authContextWrapper';
 import '@testing-library/jest-dom/extend-expect';
 
 import DashboardPage from '../Components/DashboardPage';
@@ -18,6 +17,15 @@ describe('DashboardPage component --->', () => {
   test('should display DashboardPage when a user is logged in', () => {
     const { container } = render(
       <DashboardPage accountData={data} user={{ yes: 'yes' }} loading={false} />
+    );
+
+    const loading = container.getElementsById('loading');
+    expect(loading).toBe(null);
+  });
+
+  test('should display Loading when a user is not logged in', () => {
+    const { container } = render(
+      <DashboardPage accountData={data} loading={true} />
     );
 
     const loading = container.getElementsById('loading');
