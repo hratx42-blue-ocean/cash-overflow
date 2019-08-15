@@ -159,7 +159,14 @@ export default class ProfilePage extends React.Component {
   }
 
   toggleSuccessMessage() {
-    this.setState({ showSuccessMessage: !this.state.showSuccessMessage });
+    this.setState({
+      showSuccessMessage: !this.state.showSuccessMessage,
+      inputPayee: 'payee',
+      inputAccount: 'account',
+      inputCategory: 'category',
+      inputDay: 1,
+      inputAmount: 0
+    });
   }
 
   handleRecurringPayment() {
