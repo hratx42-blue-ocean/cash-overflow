@@ -19,8 +19,8 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 
 const AccountTransactions = props => {
-  let date = new Date();
-  let currentMonth = date.toLocaleString('default', { month: 'long' });
+  const date = new Date();
+  const currentMonth = date.toLocaleString('default', { month: 'long' });
   return (
     <>
       <Grid item xs={8}>
@@ -83,7 +83,7 @@ const AccountTransactions = props => {
                   return (
                     <TableRow key={`txRow_${i}`}>
                       <TableCell key={`txDate_${i}`}>
-                        {tx.date.toLocaleDateString('en-US')}
+                        {new Date(tx.date).toLocaleDateString('en-US')}
                       </TableCell>
                       <TableCell key={`tx_Payee${i}`}>{tx.payee}</TableCell>
                       <TableCell key={`tx_Category${i}`}>

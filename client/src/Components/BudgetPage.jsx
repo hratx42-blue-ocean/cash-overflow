@@ -114,7 +114,8 @@ BudgetPage.propTypes = {
   categories: PropTypes.arrayOf(PropTypes.object),
   transactions: PropTypes.object,
   loading: PropTypes.bool.isRequired,
-  isAuthenticated: PropTypes.bool.isRequired
+  isAuthenticated: PropTypes.bool.isRequired,
+  updateAccountData: PropTypes.func
 };
 
 export default BudgetPage;
