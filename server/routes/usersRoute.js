@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const db = require('../../db/queries.js');
 
-//middleware below should sanitize to prevent basic table-drop attempts and shenanigans
+// middleware below should sanitize to prevent basic table-drop attempts and shenanigans
 
 router.use('/getData', (req, res, next) => {
   req.query.user = req.query.user.replace(/[\\/: +]/g, '');

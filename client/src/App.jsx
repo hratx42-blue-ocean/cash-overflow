@@ -19,7 +19,6 @@ import LoginPage from './Components/LoginPage.jsx';
 import ProfilePage from './Components/ProfilePage.jsx';
 import ErrorPage from './Components/ErrorPage.jsx';
 
-
 export default class App extends Component {
   constructor(props) {
     super(props);
@@ -32,11 +31,8 @@ export default class App extends Component {
     };
     this.getUserData = this.getUserData.bind(this);
     this.postUserData = this.postUserData.bind(this);
-    this.setCurrentUser = this.setCurrentUser.bind(this);
     this.updateAccountData = this.updateAccountData.bind(this);
-    this.setAccountDataAndBudgetCategories = this.setAccountDataAndBudgetCategories.bind(
-      this
-    );
+    this.setAccountData = this.setAccountData.bind(this);
     this.handleAddTransaction = this.handleAddTransaction.bind(this);
   }
 
@@ -50,28 +46,24 @@ export default class App extends Component {
     }).then(okResponse => console.log(okResponse));
   }
 
-  setCurrentUser(accountData) {
-    const [currentAccountData] = accountData.data;
-    this.setState({
-      currentUser: currentAccountData.email
-    });
-    return currentAccountData;
-  }
-
   componentDidMount() {
     this.getUserData('chadchadson@gmail.com')
-      .then(this.setCurrentUser)
-      .then(this.setAccountDataAndBudgetCategories)
+      .then(this.setAccountData)
+      .then(() => {
+        console.log('the user object is: ', this.state.accountData);
+      })
       .catch(err => {
         console.log('mounting error: ', err);
       });
   }
 
-  setAccountDataAndBudgetCategories(currentAccountData) {
-    const { budgetCategories } = currentAccountData;
+  setAccountData(incomingAccountData) {
+    const [currentAccountData] = incomingAccountData.data;
+    const { budgetCategories, email } = currentAccountData;
     this.setState({
+      accountData: currentAccountData,
       budgetCategories,
-      accountData: currentAccountData
+      currentUser: email
     });
   }
 
@@ -80,6 +72,8 @@ export default class App extends Component {
   }
 
   handleAddTransaction(stateObject) {
+    // this function will live at the dashboard level eventually
+
     const {
       inputAccount,
       inputAmount,
@@ -93,7 +87,7 @@ export default class App extends Component {
     const { accounts } = accountUpdate;
 
     const transaction = {
-      id: 1234567890420800856900 + Math.floor(Math.random() * 200),
+      id: (420420420420420 + Math.floor(Math.random() * 69696969)).toString(),
       amount: inputAmount,
       category: inputCategory,
       date: inputDate._d,
@@ -112,6 +106,10 @@ export default class App extends Component {
     this.setState({
       currentUser: accountUpdate
     });
+
+    // fn below will update app state, and then POST updated userObject to DB
+
+    this.updateAccountData(accountUpdate);
   }
 
   render() {
@@ -137,7 +135,11 @@ export default class App extends Component {
             <Route
               path="/accounts"
               render={props => (
-                <AccountsPage {...props} accountData={accountData} />
+                <AccountsPage
+                  {...props}
+                  accountData={accountData}
+                  updateAccountData={this.updateAccountData}
+                />
               )}
             />
             <Route
@@ -148,6 +150,7 @@ export default class App extends Component {
                   allotments={budgetCategories}
                   categories={accountData.budgetCategories}
                   transactions={accountData.accounts[0].transactions}
+                  updateAccountData={this.updateAccountData}
                 />
               )}
             />
@@ -174,7 +177,11 @@ export default class App extends Component {
             <Route
               path="/profile"
               render={props => (
-                <ProfilePage {...props} accountData={accountData} />
+                <ProfilePage
+                  {...props}
+                  accountData={accountData}
+                  updateAccountData={this.updateAccountData}
+                />
               )}
             />
             <Route
