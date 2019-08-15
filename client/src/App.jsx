@@ -27,13 +27,15 @@ export default class App extends Component {
       budgetCategories: [],
       accountData: {
         accounts: [{ transactions: { year: { month: [] } } }]
-      }
+      },
+      isDemo: false
     };
     this.getUserData = this.getUserData.bind(this);
     this.postUserData = this.postUserData.bind(this);
     this.updateAccountData = this.updateAccountData.bind(this);
     this.setAccountData = this.setAccountData.bind(this);
     this.handleAddTransaction = this.handleAddTransaction.bind(this);
+    this.toggleDemo = this.toggle.bind(this);
   }
 
   getUserData(userEmail) {
@@ -64,6 +66,13 @@ export default class App extends Component {
       accountData: currentAccountData,
       budgetCategories,
       currentUser: email
+    });
+  }
+
+  toggleDemo() {
+    const demo = !this.state.isDemo;
+    this.setState({
+      isDemo: demo
     });
   }
 
@@ -113,12 +122,16 @@ export default class App extends Component {
   }
 
   render() {
-    const { accountData, budgetCategories } = this.state;
-    const { isAuthenticated, loading } = this.context;
+    let { accountData, budgetCategories, isDemo } = this.state;
+    let { isAuthenticated, loading } = this.context;
 
+    if (isDemo) {
+      isAuthenticated = true;
+      loading = false;
+    }
     return (
       <div className="app">
-        <Header />
+        <Header isDemo={isDemo} toggleDemo={this.toggleDemo} />
         <Container>
           <Switch>
             <Route

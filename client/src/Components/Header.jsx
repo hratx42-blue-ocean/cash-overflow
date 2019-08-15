@@ -25,10 +25,14 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function ButtonAppBar() {
+export default function ButtonAppBar(props) {
   const classes = useStyles();
-  const { isAuthenticated, loading, loginWithRedirect, logout } = useAuth0();
-
+  let { isDemo, toggleDemo } = props;
+  let { isAuthenticated, loading, loginWithRedirect, logout } = useAuth0();
+  if (isDemo) {
+    isAuthenticated = true;
+    loading = false;
+  }
   const logoutWithRedirect = () =>
     logout({
       returnTo: window.location.origin
