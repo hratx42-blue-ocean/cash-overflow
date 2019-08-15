@@ -35,7 +35,7 @@ export default class App extends Component {
     this.updateAccountData = this.updateAccountData.bind(this);
     this.setAccountData = this.setAccountData.bind(this);
     this.handleAddTransaction = this.handleAddTransaction.bind(this);
-    this.toggleDemo = this.toggle.bind(this);
+    this.toggleDemo = this.toggleDemo.bind(this);
   }
 
   getUserData(userEmail) {

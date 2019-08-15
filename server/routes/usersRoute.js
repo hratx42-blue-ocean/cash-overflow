@@ -18,7 +18,7 @@ router.get('/getData', (req, res) => {
 });
 
 router.post('/upsertData', (req, res) => {
-  if (req.body.userUpdate.userID === 'e06d2c2c-b712-4e98-868e-9d6ba683a595' {
+  if (req.body.userUpdate.userID === 'e06d2c2c-b712-4e98-868e-9d6ba683a595') {
     res.status(200).send('demo mode');
   }
   db.upsertUserData(req.body.userUpdate).then(() => {
