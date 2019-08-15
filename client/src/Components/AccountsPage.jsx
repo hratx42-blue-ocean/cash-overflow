@@ -57,7 +57,6 @@ export default class AccountsPage extends React.Component {
     this.setState({ currentMonth: this.state.currentMonth + 1})
   }
 
-
   render() {
     const { accountData } = this.props;
     let data = [];
@@ -73,6 +72,9 @@ export default class AccountsPage extends React.Component {
       if(this.state.accountFilter === ''){
         accountData.accounts.forEach(account => {
           let txs = account.transactions[this.state.currentYear][this.state.currentMonth];
+          txs.forEach(record => {
+            record.accountName = account.name
+          })
           data.push(...txs);
         });
       } else {
@@ -80,17 +82,15 @@ export default class AccountsPage extends React.Component {
           console.log(account.name === this.state.accountFilter)
           if(account.name === this.state.accountFilter){
             let txs = account.transactions[this.state.currentYear][this.state.currentMonth];
+            txs.forEach(record => {
+              record.accountName = account.name
+            })
             data.push(...txs);
-            console.log('txs', txs)
           }
         });
-      }
-      
+      }   
       data = data.sort((a, b) => b.date - a.date);
       accountsList = accountData.accounts;
-      console.log('account list', accountsList);
-      console.log('data', data)
-
     }
     return (
       <div>

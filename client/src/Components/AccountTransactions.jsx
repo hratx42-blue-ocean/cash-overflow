@@ -77,6 +77,12 @@ const AccountTransactions = props => {
                   >
                     Amount
                   </TableCell>
+                  <TableCell
+                    style={{ position: 'sticky', top: 0, background: 'white' }}
+                    align="center"
+                  >
+                    Account
+                  </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -86,11 +92,12 @@ const AccountTransactions = props => {
                       <TableCell key={`txDate_${i}`}>
                         {tx.date.toLocaleDateString('en-US')}
                       </TableCell>
-                      <TableCell key={`tx_Payee${i}`}>{tx.payee}</TableCell>
-                      <TableCell key={`tx_Category${i}`}>
+                      <TableCell key={`txPayee_${i}`}>{tx.payee}</TableCell>
+                      <TableCell key={`txCategory_${i}`}>
                         {tx.category}
                       </TableCell>
                       <TableCell key={`txAmount_${i}`}>${tx.amount}</TableCell>
+                      <TableCell key={`txAccount_${i}`}>{tx.accountName}</TableCell>
                     </TableRow>
                   );
                 })}
