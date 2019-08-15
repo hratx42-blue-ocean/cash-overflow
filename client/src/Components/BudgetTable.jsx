@@ -40,23 +40,17 @@ const translateMonths = {
   12: 'dec'
 };
 
-const BudgetTable = ({ month, breakdown = {}, handleMonthChange }) => {
+const BudgetTable = ({ month, breakdown = {} }) => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
-      {/** month selector */}
-      <IconButton
-        onClick={() => handleMonthChange(-1)}
-        aria-label="previous-month"
-      >
+      <IconButton aria-label="previous-month">
         <ChevronLeft />
       </IconButton>
       <Typography variant="button">{translateMonths[month]}</Typography>
-      <IconButton onClick={() => handleMonthChange(1)} aria-label="next-month">
+      <IconButton aria-label="next-month">
         <ChevronRight />
       </IconButton>
-
-      {/** category table */}
       <Grid container justify="center">
         <Grid item xs={12} xl={8}>
           <Paper className={classes.paper}>

@@ -23,6 +23,7 @@ class BudgetPage extends Component {
     };
 
     this.handleMonthChange = this.handleMonthChange.bind(this);
+    this.updateAllotments = this.updateAllotments.bind(this);
   }
 
   componentDidMount() {
@@ -41,7 +42,28 @@ class BudgetPage extends Component {
     }
   }
 
+  updateAllotments(name, val, year, month) {
+    let { categories } = this.state;
+    categories = categories ? categories : [];
+    categories = JSON.parse(JSON.stringify(categories));
+
+    categories.forEach(category => {
+      if (
+        category.name === name &&
+        category.allotment &&
+        category.allotment[year] &&
+        category.allotment[year][month] !== undefined
+      ) {
+        category.allotment[year][month] = val;
+      }
+    });
+
+    // TODO add function that sets app state
+    console.log(categories);
+  }
+
   render() {
+    this.updateAllotments('bills', 100, 2019, 8);
     const { loading, isAuthenticated } = this.props;
     if (loading || !isAuthenticated) {
       return (
