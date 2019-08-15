@@ -19,8 +19,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 
 const AccountTransactions = props => {
-  console.log(props.currentMonth, props.currentYear)
-  let date = new Date();
+  let date = new Date(null, props.currentMonth, null);
   let currentMonthStr = date.toLocaleString('default', { month: 'long' });
   return (
     <>
@@ -39,6 +38,7 @@ const AccountTransactions = props => {
             onChange={props.handleAccountFilter}
             input={<Input id="account-filter" />}
           >
+            <MenuItem key={`accountFilter_blank`} value=''>All Accounts</MenuItem>
             {props.accountsList.map((acct, i) => {
               return (
                 <MenuItem key={`accountFilter_${i}`} value={acct.name}>

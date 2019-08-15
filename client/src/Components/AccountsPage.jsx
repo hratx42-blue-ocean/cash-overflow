@@ -26,9 +26,8 @@ export default class AccountsPage extends React.Component {
   componentDidMount(){
     let currentDate = new Date();
     this.setState({
-      currentMonth: currentDate.getMonth().toString(),
-      currentYear: currentDate.getFullYear().toString()
-
+      currentMonth: currentDate.getMonth(),
+      currentYear: currentDate.getFullYear()
     })
   }
 
@@ -50,12 +49,12 @@ export default class AccountsPage extends React.Component {
   }
 
   handleLeftArrow(){
-    this.setState({ currentMonth : (this.state.currentMonth - 1)}, () => console.log('left',this.state.currentMonth))
+    this.setState({ currentMonth: this.state.currentMonth - 1})
     
   }
 
   handleRightArrow(){
-    this.setState({ currentMonth : this.state.currentMonth + 1}, () => console.log('right',this.state.currentMonth))
+    this.setState({ currentMonth: this.state.currentMonth + 1})
   }
 
 
@@ -70,12 +69,28 @@ export default class AccountsPage extends React.Component {
       accountData.accounts[0].transactions[this.state.currentYear] &&
       accountData.accounts[0].transactions[this.state.currentYear][this.state.currentMonth]
     ) {
-      data = accountData.accounts[0].transactions[this.state.currentYear][this.state.currentMonth];
+      
+      if(this.state.accountFilter === ''){
+        accountData.accounts.forEach(account => {
+          let txs = account.transactions[this.state.currentYear][this.state.currentMonth];
+          data.push(...txs);
+        });
+      } else {
+        accountData.accounts.forEach(account => {
+          console.log(account.name === this.state.accountFilter)
+          if(account.name === this.state.accountFilter){
+            let txs = account.transactions[this.state.currentYear][this.state.currentMonth];
+            data.push(...txs);
+            console.log('txs', txs)
+          }
+        });
+      }
+      
       data = data.sort((a, b) => b.date - a.date);
       accountsList = accountData.accounts;
       console.log('account list', accountsList);
-      console.log(this.state.currentMonth, this.state.currentYear);
-      console.log('data is', data);
+      console.log('data', data)
+
     }
     return (
       <div>
