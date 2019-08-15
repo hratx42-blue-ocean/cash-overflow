@@ -24,7 +24,9 @@ class BudgetPage extends Component {
       textInput: ''
     };
     this.handleAddCategory = this.handleAddCategory.bind(this);
+    this.handleSaveCategory = this.handleSaveCategory.bind(this);
     this.handleClose = this.handleClose.bind(this);
+    this.handleTextInput = this.handleTextInput.bind(this);
   }
 
   componentDidMount() {
@@ -49,7 +51,8 @@ class BudgetPage extends Component {
     const categoryUpdate = this.state.categories.slice();
     const newCategory = this.state.textInput;
     categoryUpdate.push(newCategory);
-    this.handleUpdateCategories(categoryUpdate);
+    this.props.handleUpdateCategories(categoryUpdate);
+    this.handleClose();
   }
 
   handleTextInput(e) {
