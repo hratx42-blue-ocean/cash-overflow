@@ -14,7 +14,7 @@ const useStyles = makeStyles(theme => ({
   },
   paper: {
     padding: theme.spacing(2),
-    width: 600,
+    width: 300,
     margin: 20,
     textAlign: 'center'
   }
@@ -31,29 +31,25 @@ const ProfileFirstName = props => {
   };
   return (
     <div className={classes.root}>
-      <Grid container spacing={1}>
-        <Grid item xs>
-          <Paper className={classes.paper}>
-            <Typography variant="h5" component="h5">
-              First Name
-            </Typography>
-            <Typography>{props.firstName}</Typography>
-            <Typography>
-              <Button className="edit" onClick={props.firstNameButtonHandler}>
-                Edit
-              </Button>
-              {!props.firstNameIsHidden && (
-                <form autoComplete="off">
-                  <FormControl>
-                    <Input onChange={props.handleInput} />
-                  </FormControl>
-                  <Button onClick={props.handleFirstNameSubmit}>Save</Button>
-                </form>
-              )}
-            </Typography>
-          </Paper>
-        </Grid>
-      </Grid>
+      <Paper className={classes.paper}>
+        <Typography variant="h5" component="h5">
+          First Name
+        </Typography>
+        <Typography>{props.firstName}</Typography>
+        <Typography>
+          <Button className="edit" onClick={props.firstNameButtonHandler}>
+            Edit
+          </Button>
+          {!props.firstNameIsHidden && (
+            <form autoComplete="off">
+              <FormControl>
+                <Input onChange={props.handleInput} />
+              </FormControl>
+              <Button onClick={props.handleFirstNameSubmit}>Save</Button>
+            </form>
+          )}
+        </Typography>
+      </Paper>
     </div>
   );
 };

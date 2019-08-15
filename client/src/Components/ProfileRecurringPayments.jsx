@@ -19,7 +19,7 @@ const useStyles = makeStyles(theme => ({
   },
   paper: {
     padding: theme.spacing(2),
-    width: 600,
+    width: 400,
     margin: 20,
     textAlign: 'center'
   }
@@ -31,7 +31,7 @@ const ProfileRecurringPayments = props => {
   const days = Array.from(Array(31).keys()).splice(1);
 
   return (
-    <Paper style={{ width: '40%', margin: 20, padding: 15 }}>
+    <Paper style={{margin: 20, padding: 15 }}>
       <Grid container direction="column" justify="center" alignItems="center">
         <Typography variant="h4">Set a payment for every month!</Typography>
         <Typography>Day of month:</Typography>

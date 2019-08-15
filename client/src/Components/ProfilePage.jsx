@@ -164,44 +164,49 @@ export default class ProfilePage extends React.Component {
         spacing={1}
         className="profilePage"
       >
-        <ProfileFirstName
-          className="firstName"
-          firstNameIsHidden={this.state.firstNameIsHidden}
-          firstName={this.state.firstName}
-          firstNameButtonHandler={this.firstNameButtonHandler}
-          handleInput={this.handleInput}
-          handleFirstNameSubmit={this.handleFirstNameSubmit}
-        />
+        <Grid container spacing={1}>
+          <Grid item xs>
+            <ProfileFirstName
+              className="firstName"
+              firstNameIsHidden={this.state.firstNameIsHidden}
+              firstName={this.state.firstName}
+              firstNameButtonHandler={this.firstNameButtonHandler}
+              handleInput={this.handleInput}
+              handleFirstNameSubmit={this.handleFirstNameSubmit}
+            />
 
-        <ProfileLastName
-          lastNameIsHidden={this.state.lastNameIsHidden}
-          lastName={this.state.lastName}
-          lastNameButtonHandler={this.lastNameButtonHandler}
-          handleInput={this.handleInput}
-          handleLastNameSubmit={this.handleLastNameSubmit}
-        />
+            <ProfileLastName
+              lastNameIsHidden={this.state.lastNameIsHidden}
+              lastName={this.state.lastName}
+              lastNameButtonHandler={this.lastNameButtonHandler}
+              handleInput={this.handleInput}
+              handleLastNameSubmit={this.handleLastNameSubmit}
+            />
 
-        <ProfileEmail
-          emailIsHidden={this.state.emailIsHidden}
-          email={this.state.email}
-          emailButtonHandler={this.emailButtonHandler}
-          handleInput={this.handleInput}
-          handleEmailSubmit={this.handleEmailSubmit}
-        />
+            <ProfileEmail
+              emailIsHidden={this.state.emailIsHidden}
+              email={this.state.email}
+              emailButtonHandler={this.emailButtonHandler}
+              handleInput={this.handleInput}
+              handleEmailSubmit={this.handleEmailSubmit}
+            />
 
-        <ProfilePassword
-          passwordIsHidden={this.state.passwordIsHidden}
-          passwordButtonHandler={this.passwordButtonHandler}
-          closePasswordResetMessage={this.closePasswordResetMessage}
-        />
-        <ProfileRecurringPayments
-          handleDayChange={this.handleDayChange}
-          handleInputAmount={this.handleInputAmount}
-          handlePayeeInput={this.handlePayeeInput}
-          handleAccountInput={this.handleAccountInput}
-          categories={this.state.categories}
-          accounts={this.state.accountNames}
-        />
+            <ProfilePassword
+              passwordIsHidden={this.state.passwordIsHidden}
+              passwordButtonHandler={this.passwordButtonHandler}
+              closePasswordResetMessage={this.closePasswordResetMessage}
+            />
+          </Grid>
+          <ProfileRecurringPayments
+            handleDayChange={this.handleDayChange}
+            handleInputAmount={this.handleInputAmount}
+            handlePayeeInput={this.handlePayeeInput}
+            handleAccountInput={this.handleAccountInput}
+            categories={this.state.categories}
+            accounts={this.state.accountNames}
+            handleRecurringPayment={props.handleRecurringPayment}
+          />
+        </Grid>
       </Grid>
     );
   }
