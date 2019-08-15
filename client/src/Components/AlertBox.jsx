@@ -45,9 +45,7 @@ export default class AlertBox extends Component {
       for (let account of accounts) {
         for (let transaction of account.transactions[year][month]) {
           if (transaction.category === categoryName) {
-            console.log(Number(transaction.amount));
             subtotal += Number(transaction.amount);
-            console.log(subtotal);
           }
         }
       }
