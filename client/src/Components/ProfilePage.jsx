@@ -6,14 +6,21 @@ import ProfileLastName from './ProfileLastName.jsx';
 import ProfileEmail from './ProfileEmail.jsx';
 import PropTypes from 'prop-types';
 import ProfilePassword from './ProfilePassword.jsx';
-import Loading from './Loading.jsx'
+import ProfileRecurringPayments from './ProfileRecurringPayments.jsx';
+import Loading from './Loading.jsx';
 
 export default class ProfilePage extends React.Component {
   constructor(props) {
     super(props);
-    const {accountData} = this.props
-    const { email, firstName, lastName } = accountData
-    console.log(accountData)
+    const { accountData } = this.props;
+    const {
+      email,
+      firstName,
+      lastName,
+      budgetCategories,
+      accounts
+    } = accountData;
+
     this.state = {
       email: email,
       emailIsHidden: true,
@@ -22,7 +29,13 @@ export default class ProfilePage extends React.Component {
       lastName: lastName,
       lastNameIsHidden: true,
       input: '',
-      passwordIsHidden: true
+      passwordIsHidden: true,
+      inputDay: '',
+      inputAmount: 0,
+      categories: budgetCategories,
+      accountNames: accounts.map(account => account.name),
+      inputPayee: 'payee',
+      inputAccount: 'account'
     };
 
     this.emailButtonHandler = this.emailButtonHandler.bind(this);
@@ -34,6 +47,10 @@ export default class ProfilePage extends React.Component {
     this.handleLastNameSubmit = this.handleLastNameSubmit.bind(this);
     this.handleEmailSubmit = this.handleEmailSubmit.bind(this);
     this.closePasswordResetMessage = this.closePasswordResetMessage.bind(this);
+    this.handleDayChange = this.handleDayChange.bind(this);
+    this.handlePayeeInput = this.handlePayeeInput.bind(this);
+    this.handleAccountInput = this.handleAccountInput.bind(this);
+    this.handleInputAmount = this.handleInputAmount.bind(this);
   }
 
   emailButtonHandler(e) {
@@ -51,6 +68,12 @@ export default class ProfilePage extends React.Component {
   lastNameButtonHandler(e) {
     this.setState({
       lastNameIsHidden: !this.state.lastNameIsHidden
+    });
+  }
+
+  handlePayeeInput(value) {
+    this.setState({
+      inputPayee: value.target.value
     });
   }
 
@@ -100,7 +123,26 @@ export default class ProfilePage extends React.Component {
     // send input to updatedatabase
     this.setState({
       emailIsHidden: !this.state.emailIsHidden
-    })
+    });
+  }
+
+  handleDayChange(day) {
+    let inputDay = day.target.value;
+    console.log(inputDay);
+    this.setState({ inputDay });
+  }
+
+  handleInputAmount(value) {
+    let inputAmount = Number(value.target.value);
+    this.setState({ inputAmount });
+  }
+
+  handleAccountInput(event) {
+    let inputAccount = event.target.value;
+
+    this.setState({
+      inputAccount: inputAccount
+    });
   }
 
   render() {
@@ -111,7 +153,7 @@ export default class ProfilePage extends React.Component {
         <div className="dashboardPage">
           <Loading />
         </div>
-      )
+      );
     }
     return (
       <Grid
@@ -152,14 +194,26 @@ export default class ProfilePage extends React.Component {
           passwordButtonHandler={this.passwordButtonHandler}
           closePasswordResetMessage={this.closePasswordResetMessage}
         />
+        <ProfileRecurringPayments
+          handleDayChange={this.handleDayChange}
+          handleInputAmount={this.handleInputAmount}
+          handlePayeeInput={this.handlePayeeInput}
+          handleAccountInput={this.handleAccountInput}
+          categories={this.state.categories}
+          accounts={this.state.accountNames}
+        />
       </Grid>
     );
   }
 }
 
 ProfilePage.defaultProps = {
-  accountData: {email: 'asdf@asdf.com', firstName: 'lsdkfj', lastName: 'lkdasjf'}
-}
+  accountData: {
+    email: 'asdf@asdf.com',
+    firstName: 'lsdkfj',
+    lastName: 'lkdasjf'
+  }
+};
 ProfilePage.propTypes = {
   accountData: PropTypes.object
 };

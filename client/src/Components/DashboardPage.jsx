@@ -98,28 +98,19 @@ export default class DashboardPage extends Component {
 
   findBalance() {
     let today = new Date();
-    //todays year
     let year = today.getFullYear();
-    //todays month
     let month = today.getMonth();
-    //months allotment
     let totalBudget = 0;
-    //currently spent
     let currentlySpent = 0;
-    //for each budgetCategory
-    this.state.categories.forEach(category => {
-      //find allotment at year and month
 
+    this.state.categories.forEach(category => {
       totalBudget += category.allotment[year][month];
-      //add to months allotment
     });
-    //for each account
+    
     this.state.accounts.forEach(account => {
-      //at account at year and month
       account.transactions[year][month].forEach(transaction => {
         currentlySpent += Number(transaction.amount);
       });
-      //go through each and add ammount to currently spent
     });
 
     return (totalBudget - currentlySpent).toLocaleString('en-US', {
