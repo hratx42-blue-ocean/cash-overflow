@@ -45,7 +45,9 @@ const BudgetTable = ({
   month,
   open,
   handleAddCategory,
+  handleSaveCategory,
   handleClose,
+  handleTextInput,
   breakdown = {}
 }) => {
   const classes = useStyles();
@@ -69,7 +71,9 @@ const BudgetTable = ({
                       <BudgetAddCatgory
                         open={open}
                         handleAddCategory={handleAddCategory}
+                        handleSaveCategory={handleSaveCategory}
                         handleClose={handleClose}
+                        handleTextInput={handleTextInput}
                       />
                     }
                   </TableCell>
@@ -116,7 +120,9 @@ BudgetTable.propTypes = {
   rows: PropTypes.arrayOf(PropTypes.object),
   open: PropTypes.bool,
   handleAddCategory: PropTypes.func,
-  handleClose: PropTypes.func
+  handleSaveCategory: PropTypes.func,
+  handleClose: PropTypes.func,
+  handleTextInput: PropTypes.func
 };
 
 export default BudgetTable;

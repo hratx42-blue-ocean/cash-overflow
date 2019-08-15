@@ -1,12 +1,8 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import Chip from '@material-ui/core/Chip';
-import Avatar from '@material-ui/core/Avatar';
-import AddIcon from '@material-ui/icons/Add';
 import Typography from '@material-ui/core/Typography';
 import Icon from '@material-ui/core/Icon';
-import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -27,7 +23,13 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const BudgetAddCategory = ({ open, handleAddCategory, handleClose }) => {
+const BudgetAddCategory = ({
+  open,
+  handleAddCategory,
+  handleSaveCategory,
+  handleClose,
+  handleTextInput
+}) => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
@@ -61,13 +63,14 @@ const BudgetAddCategory = ({ open, handleAddCategory, handleClose }) => {
             id="name"
             label="Budget Category Name"
             fullWidth
+            onChange={handleTextInput}
           />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={handleSaveCategory} color="primary">
             Save
           </Button>
         </DialogActions>
@@ -79,13 +82,17 @@ const BudgetAddCategory = ({ open, handleAddCategory, handleClose }) => {
 BudgetAddCategory.defaultProps = {
   open: false,
   handleAddCategory: null,
-  handleClose: null
+  handleSaveCategory: null,
+  handleClose: null,
+  handleTextInput: null
 };
 
 BudgetAddCategory.propTypes = {
   open: PropTypes.bool,
   handleAddCategory: PropTypes.func,
-  handleClose: PropTypes.func
+  handleSaveCategory: PropTypes.func,
+  handleClose: PropTypes.func,
+  handleTextInput: PropTypes.func
 };
 
 export default BudgetAddCategory;

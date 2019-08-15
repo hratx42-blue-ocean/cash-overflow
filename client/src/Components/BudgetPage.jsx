@@ -20,7 +20,8 @@ class BudgetPage extends Component {
       categoryBreakdown: {},
       currentYear: 2019,
       currentMonth: 8,
-      open: false
+      open: false,
+      textInput: ''
     };
     this.handleAddCategory = this.handleAddCategory.bind(this);
     this.handleClose = this.handleClose.bind(this);
@@ -42,6 +43,20 @@ class BudgetPage extends Component {
 
   handleClose() {
     this.setState({ open: false });
+  }
+
+  handleSaveCategory() {
+    const categoryUpdate = this.state.categories.slice();
+    const newCategory = this.state.textInput;
+    categoryUpdate.push(newCategory);
+    this.handleUpdateCategories(categoryUpdate);
+  }
+
+  handleTextInput(e) {
+    const { value } = e.target.value;
+    this.setState({
+      textInput: value
+    });
   }
 
   render() {
@@ -66,7 +81,9 @@ class BudgetPage extends Component {
         breakdown={breakdown}
         open={open}
         handleAddCategory={this.handleAddCategory}
+        handleSaveCategory={this.handleSaveCategory}
         handleClose={this.handleClose}
+        handleTextInput={this.handleTextInput}
       />
     );
   }
@@ -78,7 +95,8 @@ BudgetPage.propTypes = {
   transactions: PropTypes.object,
   loading: PropTypes.bool.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
-  updateAccountData: PropTypes.func
+  updateAccountData: PropTypes.func,
+  handleUpdateCategories: PropTypes.func
 };
 
 const totalSpent = txs => {

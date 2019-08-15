@@ -34,16 +34,7 @@ export default class App extends Component {
     this.updateAccountData = this.updateAccountData.bind(this);
     this.setAccountData = this.setAccountData.bind(this);
     this.handleAddTransaction = this.handleAddTransaction.bind(this);
-  }
-
-  getUserData(userEmail) {
-    return Axios.get(`http://0.0.0.0:8000/api/users/getData?user=${userEmail}`);
-  }
-
-  postUserData(userObject) {
-    Axios.post('http://0.0.0.0:8000/api/users/upsertData', {
-      userUpdate: userObject
-    }).then(okResponse => console.log(okResponse));
+    this.handleUpdateCategories = this.handleUpdateCategories.bind(this);
   }
 
   componentDidMount() {
@@ -55,6 +46,16 @@ export default class App extends Component {
       .catch(err => {
         console.log('mounting error: ', err);
       });
+  }
+
+  getUserData(userEmail) {
+    return Axios.get(`http://0.0.0.0:8000/api/users/getData?user=${userEmail}`);
+  }
+
+  postUserData(userObject) {
+    Axios.post('http://0.0.0.0:8000/api/users/upsertData', {
+      userUpdate: userObject
+    }).then(okResponse => console.log(okResponse));
   }
 
   setAccountData(incomingAccountData) {
@@ -112,6 +113,16 @@ export default class App extends Component {
     this.updateAccountData(accountUpdate);
   }
 
+  handleUpdateCategories(updatedCategories) {
+    const accountUpdate = { ...this.state.accountData };
+    accountUpdate.budgetCategories = updatedCategories;
+    this.setState({
+      budgetCategories: updatedCategories,
+      accountData: accountUpdate
+    });
+    this.updateAccountData(accountUpdate);
+  }
+
   render() {
     const { accountData, budgetCategories } = this.state;
     const { isAuthenticated, loading } = this.context;
@@ -153,6 +164,7 @@ export default class App extends Component {
                   loading={loading}
                   isAuthenticated={isAuthenticated}
                   updateAccountData={this.updateAccountData}
+                  handleUpdateCategories={this.handleUpdateCategories}
                 />
               )}
             />
