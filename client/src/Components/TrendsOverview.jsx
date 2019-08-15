@@ -1,20 +1,8 @@
 import React from 'react';
 import { Doughnut } from 'react-chartjs-2';
 import PropTypes from 'prop-types';
-// test data for display
-const data = {
-  labels: ['Red', 'Green', 'Yellow'],
-  datasets: [
-    {
-      data: [300, 50, 100],
-      backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
-      hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56']
-    }
-  ]
-};
 
 const TrendsOverview = props => {
-  console.log(data, props.data, props.month);
   const labels = props.data.accountData.budgetCategories.map(
     category => category.name
   );

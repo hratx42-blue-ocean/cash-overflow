@@ -35,7 +35,7 @@ export default function HabitsSelector(props) {
     category: '',
     categories: []
   });
-  const [value, setValue] = React.useState('time frame');
+  const [value, setValue] = React.useState('month');
 
   const handleChange1 = name => event => {
     setState({
@@ -47,6 +47,11 @@ export default function HabitsSelector(props) {
   const handleChange2 = event => {
     setValue(event.target.value);
   };
+
+  React.useEffect(() => {
+    props.setView(value);
+    props.setCategory(state.category);
+  }, [value, state.category]);
 
   return (
     <div className={classes.root}>
@@ -92,5 +97,7 @@ export default function HabitsSelector(props) {
 }
 
 HabitsSelector.propTypes = {
-  data: PropTypes.object
+  data: PropTypes.object,
+  setView: PropTypes.func,
+  setCategory: PropTypes.func
 };
