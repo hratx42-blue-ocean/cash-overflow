@@ -11,12 +11,14 @@ const data = fakeData.createData();
 
 describe('DashboardPage component --->', () => {
   test('should render without throwing an error', async () => {
-    expect(await shallow(<DashboardPage accountData={data} />));
+    expect(await shallow(<DashboardPage loading={false} accountData={data} />));
   });
 
   test('should be selectable by class "dashboardPage"', async () => {
     expect(
-      await shallow(<DashboardPage accountData={data} />).is('.dashboardPage')
+      await shallow(<DashboardPage loading={false} accountData={data} />).is(
+        '.dashboardPage'
+      )
     ).toBe(true);
   });
 });
