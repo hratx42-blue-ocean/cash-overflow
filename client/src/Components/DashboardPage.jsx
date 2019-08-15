@@ -289,6 +289,6 @@ DashboardPage.propTypes = {
   accountData: PropTypes.object,
   handleAddTransaction: PropTypes.func,
   loading: PropTypes.bool.isRequired,
-  updateAccountData: PropTypes.func
+  updateAccountData: PropTypes.func,
   isAuthenticated: PropTypes.bool.isRequired
 };
