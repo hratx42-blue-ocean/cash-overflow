@@ -7,29 +7,34 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import BudgetTable from './BudgetTable.jsx';
 import Loading from './Loading.jsx';
-
-const totalSpent = txs => {
-  const total = txs.reduce((total, { amount }) => total + Number(amount), 0);
-  return Number.parseInt(total);
-};
 
 class BudgetPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      allotments: props.allotments || [],
-      categories: props.categories || [],
-      curMonth: 7,
-      curYear: 2019,
-      rows: [],
-      transactions: props.transactions || {}
+      accounts: props.accounts,
+      categories: props.categories,
+      txsByMonth: {},
+      categoryBreakdown: {},
+      currentYear: 2019,
+      currentMonth: 8
     };
+  }
+
+  componentDidMount() {
+    const { accounts, categories } = this.state;
+    const txsByMonth = compileTxs(accounts);
+    const categoryBreakdown = compileSpent(categories, txsByMonth);
+    this.setState({ txsByMonth, categoryBreakdown }, () => {
+      // TODO remove
+      console.log('state', this.state);
+    });
   }
 
   render() {
     const { loading, isAuthenticated } = this.props;
-
     if (loading || !isAuthenticated) {
       return (
         <div data-testid="auth-loading">
@@ -38,74 +43,13 @@ class BudgetPage extends Component {
       );
     }
 
-    const {
-      allotments,
-      categories,
-      curMonth,
-      curYear,
-      transactions
-    } = this.state;
-
-    const mapped = {};
-    const allotted = {};
-    const rows = [];
-    categories.forEach(({ name }) => (mapped[name] = []));
-    if (
-      transactions &&
-      transactions[curYear] &&
-      transactions[curYear][curMonth]
-    ) {
-      transactions[curYear][curMonth].forEach(transaction => {
-        mapped[transaction.category].push(transaction);
-      });
-
-      allotments.forEach(allotment => {
-        allotted[allotment.name] = allotment.allotment[curYear][curMonth];
-      });
-
-      Object.keys(mapped).forEach(key => {
-        const val = {};
-        val.category = key;
-        val.allotted = allotted[key];
-        val.spent = totalSpent(mapped[key]);
-        val.remaining = val.allotted - val.spent;
-        val.transactions = mapped[key];
-        rows.push(val);
-      });
-    }
-
-    return (
-      <div>
-        <Grid container justify="center" spacing={1}>
-          <Grid item xs={12} xl={8}>
-            <Paper>
-              <Table size="small">
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Category</TableCell>
-                    <TableCell align="right">Allotted</TableCell>
-                    <TableCell align="right">Spent</TableCell>
-                    <TableCell align="right">Remaining</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {rows.map(row => (
-                    <TableRow key={row.category}>
-                      <TableCell component="th" scope="row">
-                        {row.category}
-                      </TableCell>
-                      <TableCell align="right">{row.allotted}</TableCell>
-                      <TableCell align="right">{row.spent}</TableCell>
-                      <TableCell align="right">{row.remaining}</TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </Paper>
-          </Grid>
-        </Grid>
-      </div>
-    );
+    const { currentMonth, currentYear, categoryBreakdown } = this.state;
+    const breakdown =
+      categoryBreakdown[currentYear] &&
+      categoryBreakdown[currentYear][currentMonth]
+        ? categoryBreakdown[currentYear][currentMonth]
+        : [];
+    return <BudgetTable month={currentMonth} breakdown={breakdown} />;
   }
 }
 
@@ -117,5 +61,60 @@ BudgetPage.propTypes = {
   isAuthenticated: PropTypes.bool.isRequired,
   updateAccountData: PropTypes.func
 };
+
+const totalSpent = txs => {
+  const total = txs.reduce((total, { amount }) => total + Number(amount), 0);
+  return Number.parseInt(total);
+};
+
+function compileTxs(accounts = []) {
+  // accounts is an array of objects
+  const result = {};
+  // map through account objects
+  accounts.forEach(account => {
+    // save off array of years
+    const { transactions } = account;
+    const years = Object.keys(transactions);
+    years.forEach(year => {
+      // setup year key in result
+      result[year] = result[year] ? result[year] : {};
+      // save off this year's months
+      const months = Object.keys(transactions[year]);
+      months.forEach(month => {
+        const monthTxs = transactions[year][month];
+        // setup month key in result year
+        result[year][month] = result[year][month] ? result[year][month] : [];
+        // safe to concat now
+        result[year][month] = result[year][month].concat(monthTxs);
+      });
+    });
+  });
+  return result;
+}
+
+function compileSpent(categories = [], transactions) {
+  const result = {};
+  categories.forEach(category => {
+    const { allotment, name } = category;
+    const years = Object.keys(allotment);
+    // add entry for this category for every year it existed
+    years.forEach(year => {
+      const months = Object.keys(allotment[year]);
+      result[year] = result[year] ? result[year] : {};
+      months.forEach(month => {
+        const monthTxs = transactions[year][month];
+        let spent = 0;
+        result[year][month] = result[year][month] ? result[year][month] : {};
+        monthTxs.forEach(tx => {
+          if (tx.category === name) {
+            spent += Number(tx.amount);
+          }
+        });
+        result[year][month][name] = { alloted: 0, spent: spent.toFixed(2) };
+      });
+    });
+  });
+  return result;
+}
 
 export default BudgetPage;

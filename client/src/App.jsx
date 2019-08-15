@@ -148,10 +148,8 @@ export default class App extends Component {
               path="/budget"
               render={props => (
                 <BudgetPage
-                  {...props}
-                  allotments={budgetCategories}
-                  categories={accountData.budgetCategories}
-                  transactions={accountData.accounts[0].transactions}
+                  accounts={accountData.accounts}
+                  categories={budgetCategories}
                   loading={loading}
                   isAuthenticated={isAuthenticated}
                   updateAccountData={this.updateAccountData}
