@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Axios from 'axios';
 
 // Routing
 import { Switch, Route, Redirect } from 'react-router-dom';
@@ -6,9 +7,6 @@ import Container from '@material-ui/core/Container';
 import PrivateRoute from './Components/PrivateRoute.jsx';
 import { Auth0Context } from './react-auth0-wrapper';
 // Material Components
-
-// import Budget from './Components/BudgetPage.jsx';
-import fakeData from '../../db/dataSeeder.js';
 
 // Custom Components
 import Header from './Components/Header.jsx';
@@ -25,44 +23,93 @@ export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      currentUser: '',
       budgetCategories: [],
       accountData: {
         accounts: [{ transactions: { year: { month: [] } } }]
       }
     };
-    this.api = `http://localhost:8000/api/example`;
+    this.getUserData = this.getUserData.bind(this);
+    this.postUserData = this.postUserData.bind(this);
+    this.updateAccountData = this.updateAccountData.bind(this);
+    this.setAccountData = this.setAccountData.bind(this);
     this.handleAddTransaction = this.handleAddTransaction.bind(this);
   }
 
+  getUserData(userEmail) {
+    return Axios.get(`http://0.0.0.0:8000/api/users/getData?user=${userEmail}`);
+  }
+
+  postUserData(userObject) {
+    Axios.post('http://0.0.0.0:8000/api/users/upsertData', {
+      userUpdate: userObject
+    }).then(okResponse => console.log(okResponse));
+  }
+
   componentDidMount() {
-    const data = fakeData.createData();
+    this.getUserData('chadchadson@gmail.com')
+      .then(this.setAccountData)
+      .then(() => {
+        console.log('the user object is: ', this.state.accountData);
+      })
+      .catch(err => {
+        console.log('mounting error: ', err);
+      });
+  }
+
+  setAccountData(incomingAccountData) {
+    const [currentAccountData] = incomingAccountData.data;
+    const { budgetCategories, email } = currentAccountData;
     this.setState({
-      budgetCategories: data.budgetCategories,
-      accountData: data
+      accountData: currentAccountData,
+      budgetCategories,
+      currentUser: email
     });
   }
 
-  handleAddTransaction(stateObject) {
-    let month = stateObject.inputDate._d.getMonth();
-    let year = stateObject.inputDate._d.getFullYear();
-    const accounts = this.state.currentUser.accounts;
+  updateAccountData(updatedAccountData) {
+    this.postUserData(updatedAccountData);
+  }
 
-    let placeholder = this.state.currentUser;
+  handleAddTransaction(stateObject) {
+    // this function will live at the dashboard level eventually
+
+    const {
+      inputAccount,
+      inputAmount,
+      inputCategory,
+      inputDate,
+      inputPayee
+    } = stateObject;
+    const month = inputDate._d.getMonth();
+    const year = inputDate._d.getFullYear();
+    const accountUpdate = { ...this.state.accountData };
+    const { accounts } = accountUpdate;
+
+    const transaction = {
+      id: (420420420420420 + Math.floor(Math.random() * 69696969)).toString(),
+      amount: inputAmount,
+      category: inputCategory,
+      date: inputDate._d,
+      payee: inputPayee,
+      recurring: false
+    };
+
     for (let i = 0; i < accounts.length; i++) {
-      if (accounts[i].name === stateObject.inputAccount) {
-        placeholder.accounts[i].transactions[year][month].push({
-          amount: stateObject.inputAmount,
-          category: stateObject.inputCategory,
-          date: stateObject.inputDate._d,
-          payee: stateObject.inputPayee,
-          recurring: false
-        });
+      if (accounts[i].name === inputAccount) {
+        accountUpdate.accounts[i].transactions[year][month].push(transaction);
         break;
       }
+      this.updateAccountData(accountUpdate);
     }
+
     this.setState({
-      currentUser: placeholder
+      currentUser: accountUpdate
     });
+
+    // fn below will update app state, and then POST updated userObject to DB
+
+    this.updateAccountData(accountUpdate);
   }
 
   render() {
@@ -88,7 +135,11 @@ export default class App extends Component {
             <Route
               path="/accounts"
               render={props => (
-                <AccountsPage {...props} accountData={accountData} />
+                <AccountsPage
+                  {...props}
+                  accountData={accountData}
+                  updateAccountData={this.updateAccountData}
+                />
               )}
             />
             <Route
@@ -99,6 +150,7 @@ export default class App extends Component {
                   allotments={budgetCategories}
                   categories={accountData.budgetCategories}
                   transactions={accountData.accounts[0].transactions}
+                  updateAccountData={this.updateAccountData}
                 />
               )}
             />
@@ -125,7 +177,11 @@ export default class App extends Component {
             <Route
               path="/profile"
               render={props => (
-                <ProfilePage {...props} accountData={accountData} />
+                <ProfilePage
+                  {...props}
+                  accountData={accountData}
+                  updateAccountData={this.updateAccountData}
+                />
               )}
             />
             <Route

@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const db = require('../../db/queries.js');
 
-//middleware below should sanitize to prevent basic table-drop attempts and shenanigans
+// middleware below should sanitize to prevent basic table-drop attempts and shenanigans
 
 router.use('/getData', (req, res, next) => {
   req.query.user = req.query.user.replace(/[\\/: +]/g, '');
@@ -18,9 +18,17 @@ router.get('/getData', (req, res) => {
 });
 
 router.post('/upsertData', (req, res) => {
-  db.upsertUserData(req.body).then(() => {
+  db.upsertUserData(req.body.userUpdate).then(() => {
     res.send('user updated!');
   });
 });
+
+// below route will seed DB with 10 fake users
+
+// router.post('/seedData', (req, res) => {
+//   db.seedFakeUserData(10).then(() => {
+//     res.send('users seeded!');
+//   });
+// });
 
 module.exports = router;
