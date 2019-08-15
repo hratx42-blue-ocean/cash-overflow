@@ -19,13 +19,18 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+const date = new Date();
+const year = date.getFullYear();
+const month = date.getMonth();
+const month2 = month === 0 ? 11 : month - 1;
+
 export default function ComparisonSelector(props) {
   const classes = useStyles();
   const [state, setState] = React.useState({
-    month1: 0,
-    year1: 2019,
-    month2: 0,
-    year2: 2019,
+    month1: month.toString(),
+    year1: year.toString(),
+    month2: month2.toString(),
+    year2: year.toString(),
     years: []
   });
 
@@ -52,6 +57,11 @@ export default function ComparisonSelector(props) {
       years: updateYear()
     });
   }, []);
+
+  React.useEffect(() => props.setM1(state.month1), [state.month1]);
+  React.useEffect(() => props.setM2(state.month2), [state.month2]);
+  React.useEffect(() => props.setY1(state.year1), [state.year1]);
+  React.useEffect(() => props.setY2(state.year2), [state.year2]);
 
   return (
     <div className={classes.root}>
@@ -150,5 +160,9 @@ export default function ComparisonSelector(props) {
 }
 
 ComparisonSelector.propTypes = {
-  data: PropTypes.object
+  data: PropTypes.object,
+  setM1: PropTypes.func,
+  setM2: PropTypes.func,
+  setY1: PropTypes.func,
+  setY2: PropTypes.func
 };

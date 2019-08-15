@@ -56,6 +56,10 @@ export default function TrendsPage(props) {
   const [overviewMonth, setOverviewMonth] = React.useState('');
   const [habitView, setHabitView] = React.useState('month');
   const [habitCategory, setHabitCategory] = React.useState('');
+  const [compareMonth1, setCompareMonth1] = React.useState('');
+  const [compareMonth2, setCompareMonth2] = React.useState('');
+  const [compareYear1, setCompareYear1] = React.useState('');
+  const [compareYear2, setCompareYear2] = React.useState('');
 
   function handleChange(event, newValue) {
     setValue(newValue);
@@ -95,8 +99,20 @@ export default function TrendsPage(props) {
         />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <TrendsComparison data={props} />
-        <ComparisonSelector data={props} />
+        <TrendsComparison
+          data={props}
+          m1={compareMonth1}
+          m2={compareMonth2}
+          y1={compareYear1}
+          y2={compareYear2}
+        />
+        <ComparisonSelector
+          data={props}
+          setM1={setCompareMonth1}
+          setM2={setCompareMonth2}
+          setY1={setCompareYear1}
+          setY2={setCompareYear2}
+        />
       </TabPanel>
     </Paper>
   );
