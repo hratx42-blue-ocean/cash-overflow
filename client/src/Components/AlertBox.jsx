@@ -11,6 +11,7 @@ import MobileStepper from '@material-ui/core/MobileStepper';
 import Button from '@material-ui/core/Button';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
+import AlertCard from './AlertCard.jsx';
 
 export default class AlertBox extends Component {
   constructor(props) {
@@ -32,6 +33,7 @@ export default class AlertBox extends Component {
 
   getAlerts(accounts, budget) {
     let alertType = null;
+    let alertHeader = null;
     const alerts = [];
     const today = new Date();
     const month = today.getMonth();
@@ -49,21 +51,24 @@ export default class AlertBox extends Component {
           }
         }
       }
-      console.log(subtotal, allotment);
       if (subtotal > allotment) {
         alertType = 'overspent';
+        alertHeader = `Overspending in ${categoryName}`;
       } else if (subtotal === allotment) {
         alertType = 'reached your limit';
+        alertHeader = `You have reached your limit for ${categoryName}`;
       } else if (subtotal >= allotment * 0.9) {
         alertType = 'almost reached your limit';
+        alertHeader = `Slow down with spending in ${categoryName}`;
       }
       console.log(alertType);
       if (alertType) {
         alerts.push({
           budgetCategory: categoryName,
           alertType,
-          amountBudgeted: allotment,
-          amountSpent: subtotal
+          amountBudgeted: allotment.toFixed(2),
+          amountSpent: subtotal.toFixed(2),
+          alertHeader
         });
       }
     }
@@ -75,9 +80,6 @@ export default class AlertBox extends Component {
 
   handleNext() {
     let nextStep = this.state.activeStep + 1;
-    // this.state.activeStep + 1 > this.state.maxSteps - 1
-    //   ? (nextStep = this.state.maxSteps - 1)
-    //   : (nextStep = this.state.activeStep + 1);
     this.setState({
       activeStep: nextStep
     });
@@ -85,21 +87,23 @@ export default class AlertBox extends Component {
 
   handleBack() {
     let prevStep = this.state.activeStep - 1;
-    // this.state.activeStep - 1 >= 0
-    //   ? (prevStep = this.setState.activeStep - 1)
-    //   : (prevStep = 0);
     this.setState({
       activeStep: prevStep
     });
   }
 
   render() {
-    if (this.state.alerts.length === 0) {
-      return (
-        <>
-          <Typography>No alerts!</Typography>
-        </>
-      );
+    let { alerts, activeStep, maxSteps } = this.state;
+    if (alerts.length === 0) {
+      alerts = [
+        {
+          budgetCategory: 'none',
+          alertType: 'dev alert',
+          amountBudgeted: '0',
+          amountSpent: '0',
+          alertHeader: 'dev alert - dummy data'
+        }
+      ];
     }
     return (
       <div
@@ -117,31 +121,28 @@ export default class AlertBox extends Component {
           style={{
             display: 'flex',
             alignItems: 'center',
+            justifyContent: 'center',
             fontFamily: 'Open Sans'
           }}
         >
-          <Typography variant="h2">
-            Alert for {this.state.alerts[this.state.activeStep].budgetCategory}
-          </Typography>
-          <Typography variant="body1">
-            You have {this.state.alerts[this.state.activeStep].alertType} for
-            your {this.state.alerts[this.state.activeStep].budgetCategory}
-            category. You were budgeted to spend $
-            {this.state.alerts[this.state.activeStep].amountBudgeted} and you
-            have spent ${this.state.alerts[this.state.activeStep].amountSpent}.
-            Be careful!
-          </Typography>
+          <AlertCard
+            budgetCategory={alerts[activeStep].budgetCategory}
+            alertType={alerts[activeStep].alertType}
+            allotment={alerts[activeStep].amountBudgeted}
+            spent={alerts[activeStep].amountSpent}
+            alertHeader={alerts[activeStep].alertHeader}
+          />
         </Paper>
         <MobileStepper
-          steps={this.state.maxSteps}
+          steps={maxSteps}
           position="static"
           variant="text"
-          activeStep={this.state.activeStep}
+          activeStep={activeStep}
           nextButton={
             <Button
               size="small"
               onClick={this.handleNext}
-              disabled={this.state.activeStep === this.state.maxSteps - 1}
+              disabled={activeStep === maxSteps - 1}
             >
               Next Alert
               <KeyboardArrowRight />
@@ -151,7 +152,7 @@ export default class AlertBox extends Component {
             <Button
               size="small"
               onClick={this.handleBack}
-              disabled={this.state.activeStep === 0}
+              disabled={activeStep === 0}
             >
               <KeyboardArrowLeft />
               Previous Alert
