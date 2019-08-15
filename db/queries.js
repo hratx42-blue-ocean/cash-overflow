@@ -16,12 +16,37 @@ const getUserData = async userEmail => {
   }
 };
 
+const getUserDataByUserID = async userID => {
+  try {
+    const collection = await getUserDatabase().collection('userData');
+    const result = await collection
+      .find({ userID: userID }, { projection: { _id: 0 } })
+      .limit(1)
+      .toArray();
+    assert.equal(1, result.length);
+    return result;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 // add a transaction
 
 const upsertUserData = async userObject => {
   try {
     const collection = await getUserDatabase().collection('userData');
     await collection.replaceOne({ email: userObject.email }, userObject, {
+      upsert: true
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const upsertUserDataByUserID = async userID => {
+  try {
+    const collection = await getUserDatabase().collection('userData');
+    await collection.replaceOne({ userID: userObject.userID }, userObject, {
       upsert: true
     });
   } catch (err) {
