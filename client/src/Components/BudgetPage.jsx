@@ -7,6 +7,7 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import Loading from './Loading.jsx';
 
 const totalSpent = txs => {
   const total = txs.reduce((total, { amount }) => total + Number(amount), 0);
@@ -27,6 +28,16 @@ class BudgetPage extends Component {
   }
 
   render() {
+    const { loading, isAuthenticated } = this.props;
+
+    if (loading || !isAuthenticated) {
+      return (
+        <div data-testid="auth-loading">
+          <Loading />
+        </div>
+      );
+    }
+
     const {
       allotments,
       categories,
@@ -101,7 +112,10 @@ class BudgetPage extends Component {
 BudgetPage.propTypes = {
   allotments: PropTypes.arrayOf(PropTypes.object),
   categories: PropTypes.arrayOf(PropTypes.object),
-  transactions: PropTypes.object
+  transactions: PropTypes.object,
+  loading: PropTypes.bool.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
+  updateAccountData: PropTypes.func
 };
 
 export default BudgetPage;

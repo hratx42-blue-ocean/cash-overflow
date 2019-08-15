@@ -9,6 +9,7 @@ import Box from '@material-ui/core/Box';
 import TrendsOverview from './TrendsOverview.jsx';
 import TrendsHabits from './TrendsHabits.jsx';
 import TrendsComparison from './TrendsComparison.jsx';
+import Loading from './Loading.jsx';
 
 const useStyles = makeStyles({
   root: {
@@ -46,12 +47,22 @@ function a11yProps(index) {
   };
 }
 
-export default function TrendsPage() {
+export default function TrendsPage(props) {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
   function handleChange(event, newValue) {
     setValue(newValue);
+  }
+
+  const { loading, isAuthenticated } = props;
+
+  if (loading || !isAuthenticated) {
+    return (
+      <div data-testid="auth-loading">
+        <Loading />
+      </div>
+    );
   }
 
   return (
@@ -79,3 +90,8 @@ export default function TrendsPage() {
     </Paper>
   );
 }
+
+TrendsPage.propTypes = {
+  loading: PropTypes.bool.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired
+};
