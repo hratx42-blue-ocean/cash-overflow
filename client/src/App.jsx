@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 // Routing
-import { Switch, Route, BrowserRouter } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import Container from '@material-ui/core/Container';
 import PrivateRoute from './Components/PrivateRoute.jsx';
 import { Auth0Context } from './react-auth0-wrapper';
@@ -28,11 +28,18 @@ export default class App extends Component {
       budgetCategories: [],
       accountData: {
         accounts: [{ transactions: { year: { month: [] } } }]
-      },
-      currentUser: {}
+      }
     };
     this.api = `http://localhost:8000/api/example`;
     this.handleAddTransaction = this.handleAddTransaction.bind(this);
+  }
+
+  componentDidMount() {
+    const data = fakeData.createData();
+    this.setState({
+      budgetCategories: data.budgetCategories,
+      accountData: data
+    });
   }
 
   handleAddTransaction(stateObject) {
@@ -58,91 +65,80 @@ export default class App extends Component {
     });
   }
 
-  componentDidMount() {
-    const data = fakeData.createData();
-    this.setState({
-      budgetCategories: data.budgetCategories,
-      accountData: data,
-      currentUser: data
-    });
-  }
-
   render() {
     const { accountData, budgetCategories } = this.state;
-    const { user, loading } = this.context;
+    const { isAuthenticated, loading } = this.context;
 
     return (
       <div className="app">
-        <BrowserRouter>
-          <Header />
-          <Container>
-            <Switch>
-              <Route
-                exact
-                path="/"
-                render={props => (
-                  <LandingPage {...props} accountData={accountData} />
-                )}
-              />
-              <Route
-                path="/accounts"
-                render={props => (
-                  <AccountsPage {...props} accountData={accountData} />
-                )}
-              />
-              <Route
-                path="/budget"
-                render={props => (
-                  <BudgetPage
-                    {...props}
-                    allotments={budgetCategories}
-                    categories={accountData.budgetCategories}
-                    transactions={accountData.accounts[0].transactions}
-                  />
-                )}
-              />
-              <PrivateRoute
-                path="/dashboard"
-                render={props => (
-                  <DashboardPage
-                    {...props}
-                    handleAddTransaction={this.handleAddTransaction}
-                    accountData={accountData}
-                    currentUser={this.state.currentUser}
-                    accountData={accountData}
-                    loading={loading}
-                  />
-                )}
-              />
-              <Route
-                path="/login"
-                render={props => (
-                  <LoginPage {...props} accountData={accountData} />
-                )}
-              />
-              <Route
-                path="/profile"
-                render={props => (
-                  <ProfilePage
-                    {...props}
-                    currentUser={this.state.currentUser}
-                    accountData={accountData}
-                  />
-                )}
-              />
-              <Route
-                path="/trends"
-                render={props => (
-                  <TrendsPage {...props} accountData={accountData} />
-                )}
-              />
-              <Route component={ErrorPage} />
-            </Switch>
-          </Container>
-        </BrowserRouter>
+        <Header />
+        <Container>
+          <Switch>
+            <Route
+              exact
+              path="/"
+              render={() =>
+                !isAuthenticated ? (
+                  <LandingPage />
+                ) : (
+                  <Redirect to="/dashboard" />
+                )
+              }
+            />
+            <Route
+              path="/accounts"
+              render={props => (
+                <AccountsPage {...props} accountData={accountData} />
+              )}
+            />
+            <Route
+              path="/budget"
+              render={props => (
+                <BudgetPage
+                  {...props}
+                  allotments={budgetCategories}
+                  categories={accountData.budgetCategories}
+                  transactions={accountData.accounts[0].transactions}
+                />
+              )}
+            />
+            <PrivateRoute
+              path="/dashboard"
+              render={props => (
+                <DashboardPage
+                  {...props}
+                  handleAddTransaction={this.handleAddTransaction}
+                  accountData={accountData}
+                  currentUser={this.state.currentUser}
+                  accountData={accountData}
+                  loading={loading}
+                  isAuthenticated={isAuthenticated}
+                />
+              )}
+            />
+            <Route
+              path="/login"
+              render={props => (
+                <LoginPage {...props} accountData={accountData} />
+              )}
+            />
+            <Route
+              path="/profile"
+              render={props => (
+                <ProfilePage {...props} accountData={accountData} />
+              )}
+            />
+            <Route
+              path="/trends"
+              render={props => (
+                <TrendsPage {...props} accountData={accountData} />
+              )}
+            />
+            <Route component={ErrorPage} />
+          </Switch>
+        </Container>
       </div>
     );
   }
 }
-
 App.contextType = Auth0Context;
