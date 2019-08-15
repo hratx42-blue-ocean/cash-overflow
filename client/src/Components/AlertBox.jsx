@@ -16,6 +16,7 @@ import AlertCard from './AlertCard.jsx';
 export default class AlertBox extends Component {
   constructor(props) {
     super(props);
+    console.log(props)
     this.state = {
       alerts: [],
       maxSteps: 0,
@@ -28,7 +29,6 @@ export default class AlertBox extends Component {
 
   componentDidMount() {
     this.getAlerts(this.props.accounts, this.props.budget);
-    console.log(this.state.alerts);
   }
 
   getAlerts(accounts, budget) {
@@ -59,7 +59,7 @@ export default class AlertBox extends Component {
         alertType = 'almost reached your limit';
         alertHeader = `Slow down with spending in ${categoryName}`;
       }
-      console.log(alertType);
+     
       if (alertType) {
         alerts.push({
           budgetCategory: categoryName,
