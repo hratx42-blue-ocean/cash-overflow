@@ -19,6 +19,7 @@ import {
 } from '@material-ui/pickers';
 import PropTypes from 'prop-types';
 import Loading from './Loading.jsx';
+import AlertBox from './AlertBox.jsx';
 import { Auth0Context } from '../react-auth0-wrapper';
 
 export default class DashboardPage extends Component {
@@ -178,6 +179,10 @@ export default class DashboardPage extends Component {
               </Typography>
             </Tooltip>
           </Paper>
+          <AlertBox
+            budget={this.state.categories}
+            accounts={this.state.accounts}
+          />
           <Paper style={{ width: '40%', margin: 20, padding: 15 }}>
             <Grid
               container
