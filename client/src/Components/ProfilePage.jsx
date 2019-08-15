@@ -1,30 +1,37 @@
 import React from 'react';
-import { Typography, Grid } from '@material-ui/core';
+import Grid from '@material-ui/core/Grid';
 import axios from 'axios';
 import ProfileFirstName from './ProfileFirstName.jsx';
 import ProfileLastName from './ProfileLastName.jsx';
 import ProfileEmail from './ProfileEmail.jsx';
 import PropTypes from 'prop-types';
 import ProfilePassword from './ProfilePassword.jsx';
+import ProfileRecurringPayments from './ProfileRecurringPayments.jsx';
 import Loading from './Loading.jsx';
 
 export default class ProfilePage extends React.Component {
   constructor(props) {
     super(props);
-    const { accountData } = this.props;
-    const { email, firstName, lastName } = accountData;
-
-    console.log('Account Data that page recieves:', accountData);
-
+    
     this.state = {
-      email: email,
+      email: this.props.accountData.email,
+      firstName: this.props.accountData.firstName,
+      lastName: this.props.accountData.lastName,
+      budgetCategories: this.props.accountData.budgetCategories,
+      accounts: this.props.accountData.accounts,
+      notifications: this.props.accountData.notifications,
+      recurringTransactions: this.props.accountData.recurringTransactions,
+      userID: this.props.accountData.userID,
+      inputDay: 1,
+      inputAmount: 0,
       emailIsHidden: true,
-      firstName: firstName,
       firstNameIsHidden: true,
-      lastName: lastName,
+      passwordIsHidden: true,
       lastNameIsHidden: true,
       input: '',
-      passwordIsHidden: true
+      inputPayee: 'payee',
+      inputAccount: 'account',
+      inputCategory: 'category'
     };
 
     this.emailButtonHandler = this.emailButtonHandler.bind(this);
@@ -36,6 +43,12 @@ export default class ProfilePage extends React.Component {
     this.handleLastNameSubmit = this.handleLastNameSubmit.bind(this);
     this.handleEmailSubmit = this.handleEmailSubmit.bind(this);
     this.closePasswordResetMessage = this.closePasswordResetMessage.bind(this);
+    this.handleDayChange = this.handleDayChange.bind(this);
+    this.handlePayeeInput = this.handlePayeeInput.bind(this);
+    this.handleAccountInput = this.handleAccountInput.bind(this);
+    this.handleInputAmount = this.handleInputAmount.bind(this);
+    this.handleRecurringPayment = this.handleRecurringPayment.bind(this);
+    this.handleCategoryInput = this.handleCategoryInput.bind(this);
   }
 
   emailButtonHandler(e) {
@@ -53,6 +66,12 @@ export default class ProfilePage extends React.Component {
   lastNameButtonHandler(e) {
     this.setState({
       lastNameIsHidden: !this.state.lastNameIsHidden
+    });
+  }
+
+  handlePayeeInput(value) {
+    this.setState({
+      inputPayee: value.target.value
     });
   }
 
@@ -87,22 +106,66 @@ export default class ProfilePage extends React.Component {
   handleFirstNameSubmit(e) {
     // send input to updatedatabase
     this.setState({
-      firstNameIsHidden: !this.state.firstNameIsHidden
-    });
+      firstNameIsHidden: !this.state.firstNameIsHidden,
+      firstName: this.state.input
+    }, () => this.props.updateAccountData(this.state));
   }
 
   handleLastNameSubmit(e) {
     // send input to updatedatabase
     this.setState({
-      lastNameIsHidden: !this.state.lastNameIsHidden
-    });
+      lastNameIsHidden: !this.state.lastNameIsHidden,
+      lastName: this.state.input
+    }, () => this.props.updateAccountData(this.state));
   }
 
   handleEmailSubmit(e) {
     // send input to updatedatabase
     this.setState({
-      emailIsHidden: !this.state.emailIsHidden
+      emailIsHidden: !this.state.emailIsHidden,
+      email: this.state.input
+    }, () => this.props.updateAccountData(this.state));
+  }
+
+  handleDayChange(day) {
+    let inputDay = day.target.value;
+    this.setState({ inputDay });
+  }
+
+  handleInputAmount(value) {
+    let inputAmount = Number(value.target.value);
+    this.setState({ inputAmount });
+  }
+
+  handleAccountInput(event) {
+    let inputAccount = event.target.value;
+    this.setState({ inputAccount });
+  }
+
+  handleCategoryInput(event) {
+    let inputCategory = event.target.value;
+    this.setState({ inputCategory });
+  }
+
+  handleRecurringPayment() {
+    let today = new Date();
+    if (this.state.inputDay < today.getDate()) {
+      today.setMonth(today.getMonth() + 1);
+      today.setDate(this.state.inputDay);
+    }
+
+    const placeholder = this.state.recurringTransactions;
+    placeholder.push({
+      amount: this.state.inputAmount,
+      category: this.state.inputCategory,
+      payee: this.state.inputPayee,
+      startDate: today,
+      frequency: 'monthly'
     });
+  
+    this.setState({
+      recurringTransactions: placeholder
+    }, () => this.props.updateAccountData(this.state))
   }
 
   render() {
@@ -125,36 +188,54 @@ export default class ProfilePage extends React.Component {
         spacing={1}
         className="profilePage"
       >
-        <ProfileFirstName
-          className="firstName"
-          firstNameIsHidden={this.state.firstNameIsHidden}
-          firstName={this.state.firstName}
-          firstNameButtonHandler={this.firstNameButtonHandler}
-          handleInput={this.handleInput}
-          handleFirstNameSubmit={this.handleFirstNameSubmit}
-        />
+        <Grid container spacing={1}>
+          <Grid item xs>
+            <ProfileFirstName
+              className="firstName"
+              firstNameIsHidden={this.state.firstNameIsHidden}
+              firstName={this.state.firstName}
+              firstNameButtonHandler={this.firstNameButtonHandler}
+              handleInput={this.handleInput}
+              handleFirstNameSubmit={this.handleFirstNameSubmit}
+            />
 
-        <ProfileLastName
-          lastNameIsHidden={this.state.lastNameIsHidden}
-          lastName={this.state.lastName}
-          lastNameButtonHandler={this.lastNameButtonHandler}
-          handleInput={this.handleInput}
-          handleLastNameSubmit={this.handleLastNameSubmit}
-        />
+            <ProfileLastName
+              lastNameIsHidden={this.state.lastNameIsHidden}
+              lastName={this.state.lastName}
+              lastNameButtonHandler={this.lastNameButtonHandler}
+              handleInput={this.handleInput}
+              handleLastNameSubmit={this.handleLastNameSubmit}
+            />
 
-        <ProfileEmail
-          emailIsHidden={this.state.emailIsHidden}
-          email={this.state.email}
-          emailButtonHandler={this.emailButtonHandler}
-          handleInput={this.handleInput}
-          handleEmailSubmit={this.handleEmailSubmit}
-        />
+            <ProfileEmail
+              emailIsHidden={this.state.emailIsHidden}
+              email={this.state.email}
+              emailButtonHandler={this.emailButtonHandler}
+              handleInput={this.handleInput}
+              handleEmailSubmit={this.handleEmailSubmit}
+            />
 
-        <ProfilePassword
-          passwordIsHidden={this.state.passwordIsHidden}
-          passwordButtonHandler={this.passwordButtonHandler}
-          closePasswordResetMessage={this.closePasswordResetMessage}
-        />
+            <ProfilePassword
+              passwordIsHidden={this.state.passwordIsHidden}
+              passwordButtonHandler={this.passwordButtonHandler}
+              closePasswordResetMessage={this.closePasswordResetMessage}
+            />
+          </Grid>
+          <ProfileRecurringPayments
+            handleDayChange={this.handleDayChange}
+            handleInputAmount={this.handleInputAmount}
+            handlePayeeInput={this.handlePayeeInput}
+            handleAccountInput={this.handleAccountInput}
+            handleCategoryInput={this.handleCategoryInput}
+            categories={this.state.budgetCategories}
+            accounts={this.state.accounts}
+            inputAmount={this.state.inputAmount}
+            inputAccount={this.state.inputAccount}
+            inputDay={this.state.inputDay}
+            inputCategory={this.state.inputCategory}
+            handleRecurringPayment={this.handleRecurringPayment}
+          />
+        </Grid>
       </Grid>
     );
   }

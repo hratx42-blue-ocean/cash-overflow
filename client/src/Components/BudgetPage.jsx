@@ -27,16 +27,44 @@ class BudgetPage extends Component {
     this.handleSaveCategory = this.handleSaveCategory.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.handleTextInput = this.handleTextInput.bind(this);
+    this.handleMonthChange = this.handleMonthChange.bind(this);
+    this.updateAllotments = this.updateAllotments.bind(this);
   }
 
   componentDidMount() {
     const { accounts, categories } = this.state;
     const txsByMonth = compileTxs(accounts);
     const categoryBreakdown = compileSpent(categories, txsByMonth);
-    this.setState({ txsByMonth, categoryBreakdown }, () => {
-      // TODO remove
-      console.log('state', this.state);
+    this.setState({ txsByMonth, categoryBreakdown });
+  }
+
+  // change current month
+  handleMonthChange(increment) {
+    const { currentMonth } = this.state;
+    const newMonth = currentMonth + increment;
+    if (newMonth > 0 && newMonth < 13) {
+      this.setState({ currentMonth: newMonth });
+    }
+  }
+
+  updateAllotments(name, val, year, month) {
+    let { categories } = this.state;
+    categories = categories ? categories : [];
+    categories = JSON.parse(JSON.stringify(categories));
+
+    categories.forEach(category => {
+      if (
+        category.name === name &&
+        category.allotment &&
+        category.allotment[year] &&
+        category.allotment[year][month] !== undefined
+      ) {
+        category.allotment[year][month] = val;
+      }
     });
+
+    // TODO add function that sets app state
+    console.log(categories);
   }
 
   handleAddCategory() {
@@ -63,6 +91,7 @@ class BudgetPage extends Component {
   }
 
   render() {
+    this.updateAllotments('bills', 100, 2019, 8);
     const { loading, isAuthenticated } = this.props;
     if (loading || !isAuthenticated) {
       return (
@@ -87,6 +116,7 @@ class BudgetPage extends Component {
         handleSaveCategory={this.handleSaveCategory}
         handleClose={this.handleClose}
         handleTextInput={this.handleTextInput}
+        handleMonthChange={this.handleMonthChange}
       />
     );
   }
