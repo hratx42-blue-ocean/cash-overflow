@@ -169,15 +169,16 @@ export default class ProfilePage extends React.Component {
   }
 
   render() {
-    const { loading } = this.props;
+    const { loading, isAuthenticated } = this.props;
 
-    if (loading) {
+    if (loading || !isAuthenticated) {
       return (
-        <div className="dashboardPage">
+        <div data-testid="auth-loading">
           <Loading />
         </div>
       );
     }
+
     return (
       <Grid
         container
@@ -249,5 +250,6 @@ ProfilePage.defaultProps = {
 };
 ProfilePage.propTypes = {
   accountData: PropTypes.object,
-  loading: PropTypes.bool.isRequired
+  loading: PropTypes.bool.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired
 };

@@ -35,12 +35,12 @@ export default class DashboardPage extends Component {
     } = accountData;
 
     this.state = {
-      firstName: firstName,
-      lastName: lastName,
-      email: email,
+      firstName,
+      lastName,
+      email,
       categories: budgetCategories,
       netBalance: 10000,
-      accounts: accounts,
+      accounts,
       accountNames: accounts.map(account => account.name),
       inputAmount: undefined,
       inputCategory: 'category',
@@ -65,7 +65,7 @@ export default class DashboardPage extends Component {
   }
 
   handleAmountInput(value) {
-    let inputAmount = Number(value.target.value);
+    const inputAmount = Number(value.target.value);
     this.setState({
       inputAmount
     });
@@ -78,10 +78,10 @@ export default class DashboardPage extends Component {
   }
 
   handleAccountInput(event) {
-    let inputAccount = event.target.value;
+    const inputAccount = event.target.value;
 
     this.setState({
-      inputAccount: inputAccount
+      inputAccount
     });
   }
 
@@ -92,10 +92,10 @@ export default class DashboardPage extends Component {
   }
 
   depositOrDebit(value) {
-    let typeOfTransaction = value.target.value;
+    const typeOfTransaction = value.target.value;
     if (typeOfTransaction === 'debit') {
       this.setState({
-        typeOfTransaction: typeOfTransaction,
+        typeOfTransaction,
         inputAmount: -this.state.inputAmount
       });
     } else {
@@ -131,14 +131,14 @@ export default class DashboardPage extends Component {
 
     if (loading || !isAuthenticated) {
       return (
-        <div className="dashboardPage">
+        <div data-testid="auth-loading">
           <Loading />
         </div>
       );
     }
 
     return (
-      <div style={styles.root} className="dashboardPage">
+      <div style={styles.root}>
         <Grid
           container
           direction="row"
@@ -201,7 +201,7 @@ export default class DashboardPage extends Component {
               <RadioGroup
                 aria-label="position"
                 name="position"
-                //value="deposit"
+                // value="deposit"
                 onChange={this.depositOrDebit}
                 row
               >
@@ -281,6 +281,7 @@ DashboardPage.propTypes = {
   accountData: PropTypes.object,
   handleAddTransaction: PropTypes.func,
   loading: PropTypes.bool.isRequired,
+  updateAccountData: PropTypes.func,
   isAuthenticated: PropTypes.bool.isRequired
 };
 
