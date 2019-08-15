@@ -70,10 +70,14 @@ export default class App extends Component {
   }
 
   toggleDemo() {
-    const demo = !this.state.isDemo;
-    this.setState({
-      isDemo: demo
-    });
+    this.getUserData('demo_user@cashoverflow.app')
+      .then(this.setAccountData)
+      .then(() => {
+        const demo = !this.state.isDemo;
+        this.setState({
+          isDemo: demo
+        });
+      });
   }
 
   updateAccountData(updatedAccountData) {
@@ -139,7 +143,7 @@ export default class App extends Component {
               path="/"
               render={() =>
                 !isAuthenticated ? (
-                  <LandingPage />
+                  <LandingPage toggleDemo={this.toggleDemo} />
                 ) : (
                   <Redirect to="/dashboard" />
                 )

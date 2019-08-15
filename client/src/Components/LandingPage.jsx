@@ -35,7 +35,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function LandingPage() {
+function LandingPage(props) {
   const classes = useStyles();
   const { loginWithRedirect, isAuthenticated, loading } = useAuth0();
 
@@ -56,15 +56,24 @@ function LandingPage() {
             and get peace of mind about your budget
           </Typography>
           {!isAuthenticated ? (
-            <Link to="/dashboard" className={classes.link}>
+            <>
+              <Link to="/dashboard" className={classes.link}>
+                <Button
+                  onClick={() => loginWithRedirect({})}
+                  color="inherit"
+                  className={classes.button}
+                >
+                  Login
+                </Button>
+              </Link>
               <Button
-                onClick={() => loginWithRedirect({})}
+                onClick={props.toggleDemo}
                 color="inherit"
                 className={classes.button}
               >
-                Login
+                Demo Mode
               </Button>
-            </Link>
+            </>
           ) : (
             <Link to="/dashboard" className={classes.link}>
               <Button color="inherit" className={classes.button}>
