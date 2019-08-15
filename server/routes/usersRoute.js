@@ -23,4 +23,12 @@ router.post('/upsertData', (req, res) => {
   });
 });
 
+// below route will seed DB with 10 fake users
+
+// router.post('/seedData', (req, res) => {
+//   db.seedFakeUserData(10).then(() => {
+//     res.send('users seeded!');
+//   });
+// });
+
 module.exports = router;
