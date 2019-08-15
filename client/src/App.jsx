@@ -67,7 +67,7 @@ export default class App extends Component {
 
   render() {
     const { accountData, budgetCategories } = this.state;
-    const { user, loading } = this.context;
+    const { isAuthenticated, loading } = this.context;
 
     return (
       <div className="app">
@@ -77,9 +77,7 @@ export default class App extends Component {
             <Route
               exact
               path="/"
-              render={props => (
-                <LandingPage {...props} accountData={accountData} />
-              )}
+              render={props => <LandingPage {...props} />}
             />
             <Route
               path="/accounts"
@@ -108,6 +106,7 @@ export default class App extends Component {
                   currentUser={this.state.currentUser}
                   accountData={accountData}
                   loading={loading}
+                  isAuthenticated={isAuthenticated}
                 />
               )}
             />

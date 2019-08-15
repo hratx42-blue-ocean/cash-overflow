@@ -11,14 +11,26 @@ const data = fakeData.createData();
 
 describe('DashboardPage component --->', () => {
   test('should render without throwing an error', async () => {
-    expect(await shallow(<DashboardPage loading={false} accountData={data} />));
+    expect(
+      await shallow(
+        <DashboardPage
+          isAuthenticated={true}
+          loading={false}
+          accountData={data}
+        />
+      )
+    );
   });
 
   test('should be selectable by class "dashboardPage"', async () => {
     expect(
-      await shallow(<DashboardPage loading={false} accountData={data} />).is(
-        '.dashboardPage'
-      )
+      await shallow(
+        <DashboardPage
+          isAuthenticated={true}
+          loading={false}
+          accountData={data}
+        />
+      ).is('.dashboardPage')
     ).toBe(true);
   });
 });
@@ -26,7 +38,11 @@ describe('DashboardPage component --->', () => {
 describe('DashboardPage Loading and Auth --->', () => {
   test('should not display Loading when a user is logged in', () => {
     const { queryByTestId } = render(
-      <DashboardPage accountData={data} loading={false} />
+      <DashboardPage
+        accountData={data}
+        loading={false}
+        isAuthenticated={true}
+      />
     );
 
     expect(queryByTestId('loading')).not.toBeInTheDocument();
@@ -34,7 +50,11 @@ describe('DashboardPage Loading and Auth --->', () => {
 
   test('should display Loading when a user is not logged in', () => {
     const { queryByTestId } = render(
-      <DashboardPage accountData={data} loading={true} />
+      <DashboardPage
+        accountData={data}
+        loading={true}
+        isAuthenticated={false}
+      />
     );
 
     expect(queryByTestId('loading')).toBeInTheDocument();
