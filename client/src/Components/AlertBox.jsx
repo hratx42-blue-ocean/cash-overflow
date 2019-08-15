@@ -106,10 +106,8 @@ export default class AlertBox extends Component {
     return (
       <div
         style={{
-          width: '40%',
+          width: '100%',
           height: 150,
-          margin: 20,
-          padding: 25,
           flexGrow: 1
         }}
       >
