@@ -19,6 +19,8 @@ import {
 } from '@material-ui/pickers';
 import PropTypes from 'prop-types';
 import Loading from './Loading.jsx';
+import AlertBox from './AlertBox.jsx';
+import { Auth0Context } from '../react-auth0-wrapper';
 
 export default class DashboardPage extends Component {
   constructor(props) {
@@ -153,30 +155,42 @@ export default class DashboardPage extends Component {
           justify="space-between"
           alignItems="center"
         >
-          <Paper
-            style={{
-              width: '40%',
-              height: 150,
-              margin: 20,
-              padding: 25
-            }}
+          <Grid
+            container
+            direction="column"
+            justify="space-between"
+            alignItems="center"
+            style={{ width: '40%' }}
           >
-            <Typography
-              style={{ textAlign: 'center' }}
-              variant="h3"
-              gutterBottom
+            <Paper
+              style={{
+                width: '100%',
+                height: 150,
+                margin: 20,
+                padding: 25
+              }}
             >
-              Hello, {this.state.firstName}!
-            </Typography>
-            <Tooltip
-              placement="top"
-              title="Safe to spend balance: bank accounts less credit card debt"
-            >
-              <Typography style={{ textAlign: 'center' }} variant="h5">
-                You have {this.findBalance()} total
+              <Typography
+                style={{ textAlign: 'center' }}
+                variant="h3"
+                gutterBottom
+              >
+                Hello, {this.state.firstName}!
               </Typography>
-            </Tooltip>
-          </Paper>
+              <Tooltip
+                placement="top"
+                title="Safe to spend balance: bank accounts less credit card debt"
+              >
+                <Typography style={{ textAlign: 'center' }} variant="h5">
+                  You have {this.findBalance()} total
+                </Typography>
+              </Tooltip>
+            </Paper>
+            <AlertBox
+              budget={this.state.categories}
+              accounts={this.state.accounts}
+            />
+          </Grid>
           <Paper style={{ width: '40%', margin: 20, padding: 15 }}>
             <Grid
               container

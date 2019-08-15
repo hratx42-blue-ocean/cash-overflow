@@ -39,7 +39,7 @@ export default function ButtonAppBar() {
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" className={classes.title}>
-            Green Ocean
+            Cash Overflow
           </Typography>
           {isAuthenticated ? (
             <Box className={classes.navBox}>
