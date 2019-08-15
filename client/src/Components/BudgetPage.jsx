@@ -20,8 +20,8 @@ class BudgetPage extends Component {
     this.state = {
       accounts: props.accounts,
       categories: props.categories,
-      txsByMonth: compileTxs(props.accounts),
-      spentByCategory: compileSpent(props.categories)
+      accountTxs: compileTxs(props.accounts),
+      spentByCategory: compileSpent(props.categories, this.accountTxs)
     };
   }
 
@@ -69,11 +69,27 @@ function compileTxs(accounts = []) {
   return result;
 }
 
-function compileSpent(categories = []) {
+function compileSpent(categories = [], transactions) {
   const result = {};
+  console.log('transactions are', transactions);
   categories.forEach(category => {
-    console.log(category);
+    const { allotment, name } = category;
+    const years = Object.keys(allotment);
+    // add entry for this category for every year it existed
+    years.forEach(year => {
+      const months = Object.keys(allotment[year]);
+      result[year] = result[year]
+        ? result[year]
+        : {};
+      months.forEach(month => {
+        result[year][month] = result[year][month]
+          ? result[year][month]
+          : {};
+        result[year][month][name] = 0;
+      });
+    });
   });
+  console.log('result is', result);
   return result;
 }
 
