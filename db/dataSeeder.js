@@ -49,7 +49,7 @@ module.exports.createData = () => {
     for (let month = 6; month < 9; month++) {
       for (let h = 0; h < accountCount; h++) {
         for (let i = 0; i < 40; i++) {
-          dummyObject.accounts[0].transactions[year][month].push({
+          dummyObject.accounts[h].transactions[year][month].push({
             id: faker.random.uuid(),
             amount: faker.finance.amount(),
             category: categories[Math.floor(Math.random() * categories.length)],

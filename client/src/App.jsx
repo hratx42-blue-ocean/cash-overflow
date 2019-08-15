@@ -19,6 +19,7 @@ import LoginPage from './Components/LoginPage.jsx';
 import ProfilePage from './Components/ProfilePage.jsx';
 import ErrorPage from './Components/ErrorPage.jsx';
 
+
 export default class App extends Component {
   constructor(props) {
     super(props);
@@ -58,7 +59,7 @@ export default class App extends Component {
   }
 
   componentDidMount() {
-    this.getUserData('Eda80@hotmail.com')
+    this.getUserData('chadchadson@gmail.com')
       .then(this.setCurrentUser)
       .then(this.setAccountDataAndBudgetCategories)
       .catch(err => {
@@ -92,6 +93,7 @@ export default class App extends Component {
     const { accounts } = accountUpdate;
 
     const transaction = {
+      id: 1234567890420800856900 + Math.floor(Math.random() * 200),
       amount: inputAmount,
       category: inputCategory,
       date: inputDate._d,
@@ -104,9 +106,9 @@ export default class App extends Component {
         accountUpdate.accounts[i].transactions[year][month].push(transaction);
         break;
       }
-
       this.updateAccountData(accountUpdate);
     }
+
     this.setState({
       currentUser: accountUpdate
     });
