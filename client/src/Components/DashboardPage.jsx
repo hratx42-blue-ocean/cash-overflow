@@ -19,7 +19,6 @@ import {
 } from '@material-ui/pickers';
 import PropTypes from 'prop-types';
 import Loading from './Loading.jsx';
-import { Auth0Context } from '../react-auth0-wrapper';
 
 export default class DashboardPage extends Component {
   constructor(props) {
@@ -35,12 +34,12 @@ export default class DashboardPage extends Component {
     } = accountData;
 
     this.state = {
-      firstName: firstName,
-      lastName: lastName,
-      email: email,
+      firstName,
+      lastName,
+      email,
       categories: budgetCategories,
       netBalance: 10000,
-      accounts: accounts,
+      accounts,
       accountNames: accounts.map(account => account.name),
       inputAmount: undefined,
       inputCategory: 'category',
@@ -65,7 +64,7 @@ export default class DashboardPage extends Component {
   }
 
   handleAmountInput(value) {
-    let inputAmount = Number(value.target.value);
+    const inputAmount = Number(value.target.value);
     this.setState({
       inputAmount
     });
@@ -78,10 +77,10 @@ export default class DashboardPage extends Component {
   }
 
   handleAccountInput(event) {
-    let inputAccount = event.target.value;
+    const inputAccount = event.target.value;
 
     this.setState({
-      inputAccount: inputAccount
+      inputAccount
     });
   }
 
@@ -92,10 +91,10 @@ export default class DashboardPage extends Component {
   }
 
   depositOrDebit(value) {
-    let typeOfTransaction = value.target.value;
+    const typeOfTransaction = value.target.value;
     if (typeOfTransaction === 'debit') {
       this.setState({
-        typeOfTransaction: typeOfTransaction,
+        typeOfTransaction,
         inputAmount: -this.state.inputAmount
       });
     } else {
@@ -104,29 +103,29 @@ export default class DashboardPage extends Component {
   }
 
   findBalance() {
-    let today = new Date();
-    //todays year
-    let year = today.getFullYear();
-    //todays month
-    let month = today.getMonth();
-    //months allotment
+    const today = new Date();
+    // todays year
+    const year = today.getFullYear();
+    // todays month
+    const month = today.getMonth();
+    // months allotment
     let totalBudget = 0;
-    //currently spent
+    // currently spent
     let currentlySpent = 0;
-    //for each budgetCategory
+    // for each budgetCategory
     this.state.categories.forEach(category => {
-      //find allotment at year and month
+      // find allotment at year and month
 
       totalBudget += category.allotment[year][month];
-      //add to months allotment
+      // add to months allotment
     });
-    //for each account
+    // for each account
     this.state.accounts.forEach(account => {
-      //at account at year and month
+      // at account at year and month
       account.transactions[year][month].forEach(transaction => {
         currentlySpent += Number(transaction.amount);
       });
-      //go through each and add ammount to currently spent
+      // go through each and add ammount to currently spent
     });
 
     return (totalBudget - currentlySpent).toLocaleString('en-US', {
@@ -136,18 +135,18 @@ export default class DashboardPage extends Component {
   }
 
   render() {
-    const { loading } = this.props;
+    const { loading, isAuthenticated } = this.props;
 
-    if (loading) {
+    if (loading || !isAuthenticated) {
       return (
-        <div className="dashboardPage">
+        <div data-testid="auth-loading">
           <Loading />
         </div>
       );
     }
 
     return (
-      <div style={styles.root} className="dashboardPage">
+      <div style={styles.root}>
         <Grid
           container
           direction="row"
@@ -210,7 +209,7 @@ export default class DashboardPage extends Component {
               <RadioGroup
                 aria-label="position"
                 name="position"
-                //value="deposit"
+                // value="deposit"
                 onChange={this.depositOrDebit}
                 row
               >
@@ -289,5 +288,7 @@ DashboardPage.defaultProps = {
 DashboardPage.propTypes = {
   accountData: PropTypes.object,
   handleAddTransaction: PropTypes.func,
-  loading: PropTypes.bool.isRequired
+  loading: PropTypes.bool.isRequired,
+  updateAccountData: PropTypes.func,
+  isAuthenticated: PropTypes.bool.isRequired
 };

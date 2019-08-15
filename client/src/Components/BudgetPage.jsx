@@ -8,11 +8,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import BudgetTable from './BudgetTable.jsx';
-
-const totalSpent = txs => {
-  const total = txs.reduce((total, { amount }) => total + Number(amount), 0);
-  return Number.parseInt(total);
-};
+import Loading from './Loading.jsx';
 
 class BudgetPage extends Component {
   constructor(props) {
@@ -38,6 +34,15 @@ class BudgetPage extends Component {
   }
 
   render() {
+    const { loading, isAuthenticated } = this.props;
+    if (loading || !isAuthenticated) {
+      return (
+        <div data-testid="auth-loading">
+          <Loading />
+        </div>
+      );
+    }
+
     const { currentMonth, currentYear, categoryBreakdown } = this.state;
     const breakdown =
       categoryBreakdown[currentYear] &&
@@ -51,7 +56,15 @@ class BudgetPage extends Component {
 BudgetPage.propTypes = {
   allotments: PropTypes.arrayOf(PropTypes.object),
   categories: PropTypes.arrayOf(PropTypes.object),
-  transactions: PropTypes.object
+  transactions: PropTypes.object,
+  loading: PropTypes.bool.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
+  updateAccountData: PropTypes.func
+};
+
+const totalSpent = txs => {
+  const total = txs.reduce((total, { amount }) => total + Number(amount), 0);
+  return Number.parseInt(total);
 };
 
 function compileTxs(accounts = []) {

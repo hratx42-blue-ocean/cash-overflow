@@ -5,6 +5,8 @@ import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
+import { useAuth0 } from '../react-auth0-wrapper';
+import Loading from './Loading.jsx';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -35,6 +37,11 @@ const useStyles = makeStyles(theme => ({
 
 function LandingPage() {
   const classes = useStyles();
+  const { loginWithRedirect, isAuthenticated, loading } = useAuth0();
+
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <div className="landingPage">
@@ -48,11 +55,23 @@ function LandingPage() {
             The simplest way to manage your money, figure out your overspending,
             and get peace of mind about your budget
           </Typography>
-          <Button color="inherit" className={classes.button}>
+          {!isAuthenticated ? (
             <Link to="/dashboard" className={classes.link}>
-              Login
+              <Button
+                onClick={() => loginWithRedirect({})}
+                color="inherit"
+                className={classes.button}
+              >
+                Login
+              </Button>
             </Link>
-          </Button>
+          ) : (
+            <Link to="/dashboard" className={classes.link}>
+              <Button color="inherit" className={classes.button}>
+                Dashboard
+              </Button>
+            </Link>
+          )}
         </Paper>
       </Grid>
       <Grid item />

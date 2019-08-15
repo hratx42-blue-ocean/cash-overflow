@@ -6,7 +6,7 @@ const getUserData = async userEmail => {
   try {
     const collection = await getUserDatabase().collection('userData');
     const result = await collection
-      .find({ email: userEmail })
+      .find({ email: userEmail }, { projection: { _id: 0 } })
       .limit(1)
       .toArray();
     assert.equal(1, result.length);
@@ -28,31 +28,6 @@ const upsertUserData = async userObject => {
     console.log(err);
   }
 };
-/*
-{
-  userEmail: 'email',
-  accountID: 'uuid',
-  transactionData: {
-    "id": "UUID",
-    "amount": "int",
-    "category": "string",
-    "date": "date",
-    "payee": "string",
-    "recurring": "bool"
-  }
-}
-
-*/
-
-// get the correct user object
-
-// look at the transaction's date and determine if that month/year exists for the given account
-
-// if no, create an empty array at that month/year in that account's transactions object
-
-// get correct array
-
-// push new transaction object into it
 
 // below is used for seeding DB with n fake users
 
