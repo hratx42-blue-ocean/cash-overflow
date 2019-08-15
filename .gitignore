@@ -68,3 +68,4 @@ bundle.js
 
 # Auth0
 client/src/auth_config.js
+client/src/__mocks__

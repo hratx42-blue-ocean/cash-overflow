@@ -21,18 +21,6 @@ describe('DashboardPage component --->', () => {
       )
     );
   });
-
-  test('should be selectable by class "dashboardPage"', async () => {
-    expect(
-      await shallow(
-        <DashboardPage
-          isAuthenticated={true}
-          loading={false}
-          accountData={data}
-        />
-      ).is('.dashboardPage')
-    ).toBe(true);
-  });
 });
 
 describe('DashboardPage Loading and Auth --->', () => {
@@ -45,7 +33,7 @@ describe('DashboardPage Loading and Auth --->', () => {
       />
     );
 
-    expect(queryByTestId('loading')).not.toBeInTheDocument();
+    expect(queryByTestId('auth-loading')).not.toBeInTheDocument();
   });
 
   test('should display Loading when a user is not logged in', () => {
@@ -57,6 +45,6 @@ describe('DashboardPage Loading and Auth --->', () => {
       />
     );
 
-    expect(queryByTestId('loading')).toBeInTheDocument();
+    expect(queryByTestId('auth-loading')).toBeInTheDocument();
   });
 });
