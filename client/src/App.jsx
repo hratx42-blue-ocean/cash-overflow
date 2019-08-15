@@ -133,10 +133,15 @@ export default class App extends Component {
                 />
               )}
             />
-            <Route
+            <PrivateRoute
               path="/trends"
               render={props => (
-                <TrendsPage {...props} accountData={accountData} />
+                <TrendsPage
+                  {...props}
+                  accountData={accountData}
+                  loading={loading}
+                  isAuthenticated={isAuthenticated}
+                />
               )}
             />
             <Route component={ErrorPage} />
