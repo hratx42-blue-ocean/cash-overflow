@@ -70,25 +70,36 @@ export default class App extends Component {
   }
 
   handleAddTransaction(stateObject) {
-    const month = stateObject.inputDate._d.getMonth();
-    const year = stateObject.inputDate._d.getFullYear();
-    const {accounts} = this.state.currentUser;
+    const {
+      inputAccount,
+      inputAmount,
+      inputCategory,
+      inputDate,
+      inputPayee
+    } = stateObject;
+    const month = inputDate._d.getMonth();
+    const year = inputDate._d.getFullYear();
+    const accountUpdate = { ...this.state.accountData };
+    const { accounts } = accountUpdate;
 
-    const placeholder = this.state.currentUser;
+    const transaction = {
+      amount: inputAmount,
+      category: inputCategory,
+      date: inputDate._d,
+      payee: inputPayee,
+      recurring: false
+    };
+
     for (let i = 0; i < accounts.length; i++) {
-      if (accounts[i].name === stateObject.inputAccount) {
-        placeholder.accounts[i].transactions[year][month].push({
-          amount: stateObject.inputAmount,
-          category: stateObject.inputCategory,
-          date: stateObject.inputDate._d,
-          payee: stateObject.inputPayee,
-          recurring: false
-        });
+      if (accounts[i].name === inputAccount) {
+        accountUpdate.accounts[i].transactions[year][month].push(transaction);
         break;
       }
+
+      this.updateAccountData(accountUpdate);
     }
     this.setState({
-      currentUser: placeholder
+      currentUser: accountUpdate
     });
   }
 
