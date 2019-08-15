@@ -18,12 +18,14 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(2)
   }
 }));
-
+const date = new Date();
+const currentMonth = date.getMonth().toString();
+const currentYear = date.getFullYear().toString();
 export default function OverviewSelector(props) {
   const classes = useStyles();
   const [state, setState] = React.useState({
-    month: '',
-    year: '',
+    month: currentMonth,
+    year: currentYear,
     years: []
   });
 

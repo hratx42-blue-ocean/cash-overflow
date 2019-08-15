@@ -3,7 +3,7 @@ import { Line } from 'react-chartjs-2';
 import PropTypes from 'prop-types';
 
 // test data for display
-const months = [
+const numToMonths = [
   'January',
   'February',
   'March',
@@ -17,6 +17,9 @@ const months = [
   'November',
   'December'
 ];
+const date = new Date();
+const currentYear = date.getFullYear();
+
 const data = {
   labels: ['Red', 'Green', 'Yellow'],
   datasets: [
@@ -32,8 +35,10 @@ const data = {
   }
 };
 const TrendsHabits = props => {
-  const [categoryData, setCategory] = React.useState([]);
+  const [category, setCategory] = React.useState([]);
   const [graphData, setGraph] = React.useState(data);
+  const [months, setMonths] = React.useState([]);
+  const [years, setYears] = React.useState([]);
 
   React.useEffect(() => {
     setCategory(
@@ -44,25 +49,105 @@ const TrendsHabits = props => {
   }, [props.category]);
 
   React.useEffect(() => {
-    if (props.view === 'month' && categoryData.length > 0) {
-      console.log(categoryData);
-      let numbers = Object.keys(categoryData[0].allotment[2019]);
+    if (props.view === 'month' && category.length > 0) {
+      const possibleMonths = {};
+      props.data.accountData.accounts.map(account => {
+        Object.keys(account.transactions[currentYear]).map(month => {
+          if (possibleMonths[month]) {
+            possibleMonths[month] += account.transactions[currentYear][
+              month
+            ].reduce((x, y) => {
+              if (y.category === category[0].name) {
+                return x + Number(y.amount);
+              } else {
+                return x + 0;
+              }
+            }, 0);
+          } else {
+            possibleMonths[month] = account.transactions[currentYear][
+              month
+            ].reduce((x, y) => {
+              if (y.category === category[0].name) {
+                return x + Number(y.amount);
+              } else {
+                return x + 0;
+              }
+            }, 0);
+          }
+        });
+        setMonths(possibleMonths);
+      });
+    } else if (category.length > 0) {
+      const possibleYears = {};
+      props.data.accountData.accounts.map(account => {
+        Object.keys(account.transactions).map(currentYear => {
+          let possibleMonths = {};
+          Object.keys(account.transactions[currentYear]).map(month => {
+            if (possibleMonths[month]) {
+              possibleMonths[month] += account.transactions[currentYear][
+                month
+              ].reduce((x, y) => {
+                if (y.category === category[0].name) {
+                  return x + Number(y.amount);
+                } else {
+                  return x + 0;
+                }
+              }, 0);
+            } else {
+              possibleMonths[month] = account.transactions[currentYear][
+                month
+              ].reduce((x, y) => {
+                if (y.category === category[0].name) {
+                  return x + Number(y.amount);
+                } else {
+                  return x + 0;
+                }
+              }, 0);
+            }
+          });
+          let total = 0;
+          Object.keys(possibleMonths).forEach(
+            month => (total += possibleMonths[month])
+          );
+          if (possibleYears[currentYear]) {
+            possibleYears[currentYear] += total;
+          } else {
+            possibleYears[currentYear] = total;
+          }
+        });
+      });
+      setYears(possibleYears);
+    }
+  }, [category, props.view]);
+
+  React.useEffect(() => {
+    console.log(props.view);
+    if (props.view === 'month') {
+      console.log('yo');
+      let numbers = Object.keys(months);
       setGraph({
-        labels: numbers.map(num => months[num]),
+        labels: numbers.map(num => numToMonths[num]),
         datasets: [
           {
-            data: numbers.map(month => categoryData[0].allotment[2019][month])
+            data: numbers.map(num => Math.floor(months[num] * 1000) / 1000)
           }
         ]
       });
     } else {
-      console.log('yearly view');
+      let numbers = Object.keys(years);
+      setGraph({
+        labels: numbers,
+        datasets: [
+          {
+            data: numbers.map(num => Math.floor(years[num] * 1000) / 1000)
+          }
+        ]
+      });
     }
-  }, [categoryData]);
+  }, [months, years, props.view]);
 
   return <Line data={graphData} />;
 };
-
 export default TrendsHabits;
 
 TrendsHabits.propTypes = {

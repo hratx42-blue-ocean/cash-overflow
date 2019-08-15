@@ -3,25 +3,35 @@ import { Doughnut } from 'react-chartjs-2';
 import PropTypes from 'prop-types';
 
 const TrendsOverview = props => {
-  const labels = props.data.accountData.budgetCategories.map(
-    category => category.name
-  );
+  const [labels, setLabels] = React.useState([]);
   const [data, setData] = React.useState([]);
+  const [transactions, setTransactions] = React.useState([]);
 
   React.useEffect(() => {
-    setData(
-      props.data.accountData.budgetCategories.map(category => {
-        if (category.allotment[props.year]) {
-          if (
-            category.allotment[props.year][props.month] ||
-            category.allotment[props.year][props.month] === 0
-          ) {
-            return category.allotment[props.year][props.month];
-          }
+    let transactions = {};
+    props.data.accountData.accounts.map(account => {
+      if (account.transactions[props.year]) {
+        if (account.transactions[props.year][props.month]) {
+          account.transactions[props.year][props.month].forEach(transaction => {
+            if (transactions[transaction.category]) {
+              transactions[transaction.category] += Number(transaction.amount);
+            } else {
+              transactions[transaction.category] = Number(transaction.amount);
+            }
+          });
         }
-      })
-    );
+      }
+    });
+    setTransactions(transactions);
   }, [props.year, props.month]);
+
+  React.useEffect(() => {
+    setLabels(Object.keys(transactions));
+  }, [transactions]);
+
+  React.useEffect(() => {
+    setData(labels.map(label => Math.round(transactions[label] * 1000) / 1000));
+  }, [labels]);
 
   const userData = {
     labels: labels,
