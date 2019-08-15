@@ -20,7 +20,6 @@ class BudgetPage extends Component {
     this.state = {
       allotments: props.allotments || [],
       categories: props.categories || [],
-      curMonth: 7,
       curYear: 2019,
       rows: [],
       transactions: props.transactions || {}
@@ -28,23 +27,23 @@ class BudgetPage extends Component {
   }
 
   render() {
-    const {
-      allotments,
-      categories,
-      curMonth,
-      curYear,
-      transactions
-    } = this.state;
+    const { allotments, categories, curYear, transactions } = this.state;
 
     const mapped = {};
     const allotted = {};
     const rows = [];
+    let months;
+    let curMonth;
     categories.forEach(({ name }) => (mapped[name] = []));
+    console.log(transactions);
     if (
       transactions &&
       transactions[curYear] &&
-      transactions[curYear][curMonth]
+      Object.keys(transactions[curYear]).length > 2
     ) {
+      months = Object.keys(Object.values(transactions)[0]);
+      curMonth = months[months.length - 1];
+
       transactions[curYear][curMonth].forEach(transaction => {
         mapped[transaction.category].push(transaction);
       });
@@ -63,8 +62,7 @@ class BudgetPage extends Component {
         rows.push(val);
       });
     }
-
-    return <BudgetTable rows={rows} />;
+    return <BudgetTable rows={rows} curMonth={curMonth} months={months} />;
   }
 }
 

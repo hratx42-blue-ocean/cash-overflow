@@ -8,6 +8,10 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import ChevronLeft from '@material-ui/icons/ChevronLeft';
+import ChevronRight from '@material-ui/icons/ChevronRight';
+import IconButton from '@material-ui/core/IconButton';
+import Typography from '@material-ui/core/Typography';
 import BudgetAllottment from './BudgetAllotment.jsx';
 
 const useStyles = makeStyles(theme => ({
@@ -21,11 +25,33 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const BudgetTable = ({ rows }) => {
-  const classes = useStyles();
+const months = {
+  1: 'jan',
+  2: 'feb',
+  3: 'mar',
+  4: 'apr',
+  5: 'may',
+  6: 'jun',
+  7: 'jul',
+  8: 'aug',
+  9: 'sep',
+  10: 'oct',
+  11: 'nov',
+  12: 'dec'
+};
 
+const BudgetTable = ({ curMonth, months, rows }) => {
+  const classes = useStyles();
+  // console.log(months);
   return (
     <div className={classes.root}>
+      <IconButton aria-label="previous-month">
+        <ChevronLeft />
+      </IconButton>
+      <Typography variant="button">{months[curMonth]}</Typography>
+      <IconButton aria-label="next-month">
+        <ChevronRight />
+      </IconButton>
       <Grid container justify="center">
         <Grid item xs={12} xl={8}>
           <Paper className={classes.paper}>
