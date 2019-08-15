@@ -17,6 +17,7 @@ import LandingPage from './Components/LandingPage.jsx';
 import TrendsPage from './Components/TrendsPage.jsx';
 import LoginPage from './Components/LoginPage.jsx';
 import ProfilePage from './Components/ProfilePage.jsx';
+import Footer from './Components/Footer.jsx';
 import ErrorPage from './Components/ErrorPage.jsx';
 
 export default class App extends Component {
@@ -195,7 +196,11 @@ export default class App extends Component {
             <Route component={ErrorPage} />
           </Switch>
         </Container>
+        <Footer />
       </div>
+   
+
+      
     );
   }
 }
