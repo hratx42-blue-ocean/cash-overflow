@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
@@ -7,10 +6,6 @@ import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 import Button from '@material-ui/core/Button';
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormLabel from '@material-ui/core/FormLabel';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
@@ -26,16 +21,15 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const ProfileRecurringPayments = props => {
-  console.log('props in recurring:', props);
   const classes = useStyles();
   const days = Array.from(Array(31).keys()).splice(1);
 
   return (
-    <Paper style={{margin: 20, padding: 15 }}>
+    <Paper style={{ margin: 20, padding: 15 }}>
       <Grid container direction="column" justify="center" alignItems="center">
         <Typography variant="h4">Set a payment for every month!</Typography>
         <Typography>Day of month:</Typography>
-        <Select value={1} onChange={props.handleDayChange}>
+        <Select value={props.inputDay} onChange={props.handleDayChange}>
           {days.map(day => {
             return (
               <MenuItem key={day} value={day}>
@@ -53,7 +47,10 @@ const ProfileRecurringPayments = props => {
           margin="normal"
         />
         <Typography>Budget Category</Typography>
-        <Select onChange={() => console.log('line 89')}>
+        <Select
+          value={props.inputCategory}
+          onChange={props.handleCategoryInput}
+        >
           {props.categories.map((category, i) => {
             return (
               <MenuItem key={`categoryInput_${i}`} value={category.name}>
@@ -63,11 +60,11 @@ const ProfileRecurringPayments = props => {
           })}
         </Select>
         <Typography>Account:</Typography>
-        <Select onChange={props.handleAccountInput}>
+        <Select value={props.inputAccount} onChange={props.handleAccountInput}>
           {props.accounts.map((account, i) => {
             return (
-              <MenuItem key={`accountInput_${i}`} value={account}>
-                {account}
+              <MenuItem key={`accountInput_${i}`} value={account.name}>
+                {account.name}
               </MenuItem>
             );
           })}
@@ -79,10 +76,7 @@ const ProfileRecurringPayments = props => {
           onChange={props.handlePayeeInput}
           margin="normal"
         />
-        <Button
-          onClick={() => console.log('profile recur payments')}
-          color="primary"
-        >
+        <Button onClick={props.handleRecurringPayment} color="primary">
           Add monthly payment
         </Button>
       </Grid>

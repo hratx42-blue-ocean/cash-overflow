@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography, Grid } from '@material-ui/core';
+import Grid from '@material-ui/core/Grid';
 import axios from 'axios';
 import ProfileFirstName from './ProfileFirstName.jsx';
 import ProfileLastName from './ProfileLastName.jsx';
@@ -12,30 +12,26 @@ import Loading from './Loading.jsx';
 export default class ProfilePage extends React.Component {
   constructor(props) {
     super(props);
-    const { accountData } = this.props;
-    const {
-      email,
-      firstName,
-      lastName,
-      budgetCategories,
-      accounts
-    } = accountData;
-
+    
     this.state = {
-      email: email,
+      email: this.props.accountData.email,
+      firstName: this.props.accountData.firstName,
+      lastName: this.props.accountData.lastName,
+      budgetCategories: this.props.accountData.budgetCategories,
+      accounts: this.props.accountData.accounts,
+      notifications: this.props.accountData.notifications,
+      recurringTransactions: this.props.accountData.recurringTransactions,
+      userID: this.props.accountData.userID,
+      inputDay: 1,
+      inputAmount: 0,
       emailIsHidden: true,
-      firstName: firstName,
       firstNameIsHidden: true,
-      lastName: lastName,
+      passwordIsHidden: true,
       lastNameIsHidden: true,
       input: '',
-      passwordIsHidden: true,
-      inputDay: '',
-      inputAmount: 0,
-      categories: budgetCategories,
-      accountNames: accounts.map(account => account.name),
       inputPayee: 'payee',
-      inputAccount: 'account'
+      inputAccount: 'account',
+      inputCategory: 'category'
     };
 
     this.emailButtonHandler = this.emailButtonHandler.bind(this);
@@ -51,6 +47,8 @@ export default class ProfilePage extends React.Component {
     this.handlePayeeInput = this.handlePayeeInput.bind(this);
     this.handleAccountInput = this.handleAccountInput.bind(this);
     this.handleInputAmount = this.handleInputAmount.bind(this);
+    this.handleRecurringPayment = this.handleRecurringPayment.bind(this);
+    this.handleCategoryInput = this.handleCategoryInput.bind(this);
   }
 
   emailButtonHandler(e) {
@@ -108,27 +106,29 @@ export default class ProfilePage extends React.Component {
   handleFirstNameSubmit(e) {
     // send input to updatedatabase
     this.setState({
-      firstNameIsHidden: !this.state.firstNameIsHidden
-    });
+      firstNameIsHidden: !this.state.firstNameIsHidden,
+      firstName: this.state.input
+    }, () => this.props.updateAccountData(this.state));
   }
 
   handleLastNameSubmit(e) {
     // send input to updatedatabase
     this.setState({
-      lastNameIsHidden: !this.state.lastNameIsHidden
-    });
+      lastNameIsHidden: !this.state.lastNameIsHidden,
+      lastName: this.state.input
+    }, () => this.props.updateAccountData(this.state));
   }
 
   handleEmailSubmit(e) {
     // send input to updatedatabase
     this.setState({
-      emailIsHidden: !this.state.emailIsHidden
-    });
+      emailIsHidden: !this.state.emailIsHidden,
+      email: this.state.input
+    }, () => this.props.updateAccountData(this.state));
   }
 
   handleDayChange(day) {
     let inputDay = day.target.value;
-    console.log(inputDay);
     this.setState({ inputDay });
   }
 
@@ -139,10 +139,33 @@ export default class ProfilePage extends React.Component {
 
   handleAccountInput(event) {
     let inputAccount = event.target.value;
+    this.setState({ inputAccount });
+  }
 
-    this.setState({
-      inputAccount: inputAccount
+  handleCategoryInput(event) {
+    let inputCategory = event.target.value;
+    this.setState({ inputCategory });
+  }
+
+  handleRecurringPayment() {
+    let today = new Date();
+    if (this.state.inputDay < today.getDate()) {
+      today.setMonth(today.getMonth() + 1);
+      today.setDate(this.state.inputDay);
+    }
+
+    const placeholder = this.state.recurringTransactions;
+    placeholder.push({
+      amount: this.state.inputAmount,
+      category: this.state.inputCategory,
+      payee: this.state.inputPayee,
+      startDate: today,
+      frequency: 'monthly'
     });
+  
+    this.setState({
+      recurringTransactions: placeholder
+    }, () => props.updateAccountData(this.state))
   }
 
   render() {
@@ -202,9 +225,14 @@ export default class ProfilePage extends React.Component {
             handleInputAmount={this.handleInputAmount}
             handlePayeeInput={this.handlePayeeInput}
             handleAccountInput={this.handleAccountInput}
-            categories={this.state.categories}
-            accounts={this.state.accountNames}
-            handleRecurringPayment={props.handleRecurringPayment}
+            handleCategoryInput={this.handleCategoryInput}
+            categories={this.state.budgetCategories}
+            accounts={this.state.accounts}
+            inputAmount={this.state.inputAmount}
+            inputAccount={this.state.inputAccount}
+            inputDay={this.state.inputDay}
+            inputCategory={this.state.inputCategory}
+            handleRecurringPayment={this.handleRecurringPayment}
           />
         </Grid>
       </Grid>

@@ -57,11 +57,6 @@ export default class App extends Component {
     });
   }
 
-  // handleRecurringPayment (paymentInfo) {
-  //   this.setState({
-  //     accountData.
-  //   })
-  // }
   componentDidMount() {
     const data = fakeData.createData();
     this.setState({
