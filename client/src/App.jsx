@@ -18,11 +18,13 @@ import TrendsPage from './Components/TrendsPage.jsx';
 import LoginPage from './Components/LoginPage.jsx';
 import ProfilePage from './Components/ProfilePage.jsx';
 import ErrorPage from './Components/ErrorPage.jsx';
+import Loading from './Components/Loading.jsx';
 
 export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      loadingUser: true,
       currentUser: '',
       budgetCategories: [],
       accountData: {
@@ -63,7 +65,8 @@ export default class App extends Component {
     this.setState({
       accountData: currentAccountData,
       budgetCategories,
-      currentUser: email
+      currentUser: email,
+      loadingUser: false
     });
   }
 
@@ -113,8 +116,16 @@ export default class App extends Component {
   }
 
   render() {
-    const { accountData, budgetCategories } = this.state;
+    const { accountData, budgetCategories, loadingUser } = this.state;
     const { isAuthenticated, loading } = this.context;
+
+    if (loadingUser) {
+      return (
+        <div data-testid="loading-user">
+          <Loading />
+        </div>
+      );
+    }
 
     return (
       <div className="app">
