@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter } from 'react-router-dom';
 import App from './App.jsx';
 import { Auth0Provider } from './react-auth0-wrapper';
 import config from './auth_config.js';
@@ -24,7 +25,9 @@ ReactDOM.render(
     redirect_uri={window.location.origin}
     onRedirectCallback={onRedirectCallback}
   >
-    <App />
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   </Auth0Provider>,
   document.getElementById('root')
 );
