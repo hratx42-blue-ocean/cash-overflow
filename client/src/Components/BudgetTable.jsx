@@ -40,7 +40,7 @@ const translateMonths = {
   12: 'dec'
 };
 
-const BudgetTable = ({ month, breakdown }) => {
+const BudgetTable = ({ month, breakdown = {} }) => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
