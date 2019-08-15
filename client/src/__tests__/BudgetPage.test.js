@@ -5,9 +5,11 @@ import { render } from '@testing-library/react';
 
 import BudgetPage from '../Components/BudgetPage.jsx';
 
-describe('Profile component --->', () => {
+describe('BudgetPage component --->', () => {
   test('should render without throwing an error', async () => {
-    expect(await shallow(<BudgetPage />));
+    expect(
+      await shallow(<BudgetPage loading={false} isAuthenticated={true} />)
+    );
   });
 });
 

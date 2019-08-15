@@ -91,7 +91,7 @@ export default class App extends Component {
                 <AccountsPage {...props} accountData={accountData} />
               )}
             />
-            <Route
+            <PrivateRoute
               path="/budget"
               render={props => (
                 <BudgetPage
@@ -99,6 +99,8 @@ export default class App extends Component {
                   allotments={budgetCategories}
                   categories={accountData.budgetCategories}
                   transactions={accountData.accounts[0].transactions}
+                  loading={loading}
+                  isAuthenticated={isAuthenticated}
                 />
               )}
             />
@@ -110,7 +112,6 @@ export default class App extends Component {
                   handleAddTransaction={this.handleAddTransaction}
                   accountData={accountData}
                   currentUser={this.state.currentUser}
-                  accountData={accountData}
                   loading={loading}
                   isAuthenticated={isAuthenticated}
                 />
