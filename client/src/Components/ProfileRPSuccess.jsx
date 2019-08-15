@@ -23,7 +23,7 @@ const useStyles = makeStyles(theme => ({
 const ProfilePRSuccess = props => {
     return (
         <Grid container direction="column" justify="center" alignItems="center">
-            <Typography>Henlo!</Typography>
+            <Typography>Your monthly reminder is set!</Typography>
             <Button onClick={props.toggleSuccessMessage}>OK</Button>
         </Grid>
     )

@@ -24,11 +24,11 @@ const useStyles = makeStyles(theme => ({
 const ProfileRecurringPayments = props => {
   const classes = useStyles();
   const days = Array.from(Array(31).keys()).splice(1);
-  console.log(props);
+
   if (props.showSuccessMessage) {
     return (
       <div>
-        <Paper style={{ margin: 20, padding: 15 }}>
+        <Paper className={classes.paper}>
           <ProfileRPSuccess toggleSuccessMessage={props.toggleSuccessMessage} />
         </Paper>
       </div>
