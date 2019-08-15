@@ -52,7 +52,7 @@ module.exports.createData = () => {
             category: categories[Math.floor(Math.random() * categories.length)],
             date: faker.date.between(
               `${year}-0${month}-01`,
-              `${year}-0${month}-30`
+              `${year}-0${month}-30`,
             ),
             payee: faker.company.companyName(),
             recurring: faker.random.boolean()
@@ -69,11 +69,11 @@ module.exports.createData = () => {
       category: categories[Math.floor(Math.random() * categories.length)],
       payee: faker.company.companyName(),
       startDate: faker.date.recent(30),
-      frequency: frequencies[Math.floor(Math.random() * frequencies.length)]
+      frequency: frequencies[Math.floor(Math.random() * frequencies.length)],
     });
   }
   // generate budget categories with $0 allotments by default
-  categories.forEach(category => {
+  categories.forEach((category) => {
     dummyObject.budgetCategories.push({
       id: faker.random.uuid(),
       name: category,
@@ -81,9 +81,9 @@ module.exports.createData = () => {
         2019: {
           6: 0,
           7: 0,
-          8: 0
-        }
-      }
+          8: 0,
+        },
+      },
     });
   });
   return dummyObject;

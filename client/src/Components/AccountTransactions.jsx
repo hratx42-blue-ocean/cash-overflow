@@ -90,7 +90,7 @@ const AccountTransactions = props => {
                   return (
                     <TableRow key={`txRow_${i}`}>
                       <TableCell key={`txDate_${i}`}>
-                        {tx.date.toLocaleDateString('en-US')}
+                        {new Date(tx.date).toLocaleDateString('en-US')}
                       </TableCell>
                       <TableCell key={`txPayee_${i}`}>{tx.payee}</TableCell>
                       <TableCell key={`txCategory_${i}`}>
