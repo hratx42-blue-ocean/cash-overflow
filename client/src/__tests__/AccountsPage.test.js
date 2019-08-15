@@ -2,21 +2,30 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import '@testing-library/jest-dom/extend-expect';
 import { render } from '@testing-library/react';
+import fakeData from '../../../db/dataSeeder';
 
-import BudgetPage from '../Components/BudgetPage.jsx';
+import AccountsPage from '../Components/AccountsPage.jsx';
 
-describe('BudgetPage component --->', () => {
+const data = fakeData.createData();
+
+describe('AccountsPage component --->', () => {
   test('should render without throwing an error', async () => {
     expect(
-      await shallow(<BudgetPage loading={false} isAuthenticated={true} />)
+      await shallow(
+        <AccountsPage
+          loading={true}
+          isAuthenticated={false}
+          accountData={data}
+        />
+      )
     );
   });
 });
 
-describe('BudgetPage Auth --->', () => {
+describe('AccountsPage Auth --->', () => {
   test('should not display Loading when a user is logged in', () => {
     const { queryByTestId } = render(
-      <BudgetPage loading={false} isAuthenticated={true} />
+      <AccountsPage loading={false} isAuthenticated={true} accountData={data} />
     );
 
     expect(queryByTestId('auth-loading')).not.toBeInTheDocument();
@@ -24,7 +33,7 @@ describe('BudgetPage Auth --->', () => {
 
   test('should display Loading when a user is not logged in', () => {
     const { queryByTestId } = render(
-      <BudgetPage loading={true} isAuthenticated={false} />
+      <AccountsPage loading={true} isAuthenticated={false} accountData={data} />
     );
 
     expect(queryByTestId('auth-loading')).toBeInTheDocument();

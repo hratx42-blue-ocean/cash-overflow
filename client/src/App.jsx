@@ -85,10 +85,15 @@ export default class App extends Component {
                 )
               }
             />
-            <Route
+            <PrivateRoute
               path="/accounts"
               render={props => (
-                <AccountsPage {...props} accountData={accountData} />
+                <AccountsPage
+                  {...props}
+                  accountData={accountData}
+                  loading={loading}
+                  isAuthenticated={isAuthenticated}
+                />
               )}
             />
             <PrivateRoute
