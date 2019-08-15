@@ -13,6 +13,7 @@ import ChevronRight from '@material-ui/icons/ChevronRight';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import BudgetAllottment from './BudgetAllotment.jsx';
+import BudgetAddCatgory from './BudgetAddCategory.jsx';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -40,7 +41,13 @@ const translateMonths = {
   12: 'dec'
 };
 
-const BudgetTable = ({ month, breakdown = {} }) => {
+const BudgetTable = ({
+  month,
+  open,
+  handleAddCategory,
+  handleClose,
+  breakdown = {}
+}) => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
@@ -57,7 +64,15 @@ const BudgetTable = ({ month, breakdown = {} }) => {
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell>Category</TableCell>
+                  <TableCell>
+                    {
+                      <BudgetAddCatgory
+                        open={open}
+                        handleAddCategory={handleAddCategory}
+                        handleClose={handleClose}
+                      />
+                    }
+                  </TableCell>
                   <TableCell align="right">Allotted</TableCell>
                   <TableCell align="right">Spent</TableCell>
                   <TableCell align="right">Remaining</TableCell>
@@ -92,7 +107,10 @@ const BudgetTable = ({ month, breakdown = {} }) => {
 };
 
 BudgetTable.propTypes = {
-  rows: PropTypes.arrayOf(PropTypes.object)
+  rows: PropTypes.arrayOf(PropTypes.object),
+  open: PropTypes.bool,
+  handleAddCategory: PropTypes.func,
+  handleClose: PropTypes.func
 };
 
 export default BudgetTable;

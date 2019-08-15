@@ -19,8 +19,11 @@ class BudgetPage extends Component {
       txsByMonth: {},
       categoryBreakdown: {},
       currentYear: 2019,
-      currentMonth: 8
+      currentMonth: 8,
+      open: false
     };
+    this.handleAddCategory = this.handleAddCategory.bind(this);
+    this.handleClose = this.handleClose.bind(this);
   }
 
   componentDidMount() {
@@ -33,6 +36,14 @@ class BudgetPage extends Component {
     });
   }
 
+  handleAddCategory() {
+    this.setState({ open: true });
+  }
+
+  handleClose() {
+    this.setState({ open: false });
+  }
+
   render() {
     const { loading, isAuthenticated } = this.props;
     if (loading || !isAuthenticated) {
@@ -43,13 +54,21 @@ class BudgetPage extends Component {
       );
     }
 
-    const { currentMonth, currentYear, categoryBreakdown } = this.state;
+    const { currentMonth, currentYear, categoryBreakdown, open } = this.state;
     const breakdown =
       categoryBreakdown[currentYear] &&
       categoryBreakdown[currentYear][currentMonth]
         ? categoryBreakdown[currentYear][currentMonth]
         : [];
-    return <BudgetTable month={currentMonth} breakdown={breakdown} />;
+    return (
+      <BudgetTable
+        month={currentMonth}
+        breakdown={breakdown}
+        open={open}
+        handleAddCategory={this.handleAddCategory}
+        handleClose={this.handleClose}
+      />
+    );
   }
 }
 
