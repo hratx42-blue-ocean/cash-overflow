@@ -1,9 +1,8 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
-import { render } from '@testing-library/react';
 import fakeData from '../../../db/dataSeeder';
-import Loading from '../Components/Loading';
 import '@testing-library/jest-dom/extend-expect';
+import { render } from '@testing-library/react';
 
 import DashboardPage from '../Components/DashboardPage';
 
@@ -23,7 +22,7 @@ describe('DashboardPage component --->', () => {
   });
 });
 
-describe('DashboardPage Loading and Auth --->', () => {
+describe('DashboardPage Auth --->', () => {
   test('should not display Loading when a user is logged in', () => {
     const { queryByTestId } = render(
       <DashboardPage
