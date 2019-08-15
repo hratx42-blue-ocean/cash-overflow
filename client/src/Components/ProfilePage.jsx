@@ -165,7 +165,7 @@ export default class ProfilePage extends React.Component {
   
     this.setState({
       recurringTransactions: placeholder
-    }, () => props.updateAccountData(this.state))
+    }, () => this.props.updateAccountData(this.state))
   }
 
   render() {
