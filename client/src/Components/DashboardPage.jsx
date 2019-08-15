@@ -139,14 +139,14 @@ export default class DashboardPage extends Component {
 
     if (loading || !isAuthenticated) {
       return (
-        <div className="dashboardPage">
+        <div data-testid="auth-loading">
           <Loading />
         </div>
       );
     }
 
     return (
-      <div style={styles.root} className="dashboardPage">
+      <div style={styles.root}>
         <Grid
           container
           direction="row"

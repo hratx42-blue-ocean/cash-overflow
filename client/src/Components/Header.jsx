@@ -27,7 +27,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function ButtonAppBar() {
   const classes = useStyles();
-  const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
+  const { isAuthenticated, loading, loginWithRedirect, logout } = useAuth0();
 
   const logoutWithRedirect = () =>
     logout({
@@ -41,37 +41,45 @@ export default function ButtonAppBar() {
           <Typography variant="h6" className={classes.title}>
             Green Ocean
           </Typography>
-          <Box className={classes.navBox}>
-            <Button color="inherit" className={classes.link}>
-              <Link to="/dashboard" className={classes.link}>
-                Dashboard
-              </Link>
-            </Button>
-            <Button color="inherit" className={classes.link}>
-              <Link to="/accounts" className={classes.link}>
-                Accounts
-              </Link>
-            </Button>
-            <Button color="inherit" className={classes.link}>
-              <Link to="/budget" className={classes.link}>
-                Budget
-              </Link>
-            </Button>
-            <Button color="inherit" className={classes.link}>
-              <Link to="/trends" className={classes.link}>
-                Trends
-              </Link>
-            </Button>
-            <Button color="inherit" className={classes.link}>
-              <Link to="/profile" className={classes.link}>
-                Profile
-              </Link>
-            </Button>
-          </Box>
+          {isAuthenticated ? (
+            <Box className={classes.navBox}>
+              <Button color="inherit" className={classes.link}>
+                <Link to="/dashboard" className={classes.link}>
+                  Dashboard
+                </Link>
+              </Button>
+              <Button color="inherit" className={classes.link}>
+                <Link to="/accounts" className={classes.link}>
+                  Accounts
+                </Link>
+              </Button>
+              <Button color="inherit" className={classes.link}>
+                <Link to="/budget" className={classes.link}>
+                  Budget
+                </Link>
+              </Button>
+              <Button color="inherit" className={classes.link}>
+                <Link to="/trends" className={classes.link}>
+                  Trends
+                </Link>
+              </Button>
+              <Button color="inherit" className={classes.link}>
+                <Link to="/profile" className={classes.link}>
+                  Profile
+                </Link>
+              </Button>
+            </Box>
+          ) : (
+            <></>
+          )}
           {!isAuthenticated ? (
-            <Button onClick={() => loginWithRedirect({})} color="inherit">
-              Login
-            </Button>
+            !loading ? (
+              <Button onClick={() => loginWithRedirect({})} color="inherit">
+                Login
+              </Button>
+            ) : (
+              <></>
+            )
           ) : (
             <Button onClick={() => logoutWithRedirect()} color="inherit">
               Logout

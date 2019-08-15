@@ -1,20 +1,20 @@
 import React from 'react';
-import { shallow, mount } from 'enzyme';
-import fakeData from '../../../db/dataSeeder';
+import { shallow } from 'enzyme';
 import '@testing-library/jest-dom/extend-expect';
 import { render } from '@testing-library/react';
+import fakeData from '../../../db/dataSeeder';
 
-import DashboardPage from '../Components/DashboardPage';
+import AccountsPage from '../Components/AccountsPage.jsx';
 
 const data = fakeData.createData();
 
-describe('DashboardPage component --->', () => {
+describe('AccountsPage component --->', () => {
   test('should render without throwing an error', async () => {
     expect(
       await shallow(
-        <DashboardPage
-          isAuthenticated={true}
-          loading={false}
+        <AccountsPage
+          loading={true}
+          isAuthenticated={false}
           accountData={data}
         />
       )
@@ -22,14 +22,10 @@ describe('DashboardPage component --->', () => {
   });
 });
 
-describe('DashboardPage Auth --->', () => {
+describe('AccountsPage Auth --->', () => {
   test('should not display Loading when a user is logged in', () => {
     const { queryByTestId } = render(
-      <DashboardPage
-        accountData={data}
-        loading={false}
-        isAuthenticated={true}
-      />
+      <AccountsPage loading={false} isAuthenticated={true} accountData={data} />
     );
 
     expect(queryByTestId('auth-loading')).not.toBeInTheDocument();
@@ -37,11 +33,7 @@ describe('DashboardPage Auth --->', () => {
 
   test('should display Loading when a user is not logged in', () => {
     const { queryByTestId } = render(
-      <DashboardPage
-        accountData={data}
-        loading={true}
-        isAuthenticated={false}
-      />
+      <AccountsPage loading={true} isAuthenticated={false} accountData={data} />
     );
 
     expect(queryByTestId('auth-loading')).toBeInTheDocument();

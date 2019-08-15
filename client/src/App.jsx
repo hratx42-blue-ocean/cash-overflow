@@ -132,17 +132,19 @@ export default class App extends Component {
                 )
               }
             />
-            <Route
+            <PrivateRoute
               path="/accounts"
               render={props => (
                 <AccountsPage
                   {...props}
                   accountData={accountData}
+                  loading={loading}
+                  isAuthenticated={isAuthenticated}
                   updateAccountData={this.updateAccountData}
                 />
               )}
             />
-            <Route
+            <PrivateRoute
               path="/budget"
               render={props => (
                 <BudgetPage
@@ -150,6 +152,8 @@ export default class App extends Component {
                   allotments={budgetCategories}
                   categories={accountData.budgetCategories}
                   transactions={accountData.accounts[0].transactions}
+                  loading={loading}
+                  isAuthenticated={isAuthenticated}
                   updateAccountData={this.updateAccountData}
                 />
               )}
@@ -162,32 +166,32 @@ export default class App extends Component {
                   handleAddTransaction={this.handleAddTransaction}
                   accountData={accountData}
                   currentUser={this.state.currentUser}
-                  accountData={accountData}
                   loading={loading}
                   isAuthenticated={isAuthenticated}
                 />
               )}
             />
-            <Route
-              path="/login"
-              render={props => (
-                <LoginPage {...props} accountData={accountData} />
-              )}
-            />
-            <Route
+            <PrivateRoute
               path="/profile"
               render={props => (
                 <ProfilePage
                   {...props}
                   accountData={accountData}
+                  loading={loading}
+                  isAuthenticated={isAuthenticated}
                   updateAccountData={this.updateAccountData}
                 />
               )}
             />
-            <Route
+            <PrivateRoute
               path="/trends"
               render={props => (
-                <TrendsPage {...props} accountData={accountData} />
+                <TrendsPage
+                  {...props}
+                  accountData={accountData}
+                  loading={loading}
+                  isAuthenticated={isAuthenticated}
+                />
               )}
             />
             <Route component={ErrorPage} />

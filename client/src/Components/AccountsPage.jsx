@@ -3,7 +3,7 @@ import Grid from '@material-ui/core/Grid';
 import PropTypes from 'prop-types';
 import AccountsTable from './AccountsTable.jsx';
 import AccountTransactions from './AccountTransactions.jsx';
-
+import Loading from './Loading.jsx';
 export default class AccountsPage extends React.Component {
   constructor(props) {
     super(props);
@@ -37,6 +37,16 @@ export default class AccountsPage extends React.Component {
   }
 
   render() {
+    const { loading, isAuthenticated } = this.props;
+
+    if (loading || !isAuthenticated) {
+      return (
+        <div data-testid="auth-loading">
+          <Loading />
+        </div>
+      );
+    }
+
     const { accountData } = this.props;
     let data = [];
     let accountsList = [];
@@ -82,5 +92,7 @@ export default class AccountsPage extends React.Component {
 }
 
 AccountsPage.propTypes = {
-  accountData: PropTypes.object
+  accountData: PropTypes.object,
+  loading: PropTypes.bool.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired
 };

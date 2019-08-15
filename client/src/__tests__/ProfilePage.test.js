@@ -1,38 +1,41 @@
 import React from 'react';
-import { shallow, mount, render } from 'enzyme';
+import { shallow } from 'enzyme';
+import '@testing-library/jest-dom/extend-expect';
+import { render } from '@testing-library/react';
+import fakeData from '../../../db/dataSeeder';
+
 import ProfilePage from '../Components/ProfilePage.jsx';
 
-describe('Profile component --->', () => {
+const data = fakeData.createData();
+
+describe('ProfilePage component --->', () => {
   test('should render without throwing an error', async () => {
-    expect(await shallow(<ProfilePage loading={false} />));
-  });
-
-  test('should be selectable by class "ProfilePage"', async () => {
     expect(
-      await shallow(<ProfilePage loading={false} />).is('.profilePage')
-    ).toBe(true);
-  });
-
-  test('should mount in a full DOM', async () => {
-    const wrapper = await mount(
-      <ProfilePage
-        loading={false}
-        accountData={{
-          email: 'test@example.com',
-          firstName: 'testFirstName',
-          lastName: 'testLastName'
-        }}
-      />
+      await shallow(
+        <ProfilePage
+          loading={true}
+          isAuthenticated={false}
+          accountData={data}
+        />
+      )
     );
-    console.log(wrapper);
-    expect(wrapper.find('.profilePage').length).toBe(3);
   });
 });
 
-// describe('Profile edit buttons should toggle input fields', function() {
-//   test('first name', async function() {
-//     const wrapper = mount(<ProfilePage />).at(0);
-//     const simulate = wrapper.find('edit').first().simulate('click');
-//     expect(await wrapper.find('edit').props().firstNameIsHidden.toEqual(true));
-//   });
-//
+describe('ProfilePage Auth --->', () => {
+  test('should not display Loading when a user is logged in', () => {
+    const { queryByTestId } = render(
+      <ProfilePage loading={false} isAuthenticated={true} accountData={data} />
+    );
+
+    expect(queryByTestId('auth-loading')).not.toBeInTheDocument();
+  });
+
+  test('should display Loading when a user is not logged in', () => {
+    const { queryByTestId } = render(
+      <ProfilePage loading={true} isAuthenticated={false} accountData={data} />
+    );
+
+    expect(queryByTestId('auth-loading')).toBeInTheDocument();
+  });
+});
