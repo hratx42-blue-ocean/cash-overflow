@@ -21,16 +21,24 @@ class BudgetPage extends Component {
       currentYear: 2019,
       currentMonth: 8
     };
+
+    this.handleMonthChange = this.handleMonthChange.bind(this);
   }
 
   componentDidMount() {
     const { accounts, categories } = this.state;
     const txsByMonth = compileTxs(accounts);
     const categoryBreakdown = compileSpent(categories, txsByMonth);
-    this.setState({ txsByMonth, categoryBreakdown }, () => {
-      // TODO remove
-      console.log('state', this.state);
-    });
+    this.setState({ txsByMonth, categoryBreakdown });
+  }
+
+  // change current month
+  handleMonthChange(increment) {
+    const { currentMonth } = this.state;
+    const newMonth = currentMonth + increment;
+    if (newMonth > 0 && newMonth < 13) {
+      this.setState({ currentMonth: newMonth });
+    }
   }
 
   render() {
@@ -49,7 +57,13 @@ class BudgetPage extends Component {
       categoryBreakdown[currentYear][currentMonth]
         ? categoryBreakdown[currentYear][currentMonth]
         : [];
-    return <BudgetTable month={currentMonth} breakdown={breakdown} />;
+    return (
+      <BudgetTable
+        month={currentMonth}
+        breakdown={breakdown}
+        handleMonthChange={this.handleMonthChange}
+      />
+    );
   }
 }
 
