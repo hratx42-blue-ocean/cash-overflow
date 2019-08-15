@@ -9,7 +9,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import BudgetTable from './BudgetTable.jsx';
 
-const totalSpent = txs => {
+const totalSpent = (txs) => {
   const total = txs.reduce((total, { amount }) => total + Number(amount), 0);
   return Number.parseInt(total);
 };
@@ -22,37 +22,38 @@ class BudgetPage extends Component {
       categories: props.categories || [],
       curYear: 2019,
       rows: [],
-      transactions: props.transactions || {}
+      transactions: props.transactions || {},
     };
   }
 
   render() {
-    const { allotments, categories, curYear, transactions } = this.state;
-
+    // begin front end calculation
+    const {
+      allotments, categories, curYear, transactions,
+    } = this.state;
     const mapped = {};
     const allotted = {};
     const rows = [];
     let months;
     let curMonth;
     categories.forEach(({ name }) => (mapped[name] = []));
-    console.log(transactions);
     if (
-      transactions &&
-      transactions[curYear] &&
-      Object.keys(transactions[curYear]).length > 2
+      transactions
+      && transactions[curYear]
+      && Object.keys(transactions[curYear]).length > 2
     ) {
       months = Object.keys(Object.values(transactions)[0]);
       curMonth = months[months.length - 1];
 
-      transactions[curYear][curMonth].forEach(transaction => {
+      transactions[curYear][curMonth].forEach((transaction) => {
         mapped[transaction.category].push(transaction);
       });
 
-      allotments.forEach(allotment => {
+      allotments.forEach((allotment) => {
         allotted[allotment.name] = allotment.allotment[curYear][curMonth];
       });
 
-      Object.keys(mapped).forEach(key => {
+      Object.keys(mapped).forEach((key) => {
         const val = {};
         val.category = key;
         val.allotted = allotted[key];
@@ -62,6 +63,8 @@ class BudgetPage extends Component {
         rows.push(val);
       });
     }
+    // end calculation
+
     return <BudgetTable rows={rows} curMonth={curMonth} months={months} />;
   }
 }
@@ -69,7 +72,7 @@ class BudgetPage extends Component {
 BudgetPage.propTypes = {
   allotments: PropTypes.arrayOf(PropTypes.object),
   categories: PropTypes.arrayOf(PropTypes.object),
-  transactions: PropTypes.object
+  transactions: PropTypes.object,
 };
 
 export default BudgetPage;

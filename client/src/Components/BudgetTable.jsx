@@ -25,7 +25,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const months = {
+const translateMonths = {
   1: 'jan',
   2: 'feb',
   3: 'mar',
@@ -40,15 +40,14 @@ const months = {
   12: 'dec'
 };
 
-const BudgetTable = ({ curMonth, months, rows }) => {
+const BudgetTable = ({ curMonth, rows }) => {
   const classes = useStyles();
-  // console.log(months);
   return (
     <div className={classes.root}>
       <IconButton aria-label="previous-month">
         <ChevronLeft />
       </IconButton>
-      <Typography variant="button">{months[curMonth]}</Typography>
+      <Typography variant="button">{translateMonths[curMonth]}</Typography>
       <IconButton aria-label="next-month">
         <ChevronRight />
       </IconButton>
