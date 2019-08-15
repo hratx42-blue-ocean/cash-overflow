@@ -6,6 +6,7 @@ import Avatar from '@material-ui/core/Avatar';
 import AddIcon from '@material-ui/icons/Add';
 import Typography from '@material-ui/core/Typography';
 import Icon from '@material-ui/core/Icon';
+import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -30,11 +31,19 @@ const BudgetAddCategory = ({ open, handleAddCategory, handleClose }) => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
-      <Grid container direction="row">
-        <Typography>Category</Typography>
-        <Icon color="primary" onClick={handleAddCategory}>
-          add_circle
-        </Icon>
+      <Grid container direction="row" spacing={1}>
+        <Grid item>
+          <Typography>Category</Typography>
+        </Grid>
+        <Grid item>
+          <Icon
+            color="primary"
+            onClick={handleAddCategory}
+            aria-label="add-budget-category"
+          >
+            add_circle
+          </Icon>
+        </Grid>
       </Grid>
       <Dialog
         open={open}

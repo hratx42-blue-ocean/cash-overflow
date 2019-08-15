@@ -73,9 +73,15 @@ const BudgetTable = ({
                       />
                     }
                   </TableCell>
-                  <TableCell align="right">Allotted</TableCell>
-                  <TableCell align="right">Spent</TableCell>
-                  <TableCell align="right">Remaining</TableCell>
+                  <TableCell align="right">
+                    <Typography>Allotted</Typography>
+                  </TableCell>
+                  <TableCell align="right">
+                    <Typography>Spent</Typography>
+                  </TableCell>
+                  <TableCell align="right">
+                    <Typography>Remaining</Typography>
+                  </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
