@@ -39,7 +39,7 @@ export default function ButtonAppBar() {
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" className={classes.title}>
-            Green Ocean
+            Cash Overflow
           </Typography>
           <Box className={classes.navBox}>
             <Button color="inherit" className={classes.link}>
