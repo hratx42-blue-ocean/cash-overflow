@@ -20,17 +20,31 @@ class BudgetPage extends Component {
     this.state = {
       accounts: props.accounts,
       categories: props.categories,
-      accountTxs: compileTxs(props.accounts),
-      spentByCategory: compileSpent(props.categories, this.accountTxs)
+      txsByMonth: {},
+      categoryBreakdown: {},
+      currentYear: 2019,
+      currentMonth: 8
     };
   }
 
   componentDidMount() {
-    console.log(this.state);
+    const { accounts, categories } = this.state;
+    const txsByMonth = compileTxs(accounts);
+    const categoryBreakdown = compileSpent(categories, txsByMonth);
+    this.setState({ txsByMonth, categoryBreakdown }, () => {
+      // TODO remove
+      console.log('state', this.state);
+    });
   }
 
   render() {
-    return <div>test</div>;
+    const { currentMonth, currentYear, categoryBreakdown } = this.state;
+    const breakdown =
+      categoryBreakdown[currentYear] &&
+      categoryBreakdown[currentYear][currentMonth]
+        ? categoryBreakdown[currentYear][currentMonth]
+        : [];
+    return <BudgetTable month={currentMonth} breakdown={breakdown} />;
   }
 }
 
@@ -50,17 +64,13 @@ function compileTxs(accounts = []) {
     const years = Object.keys(transactions);
     years.forEach(year => {
       // setup year key in result
-      result[year] = result[year]
-        ? result[year]
-        : {};
+      result[year] = result[year] ? result[year] : {};
       // save off this year's months
       const months = Object.keys(transactions[year]);
       months.forEach(month => {
         const monthTxs = transactions[year][month];
         // setup month key in result year
-        result[year][month] = result[year][month]
-          ? result[year][month]
-          : [];
+        result[year][month] = result[year][month] ? result[year][month] : [];
         // safe to concat now
         result[year][month] = result[year][month].concat(monthTxs);
       });
@@ -71,25 +81,26 @@ function compileTxs(accounts = []) {
 
 function compileSpent(categories = [], transactions) {
   const result = {};
-  console.log('transactions are', transactions);
   categories.forEach(category => {
     const { allotment, name } = category;
     const years = Object.keys(allotment);
     // add entry for this category for every year it existed
     years.forEach(year => {
       const months = Object.keys(allotment[year]);
-      result[year] = result[year]
-        ? result[year]
-        : {};
+      result[year] = result[year] ? result[year] : {};
       months.forEach(month => {
-        result[year][month] = result[year][month]
-          ? result[year][month]
-          : {};
-        result[year][month][name] = 0;
+        const monthTxs = transactions[year][month];
+        let spent = 0;
+        result[year][month] = result[year][month] ? result[year][month] : {};
+        monthTxs.forEach(tx => {
+          if (tx.category === name) {
+            spent += Number(tx.amount);
+          }
+        });
+        result[year][month][name] = { alloted: 0, spent: spent.toFixed(2) };
       });
     });
   });
-  console.log('result is', result);
   return result;
 }
 

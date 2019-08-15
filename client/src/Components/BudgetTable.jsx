@@ -40,14 +40,14 @@ const translateMonths = {
   12: 'dec'
 };
 
-const BudgetTable = ({ curMonth, rows }) => {
+const BudgetTable = ({ month, breakdown }) => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
       <IconButton aria-label="previous-month">
         <ChevronLeft />
       </IconButton>
-      <Typography variant="button">{translateMonths[curMonth]}</Typography>
+      <Typography variant="button">{translateMonths[month]}</Typography>
       <IconButton aria-label="next-month">
         <ChevronRight />
       </IconButton>
@@ -64,16 +64,22 @@ const BudgetTable = ({ curMonth, rows }) => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows.map(row => (
-                  <TableRow key={row.category}>
+                {Object.keys(breakdown).map(category => (
+                  <TableRow key={category}>
                     <TableCell component="th" scope="row">
-                      {row.category}
+                      {category}
                     </TableCell>
                     <TableCell align="right">
-                      <BudgetAllottment allotment={row.allotted} />
+                      <BudgetAllottment
+                        allotment={breakdown[category].alloted}
+                      />
                     </TableCell>
-                    <TableCell align="right">{row.spent}</TableCell>
-                    <TableCell align="right">{row.remaining}</TableCell>
+                    <TableCell align="right">
+                      {breakdown[category].spent}
+                    </TableCell>
+                    <TableCell align="right">
+                      {breakdown[category].alloted - breakdown[category].spent}
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>

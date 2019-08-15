@@ -94,7 +94,6 @@ export default class App extends Component {
                 path="/budget"
                 render={props => (
                   <BudgetPage
-                    {...props}
                     accounts={accountData.accounts}
                     categories={budgetCategories}
                   />
