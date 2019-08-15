@@ -137,9 +137,9 @@ export default class DashboardPage extends Component {
   }
 
   render() {
-    const { loading } = this.props;
+    const { loading, isAuthenticated } = this.props;
 
-    if (loading) {
+    if (loading || !isAuthenticated) {
       return (
         <div className="dashboardPage">
           <Loading />
@@ -294,5 +294,6 @@ DashboardPage.defaultProps = {
 DashboardPage.propTypes = {
   accountData: PropTypes.object,
   handleAddTransaction: PropTypes.func,
-  loading: PropTypes.bool.isRequired
+  loading: PropTypes.bool.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired
 };

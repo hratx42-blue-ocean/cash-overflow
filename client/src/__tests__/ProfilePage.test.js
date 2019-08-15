@@ -4,11 +4,13 @@ import ProfilePage from '../Components/ProfilePage.jsx';
 
 describe('Profile component --->', () => {
   test('should render without throwing an error', async () => {
-    expect(await shallow(<ProfilePage />));
+    expect(await shallow(<ProfilePage loading={false} />));
   });
 
   test('should be selectable by class "ProfilePage"', async () => {
-    expect(await shallow(<ProfilePage />).is('.profilePage')).toBe(true);
+    expect(
+      await shallow(<ProfilePage loading={false} />).is('.profilePage')
+    ).toBe(true);
   });
 
   test('should mount in a full DOM', async () => {
