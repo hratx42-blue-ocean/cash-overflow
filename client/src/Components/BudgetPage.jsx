@@ -18,14 +18,8 @@ class BudgetPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      allotments: props.allotments,
-      categories: props.categories,
-      transactions: props.transactions,
-      curYear: 2019,
-      rows: [],
-      mapped: mapCategories(this.categories),
-      months: listMonths(this.transactions),
-      curMonth: getCurrentMonth(this.months)
+      accounts: props.accounts,
+      txsByMonth: compileTxs(props.accounts),
     };
   }
 
@@ -34,41 +28,7 @@ class BudgetPage extends Component {
   }
 
   render() {
-    // begin front end calculation
-    const { allotments, categories, curYear, transactions } = this.state;
-    const mapped = {};
-    const allotted = {};
-    const rows = [];
-    let months;
-    let curMonth;
-    if (
-      transactions &&
-      transactions[curYear] &&
-      Object.keys(transactions[curYear]).length > 2
-    ) {
-      curMonth = months[months.length - 1];
-
-      transactions[curYear][curMonth].forEach(transaction => {
-        mapped[transaction.category].push(transaction);
-      });
-
-      allotments.forEach(allotment => {
-        allotted[allotment.name] = allotment.allotment[curYear][cuÎrMonth];
-      });
-
-      Object.keys(mapped).forEach(key => {
-        const val = {};
-        val.category = key;
-        val.allotted = allotted[key];
-        val.spent = totalSpent(mapped[key]);
-        val.remaining = val.allotted - val.spent;
-        val.transactions = mapped[key];
-        rows.push(val);
-      });
-    }
-    // end calculation
-
-    return <BudgetTable rows={rows} curMonth={curMonth} months={months} />;
+    return <div>test</div>;
   }
 }
 
@@ -78,20 +38,35 @@ BudgetPage.propTypes = {
   transactions: PropTypes.object
 };
 
+function compileTxs(accounts = []) {
+  // accounts is an array of objects
+  const result = {};
+  // map through account objects
+  accounts.forEach(account => {
+    // save off array of years
+    const { transactions } = account;
+    const years = Object.keys(transactions);
+    years.forEach(year => {
+      // setup year key in result
+      result[year] = result[year]
+        ? result[year]
+        : {};
+      // save off this year's months
+      const months = Object.keys(transactions[year]);
+      months.forEach(month => {
+        const monthTxs = transactions[year][month];
+        // setup month key in result year
+        result[year][month] = result[year][month]
+          ? result[year][month]
+          : [];
+        // safe to concat now
+        result[year][month] = result[year][month].concat(monthTxs);
+      });
+    });
+  });
+  return result;
+}
+
 // calculation functions
-function mapCategories(categories = []) {
-  console.log('mapCats called with', categories);
-  const mapped = {};
-  categories.forEach(({ name }) => (mapped[name] = []));
-  return mapped;
-}
-
-function listMonths(transactions = {}) {
-  return Object.keys(Object.values(transactions)[0]);
-}
-
-function getCurrentMonth(months = []) {
-  return months.slice().pop();
-}
 
 export default BudgetPage;

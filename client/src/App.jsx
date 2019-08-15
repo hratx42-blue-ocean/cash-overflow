@@ -65,6 +65,7 @@ export default class App extends Component {
       accountData: data,
       currentUser: data
     });
+    console.log('data is', data);
   }
 
   render() {
@@ -95,9 +96,7 @@ export default class App extends Component {
                 render={props => (
                   <BudgetPage
                     {...props}
-                    allotments={budgetCategories}
-                    categories={accountData.budgetCategories}
-                    transactions={accountData.accounts[0].transactions}
+                    accounts={accountData.accounts}
                   />
                 )}
               />
