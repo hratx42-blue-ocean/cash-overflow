@@ -289,9 +289,6 @@ DashboardPage.propTypes = {
   accountData: PropTypes.object,
   handleAddTransaction: PropTypes.func,
   loading: PropTypes.bool.isRequired,
-<<<<<<< HEAD
   updateAccountData: PropTypes.func
-=======
   isAuthenticated: PropTypes.bool.isRequired
->>>>>>> 580d79d253636b5c79b68a81d97acfc80f53735e
 };

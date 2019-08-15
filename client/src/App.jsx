@@ -40,7 +40,6 @@ export default class App extends Component {
     this.handleAddTransaction = this.handleAddTransaction.bind(this);
   }
 
-<<<<<<< HEAD
   getUserData(userEmail) {
     return Axios.get(`http://0.0.0.0:8000/api/users/getData?user=${userEmail}`);
   }
@@ -80,16 +79,6 @@ export default class App extends Component {
     this.postUserData(updatedAccountData);
   }
 
-=======
-  componentDidMount() {
-    const data = fakeData.createData();
-    this.setState({
-      budgetCategories: data.budgetCategories,
-      accountData: data
-    });
-  }
-
->>>>>>> 580d79d253636b5c79b68a81d97acfc80f53735e
   handleAddTransaction(stateObject) {
     const {
       inputAccount,
@@ -120,90 +109,17 @@ export default class App extends Component {
       this.updateAccountData(accountUpdate);
     }
 
-<<<<<<< HEAD
     this.setState({
       currentUser: accountUpdate
     });
   }
 
-=======
->>>>>>> 580d79d253636b5c79b68a81d97acfc80f53735e
   render() {
     const { accountData, budgetCategories } = this.state;
     const { isAuthenticated, loading } = this.context;
 
     return (
       <div className="app">
-<<<<<<< HEAD
-        <BrowserRouter>
-          <Header />
-          <Container>
-            <Switch>
-              <Route
-                exact
-                path="/"
-                render={props => (
-                  <LandingPage {...props} accountData={accountData} />
-                )}
-              />
-              <Route
-                path="/accounts"
-                render={props => (
-                  <AccountsPage {...props} accountData={accountData} />
-                )}
-              />
-              <Route
-                path="/budget"
-                render={props => (
-                  <BudgetPage
-                    {...props}
-                    allotments={budgetCategories}
-                    categories={accountData.budgetCategories}
-                    transactions={accountData.accounts[0].transactions}
-                    updateAccountData={this.updateAccountData}
-                  />
-                )}
-              />
-              <PrivateRoute
-                path="/dashboard"
-                render={props => (
-                  <DashboardPage
-                    {...props}
-                    handleAddTransaction={this.handleAddTransaction}
-                    accountData={accountData}
-                    currentUser={this.state.currentUser}
-                    loading={loading}
-                    updateAccountData={this.updateAccountData}
-                  />
-                )}
-              />
-              <Route
-                path="/login"
-                render={props => (
-                  <LoginPage {...props} accountData={accountData} />
-                )}
-              />
-              <Route
-                path="/profile"
-                render={props => (
-                  <ProfilePage
-                    {...props}
-                    currentUser={this.state.currentUser}
-                    accountData={accountData}
-                  />
-                )}
-              />
-              <Route
-                path="/trends"
-                render={props => (
-                  <TrendsPage {...props} accountData={accountData} />
-                )}
-              />
-              <Route component={ErrorPage} />
-            </Switch>
-          </Container>
-        </BrowserRouter>
-=======
         <Header />
         <Container>
           <Switch>
@@ -270,7 +186,6 @@ export default class App extends Component {
             <Route component={ErrorPage} />
           </Switch>
         </Container>
->>>>>>> 580d79d253636b5c79b68a81d97acfc80f53735e
       </div>
     );
   }

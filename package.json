@@ -45,11 +45,7 @@
     "eslint-plugin-react": "^7.14.3",
     "eslint-plugin-react-hooks": "^1.7.0",
     "faker": "^4.1.0",
-<<<<<<< HEAD
     "prettier": "^1.18.2",
     "nodemon": "^1.19.1"
-=======
-    "prettier": "^1.18.2"
->>>>>>> 580d79d253636b5c79b68a81d97acfc80f53735e
   }
 }
