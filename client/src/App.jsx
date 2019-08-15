@@ -57,6 +57,15 @@ export default class App extends Component {
     return currentAccountData;
   }
 
+  componentDidMount() {
+    this.getUserData('Eda80@hotmail.com')
+      .then(this.setCurrentUser)
+      .then(this.setAccountDataAndBudgetCategories)
+      .catch(err => {
+        console.log('mounting error: ', err);
+      });
+  }
+
   setAccountDataAndBudgetCategories(currentAccountData) {
     const { budgetCategories } = currentAccountData;
     this.setState({
@@ -103,15 +112,6 @@ export default class App extends Component {
     });
   }
 
-  componentDidMount() {
-    this.getUserData('Eda80@hotmail.com')
-      .then(this.setCurrentUser)
-      .then(this.setAccountDataAndBudgetCategories)
-      .catch(err => {
-        console.log('mounting error: ', err);
-      });
-  }
-
   render() {
     const { accountData, budgetCategories } = this.state;
     const { user, loading } = this.context;
@@ -155,7 +155,6 @@ export default class App extends Component {
                     handleAddTransaction={this.handleAddTransaction}
                     accountData={accountData}
                     currentUser={this.state.currentUser}
-                    accountData={accountData}
                     loading={loading}
                     updateAccountData={this.updateAccountData}
                   />
