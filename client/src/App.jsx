@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 // Routing
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import Container from '@material-ui/core/Container';
 import PrivateRoute from './Components/PrivateRoute.jsx';
 import { Auth0Context } from './react-auth0-wrapper';
@@ -77,7 +77,13 @@ export default class App extends Component {
             <Route
               exact
               path="/"
-              render={props => <LandingPage {...props} />}
+              render={() =>
+                !isAuthenticated ? (
+                  <LandingPage />
+                ) : (
+                  <Redirect to="/dashboard" />
+                )
+              }
             />
             <Route
               path="/accounts"
@@ -135,5 +141,4 @@ export default class App extends Component {
     );
   }
 }
-
 App.contextType = Auth0Context;
