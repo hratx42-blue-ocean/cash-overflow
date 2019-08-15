@@ -19,7 +19,9 @@ class BudgetPage extends Component {
     super(props);
     this.state = {
       accounts: props.accounts,
+      categories: props.categories,
       txsByMonth: compileTxs(props.accounts),
+      spentByCategory: compileSpent(props.categories)
     };
   }
 
@@ -67,6 +69,12 @@ function compileTxs(accounts = []) {
   return result;
 }
 
-// calculation functions
+function compileSpent(categories = []) {
+  const result = {};
+  categories.forEach(category => {
+    console.log(category);
+  });
+  return result;
+}
 
 export default BudgetPage;

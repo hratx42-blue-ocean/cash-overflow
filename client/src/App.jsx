@@ -65,13 +65,12 @@ export default class App extends Component {
       accountData: data,
       currentUser: data
     });
-    console.log('data is', data);
   }
 
   render() {
     const { accountData, budgetCategories } = this.state;
     const { user, loading } = this.context;
-
+    console.log(this.state);
     return (
       <div className="app">
         <BrowserRouter>
@@ -97,6 +96,7 @@ export default class App extends Component {
                   <BudgetPage
                     {...props}
                     accounts={accountData.accounts}
+                    categories={budgetCategories}
                   />
                 )}
               />
