@@ -1,5 +1,4 @@
 import React from 'react';
-import ProfileRPSuccess from './ProfileRPSuccess.jsx';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
@@ -10,9 +9,11 @@ import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 
 const ProfileRPList = props => {
-    return (
-        <Typography>Current Reminders:</Typography>
-    )
-}
+  return (
+    <Paper>
+      <Typography>Current Reminders:</Typography>
+    </Paper>
+  );
+};
 
 export default ProfileRPList;

@@ -1,9 +1,10 @@
 import React from 'react';
 import ProfileRPSuccess from './ProfileRPSuccess.jsx';
 import ProfileSetRP from './ProfileSetRP.jsx';
-import ProfileRPList from './ProfileRPSuccess.jsx';
+
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
+import { Typography } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -20,36 +21,32 @@ const useStyles = makeStyles(theme => ({
 const ProfileRecurringPayments = props => {
   const classes = useStyles();
   const days = Array.from(Array(31).keys()).splice(1);
-
-  if (props.showSuccessMessage) {
-    return (
-      <div>
-        <Paper className={classes.paper}>
-          <ProfileRPSuccess toggleSuccessMessage={props.toggleSuccessMessage} />
+  return (
+    <div>
+      {props.showSuccessMessage ? (
+         <Typography>help</Typography>
+        // <Paper className={classes.paper}>
+        //   <ProfileRPSuccess toggleSuccessMessage={props.toggleSuccessMessage} />
+        // </Paper>
+      ) : (
+        <Paper style={{ margin: 20, padding: 15 }}>
+          <ProfileSetRP
+            inputDay={props.inputDay}
+            handleDayChange={props.handleDayChange}
+            days={days}
+            handleInputAmount={props.handleInputAmount}
+            inputCategory={props.inputCategory}
+            categories={props.categories}
+            inputAccount={props.inputAccount}
+            handleAccountInput={props.handleAccountInput}
+            handlePayeeInput={props.handlePayeeInput}
+            handleRecurringPayment={props.handleRecurringPayment}
+            accounts={props.accounts}
+          ></ProfileSetRP>
         </Paper>
-      </div>
-    );
-  } else {
-    return (
-      //inputDay handleDayChange days handleInputAmount inputCategory handleInputCategory categories inputAccount handleAccountInput
-      //handlePayeeInput handleRecurringPayment
-      <Paper style={{ margin: 20, padding: 15 }}>
-        <ProfileSetRP
-          inputDay={props.inputDay}
-          handleDayChange={props.handleDayChange}
-          days={days}
-          handleInputAmount={props.handleInputAmount}
-          inputCategory={props.inputCategory}
-          categories={props.categories}
-          inputAccount={props.inputAccount}
-          handleAccountInput={props.handleAccountInput}
-          handlePayeeInput={props.handlePayeeInput}
-          handleRecurringPayment={props.handleRecurringPayment}
-          accounts={props.accounts}
-        ></ProfileSetRP>
-      </Paper>
-    );
-  }
+      )}
+    </div>
+  );
 };
 
 export default ProfileRecurringPayments;

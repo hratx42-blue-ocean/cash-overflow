@@ -4,7 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 
 
-const ProfilePRSuccess = props => {
+const ProfileRPSuccess = props => {
     return (
         <Grid container direction="column" justify="center" alignItems="center">
             <Typography>Your monthly reminder is set!</Typography>
@@ -13,4 +13,4 @@ const ProfilePRSuccess = props => {
     )
 }
 
-export default ProfilePRSuccess;
+export default ProfileRPSuccess;
