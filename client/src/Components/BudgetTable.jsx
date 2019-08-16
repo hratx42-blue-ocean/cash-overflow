@@ -40,7 +40,13 @@ const translateMonths = {
   12: 'dec'
 };
 
-const BudgetTable = ({ month, breakdown = {}, handleMonthChange }) => {
+const BudgetTable = ({
+  breakdown = {},
+  handleMonthChange,
+  month,
+  year,
+  updateAllotments
+}) => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
@@ -78,6 +84,10 @@ const BudgetTable = ({ month, breakdown = {}, handleMonthChange }) => {
                     <TableCell align="right">
                       <BudgetAllottment
                         allotment={breakdown[category].alloted}
+                        name={category}
+                        month={month}
+                        updateAllotments={updateAllotments}
+                        year={year}
                       />
                     </TableCell>
                     <TableCell align="right">

@@ -44,7 +44,7 @@ class BudgetPage extends Component {
 
   updateAllotments(name, val, year, month) {
     let { categories } = this.state;
-    categories = categories ? categories : [];
+    categories = categories || [];
     categories = JSON.parse(JSON.stringify(categories));
 
     categories.forEach(category => {
@@ -55,15 +55,15 @@ class BudgetPage extends Component {
         category.allotment[year][month] !== undefined
       ) {
         category.allotment[year][month] = val;
+        console.log(val);
       }
     });
 
     // TODO add function that sets app state
-    console.log(categories);
+    console.log('state not set', categories);
   }
 
   render() {
-    this.updateAllotments('bills', 100, 2019, 8);
     const { loading, isAuthenticated } = this.props;
     if (loading || !isAuthenticated) {
       return (
@@ -82,8 +82,10 @@ class BudgetPage extends Component {
     return (
       <BudgetTable
         month={currentMonth}
+        year={currentYear}
         breakdown={breakdown}
         handleMonthChange={this.handleMonthChange}
+        updateAllotments={this.updateAllotments}
       />
     );
   }
