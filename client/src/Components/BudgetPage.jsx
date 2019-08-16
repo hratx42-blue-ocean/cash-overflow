@@ -78,18 +78,24 @@ class BudgetPage extends Component {
   }
 
   handleSaveCategory() {
-    const categoryUpdate = this.state.categories.slice();
-    const newCategory = new Category(this.state.textInput);
+    const { categories, textInput } = this.state;
+    const categoryUpdate = JSON.parse(JSON.stringify(categories));
+    const newCategory = new Category(textInput);
     categoryUpdate.push(newCategory);
+
+    console.log('Updated categories after addition should be: ', categoryUpdate);
     this.props.handleUpdateCategories(categoryUpdate);
     this.handleClose();
   }
 
   handleDeleteCategory(deletedCategory) {
-    const categoryUpdate = this.state.categories.slice().filter(category => {
-      return category.name !== deletedCategory;
-    });
-    console.log(categoryUpdate);
+    const { categories } = this.state;
+    const categoryUpdate = JSON.parse(JSON.stringify(categories)).filter(
+      category => {
+        return category.name !== deletedCategory;
+      }
+    );
+    console.log('Updated categories after deletion should be: ', categoryUpdate);
     this.props.handleUpdateCategories(categoryUpdate);
     this.handleClose();
   }
