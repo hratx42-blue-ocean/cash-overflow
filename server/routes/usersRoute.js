@@ -22,6 +22,10 @@ router.get('/getData', (req, res) => {
 });
 
 router.post('/upsertData', (req, res) => {
+  const { userID } = req.body.userUpdate;
+
+  console.log(`Received POST request to update ${userID}`);
+
   db.upsertUserData(req.body.userUpdate).then(() => {
     res.send('user updated!');
   });

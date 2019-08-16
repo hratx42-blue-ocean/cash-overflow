@@ -42,7 +42,7 @@ const upsertUserData = async userObject => {
   }
 };
 
-const upsertUserDataByUserID = async userID => {
+const upsertUserDataByUserID = async userObject => {
   try {
     const collection = await getUserDatabase().collection('userData');
     await collection.replaceOne({ userID: userObject.userID }, userObject, {

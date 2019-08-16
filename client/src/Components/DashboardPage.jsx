@@ -114,7 +114,7 @@ export default class DashboardPage extends Component {
     this.state.categories.forEach(category => {
       totalBudget += category.allotment[year][month];
     });
-    
+
     this.state.accounts.forEach(account => {
       account.transactions[year][month].forEach(transaction => {
         currentlySpent += Number(transaction.amount);
@@ -291,7 +291,7 @@ DashboardPage.defaultProps = {
 };
 
 DashboardPage.propTypes = {
-  accountData: PropTypes.object,
+  accountData: PropTypes.object.isRequired,
   handleAddTransaction: PropTypes.func,
   loading: PropTypes.bool.isRequired,
   updateAccountData: PropTypes.func,

@@ -19,6 +19,7 @@ import LoginPage from './Components/LoginPage.jsx';
 import ProfilePage from './Components/ProfilePage.jsx';
 import ErrorPage from './Components/ErrorPage.jsx';
 import Loading from './Components/Loading.jsx';
+import db from './utils/databaseRequests';
 
 import createFakeUser from './fakeUserGenerator.js';
 
@@ -34,19 +35,8 @@ export default class App extends Component {
         accounts: [{ transactions: { year: { month: [] } } }]
       }
     };
-    this.getUserData = this.getUserData.bind(this);
-    this.postUserData = this.postUserData.bind(this);
-    this.updateAccountData = this.updateAccountData.bind(this);
     this.setAccountData = this.setAccountData.bind(this);
     this.handleAddTransaction = this.handleAddTransaction.bind(this);
-  }
-
-  postUserData(userObject) {
-    axios
-      .post('http://0.0.0.0:8000/api/users/upsertData', {
-        userUpdate: userObject
-      })
-      .then(okResponse => console.log(okResponse));
   }
 
   componentDidMount() {
@@ -79,18 +69,20 @@ export default class App extends Component {
         },
         // check to see if the user exists
         async () => {
-          const userData = await this.getUserData();
+          const response = await db.getUserData();
+
+          const { data: userData } = response;
 
           console.log(
             `We have this many pieces of data for your account: ${
-              Object.keys(userData.data).length
+              Object.keys(userData).length
             }`
           );
 
           // if the user is new, give them demo data
-          if (userData.data.length > 0) {
+          if (userData.length > 0) {
             this.setAccountData(userData);
-            console.log(`Welcome back ${userData.data.firstName}`);
+            console.log(`Welcome back ${userData.firstName}`);
           } else {
             console.log(`Welcome to CashOverflow!`);
             // TODO: Fake user data should be replaced with SignUp flow logic.
@@ -102,46 +94,32 @@ export default class App extends Component {
             newUserData.email = user.email;
             newUserData.userID = userID;
 
-            this.setState({
-              accountData: newUserData,
-              loadingUser: false
-            });
+            this.setAccountData(newUserData);
           }
         }
       );
     }
   }
 
-  getUserData() {
-    const { userID } = this.state;
-    if (userID) {
-      return axios.get(
-        `http://0.0.0.0:8000/api/users/getData?userid=${userID}`
-      );
-    }
-  }
-
-  setAccountData(incomingAccountData) {
+  setAccountData(newAccountData) {
     console.log(
       'Attempting to set account data to:',
-      JSON.stringify(incomingAccountData.data)
+      JSON.stringify(newAccountData)
     );
-    const [currentAccountData] = incomingAccountData.data;
-    const { budgetCategories, email } = currentAccountData;
+
+    const { budgetCategories, email } = newAccountData;
     this.setState(
       {
-        accountData: currentAccountData,
+        accountData: newAccountData,
         budgetCategories,
         currentUser: email
       },
       () => {
-        this.setState({ loadingUser: false });
+        this.setState({ loadingUser: false }, () => {
+          // db.postUserData(this.state.accountData);
+        });
       }
     );
-  }
-
-  updateAccountData(updatedAccountData) {
-    this.postUserData(updatedAccountData);
   }
 
   handleAddTransaction(stateObject) {
@@ -173,7 +151,7 @@ export default class App extends Component {
         accountUpdate.accounts[i].transactions[year][month].push(transaction);
         break;
       }
-      this.updateAccountData(accountUpdate);
+      this.setAccountData(accountUpdate);
     }
 
     this.setState({
@@ -182,7 +160,7 @@ export default class App extends Component {
 
     // fn below will update app state, and then POST updated userObject to DB
 
-    this.updateAccountData(accountUpdate);
+    this.setAccountData(accountUpdate);
   }
 
   render() {
@@ -221,7 +199,7 @@ export default class App extends Component {
                   accountData={accountData}
                   loading={loading}
                   isAuthenticated={isAuthenticated}
-                  updateAccountData={this.updateAccountData}
+                  updateAccountData={this.setAccountData}
                 />
               )}
             />
@@ -233,7 +211,7 @@ export default class App extends Component {
                   categories={budgetCategories}
                   loading={loading}
                   isAuthenticated={isAuthenticated}
-                  updateAccountData={this.updateAccountData}
+                  updateAccountData={this.setAccountData}
                 />
               )}
             />
@@ -258,7 +236,7 @@ export default class App extends Component {
                   accountData={accountData}
                   loading={loading}
                   isAuthenticated={isAuthenticated}
-                  updateAccountData={this.updateAccountData}
+                  updateAccountData={this.setAccountData}
                 />
               )}
             />
