@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Badge from '@material-ui/core/Badge';
+import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import PropTypes from 'prop-types';
 
 const useStyles = makeStyles(theme => ({
@@ -19,26 +20,35 @@ const useStyles = makeStyles(theme => ({
 
 const BudgetCategoryName = props => {
   const classes = useStyles();
-  const [visible, setVisibility] = React.useState(false);
+  const [invisible, setVisibility] = useState(true);
 
   function showDeleteCategoryButtons() {
-    setVisibility(!visible);
+    setVisibility(!invisible);
   }
 
   function deleteCategory() {
-    visible ? props.handleDeleteCategory(props.category) : null;
+    invisible ? null : props.handleDeleteCategory(props.category);
+    setVisibility(true);
+  }
+
+  function handleClickAway() {
+    setVisibility(true);
   }
 
   return (
-    <Badge
-      color="secondary"
-      badgeContent="x"
-      className={classes.padding}
-      invisible={!visible}
-      onClick={deleteCategory}
-    >
-      <span onClick={showDeleteCategoryButtons}>{props.category}</span>
-    </Badge>
+    <>
+      <ClickAwayListener onClickAway={handleClickAway}>
+        <Badge
+          color="secondary"
+          badgeContent="x"
+          className={classes.padding}
+          invisible={invisible}
+          onClick={deleteCategory}
+        >
+          <span onClick={showDeleteCategoryButtons}>{props.category}</span>
+        </Badge>
+      </ClickAwayListener>
+    </>
   );
 };
 
