@@ -24,18 +24,17 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const BudgetCategoryName = ({
-  category,
-  handleDeleteCategory,
-  handleDeleteDialog,
-  handleClose,
-  open
-}) => {
+const BudgetCategoryName = ({ category, handleDeleteCategory }) => {
   const classes = useStyles();
   const [invisible, setVisibility] = useState(true);
+  const [open, setOpen] = useState(false);
 
   function showDeleteCategoryButtons() {
     setVisibility(!invisible);
+  }
+
+  function handleDeleteDialog() {
+    setOpen(!open);
   }
 
   function deleteCategory() {
@@ -43,6 +42,7 @@ const BudgetCategoryName = ({
       handleDeleteCategory(category);
       setVisibility(true);
     }
+    handleDeleteDialog();
   }
 
   function handleClickAway() {
@@ -65,7 +65,7 @@ const BudgetCategoryName = ({
       </ClickAwayListener>
       <Dialog
         open={open}
-        onClose={handleClose}
+        onClose={handleDeleteDialog}
         aria-labelledby="form-dialog-title"
       >
         <DialogTitle id="form-dialog-title">
@@ -77,7 +77,7 @@ const BudgetCategoryName = ({
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={handleDeleteDialog} color="primary">
             Cancel
           </Button>
           <Button onClick={deleteCategory} color="primary">
@@ -91,10 +91,7 @@ const BudgetCategoryName = ({
 
 BudgetCategoryName.propTypes = {
   category: PropTypes.string,
-  open: PropTypes.bool,
-  handleDeleteCategory: PropTypes.func,
-  handleDeleteDialog: PropTypes.func,
-  handleClose: PropTypes.func
+  handleDeleteCategory: PropTypes.func
 };
 
 export default BudgetCategoryName;

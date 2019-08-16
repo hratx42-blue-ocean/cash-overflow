@@ -21,14 +21,12 @@ class BudgetPage extends Component {
       categoryBreakdown: {},
       currentYear: 2019,
       currentMonth: 8,
-      addOpen: false,
-      deleteOpen: false,
+      open: false,
       textInput: ''
     };
     this.handleAddCategory = this.handleAddCategory.bind(this);
     this.handleSaveCategory = this.handleSaveCategory.bind(this);
     this.handleDeleteCategory = this.handleDeleteCategory.bind(this);
-    this.handleDeleteDialog = this.handleDeleteDialog.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.handleTextInput = this.handleTextInput.bind(this);
     this.handleMonthChange = this.handleMonthChange.bind(this);
@@ -72,15 +70,11 @@ class BudgetPage extends Component {
   }
 
   handleAddCategory() {
-    this.setState({ addOpen: true });
-  }
-
-  handleDeleteDialog() {
-    this.setState({ deleteOpen: true });
+    this.setState({ open: true });
   }
 
   handleClose() {
-    this.setState({ addOpen: false, deleteOpen: false });
+    this.setState({ open: false });
   }
 
   handleSaveCategory() {
@@ -130,13 +124,7 @@ class BudgetPage extends Component {
       );
     }
 
-    const {
-      currentMonth,
-      currentYear,
-      categoryBreakdown,
-      addOpen,
-      deleteOpen
-    } = this.state;
+    const { currentMonth, currentYear, categoryBreakdown, open } = this.state;
     const breakdown =
       categoryBreakdown[currentYear] &&
       categoryBreakdown[currentYear][currentMonth]
@@ -146,8 +134,7 @@ class BudgetPage extends Component {
       <BudgetTable
         month={currentMonth}
         breakdown={breakdown}
-        addOpen={addOpen}
-        deleteOpen={deleteOpen}
+        open={open}
         handleAddCategory={this.handleAddCategory}
         handleSaveCategory={this.handleSaveCategory}
         handleDeleteCategory={this.handleDeleteCategory}
