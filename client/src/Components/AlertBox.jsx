@@ -16,7 +16,7 @@ import AlertCard from './AlertCard.jsx';
 export default class AlertBox extends Component {
   constructor(props) {
     super(props);
-    
+
     this.state = {
       alerts: [],
       maxSteps: 0,
@@ -28,7 +28,11 @@ export default class AlertBox extends Component {
   }
 
   componentDidMount() {
-    this.getAlerts(this.props.accounts, this.props.budget, this.props.recurringTransactions);
+    this.getAlerts(
+      this.props.accounts,
+      this.props.budget,
+      this.props.recurringTransactions
+    );
   }
 
   getAlerts(accounts, budget, transactions) {
@@ -59,7 +63,7 @@ export default class AlertBox extends Component {
         alertType = 'almost reached your limit';
         alertHeader = `Slow down with spending in ${categoryName}`;
       }
-     
+
       if (alertType) {
         alerts.push({
           budgetCategory: categoryName,
@@ -70,31 +74,30 @@ export default class AlertBox extends Component {
         });
       }
     }
-  
 
-     for (let payment of transactions) {
-      
-      let date = new Date(payment.startDate)
-      if ((date.getDate() - today.getDate() < 4) && (date.getDate() - today.getDate() > 0)) {
-        date.setMonth(today.getMonth())
+    for (let payment of transactions) {
+      let date = new Date(payment.startDate);
+      if (
+        date.getDate() - today.getDate() < 4 &&
+        date.getDate() - today.getDate() > 0
+      ) {
+        date.setMonth(today.getMonth());
         alerts.push({
-        budgetCategoryName: payment.category,
-        amount: payment.amount,
-        date: date,
-        payee: payment.payee,
-        alertType: 'Payment Reminder',
-        alertHeader: 'You have a payment coming up!'
-        })
+          budgetCategoryName: payment.category,
+          amount: payment.amount,
+          date: date,
+          payee: payment.payee,
+          alertType: 'Payment Reminder',
+          alertHeader: 'You have a payment coming up!'
+        });
       }
-     }
-   
+    }
 
     this.setState({
       alerts: alerts,
       maxSteps: alerts.length
     });
   }
-
 
   handleNext() {
     let nextStep = this.state.activeStep + 1;
