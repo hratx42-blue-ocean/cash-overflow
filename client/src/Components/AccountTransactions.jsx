@@ -38,7 +38,9 @@ const AccountTransactions = props => {
             onChange={props.handleAccountFilter}
             input={<Input id="account-filter" />}
           >
-            <MenuItem key={`accountFilter_blank`} value=''>All Accounts</MenuItem>
+            <MenuItem key={`accountFilter_blank`} value="">
+              All Accounts
+            </MenuItem>
             {props.accountsList.map((acct, i) => {
               return (
                 <MenuItem key={`accountFilter_${i}`} value={acct.name}>
@@ -88,7 +90,7 @@ const AccountTransactions = props => {
               <TableBody>
                 {props.data.map((tx, i) => {
                   return (
-                    <TableRow key={`txRow_${i}`}>
+                    <TableRow color="hoverColor" key={`txRow_${i}`}>
                       <TableCell key={`txDate_${i}`}>
                         {new Date(tx.date).toLocaleDateString('en-US')}
                       </TableCell>
@@ -97,7 +99,9 @@ const AccountTransactions = props => {
                         {tx.category}
                       </TableCell>
                       <TableCell key={`txAmount_${i}`}>${tx.amount}</TableCell>
-                      <TableCell key={`txAccount_${i}`}>{tx.accountName}</TableCell>
+                      <TableCell key={`txAccount_${i}`}>
+                        {tx.accountName}
+                      </TableCell>
                     </TableRow>
                   );
                 })}
