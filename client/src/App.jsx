@@ -161,7 +161,13 @@ export default class App extends Component {
   }
 
   render() {
-    const { accountData, budgetCategories, isDemo, currentUser } = this.state;
+    const {
+      accountData,
+      budgetCategories,
+      isDemo,
+      currentUser,
+      loadingUser
+    } = this.state;
     const { isAuthenticated, loading } = this.context;
 
     if (loadingUser) {
