@@ -85,7 +85,6 @@ class BudgetPage extends Component {
   }
 
   handleTextInput(e) {
-    console.log(e.target.value);
     const { value } = e.target;
     this.setState({
       textInput: value
