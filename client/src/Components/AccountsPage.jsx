@@ -40,11 +40,16 @@ export default class AccountsPage extends React.Component {
 
   handleAccountNameInput(event){
     this.setState({accountName: event.target.value});
-    console.log(this.state.accountName)
   }
 
   handleSaveAccount(){
     this.setState({ open: false });
+    console.log(this.state.accountName,this.state.accountType)
+    const accountDataUpdate = JSON.parse(JSON.stringify(this.props.accountData));
+    const newAcct = {name:this.state.accountName, transactions: {'2019': {'6': [], '7': [], '8': []}}, type:this.state.accountType};
+    accountDataUpdate.accounts.push(newAcct);
+
+    this.props.setAccountData(accountDataUpdate);
   }
 
   handleClose() {
@@ -105,7 +110,7 @@ export default class AccountsPage extends React.Component {
         });
       } else {
         accountData.accounts.forEach(account => {
-          if(account.name === this.state.accountFilter){
+          if(account.name === this.state.accountFilter && account.transactions[this.state.currentYear][this.state.currentMonth]){
             let txs = account.transactions[this.state.currentYear][this.state.currentMonth];
             txs.forEach(record => {
               record.accountName = account.name
