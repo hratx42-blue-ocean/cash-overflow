@@ -21,7 +21,26 @@
         "bsonType": "string"
       },
       "accounts": {
-        "bsonType": "array"
+        "bsonType": ["array"],
+        "items": {
+          "bsonType": "object",
+          "required": ["name", "transactions", "type"],
+          "additionalProperties": false,
+          "properties": {
+            "name": {
+              "bsonType": "string",
+              "description": "name must be a string and is required"
+            },
+            "transactions": {
+              "bsonType": "object",
+              "description": "transactions must be an object and is required"
+            },
+            "type": {
+              "bsonType": "string",
+              "description": "type must be a string and is required"
+            }
+          }
+        }
       },
       "recurringTransactions": {
         "bsonType": "array"
