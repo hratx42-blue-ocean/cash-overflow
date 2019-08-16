@@ -1,5 +1,4 @@
 const faker = require('faker');
-
 module.exports.createData = () => {
   // create basic object structure
   const dummyObject = {
@@ -22,7 +21,6 @@ module.exports.createData = () => {
     'household expenses'
   ];
   const frequencies = ['daily', 'weekly', 'monthly', 'yearly'];
-
   // create a variable number of accounts for each user to have, up to 6
   const accountCount = Math.ceil(Math.random() * 6);
   for (let i = 0; i < accountCount; i++) {
@@ -43,7 +41,6 @@ module.exports.createData = () => {
       }
     });
   }
-
   // seed June-August 2019 with 40 transactions each
   for (let year = 2019; year > 2017; year--) {
     for (let month = 6; month < 9; month++) {
@@ -64,7 +61,6 @@ module.exports.createData = () => {
       }
     }
   }
-
   // generate 5 recurring transactions
   for (let i = 0; i < 5; i++) {
     dummyObject.recurringTransactions.push({
@@ -76,7 +72,6 @@ module.exports.createData = () => {
       frequency: frequencies[Math.floor(Math.random() * frequencies.length)]
     });
   }
-
   // generate budget categories with $0 allotments by default
   categories.forEach(category => {
     dummyObject.budgetCategories.push({

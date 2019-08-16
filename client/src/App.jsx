@@ -17,6 +17,7 @@ import LandingPage from './Components/LandingPage.jsx';
 import TrendsPage from './Components/TrendsPage.jsx';
 import LoginPage from './Components/LoginPage.jsx';
 import ProfilePage from './Components/ProfilePage.jsx';
+import Footer from './Components/Footer.jsx';
 import ErrorPage from './Components/ErrorPage.jsx';
 import Loading from './Components/Loading.jsx';
 import db from './utils/databaseRequests';
@@ -37,6 +38,7 @@ export default class App extends Component {
     };
     this.setAccountData = this.setAccountData.bind(this);
     this.handleAddTransaction = this.handleAddTransaction.bind(this);
+    this.handleUpdateCategories = this.handleUpdateCategories.bind(this);
   }
 
   componentDidMount() {
@@ -152,6 +154,16 @@ export default class App extends Component {
     this.setAccountData(accountUpdate);
   }
 
+  handleUpdateCategories(updatedCategories) {
+    const accountUpdate = { ...this.state.accountData };
+    accountUpdate.budgetCategories = updatedCategories;
+    this.setState({
+      budgetCategories: updatedCategories,
+      accountData: accountUpdate
+    });
+    this.updateAccountData(accountUpdate);
+  }
+
   render() {
     const { accountData, budgetCategories, loadingUser } = this.state;
     const { isAuthenticated, loading } = this.context;
@@ -201,6 +213,7 @@ export default class App extends Component {
                   loading={loading}
                   isAuthenticated={isAuthenticated}
                   updateAccountData={this.setAccountData}
+                  handleUpdateCategories={this.handleUpdateCategories}
                 />
               )}
             />
@@ -243,6 +256,7 @@ export default class App extends Component {
             <Route component={ErrorPage} />
           </Switch>
         </Container>
+        <Footer />
       </div>
     );
   }

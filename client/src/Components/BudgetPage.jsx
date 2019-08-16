@@ -9,6 +9,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import BudgetTable from './BudgetTable.jsx';
 import Loading from './Loading.jsx';
+import faker from 'faker';
 
 class BudgetPage extends Component {
   constructor(props) {
@@ -19,10 +20,16 @@ class BudgetPage extends Component {
       txsByMonth: {},
       categoryBreakdown: {},
       currentYear: 2019,
-      currentMonth: 8
+      currentMonth: 8,
+      open: false,
+      textInput: ''
     };
-
+    this.handleAddCategory = this.handleAddCategory.bind(this);
+    this.handleSaveCategory = this.handleSaveCategory.bind(this);
+    this.handleClose = this.handleClose.bind(this);
+    this.handleTextInput = this.handleTextInput.bind(this);
     this.handleMonthChange = this.handleMonthChange.bind(this);
+    this.updateAllotments = this.updateAllotments.bind(this);
   }
 
   componentDidMount() {
@@ -41,7 +48,51 @@ class BudgetPage extends Component {
     }
   }
 
+  updateAllotments(name, val, year, month) {
+    let { categories } = this.state;
+    categories = categories ? categories : [];
+    categories = JSON.parse(JSON.stringify(categories));
+
+    categories.forEach(category => {
+      if (
+        category.name === name &&
+        category.allotment &&
+        category.allotment[year] &&
+        category.allotment[year][month] !== undefined
+      ) {
+        category.allotment[year][month] = val;
+      }
+    });
+
+    // TODO add function that sets app state
+    console.log(categories);
+  }
+
+  handleAddCategory() {
+    this.setState({ open: true });
+  }
+
+  handleClose() {
+    this.setState({ open: false });
+  }
+
+  handleSaveCategory() {
+    const categoryUpdate = this.state.categories.slice();
+    const newCategory = new Category(this.state.textInput);
+    categoryUpdate.push(newCategory);
+    this.props.handleUpdateCategories(categoryUpdate);
+    this.handleClose();
+  }
+
+  handleTextInput(e) {
+    const { value } = e.target;
+    this.setState({
+      textInput: value
+    });
+  }
+
   render() {
+    this.updateAllotments('bills', 100, 2019, 8);
     const { loading, isAuthenticated } = this.props;
     if (loading || !isAuthenticated) {
       return (
@@ -51,7 +102,7 @@ class BudgetPage extends Component {
       );
     }
 
-    const { currentMonth, currentYear, categoryBreakdown } = this.state;
+    const { currentMonth, currentYear, categoryBreakdown, open } = this.state;
     const breakdown =
       categoryBreakdown[currentYear] &&
       categoryBreakdown[currentYear][currentMonth]
@@ -61,6 +112,11 @@ class BudgetPage extends Component {
       <BudgetTable
         month={currentMonth}
         breakdown={breakdown}
+        open={open}
+        handleAddCategory={this.handleAddCategory}
+        handleSaveCategory={this.handleSaveCategory}
+        handleClose={this.handleClose}
+        handleTextInput={this.handleTextInput}
         handleMonthChange={this.handleMonthChange}
       />
     );
@@ -73,7 +129,8 @@ BudgetPage.propTypes = {
   transactions: PropTypes.object,
   loading: PropTypes.bool.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
-  updateAccountData: PropTypes.func
+  updateAccountData: PropTypes.func,
+  handleUpdateCategories: PropTypes.func
 };
 
 const totalSpent = txs => {
@@ -129,6 +186,12 @@ function compileSpent(categories = [], transactions) {
     });
   });
   return result;
+}
+
+function Category(name) {
+  this.id = faker.random.uuid();
+  this.name = name;
+  this.allotment = { '2019': { '6': 0, '7': 0, '8': 0 } };
 }
 
 export default BudgetPage;
