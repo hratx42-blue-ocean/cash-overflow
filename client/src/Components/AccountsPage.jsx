@@ -98,8 +98,8 @@ export default class AccountsPage extends React.Component {
             data.push(...txs);
           }
         });
-      }   
-      data = data.sort((a, b) => b.date - a.date);
+      } 
+      data = data.sort((a, b) => new Date(b.date) - new Date(a.date));
       accountsList = accountData.accounts;
     }
     return (
