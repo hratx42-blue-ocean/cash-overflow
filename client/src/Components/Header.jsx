@@ -1,6 +1,5 @@
 /* eslint-disable no-nested-ternary */
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -8,68 +7,58 @@ import Button from '@material-ui/core/Button';
 import { Link, Redirect } from 'react-router-dom';
 import Box from '@material-ui/core/Box';
 import { useAuth0 } from '../react-auth0-wrapper';
+import { withStyles } from '@material-ui/styles';
 
-const useStyles = makeStyles(theme => ({
+const styles = {
   root: {
-    flexGrow: 1
-  },
-  navBox: {
-    flexDirection: 'row',
-    justifyContent: 'flex-start'
-  },
-  title: {
-    flexGrow: 1
-  },
-  link: {
-    textDecoration: 'none',
-    color: '#ffffff'
+    background: 'transparent',
+    borderRadius: 3,
+    border: 0,
+    color: 'white',
+    textDecoration: 'none'
   }
-}));
+};
 
-export default function ButtonAppBar(props) {
-  const classes = useStyles();
-  let { isDemo, toggleDemo } = props;
-  let { isAuthenticated, loading, loginWithRedirect, logout } = useAuth0();
-  if (isDemo) {
-    isAuthenticated = true;
-    loading = false;
-  }
+function ButtonAppBar(props) {
+  const { classes } = props;
+  const { isAuthenticated, loading, loginWithRedirect, logout } = useAuth0();
+
   const logoutWithRedirect = () =>
     logout({
       returnTo: window.location.origin
     });
 
   return (
-    <div className={classes.root}>
-      <AppBar position="static">
+    <div>
+      <AppBar color="primary" position="static">
         <Toolbar>
           <Typography variant="h6" className={classes.title}>
             Cash Overflow
           </Typography>
           {isAuthenticated ? (
-            <Box className={classes.navBox}>
-              <Button color="inherit" className={classes.link}>
-                <Link to="/dashboard" className={classes.link}>
+            <Box>
+              <Button>
+                <Link to="/dashboard" className={classes.root}>
                   Dashboard
                 </Link>
               </Button>
-              <Button color="inherit" className={classes.link}>
-                <Link to="/accounts" className={classes.link}>
+              <Button>
+                <Link className={classes.root} to="/accounts">
                   Accounts
                 </Link>
               </Button>
-              <Button color="inherit" className={classes.link}>
-                <Link to="/budget" className={classes.link}>
+              <Button>
+                <Link className={classes.root} to="/budget">
                   Budget
                 </Link>
               </Button>
-              <Button color="inherit" className={classes.link}>
-                <Link to="/trends" className={classes.link}>
+              <Button>
+                <Link className={classes.root} to="/trends">
                   Trends
                 </Link>
               </Button>
-              <Button color="inherit" className={classes.link}>
-                <Link to="/profile" className={classes.link}>
+              <Button>
+                <Link className={classes.root} to="/profile">
                   Profile
                 </Link>
               </Button>
@@ -79,7 +68,7 @@ export default function ButtonAppBar(props) {
           )}
           {!isAuthenticated ? (
             !loading ? (
-              <Button onClick={() => loginWithRedirect({})} color="inherit">
+              <Button onClick={() => loginWithRedirect({})} color="secondary">
                 Login
               </Button>
             ) : (
@@ -90,7 +79,11 @@ export default function ButtonAppBar(props) {
               <Link to="/home">Exit the Demo</Link>
             </Button>
           ) : (
-            <Button onClick={() => logoutWithRedirect()} color="inherit">
+            <Button
+              className={classes.link}
+              onClick={() => logoutWithRedirect()}
+              color="inherit"
+            >
               Logout
             </Button>
           )}
@@ -99,3 +92,5 @@ export default function ButtonAppBar(props) {
     </div>
   );
 }
+
+export default withStyles(styles)(ButtonAppBar);

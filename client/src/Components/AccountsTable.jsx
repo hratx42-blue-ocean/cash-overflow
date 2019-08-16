@@ -31,9 +31,15 @@ const AccountsTable = props => {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell key={`accountHeader_1`} align="center">Account</TableCell>
-                <TableCell key={`accountHeader_2`} align="center">Type</TableCell>
-                <TableCell key={`accountHeader_3`} align="center">Balance</TableCell>
+                <TableCell key={`accountHeader_1`} align="center">
+                  Account
+                </TableCell>
+                <TableCell key={`accountHeader_2`} align="center">
+                  Type
+                </TableCell>
+                <TableCell key={`accountHeader_3`} align="center">
+                  Balance
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -47,7 +53,9 @@ const AccountsTable = props => {
                       <TableCell key={`accountType_${i}`}>
                         {account.type}
                       </TableCell>
-                      <TableCell key={`accountBal_${i}`}>$ Balance.00 </TableCell>
+                      <TableCell key={`accountBal_${i}`}>
+                        $ Balance.00{' '}
+                      </TableCell>
                     </TableRow>
                   </>
                 );
@@ -91,9 +99,15 @@ const AccountsTable = props => {
                 onChange={props.handleSelect}
                 input={<Input id="account-type" />}
               >
-                <MenuItem key={`accountSelect_1`} value="Checkings">Checking</MenuItem>
-                <MenuItem key={`accountSelect_2`} value="Savings">Savings</MenuItem>
-                <MenuItem key={`accountSelect_3`} value="Credit">Credit</MenuItem>
+                <MenuItem key={`accountSelect_1`} value="Checkings">
+                  Checking
+                </MenuItem>
+                <MenuItem key={`accountSelect_2`} value="Savings">
+                  Savings
+                </MenuItem>
+                <MenuItem key={`accountSelect_3`} value="Credit">
+                  Credit
+                </MenuItem>
               </Select>
             </FormControl>
           </DialogContent>
