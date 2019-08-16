@@ -10,14 +10,14 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 const engineers = [
-  'Garett Welson',
-  'Ross Calimlin',
-  'Doris Hui',
-  'Kevin Bench',
-  'Evelyn Binkard',
-  'Mitchell Dill',
-  'Jordan Dilliard',
-  'Brandon Leafman'
+  {name: 'Garett Welson', link:'https://www.linkedin.com/in/garrettwelson/' },
+  {name: 'Ross Calimlin', link: 'https://www.linkedin.com/in/rcalimlim/' },
+  {name: 'Doris Hui', link: 'https://www.linkedin.com/in/dorishui/'},
+  {name: 'Kevin Bench', link: 'https://www.linkedin.com/in/kevin-bench/'},
+  {name: 'Evelyn Binkard', link: 'https://www.linkedin.com/in/evelynbinkard/'},
+  {name: 'Mitchell Dill', link: 'https://www.linkedin.com/in/mitchelladill/'},
+  {name: 'Jordan Dilliard', link: 'https://www.linkedin.com/in/jordan-dillard/'},
+  {name: 'Brandon Leafman', link: 'https://www.linkedin.com/in/brandonleafman/'}
 ];
 
 const useStyles = makeStyles(theme => ({
@@ -35,7 +35,9 @@ const useStyles = makeStyles(theme => ({
     textDecoration: 'none',
     color: '#ffffff',
     padding: 0,
-    margin: 2
+    margin: 2,
+
+
   },
   toolbar: {
     position: 'fixed',
@@ -44,6 +46,12 @@ const useStyles = makeStyles(theme => ({
     right: 10,
     bottom: 4,
     minHeight: 10
+  },
+  engineer: {
+    color: '#3f51b5',
+    '&:hover': {
+      color: "blue",
+   }
   }
 }));
 
@@ -69,8 +77,9 @@ export default function Footer() {
           <DialogTitle>Team Cash Overflow</DialogTitle>
           <List>
             {engineers.map(engineer => (
-              <ListItem key={engineer}>
-                <ListItemText primary={engineer} />
+          
+              <ListItem className={classes.engineer} key={engineer.name} onClick={()=> window.open(engineer.link, "_blank")}>
+                <ListItemText primary={engineer.name} />
               </ListItem>
             ))}
           </List>
