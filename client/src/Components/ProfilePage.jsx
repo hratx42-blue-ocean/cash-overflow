@@ -160,7 +160,6 @@ export default class ProfilePage extends React.Component {
   }
 
   toggleSuccessMessage() {
-    console.log('in toggle function');
     this.setState({
       showSuccessMessage: !this.state.showSuccessMessage,
       inputPayee: 'payee',
