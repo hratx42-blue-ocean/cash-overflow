@@ -9,6 +9,8 @@ import { Auth0Context } from './react-auth0-wrapper';
 // Material Components
 
 // Custom Components
+import ProtectedSwitch from './Components/ProtectedSwitch.jsx';
+import DemoSwitch from './Components/DemoSwitch.jsx';
 import Header from './Components/Header.jsx';
 import AccountsPage from './Components/AccountsPage.jsx';
 import BudgetPage from './Components/BudgetPage.jsx';
@@ -70,7 +72,7 @@ export default class App extends Component {
   }
 
   toggleDemo() {
-    this.getUserData('demo_user@cashoverflow.app')
+    this.getUserData('cash.johnny@cashoverflow.app')
       .then(this.setAccountData)
       .then(() => {
         const demo = !this.state.isDemo;
@@ -126,7 +128,7 @@ export default class App extends Component {
   }
 
   render() {
-    let { accountData, budgetCategories, isDemo } = this.state;
+    let { accountData, budgetCategories, isDemo, currentUser } = this.state;
     let { isAuthenticated, loading } = this.context;
 
     if (isDemo) {
@@ -135,8 +137,34 @@ export default class App extends Component {
     }
     return (
       <div className="app">
-        <Header isDemo={isDemo} toggleDemo={this.toggleDemo} />
         <Container>
+          <Header isDemo={isDemo} toggleDemo={this.toggleDemo} />
+          {isDemo ? (
+            <DemoSwitch
+              accountData={accountData}
+              budgetCategories={budgetCategories}
+              updateAccountData={this.updateAccountData}
+              currentUser={currentUser}
+              handleAddTransaction={this.handleAddTransaction}
+              toggleDemo={this.toggleDemo}
+              isDemo={isDemo}
+              isAuthenticated={isAuthenticated}
+              loading={loading}
+            />
+          ) : (
+            <ProtectedSwitch
+              accountData={accountData}
+              budgetCategories={budgetCategories}
+              updateAccountData={this.updateAccountData}
+              currentUser={currentUser}
+              handleAddTransaction={this.handleAddTransaction}
+              toggleDemo={this.toggleDemo}
+              isDemo={isDemo}
+              isAuthenticated={isAuthenticated}
+              loading={loading}
+            />
+          )}
+          {/* <Container>
           <Switch>
             <Route
               exact
@@ -210,7 +238,7 @@ export default class App extends Component {
               )}
             />
             <Route component={ErrorPage} />
-          </Switch>
+          </Switch> */}
         </Container>
       </div>
     );
