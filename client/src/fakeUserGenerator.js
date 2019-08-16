@@ -1,6 +1,6 @@
 const faker = require('faker');
 
-module.exports.createData = () => {
+export default function createFakeUser() {
   // create basic object structure
   const dummyObject = {
     // userID: faker.random.uuid(),
@@ -92,4 +92,4 @@ module.exports.createData = () => {
     });
   });
   return dummyObject;
-};
+}

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Axios from 'axios';
+import axios from 'axios';
 
 // Routing
 import { Switch, Route, Redirect } from 'react-router-dom';
@@ -20,10 +20,13 @@ import ProfilePage from './Components/ProfilePage.jsx';
 import ErrorPage from './Components/ErrorPage.jsx';
 import Loading from './Components/Loading.jsx';
 
+import createFakeUser from './fakeUserGenerator.js';
+
 export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      userID: null,
       loadingUser: true,
       currentUser: '',
       budgetCategories: [],
@@ -38,36 +41,104 @@ export default class App extends Component {
     this.handleAddTransaction = this.handleAddTransaction.bind(this);
   }
 
-  getUserData(userEmail) {
-    return Axios.get(`http://0.0.0.0:8000/api/users/getData?user=${userEmail}`);
-  }
-
   postUserData(userObject) {
-    Axios.post('http://0.0.0.0:8000/api/users/upsertData', {
-      userUpdate: userObject
-    }).then(okResponse => console.log(okResponse));
+    axios
+      .post('http://0.0.0.0:8000/api/users/upsertData', {
+        userUpdate: userObject
+      })
+      .then(okResponse => console.log(okResponse));
   }
 
   componentDidMount() {
-    this.getUserData('chadchadson@gmail.com')
-      .then(this.setAccountData)
-      .then(() => {
-        console.log('the user object is: ', this.state.accountData);
-      })
-      .catch(err => {
-        console.log('mounting error: ', err);
-      });
+    const { user, isAuthenticated, loading } = this.context;
+
+    console.log(
+      `componentDidMount gets the following from Auth0Context user:${user}, isAuthenticated:${isAuthenticated}, loading:${loading}`
+    );
+  }
+
+  componentDidUpdate() {
+    const { user } = this.context;
+
+    if (user && user.sub.substring(6) !== this.state.userID) {
+      console.log(
+        `From componentDidUpdate, looks like you're logged in as: ${user}`
+      );
+
+      // set the userID to the UUID provided
+      const userID = user.sub.substring(6);
+      console.log(`From componentDidUpdate, your UserID is ${userID}`);
+      this.setState(
+        {
+          userID
+        },
+        // check to see if the user exists
+        async () => {
+          const userData = await this.getUserData();
+
+          console.log(
+            `From componentDidUpdate, we have this many pieces of data for your account: ${
+              Object.keys(userData.data).length
+            }`
+          );
+
+          // if the user is new, give them demo data
+          if (userData.data.length > 0) {
+            this.setAccountData(userData);
+            console.log(
+              `From componentDidUpdate, Welcome back ${userData.data.firstName}`
+            );
+          } else {
+            console.log(
+              `From componentDidUpdate, Welcome to CashOverflow new user!`
+            );
+            // TODO: Fake user data should be replaced with SignUp flow logic.
+            const newUserData = createFakeUser();
+
+            console.log(
+              `From componentDidUpdate, here's some sample account data to get you started: ${JSON.stringify(
+                newUserData
+              )}`
+            );
+            newUserData.email = user.email;
+            newUserData.userID = userID;
+
+            this.setState({
+              accountData: newUserData,
+              loadingUser: false
+            });
+          }
+        }
+      );
+    }
+  }
+
+  getUserData() {
+    const { userID } = this.state;
+    if (userID) {
+      return axios.get(
+        `http://0.0.0.0:8000/api/users/getData?userid=${userID}`
+      );
+    }
   }
 
   setAccountData(incomingAccountData) {
+    console.log(
+      'Attempting to set account data to:',
+      JSON.stringify(incomingAccountData.data)
+    );
     const [currentAccountData] = incomingAccountData.data;
     const { budgetCategories, email } = currentAccountData;
-    this.setState({
-      accountData: currentAccountData,
-      budgetCategories,
-      currentUser: email,
-      loadingUser: false
-    });
+    this.setState(
+      {
+        accountData: currentAccountData,
+        budgetCategories,
+        currentUser: email
+      },
+      () => {
+        this.setState({ loadingUser: false });
+      }
+    );
   }
 
   updateAccountData(updatedAccountData) {

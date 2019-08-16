@@ -23,7 +23,6 @@ const getUserDataByUserID = async userID => {
       .find({ userID: userID }, { projection: { _id: 0 } })
       .limit(1)
       .toArray();
-    assert.equal(1, result.length);
     return result;
   } catch (err) {
     console.log(err);
@@ -87,4 +86,11 @@ const testSchema = async () => {
   }
 };
 
-module.exports = { getUserData, seedFakeUserData, testSchema, upsertUserData };
+module.exports = {
+  getUserData,
+  seedFakeUserData,
+  testSchema,
+  upsertUserData,
+  getUserDataByUserID,
+  upsertUserDataByUserID
+};
