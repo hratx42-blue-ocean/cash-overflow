@@ -44,23 +44,23 @@ const AccountsTable = props => {
           <Table className={classes.root}>
             <TableHead>
               <TableRow>
-                <TableCell align="center">Account</TableCell>
-                <TableCell align="center">Type</TableCell>
-                <TableCell align="center">Balance</TableCell>
+                <TableCell key={`accountHeader_1`} align="center">Account</TableCell>
+                <TableCell key={`accountHeader_2`} align="center">Type</TableCell>
+                <TableCell key={`accountHeader_3`} align="center">Balance</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {props.accountData.accounts.map((account, i) => {
                 return (
                   <>
-                    <TableRow>
+                    <TableRow key={`accountRow_${i}`}>
                       <TableCell key={`accountName_${i}`}>
                         {account.name}
                       </TableCell>
                       <TableCell key={`accountType_${i}`}>
                         {account.type}
                       </TableCell>
-                      <TableCell>$ Balance.00 </TableCell>
+                      <TableCell key={`accountBal_${i}`}>$ Balance.00 </TableCell>
                     </TableRow>
                   </>
                 );
@@ -104,9 +104,9 @@ const AccountsTable = props => {
                 onChange={props.handleSelect}
                 input={<Input id="account-type" />}
               >
-                <MenuItem value="Checkings">Checking</MenuItem>
-                <MenuItem value="Savings">Savings</MenuItem>
-                <MenuItem value="Credit">Credit</MenuItem>
+                <MenuItem key={`accountSelect_1`} value="Checkings">Checking</MenuItem>
+                <MenuItem key={`accountSelect_2`} value="Savings">Savings</MenuItem>
+                <MenuItem key={`accountSelect_3`} value="Credit">Credit</MenuItem>
               </Select>
             </FormControl>
           </DialogContent>
