@@ -1,16 +1,16 @@
 import React from 'react';
-import { shallow, mount } from 'enzyme';
+import { shallow, mount, render } from 'enzyme';
 import { MemoryRouter } from 'react-router-dom';
 import { AuthAndMemoryWrapper } from './utils/util.wrappers';
-import Header from '../Components/Header.jsx';
+import LandingPage from '../Components/LandingPage';
 
-describe('Header component --->', () => {
+describe('Dashboard component --->', () => {
   test('should render without throwing an error', async () => {
     expect(
       await shallow(
-        <MemoryRouter initialEntries={['/random']}>
-          <Header />
-        </MemoryRouter>
+        <AuthAndMemoryWrapper>
+          <LandingPage />
+        </AuthAndMemoryWrapper>
       )
     );
   });
@@ -19,7 +19,7 @@ describe('Header component --->', () => {
     expect(
       await mount(
         <AuthAndMemoryWrapper>
-          <Header />
+          <LandingPage />
         </AuthAndMemoryWrapper>
       )
     );

@@ -8,7 +8,7 @@ const TrendsOverview = props => {
   const [transactions, setTransactions] = React.useState([]);
 
   React.useEffect(() => {
-    let transactions = {};
+    const transactions = {};
     props.data.accountData.accounts.map(account => {
       if (account.transactions[props.year]) {
         if (account.transactions[props.year][props.month]) {
@@ -23,7 +23,7 @@ const TrendsOverview = props => {
       }
     });
     setTransactions(transactions);
-  }, [props.year, props.month]);
+  }, [props.year, props.month, props.data.accountData.accounts]);
 
   React.useEffect(() => {
     setLabels(Object.keys(transactions));
@@ -31,13 +31,13 @@ const TrendsOverview = props => {
 
   React.useEffect(() => {
     setData(labels.map(label => Math.round(transactions[label] * 1000) / 1000));
-  }, [labels]);
+  }, [labels, transactions]);
 
   const userData = {
-    labels: labels,
+    labels,
     datasets: [
       {
-        data: data,
+        data,
         backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
         hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56']
       }

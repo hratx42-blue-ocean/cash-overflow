@@ -12,6 +12,7 @@ import TrendsComparison from './TrendsComparison.jsx';
 import OverviewSelector from './TrendsOverviewSelector.jsx';
 import HabitsSelector from './TrendsHabitsSelector.jsx';
 import ComparisonSelector from './TrendsComparisonSelector.jsx';
+import Loading from './Loading.jsx';
 
 const useStyles = makeStyles({
   root: {
@@ -63,6 +64,16 @@ export default function TrendsPage(props) {
 
   function handleChange(event, newValue) {
     setValue(newValue);
+  }
+
+  const { loading, isAuthenticated } = props;
+
+  if (loading || !isAuthenticated) {
+    return (
+      <div data-testid="auth-loading">
+        <Loading />
+      </div>
+    );
   }
 
   return (
@@ -117,3 +128,8 @@ export default function TrendsPage(props) {
     </Paper>
   );
 }
+
+TrendsPage.propTypes = {
+  loading: PropTypes.bool.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired
+};

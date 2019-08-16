@@ -10,9 +10,9 @@ const TrendsComparison = props => {
   const [graphData, setGraphData] = React.useState({});
 
   React.useEffect(() => {
-    let cat1 = {};
-    let cat2 = {};
-    let totalCats = {};
+    const cat1 = {};
+    const cat2 = {};
+    const totalCats = {};
     props.data.accountData.accounts.forEach(account => {
       if (account.transactions[props.y1]) {
         if (account.transactions[props.y1][props.m1]) {
@@ -42,7 +42,7 @@ const TrendsComparison = props => {
     setm1Data(cat1);
     setm2Data(cat2);
     setCategories(totalCats);
-  }, [props.m1, props.m2, props.y1, props.y2]);
+  }, [props.data.accountData.accounts, props.m1, props.m2, props.y1, props.y2]);
 
   React.useEffect(() => {
     setGraphData({

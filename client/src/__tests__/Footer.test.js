@@ -2,14 +2,14 @@ import React from 'react';
 import { shallow, mount } from 'enzyme';
 import { MemoryRouter } from 'react-router-dom';
 import { AuthAndMemoryWrapper } from './utils/util.wrappers';
-import Header from '../Components/Header.jsx';
+import Footer from '../Components/Footer.jsx';
 
-describe('Header component --->', () => {
+describe('Footer component --->', () => {
   test('should render without throwing an error', async () => {
     expect(
       await shallow(
         <MemoryRouter initialEntries={['/random']}>
-          <Header />
+          <Footer />
         </MemoryRouter>
       )
     );
@@ -19,7 +19,7 @@ describe('Header component --->', () => {
     expect(
       await mount(
         <AuthAndMemoryWrapper>
-          <Header />
+          <Footer />
         </AuthAndMemoryWrapper>
       )
     );

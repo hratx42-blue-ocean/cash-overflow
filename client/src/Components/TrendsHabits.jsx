@@ -32,7 +32,7 @@ const TrendsHabits = props => {
         return category.name == props.category;
       })
     );
-  }, [props.category]);
+  }, [props.category, props.data.accountData.budgetCategories]);
 
   React.useEffect(() => {
     if (props.view === 'month' && category.length > 0) {
@@ -45,9 +45,9 @@ const TrendsHabits = props => {
             ].reduce((x, y) => {
               if (y.category === category[0].name) {
                 return x + Number(y.amount);
-              } else {
+              } 
                 return x + 0;
-              }
+              
             }, 0);
           } else {
             possibleMonths[month] = account.transactions[currentYear][
@@ -55,9 +55,9 @@ const TrendsHabits = props => {
             ].reduce((x, y) => {
               if (y.category === category[0].name) {
                 return x + Number(y.amount);
-              } else {
+              } 
                 return x + 0;
-              }
+              
             }, 0);
           }
         });
@@ -67,16 +67,16 @@ const TrendsHabits = props => {
       const possibleYears = {};
       props.data.accountData.accounts.map(account => {
         Object.keys(account.transactions).map(year => {
-          let possibleMonths = {};
+          const possibleMonths = {};
           Object.keys(account.transactions[year]).map(month => {
             if (possibleMonths[month]) {
               possibleMonths[month] += account.transactions[year][month].reduce(
                 (x, y) => {
                   if (y.category === category[0].name) {
                     return x + Number(y.amount);
-                  } else {
+                  } 
                     return x + 0;
-                  }
+                  
                 },
                 0
               );
@@ -85,9 +85,9 @@ const TrendsHabits = props => {
                 (x, y) => {
                   if (y.category === category[0].name) {
                     return x + Number(y.amount);
-                  } else {
+                  } 
                     return x + 0;
-                  }
+                  
                 },
                 0
               );
@@ -106,14 +106,14 @@ const TrendsHabits = props => {
       });
       setYears(possibleYears);
     }
-  }, [category, props.view]);
+  }, [category, props.data.accountData.accounts, props.view]);
 
   React.useEffect(() => {
     if (category) {
       if (category[0]) {
         if (category[0].name) {
           if (props.view === 'month') {
-            let numbers = Object.keys(months);
+            const numbers = Object.keys(months);
             setGraph({
               labels: numbers.map(num => numToMonths[num]),
               datasets: [
@@ -126,7 +126,7 @@ const TrendsHabits = props => {
               ]
             });
           } else {
-            let numbers = Object.keys(years);
+            const numbers = Object.keys(years);
             setGraph({
               labels: numbers,
               datasets: [
@@ -140,7 +140,7 @@ const TrendsHabits = props => {
         }
       }
     }
-  }, [months, years, props.view]);
+  }, [months, years, props.view, category]);
 
   return <Line data={graphData} />;
 };

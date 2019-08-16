@@ -6,11 +6,24 @@ const getUserData = async userEmail => {
   try {
     const collection = await getUserDatabase().collection('userData');
     const result = await collection
-      .find({ email: userEmail })
+      .find({ email: userEmail }, { projection: { _id: 0 } })
       .limit(1)
       .toArray();
     assert.equal(1, result.length);
     return result;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+// add a transaction
+
+const upsertUserData = async userObject => {
+  try {
+    const collection = await getUserDatabase().collection('userData');
+    await collection.replaceOne({ email: userObject.email }, userObject, {
+      upsert: true
+    });
   } catch (err) {
     console.log(err);
   }
@@ -49,4 +62,4 @@ const testSchema = async () => {
   }
 };
 
-module.exports = { getUserData, seedFakeUserData, testSchema };
+module.exports = { getUserData, seedFakeUserData, testSchema, upsertUserData };

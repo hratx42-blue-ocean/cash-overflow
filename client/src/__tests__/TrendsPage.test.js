@@ -1,14 +1,37 @@
 import React from 'react';
-import { shallow, mount, render } from 'enzyme';
+import { shallow } from 'enzyme';
+import '@testing-library/jest-dom/extend-expect';
+import { render } from '@testing-library/react';
+import fakeData from '../../../db/dataSeeder';
 
 import TrendsPage from '../Components/TrendsPage.jsx';
 
-describe('TrendsPage --->', function() {
-  test('should render without throwing an error', async function() {
-    expect(await shallow(<TrendsPage />));
+const data = fakeData.createData();
+
+describe('TrendsPage component --->', () => {
+  test('should render without throwing an error', async () => {
+    expect(
+      await shallow(
+        <TrendsPage loading={true} isAuthenticated={false} accountData={data} />
+      )
+    );
+  });
+});
+
+describe('TrendsPage Auth --->', () => {
+  test('should not display Loading when a user is logged in', () => {
+    const { queryByTestId } = render(
+      <TrendsPage loading={false} isAuthenticated={true} accountData={data} />
+    );
+
+    expect(queryByTestId('auth-loading')).not.toBeInTheDocument();
   });
 
-  test('should mount in a full DOM', async function() {
-    expect(await mount(<TrendsPage />));
+  test('should display Loading when a user is not logged in', () => {
+    const { queryByTestId } = render(
+      <TrendsPage loading={true} isAuthenticated={false} accountData={data} />
+    );
+
+    expect(queryByTestId('auth-loading')).toBeInTheDocument();
   });
 });

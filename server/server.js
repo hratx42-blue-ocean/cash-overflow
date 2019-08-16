@@ -1,38 +1,25 @@
 const path = require('path');
-const bodyParser = require('body-parser');
 const logger = require('morgan');
 const express = require('express');
+const compression = require('compression');
+const cors = require('cors');
+
 const app = express();
 
-// open up CORS
-app.use((_, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header(
-    'Access-Control-Allow-Headers',
-    'Origin, X-Requested-With, Content-Type, Accept'
-  );
-  next();
-});
-
-// Logging and other Utilities
 app.use(logger('dev'));
+app.use(compression());
+app.use(cors());
+app.use(express.json({ limit: '2mb' }));
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, '../client/public')));
 
 // You can place your routes here, feel free to refactor
 const { usersRoute } = require('./routes');
 
-// catch 404 and forward to error handler
-app.use(express.static(path.join(__dirname, '../client/public')));
-
-app.use(
-  bodyParser.json({
-    strict: false
-  })
-);
-
 app.use('/api/users', usersRoute);
 
 app.get('/*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../client/public/index.html'), err => {
+  res.sendFile(path.join(__dirname, '../client/public/index.html'), (err) => {
     if (err) {
       res.status(500).send(err);
     }
@@ -40,7 +27,7 @@ app.get('/*', (req, res) => {
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use((err, req, res, next) => {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
