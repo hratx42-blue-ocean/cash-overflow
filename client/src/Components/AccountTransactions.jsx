@@ -90,7 +90,7 @@ const AccountTransactions = props => {
               <TableBody>
                 {props.data.map((tx, i) => {
                   return (
-                    <TableRow key={`txRow_${i}`}>
+                    <TableRow color="hoverColor" key={`txRow_${i}`}>
                       <TableCell key={`txDate_${i}`}>
                         {new Date(tx.date).toLocaleDateString('en-US')}
                       </TableCell>

@@ -11,14 +11,16 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 const appTheme = {
   palette: {
     primary: {
-      main: '#5EB299'
+      main: '#880e4f'
     },
     secondary: {
-      light: '#0066ff',
-      main: '#0044ff',
-      contrastText: '#ffcc00'
+      light: '#bdbdbd',
+      main: '#9e9e9e',
+      contrastText: 'rgba(0, 0, 0, 0.87)'
     },
-    type: 'light'
+    tableRow: {
+      hoverColor: 'rgba(136, 14, 79, 0.5)'
+    }
   }
 };
 

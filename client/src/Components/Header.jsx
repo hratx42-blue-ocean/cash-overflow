@@ -8,7 +8,15 @@ import Box from '@material-ui/core/Box';
 import { useAuth0 } from '../react-auth0-wrapper';
 import { withStyles } from '@material-ui/styles';
 
-const styles = {};
+const styles = {
+  root: {
+    background: 'transparent',
+    borderRadius: 3,
+    border: 0,
+    color: 'white',
+    textDecoration: 'none'
+  }
+};
 
 function ButtonAppBar(props) {
   const { classes } = props;
@@ -27,29 +35,29 @@ function ButtonAppBar(props) {
             Cash Overflow
           </Typography>
           {isAuthenticated ? (
-            <Box className={classes.navBox}>
-              <Button color="inherit" className={classes.link}>
-                <Link to="/dashboard" className={classes.link}>
+            <Box>
+              <Button>
+                <Link to="/dashboard" className={classes.root}>
                   Dashboard
                 </Link>
               </Button>
-              <Button color="inherit" className={classes.link}>
-                <Link to="/accounts" className={classes.link}>
+              <Button>
+                <Link className={classes.root} to="/accounts">
                   Accounts
                 </Link>
               </Button>
-              <Button color="inherit" className={classes.link}>
-                <Link to="/budget" className={classes.link}>
+              <Button>
+                <Link className={classes.root} to="/budget">
                   Budget
                 </Link>
               </Button>
-              <Button color="inherit" className={classes.link}>
-                <Link to="/trends" className={classes.link}>
+              <Button>
+                <Link className={classes.root} to="/trends">
                   Trends
                 </Link>
               </Button>
-              <Button color="inherit" className={classes.link}>
-                <Link to="/profile" className={classes.link}>
+              <Button>
+                <Link className={classes.root} to="/profile">
                   Profile
                 </Link>
               </Button>
@@ -59,7 +67,7 @@ function ButtonAppBar(props) {
           )}
           {!isAuthenticated ? (
             !loading ? (
-              <Button onClick={() => loginWithRedirect({})} color="inherit">
+              <Button onClick={() => loginWithRedirect({})} color="secondary">
                 Login
               </Button>
             ) : (
