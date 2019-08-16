@@ -19,12 +19,15 @@ import LandingPage from './Components/LandingPage.jsx';
 import TrendsPage from './Components/TrendsPage.jsx';
 import LoginPage from './Components/LoginPage.jsx';
 import ProfilePage from './Components/ProfilePage.jsx';
+import Footer from './Components/Footer.jsx';
 import ErrorPage from './Components/ErrorPage.jsx';
+import Loading from './Components/Loading.jsx';
 
 export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      loadingUser: true,
       currentUser: '',
       budgetCategories: [],
       accountData: {
@@ -61,13 +64,24 @@ export default class App extends Component {
       });
   }
 
+  getUserData(userEmail) {
+    return Axios.get(`http://0.0.0.0:8000/api/users/getData?user=${userEmail}`);
+  }
+
+  postUserData(userObject) {
+    Axios.post('http://0.0.0.0:8000/api/users/upsertData', {
+      userUpdate: userObject
+    }).then(okResponse => console.log(okResponse));
+  }
+
   setAccountData(incomingAccountData) {
     const [currentAccountData] = incomingAccountData.data;
     const { budgetCategories, email } = currentAccountData;
     this.setState({
       accountData: currentAccountData,
       budgetCategories,
-      currentUser: email
+      currentUser: email,
+      loadingUser: false
     });
   }
 
@@ -136,9 +150,27 @@ export default class App extends Component {
     this.updateAccountData(accountUpdate);
   }
 
+  handleUpdateCategories(updatedCategories) {
+    const accountUpdate = { ...this.state.accountData };
+    accountUpdate.budgetCategories = updatedCategories;
+    this.setState({
+      budgetCategories: updatedCategories,
+      accountData: accountUpdate
+    });
+    this.updateAccountData(accountUpdate);
+  }
+
   render() {
     const { accountData, budgetCategories, isDemo, currentUser } = this.state;
     const { isAuthenticated, loading } = this.context;
+
+    if (loadingUser) {
+      return (
+        <div data-testid="loading-user">
+          <Loading />
+        </div>
+      );
+    }
 
     return (
       <div className="app">
@@ -203,6 +235,7 @@ export default class App extends Component {
                   loading={loading}
                   isAuthenticated={isAuthenticated}
                   updateAccountData={this.updateAccountData}
+                  handleUpdateCategories={this.handleUpdateCategories}
                 />
               )}
             />
@@ -245,6 +278,7 @@ export default class App extends Component {
             <Route component={ErrorPage} />
           </Switch> */}
         </Container>
+        <Footer />
       </div>
     );
   }
