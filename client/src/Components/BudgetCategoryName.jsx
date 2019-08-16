@@ -9,7 +9,7 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1
   },
   padding: {
-    padding: theme.spacing(0, 2)
+    padding: theme.spacing(0, 0.6, 1.5, 1)
   },
   paper: {
     padding: theme.spacing(2),
@@ -36,19 +36,18 @@ const BudgetCategoryName = props => {
   }
 
   return (
-    <>
-      <ClickAwayListener onClickAway={handleClickAway}>
+    <ClickAwayListener onClickAway={handleClickAway}>
+      <div>
+        <span onClick={showDeleteCategoryButtons}>{props.category}</span>
         <Badge
           color="secondary"
           badgeContent="x"
           className={classes.padding}
           invisible={invisible}
           onClick={deleteCategory}
-        >
-          <span onClick={showDeleteCategoryButtons}>{props.category}</span>
-        </Badge>
-      </ClickAwayListener>
-    </>
+        />
+      </div>
+    </ClickAwayListener>
   );
 };
 
