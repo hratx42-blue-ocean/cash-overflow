@@ -32,7 +32,7 @@ export default function DemoSwitch(props) {
         exact
         path="/"
         render={() =>
-          !isAuthenticated ? (
+          !isDemo ? (
             <LandingPage toggleDemo={toggleDemo} />
           ) : (
             <Redirect to="/dashboard" />

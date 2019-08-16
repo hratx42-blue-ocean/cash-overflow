@@ -25,7 +25,7 @@ const useStyles = makeStyles(theme => ({
     fontFamily: 'Open Sans'
   },
   button: {
-    fontFamily: 'Lobster Two',
+    fontFamily: 'Open Sans',
     backgroundColor: '#71E7C7',
     color: '#ffffff'
   },

@@ -75,10 +75,19 @@ export default class App extends Component {
     this.getUserData('cash.johnny@cashoverflow.app')
       .then(this.setAccountData)
       .then(() => {
-        const demo = !this.state.isDemo;
-        this.setState({
-          isDemo: demo
-        });
+        if (!this.state.isDemo) {
+          this.setState({
+            isDemo: true
+          });
+          console.log('is demo now true');
+        } else {
+          this.setState(
+            {
+              isDemo: false
+            },
+            () => console.log('demo mode turned off')
+          );
+        }
       });
   }
 
@@ -128,13 +137,9 @@ export default class App extends Component {
   }
 
   render() {
-    let { accountData, budgetCategories, isDemo, currentUser } = this.state;
-    let { isAuthenticated, loading } = this.context;
+    const { accountData, budgetCategories, isDemo, currentUser } = this.state;
+    const { isAuthenticated, loading } = this.context;
 
-    if (isDemo) {
-      isAuthenticated = true;
-      loading = false;
-    }
     return (
       <div className="app">
         <Container>
@@ -148,8 +153,8 @@ export default class App extends Component {
               handleAddTransaction={this.handleAddTransaction}
               toggleDemo={this.toggleDemo}
               isDemo={isDemo}
-              isAuthenticated={isAuthenticated}
-              loading={loading}
+              isAuthenticated
+              loading={false}
             />
           ) : (
             <ProtectedSwitch
