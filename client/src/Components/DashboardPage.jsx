@@ -25,14 +25,15 @@ import { Auth0Context } from '../react-auth0-wrapper';
 export default class DashboardPage extends Component {
   constructor(props) {
     super(props);
-
+    
     const { accountData } = this.props;
     const {
       firstName,
       lastName,
       email,
       budgetCategories,
-      accounts
+      accounts,
+      recurringTransactions
     } = accountData;
 
     this.state = {
@@ -42,6 +43,7 @@ export default class DashboardPage extends Component {
       categories: budgetCategories,
       netBalance: 10000,
       accounts,
+      recurringTransactions,
       accountNames: accounts.map(account => account.name),
       inputAmount: undefined,
       inputCategory: 'category',
@@ -180,6 +182,7 @@ export default class DashboardPage extends Component {
             <AlertBox
               budget={this.state.categories}
               accounts={this.state.accounts}
+              recurringTransactions={this.state.recurringTransactions}
             />
           </Grid>
           <Paper style={{ width: '40%', margin: 20, padding: 15 }}>

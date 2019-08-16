@@ -201,7 +201,7 @@ export default class App extends Component {
                   accountData={accountData}
                   loading={loading}
                   isAuthenticated={isAuthenticated}
-                  updateAccountData={this.setAccountData}
+                  setAccountData={this.setAccountData}
                 />
               )}
             />
