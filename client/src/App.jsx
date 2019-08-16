@@ -67,13 +67,11 @@ export default class App extends Component {
     const { user } = this.context;
 
     if (user && user.sub.substring(6) !== this.state.userID) {
-      console.log(
-        `From componentDidUpdate, looks like you're logged in as: ${user}`
-      );
+      console.log(`Looks like you're logged in as: ${user.email}`);
 
       // set the userID to the UUID provided
       const userID = user.sub.substring(6);
-      console.log(`From componentDidUpdate, your UserID is ${userID}`);
+      console.log(`Your UserID is ${userID}`);
       this.setState(
         {
           userID,
@@ -84,7 +82,7 @@ export default class App extends Component {
           const userData = await this.getUserData();
 
           console.log(
-            `From componentDidUpdate, we have this many pieces of data for your account: ${
+            `We have this many pieces of data for your account: ${
               Object.keys(userData.data).length
             }`
           );
@@ -92,9 +90,7 @@ export default class App extends Component {
           // if the user is new, give them demo data
           if (userData.data.length > 0) {
             this.setAccountData(userData);
-            console.log(
-              `From componentDidUpdate, Welcome back ${userData.data.firstName}`
-            );
+            console.log(`Welcome back ${userData.data.firstName}`);
           } else {
             console.log(`Welcome to CashOverflow!`);
             // TODO: Fake user data should be replaced with SignUp flow logic.
