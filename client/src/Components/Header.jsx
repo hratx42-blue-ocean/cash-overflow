@@ -1,10 +1,9 @@
-/* eslint-disable no-nested-ternary */
 import React from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Box from '@material-ui/core/Box';
 import { useAuth0 } from '../react-auth0-wrapper';
 import { withStyles } from '@material-ui/styles';
@@ -15,7 +14,12 @@ const styles = {
     borderRadius: 3,
     border: 0,
     color: 'white',
-    textDecoration: 'none'
+    textDecoration: 'none',
+    flexGrow: 1
+  },
+  navBox: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start'
   }
 };
 
@@ -28,15 +32,39 @@ function ButtonAppBar(props) {
       returnTo: window.location.origin
     });
 
+  let statusButton;
+
+  if (isDemo) {
+    statusButton = (
+      <Button onClick={toggleDemo} color="inherit">
+        <Link to="/home">Exit the Demo</Link>
+      </Button>
+    );
+  } else if (!isAuthenticated && !loading) {
+    statusButton = (
+      <Button onClick={() => loginWithRedirect({})} color="secondary">
+        Login
+      </Button>
+    );
+  } else if (isAuthenticated) {
+    statusButton = (
+      <Button onClick={() => logoutWithRedirect()} color="inherit">
+        Logout
+      </Button>
+    );
+  } else {
+    statusButton = <></>;
+  }
+
   return (
-    <div>
+    <div className={styles.root}>
       <AppBar color="primary" position="static">
         <Toolbar>
           <Typography variant="h6" className={classes.title}>
             Cash Overflow
           </Typography>
-          {isAuthenticated ? (
-            <Box>
+          {isAuthenticated || isDemo ? (
+            <Box className={styles.navBox}>
               <Button>
                 <Link to="/dashboard" className={classes.root}>
                   Dashboard
@@ -66,27 +94,7 @@ function ButtonAppBar(props) {
           ) : (
             <></>
           )}
-          {!isAuthenticated ? (
-            !loading ? (
-              <Button onClick={() => loginWithRedirect({})} color="secondary">
-                Login
-              </Button>
-            ) : (
-              <></>
-            )
-          ) : isDemo ? (
-            <Button onClick={toggleDemo} color="inherit">
-              <Link to="/home">Exit the Demo</Link>
-            </Button>
-          ) : (
-            <Button
-              className={classes.link}
-              onClick={() => logoutWithRedirect()}
-              color="inherit"
-            >
-              Logout
-            </Button>
-          )}
+          {statusButton}
         </Toolbar>
       </AppBar>
     </div>
