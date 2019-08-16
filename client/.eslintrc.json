@@ -23,6 +23,7 @@
     "react-hooks/exhaustive-deps": "warn",
     "jsx-a11y/href-no-hash": ["off"],
     "react/jsx-filename-extension": ["warn", { "extensions": [".js", ".jsx"] }],
+    "react/no-did-update-set-state": ["off"],
     "max-len": [
       "warn",
       {
