@@ -48,7 +48,7 @@ class BudgetPage extends Component {
     }
   }
 
-  updateAllotments(name, val, year, month) {
+  updateAllotments(name, val) {
     let { categories, currentMonth, currentYear } = this.state;
     categories = categories || [];
     categories = JSON.parse(JSON.stringify(categories));
@@ -58,7 +58,7 @@ class BudgetPage extends Component {
         category.name === name &&
         category.allotment &&
         category.allotment[currentYear] &&
-        category.allotment[currentYear][month] !== undefined
+        category.allotment[currentYear][currentMonth] !== undefined
       ) {
         category.allotment[currentYear][currentMonth] = val;
       }

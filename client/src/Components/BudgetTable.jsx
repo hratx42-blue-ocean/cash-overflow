@@ -107,9 +107,7 @@ const BudgetTable = ({
                       <BudgetAllottment
                         allotment={breakdown[category].alloted}
                         name={category}
-                        month={month}
                         updateAllotments={updateAllotments}
-                        year={year}
                       />
                     </TableCell>
                     <TableCell align="right">
