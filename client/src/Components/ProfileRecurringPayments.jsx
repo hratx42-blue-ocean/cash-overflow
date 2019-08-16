@@ -1,4 +1,5 @@
 import React from 'react';
+import ProfileRPSuccess from './ProfileRPSuccess.jsx';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
@@ -23,6 +24,16 @@ const useStyles = makeStyles(theme => ({
 const ProfileRecurringPayments = props => {
   const classes = useStyles();
   const days = Array.from(Array(31).keys()).splice(1);
+
+  if (props.showSuccessMessage) {
+    return (
+      <div>
+        <Paper className={classes.paper}>
+          <ProfileRPSuccess toggleSuccessMessage={props.toggleSuccessMessage} />
+        </Paper>
+      </div>
+    );
+  }
 
   return (
     <Paper style={{ margin: 20, padding: 15 }}>
