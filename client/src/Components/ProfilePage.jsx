@@ -268,7 +268,7 @@ export default class ProfilePage extends React.Component {
               showSuccessMessage={this.state.showSuccessMessage}
               toggleSuccessMessage={this.toggleSuccessMessage}
             />
-            <ProfileRPList />
+            <ProfileRPList recurringTransactions={this.state.recurringTransactions}/>
           </Grid>
         </Grid>
       </Grid>

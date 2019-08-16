@@ -8,7 +8,7 @@ import Button from '@material-ui/core/Button';
 
 
 const ProfileSetRP = props => {
-    console.log(props)
+    
   return (
     <Grid container direction="column" justify="center" alignItems="center">
       <Typography variant="h4">Set a monthly payment reminder!</Typography>

@@ -24,10 +24,9 @@ const ProfileRecurringPayments = props => {
   return (
     <div>
       {props.showSuccessMessage ? (
-         <Typography>help</Typography>
-        // <Paper className={classes.paper}>
-        //   <ProfileRPSuccess toggleSuccessMessage={props.toggleSuccessMessage} />
-        // </Paper>
+        <Paper className={classes.paper}>
+          <ProfileRPSuccess toggleSuccessMessage={props.toggleSuccessMessage} />
+        </Paper>
       ) : (
         <Paper style={{ margin: 20, padding: 15 }}>
           <ProfileSetRP
