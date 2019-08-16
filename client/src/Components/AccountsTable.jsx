@@ -22,31 +22,24 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/styles';
-
-const styles = {
-  root: {
-    background: 'linear-gradient(45deg, #fff 30%, #DAF7DC 90%)',
-    border: 0,
-    borderRadius: 3,
-    boxShadow: '0 3px 5px 2px #DAF7DC',
-    height: 48,
-    padding: '0 30px'
-  }
-};
 
 const AccountsTable = props => {
-  const { classes } = props;
   return (
     <>
       <Grid item xs={4}>
         <Paper>
-          <Table className={classes.root}>
+          <Table>
             <TableHead>
               <TableRow>
-                <TableCell key={`accountHeader_1`} align="center">Account</TableCell>
-                <TableCell key={`accountHeader_2`} align="center">Type</TableCell>
-                <TableCell key={`accountHeader_3`} align="center">Balance</TableCell>
+                <TableCell key={`accountHeader_1`} align="center">
+                  Account
+                </TableCell>
+                <TableCell key={`accountHeader_2`} align="center">
+                  Type
+                </TableCell>
+                <TableCell key={`accountHeader_3`} align="center">
+                  Balance
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -60,7 +53,9 @@ const AccountsTable = props => {
                       <TableCell key={`accountType_${i}`}>
                         {account.type}
                       </TableCell>
-                      <TableCell key={`accountBal_${i}`}>$ Balance.00 </TableCell>
+                      <TableCell key={`accountBal_${i}`}>
+                        $ Balance.00{' '}
+                      </TableCell>
                     </TableRow>
                   </>
                 );
@@ -104,9 +99,15 @@ const AccountsTable = props => {
                 onChange={props.handleSelect}
                 input={<Input id="account-type" />}
               >
-                <MenuItem key={`accountSelect_1`} value="Checkings">Checking</MenuItem>
-                <MenuItem key={`accountSelect_2`} value="Savings">Savings</MenuItem>
-                <MenuItem key={`accountSelect_3`} value="Credit">Credit</MenuItem>
+                <MenuItem key={`accountSelect_1`} value="Checkings">
+                  Checking
+                </MenuItem>
+                <MenuItem key={`accountSelect_2`} value="Savings">
+                  Savings
+                </MenuItem>
+                <MenuItem key={`accountSelect_3`} value="Credit">
+                  Credit
+                </MenuItem>
               </Select>
             </FormControl>
           </DialogContent>
@@ -133,4 +134,4 @@ AccountsTable.propTypes = {
   open: PropTypes.bool
 };
 
-export default withStyles(styles)(AccountsTable);
+export default AccountsTable;

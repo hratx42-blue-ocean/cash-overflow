@@ -8,18 +8,7 @@ import Box from '@material-ui/core/Box';
 import { useAuth0 } from '../react-auth0-wrapper';
 import { withStyles } from '@material-ui/styles';
 
-const styles = {
-  root: {
-    background: '#fff',
-    height: 48,
-    padding: '0 30px',
-    boxShadow: '#fff'
-  },
-  link: {
-    color: '#000000',
-    underline: false
-  }
-};
+const styles = {};
 
 function ButtonAppBar(props) {
   const { classes } = props;
@@ -32,7 +21,7 @@ function ButtonAppBar(props) {
 
   return (
     <div>
-      <AppBar className={classes.root} position="static">
+      <AppBar color="primary" position="static">
         <Toolbar>
           <Typography variant="h6" className={classes.title}>
             Cash Overflow

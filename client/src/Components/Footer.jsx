@@ -25,29 +25,24 @@ const useStyles = makeStyles(theme => ({
     textDecoration: 'none',
     color: '#ffffff',
     padding: 0,
-    margin: 2,
+    margin: 2
   },
   toolbar: {
     position: 'fixed',
-    background: '#3f51b5',
+    background: '#5EB299',
     left: 10,
     right: 10,
     bottom: 4,
     minHeight: 10
-    
-    
-
-  },
+  }
 }));
 
 export default function Footer() {
-    const classes = useStyles();
+  const classes = useStyles();
   return (
-    <div className={classes.root}>
+    <div className={classes.root} color="primary">
       <Toolbar height={4} width={1} className={classes.toolbar}>
-       
-          <Button className={classes.link}>About Us</Button>
-        
+        <Button className={classes.link}>About Us</Button>
       </Toolbar>
     </div>
   );
