@@ -45,10 +45,12 @@ const translateMonths = {
 
 const BudgetTable = ({
   month,
-  open,
+  addOpen,
+  deleteOpen,
   handleAddCategory,
   handleSaveCategory,
   handleDeleteCategory,
+  handleDeleteDialog,
   handleClose,
   handleTextInput,
   handleMonthChange,
@@ -80,7 +82,7 @@ const BudgetTable = ({
                   <TableCell>
                     {
                       <BudgetAddCatgory
-                        open={open}
+                        open={addOpen}
                         handleAddCategory={handleAddCategory}
                         handleSaveCategory={handleSaveCategory}
                         handleClose={handleClose}
@@ -106,6 +108,9 @@ const BudgetTable = ({
                       <BudgetCategoryName
                         category={category}
                         handleDeleteCategory={handleDeleteCategory}
+                        handleDeleteDialog={handleDeleteDialog}
+                        handleClose={handleClose}
+                        open={deleteOpen}
                       />
                     </TableCell>
                     <TableCell align="right">
@@ -132,10 +137,12 @@ const BudgetTable = ({
 
 BudgetTable.propTypes = {
   rows: PropTypes.arrayOf(PropTypes.object),
-  open: PropTypes.bool,
+  addOpen: PropTypes.bool,
+  deleteOpen: PropTypes.bool,
   handleAddCategory: PropTypes.func,
   handleSaveCategory: PropTypes.func,
   handleDeleteCategory: PropTypes.func,
+  handleDeleteDialog: PropTypes.func,
   handleClose: PropTypes.func,
   handleTextInput: PropTypes.func
 };

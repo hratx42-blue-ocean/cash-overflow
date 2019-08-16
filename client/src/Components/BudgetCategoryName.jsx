@@ -1,7 +1,13 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Badge from '@material-ui/core/Badge';
+import Button from '@material-ui/core/Button';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogContentText from '@material-ui/core/DialogContentText';
 import PropTypes from 'prop-types';
 
 const useStyles = makeStyles(theme => ({
@@ -18,7 +24,13 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const BudgetCategoryName = props => {
+const BudgetCategoryName = ({
+  category,
+  handleDeleteCategory,
+  handleDeleteDialog,
+  handleClose,
+  open
+}) => {
   const classes = useStyles();
   const [invisible, setVisibility] = useState(true);
 
@@ -27,8 +39,10 @@ const BudgetCategoryName = props => {
   }
 
   function deleteCategory() {
-    invisible ? null : props.handleDeleteCategory(props.category);
-    setVisibility(true);
+    if (!invisible) {
+      handleDeleteCategory(category);
+      setVisibility(true);
+    }
   }
 
   function handleClickAway() {
@@ -36,24 +50,51 @@ const BudgetCategoryName = props => {
   }
 
   return (
-    <ClickAwayListener onClickAway={handleClickAway}>
-      <div>
-        <span onClick={showDeleteCategoryButtons}>{props.category}</span>
-        <Badge
-          color="secondary"
-          badgeContent="x"
-          className={classes.padding}
-          invisible={invisible}
-          onClick={deleteCategory}
-        />
-      </div>
-    </ClickAwayListener>
+    <>
+      <ClickAwayListener onClickAway={handleClickAway}>
+        <div>
+          <span onClick={showDeleteCategoryButtons}>{category}</span>
+          <Badge
+            color="secondary"
+            badgeContent="x"
+            className={classes.padding}
+            invisible={invisible}
+            onClick={handleDeleteDialog}
+          />
+        </div>
+      </ClickAwayListener>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="form-dialog-title"
+      >
+        <DialogTitle id="form-dialog-title">
+          Delete Budget Category?
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            {`Are you sure you want to delete ${category}?`}:
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={deleteCategory} color="primary">
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </>
   );
 };
 
 BudgetCategoryName.propTypes = {
   category: PropTypes.string,
-  handleDeleteCategory: PropTypes.func
+  open: PropTypes.bool,
+  handleDeleteCategory: PropTypes.func,
+  handleDeleteDialog: PropTypes.func,
+  handleClose: PropTypes.func
 };
 
 export default BudgetCategoryName;

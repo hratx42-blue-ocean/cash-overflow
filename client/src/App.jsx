@@ -136,10 +136,11 @@ export default class App extends Component {
       payee: inputPayee,
       recurring: false
     };
+    console.log(transaction);
 
     for (let i = 0; i < accounts.length; i++) {
       if (accounts[i].name === inputAccount) {
-        accountUpdate.accounts[i].transactions[year][month].push(transaction);
+        accountUpdate.accounts[i].transactions[year][month - 1].push(transaction);
         break;
       }
       this.setAccountData(accountUpdate);
