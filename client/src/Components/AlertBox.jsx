@@ -4,7 +4,6 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable arrow-parens */
 import React, { Component } from 'react';
-import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import PropTypes from 'prop-types';
 import MobileStepper from '@material-ui/core/MobileStepper';
@@ -16,6 +15,7 @@ import AlertCard from './AlertCard.jsx';
 export default class AlertBox extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
       alerts: [],
       maxSteps: 0,
@@ -27,11 +27,14 @@ export default class AlertBox extends Component {
   }
 
   componentDidMount() {
-    this.getAlerts(this.props.accounts, this.props.budget);
-    console.log(this.state.alerts);
+    this.getAlerts(
+      this.props.accounts,
+      this.props.budget,
+      this.props.recurringTransactions
+    );
   }
 
-  getAlerts(accounts, budget) {
+  getAlerts(accounts, budget, transactions) {
     let alertType = null;
     let alertHeader = null;
     const alerts = [];
@@ -59,7 +62,7 @@ export default class AlertBox extends Component {
         alertType = 'almost reached your limit';
         alertHeader = `Slow down with spending in ${categoryName}`;
       }
-      console.log(alertType);
+
       if (alertType) {
         alerts.push({
           budgetCategory: categoryName,
@@ -70,6 +73,25 @@ export default class AlertBox extends Component {
         });
       }
     }
+
+    for (let payment of transactions) {
+      let date = new Date(payment.startDate);
+      if (
+        date.getDate() - today.getDate() < 4 &&
+        date.getDate() - today.getDate() > 0
+      ) {
+        date.setMonth(today.getMonth());
+        alerts.push({
+          budgetCategoryName: payment.category,
+          amount: payment.amount,
+          date: date,
+          payee: payment.payee,
+          alertType: 'Payment Reminder',
+          alertHeader: 'You have a payment coming up!'
+        });
+      }
+    }
+
     this.setState({
       alerts: alerts,
       maxSteps: alerts.length
@@ -127,6 +149,9 @@ export default class AlertBox extends Component {
             allotment={alerts[activeStep].amountBudgeted}
             spent={alerts[activeStep].amountSpent}
             alertHeader={alerts[activeStep].alertHeader}
+            date={alerts[activeStep].date}
+            payee={alerts[activeStep].payee}
+            amount={alerts[activeStep].amount}
           />
         </Paper>
         <MobileStepper
@@ -158,4 +183,11 @@ export default class AlertBox extends Component {
       </div>
     );
   }
+}
+
+
+AlertBox.propTypes = {
+  accounts: PropTypes.array.isRequired,
+  budget: PropTypes.array.isRequired,
+  recurringTransactions: PropTypes.array.isRequired
 }

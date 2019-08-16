@@ -10,7 +10,7 @@ describe('Alert Box --->', () => {
   test('should render without throwing an error', async () => {
     expect(
       await shallow(
-        <AlertBox accounts={data.accounts} budget={data.budgetCategories} />
+        <AlertBox accounts={data.accounts} recurringTransactions={data.recurringTransactions} budget={data.budgetCategories} />
       )
     );
   });
@@ -18,7 +18,7 @@ describe('Alert Box --->', () => {
   test('should mount in a full DOM', async () => {
     expect(
       await mount(
-        <AlertBox accounts={data.accounts} budget={data.budgetCategories} />
+        <AlertBox accounts={data.accounts} recurringTransactions={data.recurringTransactions} budget={data.budgetCategories} />
       )
     );
   });
