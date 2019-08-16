@@ -185,6 +185,7 @@ export default class AlertBox extends Component {
   }
 }
 
+
 AlertBox.propTypes = {
   accounts: PropTypes.array.isRequired,
   budget: PropTypes.array.isRequired,
