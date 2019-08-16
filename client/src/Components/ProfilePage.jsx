@@ -12,7 +12,7 @@ import Loading from './Loading.jsx';
 export default class ProfilePage extends React.Component {
   constructor(props) {
     super(props);
-    
+
     this.state = {
       email: this.props.accountData.email,
       firstName: this.props.accountData.firstName,
@@ -31,7 +31,8 @@ export default class ProfilePage extends React.Component {
       input: '',
       inputPayee: 'payee',
       inputAccount: 'account',
-      inputCategory: 'category'
+      inputCategory: 'category',
+      showSuccessMessage: false
     };
 
     this.emailButtonHandler = this.emailButtonHandler.bind(this);
@@ -49,6 +50,7 @@ export default class ProfilePage extends React.Component {
     this.handleInputAmount = this.handleInputAmount.bind(this);
     this.handleRecurringPayment = this.handleRecurringPayment.bind(this);
     this.handleCategoryInput = this.handleCategoryInput.bind(this);
+    this.toggleSuccessMessage = this.toggleSuccessMessage.bind(this);
   }
 
   emailButtonHandler(e) {
@@ -105,26 +107,35 @@ export default class ProfilePage extends React.Component {
 
   handleFirstNameSubmit(e) {
     // send input to updatedatabase
-    this.setState({
-      firstNameIsHidden: !this.state.firstNameIsHidden,
-      firstName: this.state.input
-    }, () => this.props.updateAccountData(this.state));
+    this.setState(
+      {
+        firstNameIsHidden: !this.state.firstNameIsHidden,
+        firstName: this.state.input
+      },
+      () => this.props.updateAccountData(this.state)
+    );
   }
 
   handleLastNameSubmit(e) {
     // send input to updatedatabase
-    this.setState({
-      lastNameIsHidden: !this.state.lastNameIsHidden,
-      lastName: this.state.input
-    }, () => this.props.updateAccountData(this.state));
+    this.setState(
+      {
+        lastNameIsHidden: !this.state.lastNameIsHidden,
+        lastName: this.state.input
+      },
+      () => this.props.updateAccountData(this.state)
+    );
   }
 
   handleEmailSubmit(e) {
     // send input to updatedatabase
-    this.setState({
-      emailIsHidden: !this.state.emailIsHidden,
-      email: this.state.input
-    }, () => this.props.updateAccountData(this.state));
+    this.setState(
+      {
+        emailIsHidden: !this.state.emailIsHidden,
+        email: this.state.input
+      },
+      () => this.props.updateAccountData(this.state)
+    );
   }
 
   handleDayChange(day) {
@@ -147,6 +158,17 @@ export default class ProfilePage extends React.Component {
     this.setState({ inputCategory });
   }
 
+  toggleSuccessMessage() {
+    this.setState({
+      showSuccessMessage: !this.state.showSuccessMessage,
+      inputPayee: 'payee',
+      inputAccount: 'account',
+      inputCategory: 'category',
+      inputDay: 1,
+      inputAmount: 0
+    });
+  }
+
   handleRecurringPayment() {
     let today = new Date();
     if (this.state.inputDay < today.getDate()) {
@@ -162,10 +184,16 @@ export default class ProfilePage extends React.Component {
       startDate: today,
       frequency: 'monthly'
     });
-  
-    this.setState({
-      recurringTransactions: placeholder
-    }, () => this.props.updateAccountData(this.state))
+
+    this.setState(
+      {
+        recurringTransactions: placeholder
+      },
+      () => {
+        this.props.updateAccountData(this.state);
+        this.toggleSuccessMessage();
+      }
+    );
   }
 
   render() {
@@ -234,6 +262,8 @@ export default class ProfilePage extends React.Component {
             inputDay={this.state.inputDay}
             inputCategory={this.state.inputCategory}
             handleRecurringPayment={this.handleRecurringPayment}
+            showSuccessMessage={this.state.showSuccessMessage}
+            toggleSuccessMessage={this.toggleSuccessMessage}
           />
         </Grid>
       </Grid>

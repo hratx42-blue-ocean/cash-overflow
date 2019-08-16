@@ -16,12 +16,36 @@ const getUserData = async userEmail => {
   }
 };
 
+const getUserDataByUserID = async userID => {
+  try {
+    const collection = await getUserDatabase().collection('userData');
+    const result = await collection
+      .find({ userID: userID }, { projection: { _id: 0 } })
+      .limit(1)
+      .toArray();
+    return result;
+  } catch (err) {
+    throw new Error(err);
+  }
+};
+
 // add a transaction
 
 const upsertUserData = async userObject => {
   try {
     const collection = await getUserDatabase().collection('userData');
     await collection.replaceOne({ email: userObject.email }, userObject, {
+      upsert: true
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const upsertUserDataByUserID = async userObject => {
+  try {
+    const collection = await getUserDatabase().collection('userData');
+    await collection.replaceOne({ userID: userObject.userID }, userObject, {
       upsert: true
     });
   } catch (err) {
@@ -62,4 +86,11 @@ const testSchema = async () => {
   }
 };
 
-module.exports = { getUserData, seedFakeUserData, testSchema, upsertUserData };
+module.exports = {
+  getUserData,
+  seedFakeUserData,
+  testSchema,
+  upsertUserData,
+  getUserDataByUserID,
+  upsertUserDataByUserID
+};
