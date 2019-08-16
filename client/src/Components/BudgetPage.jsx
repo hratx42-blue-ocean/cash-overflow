@@ -26,6 +26,7 @@ class BudgetPage extends Component {
     };
     this.handleAddCategory = this.handleAddCategory.bind(this);
     this.handleSaveCategory = this.handleSaveCategory.bind(this);
+    this.handleDeleteCategory = this.handleDeleteCategory.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.handleTextInput = this.handleTextInput.bind(this);
     this.handleMonthChange = this.handleMonthChange.bind(this);
@@ -84,6 +85,15 @@ class BudgetPage extends Component {
     this.handleClose();
   }
 
+  handleDeleteCategory(deletedCategory) {
+    const categoryUpdate = this.state.categories.slice().filter(category => {
+      return category.name !== deletedCategory;
+    });
+    console.log(categoryUpdate);
+    this.props.handleUpdateCategories(categoryUpdate);
+    this.handleClose();
+  }
+
   handleTextInput(e) {
     const { value } = e.target;
     this.setState({
@@ -115,6 +125,7 @@ class BudgetPage extends Component {
         open={open}
         handleAddCategory={this.handleAddCategory}
         handleSaveCategory={this.handleSaveCategory}
+        handleDeleteCategory={this.handleDeleteCategory}
         handleClose={this.handleClose}
         handleTextInput={this.handleTextInput}
         handleMonthChange={this.handleMonthChange}

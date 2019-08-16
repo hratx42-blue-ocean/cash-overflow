@@ -123,7 +123,7 @@ export default class App extends Component {
       budgetCategories: updatedCategories,
       accountData: accountUpdate
     });
-    this.updateAccountData(accountUpdate);
+    // this.updateAccountData(accountUpdate);
   }
 
   render() {
