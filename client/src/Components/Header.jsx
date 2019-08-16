@@ -87,7 +87,7 @@ export default function ButtonAppBar(props) {
             )
           ) : isDemo ? (
             <Button onClick={toggleDemo} color="inherit">
-              <Link to="/"> Exit the Demo</Link>
+              <Link to="/home">Exit the Demo</Link>
             </Button>
           ) : (
             <Button onClick={() => logoutWithRedirect()} color="inherit">

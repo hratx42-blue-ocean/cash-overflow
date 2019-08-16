@@ -91,13 +91,15 @@ export default class App extends Component {
       .then(() => {
         if (!this.state.isDemo) {
           this.setState({
-            isDemo: true
+            isDemo: true,
+            loadingUser: false
           });
-          console.log('is demo now true');
+          console.log('demo mode now on');
         } else {
           this.setState(
             {
-              isDemo: false
+              isDemo: false,
+              loadingUser: false
             },
             () => console.log('demo mode turned off')
           );
@@ -191,8 +193,8 @@ export default class App extends Component {
               handleAddTransaction={this.handleAddTransaction}
               toggleDemo={this.toggleDemo}
               isDemo={isDemo}
-              isAuthenticated
               loading={false}
+              isAuthenticated
             />
           ) : (
             <ProtectedSwitch

@@ -39,6 +39,10 @@ export default function ProtectedSwitch(props) {
           )
         }
       />
+      <Route
+        path="/home"
+        render={() => <LandingPage toggleDemo={toggleDemo} />}
+      />
       <PrivateRoute
         path="/accounts"
         render={props => (

@@ -40,14 +40,18 @@ export default function DemoSwitch(props) {
         }
       />
       <Route
+        path="/home"
+        render={() => <LandingPage toggleDemo={toggleDemo} />}
+      />
+      <Route
         path="/accounts"
         render={props => (
           <AccountsPage
             {...props}
             accountData={accountData}
+            updateAccountData={updateAccountData}
             loading={loading}
             isAuthenticated={isAuthenticated}
-            updateAccountData={updateAccountData}
           />
         )}
       />
@@ -57,9 +61,9 @@ export default function DemoSwitch(props) {
           <BudgetPage
             accounts={accountData.accounts}
             categories={budgetCategories}
+            updateAccountData={updateAccountData}
             loading={loading}
             isAuthenticated={isAuthenticated}
-            updateAccountData={updateAccountData}
           />
         )}
       />
@@ -82,9 +86,9 @@ export default function DemoSwitch(props) {
           <ProfilePage
             {...props}
             accountData={accountData}
+            updateAccountData={updateAccountData}
             loading={loading}
             isAuthenticated={isAuthenticated}
-            updateAccountData={updateAccountData}
           />
         )}
       />
@@ -111,7 +115,5 @@ DemoSwitch.propTypes = {
   currentUser: PropTypes.string.isRequired,
   handleAddTransaction: PropTypes.func.isRequired,
   toggleDemo: PropTypes.func.isRequired,
-  isDemo: PropTypes.bool.isRequired,
-  isAuthenticated: PropTypes.bool.isRequired,
-  loading: PropTypes.bool.isRequired
+  isDemo: PropTypes.bool.isRequired
 };
