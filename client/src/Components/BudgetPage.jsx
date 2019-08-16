@@ -23,7 +23,10 @@ class BudgetPage extends Component {
     };
 
     this.handleMonthChange = this.handleMonthChange.bind(this);
+<<<<<<< HEAD
     this.updateAllotments = this.updateAllotments.bind(this);
+=======
+>>>>>>> 3611e1fd51541758e426bbb2437ffed67daaf1fe
   }
 
   componentDidMount() {
@@ -82,10 +85,15 @@ class BudgetPage extends Component {
     return (
       <BudgetTable
         month={currentMonth}
+<<<<<<< HEAD
         year={currentYear}
         breakdown={breakdown}
         handleMonthChange={this.handleMonthChange}
         updateAllotments={this.updateAllotments}
+=======
+        breakdown={breakdown}
+        handleMonthChange={this.handleMonthChange}
+>>>>>>> 3611e1fd51541758e426bbb2437ffed67daaf1fe
       />
     );
   }

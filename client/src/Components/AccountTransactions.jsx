@@ -19,16 +19,16 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 
 const AccountTransactions = props => {
-  const date = new Date();
-  const currentMonth = date.toLocaleString('default', { month: 'long' });
+  let date = new Date(null, props.currentMonth, null);
+  let currentMonthStr = date.toLocaleString('default', { month: 'long' });
   return (
     <>
       <Grid item xs={8}>
-        <IconButton aria-label="previous-month">
+        <IconButton onClick={props.handleLeftArrow} aria-label="previous-month">
           <ChevronLeft />
         </IconButton>
-        <Typography variant="button">{currentMonth}</Typography>
-        <IconButton aria-label="next-month">
+        <Typography variant="button">{currentMonthStr}</Typography>
+        <IconButton onClick={props.handleRightArrow} aria-label="next-month">
           <ChevronRight />
         </IconButton>
         <FormControl style={{ minWidth: '30%' }}>
@@ -38,6 +38,7 @@ const AccountTransactions = props => {
             onChange={props.handleAccountFilter}
             input={<Input id="account-filter" />}
           >
+            <MenuItem key={`accountFilter_blank`} value=''>All Accounts</MenuItem>
             {props.accountsList.map((acct, i) => {
               return (
                 <MenuItem key={`accountFilter_${i}`} value={acct.name}>
@@ -76,6 +77,12 @@ const AccountTransactions = props => {
                   >
                     Amount
                   </TableCell>
+                  <TableCell
+                    style={{ position: 'sticky', top: 0, background: 'white' }}
+                    align="center"
+                  >
+                    Account
+                  </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -85,11 +92,12 @@ const AccountTransactions = props => {
                       <TableCell key={`txDate_${i}`}>
                         {new Date(tx.date).toLocaleDateString('en-US')}
                       </TableCell>
-                      <TableCell key={`tx_Payee${i}`}>{tx.payee}</TableCell>
-                      <TableCell key={`tx_Category${i}`}>
+                      <TableCell key={`txPayee_${i}`}>{tx.payee}</TableCell>
+                      <TableCell key={`txCategory_${i}`}>
                         {tx.category}
                       </TableCell>
                       <TableCell key={`txAmount_${i}`}>${tx.amount}</TableCell>
+                      <TableCell key={`txAccount_${i}`}>{tx.accountName}</TableCell>
                     </TableRow>
                   );
                 })}
