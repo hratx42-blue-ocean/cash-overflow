@@ -11,7 +11,7 @@ import { Auth0Context } from './react-auth0-wrapper';
 // Custom Components
 import ProtectedSwitch from './Components/ProtectedSwitch.jsx';
 import DemoSwitch from './Components/DemoSwitch.jsx';
-import Header from './Components/Header.jsx';
+import ButtonAppBar from './Components/Header.jsx';
 import AccountsPage from './Components/AccountsPage.jsx';
 import BudgetPage from './Components/BudgetPage.jsx';
 import DashboardPage from './Components/DashboardPage.jsx';
@@ -45,7 +45,7 @@ export default class App extends Component {
   }
 
   getUserData(userEmail) {
-    return Axios.get(`http://0.0.0.0:8000/api/users/getData?user=${userEmail}`);
+    return axios.get(`http://0.0.0.0:8000/api/users/getData?user=${userEmail}`);
   }
 
   postUserData(userObject) {
@@ -127,8 +127,10 @@ export default class App extends Component {
   }
 
   toggleDemo() {
-    this.getUserData('cash.johnny@cashoverflow.app')
-      .then(this.setAccountData)
+    db.getUserData('Ihearthetrainacomin')
+      .then(result => {
+        this.setAccountData(result.data[0]);
+      })
       .then(() => {
         if (!this.state.isDemo) {
           this.setState({
@@ -208,7 +210,7 @@ export default class App extends Component {
       loadingUser
     } = this.state;
     const { isAuthenticated, loading } = this.context;
-
+    console.log('is authenticated is: ', isAuthenticated);
     if (loadingUser) {
       return (
         <div data-testid="loading-user">
@@ -220,12 +222,12 @@ export default class App extends Component {
     return (
       <div className="app">
         <Container>
-          <Header isDemo={isDemo} toggleDemo={this.toggleDemo} />
+          <ButtonAppBar isDemo={isDemo} toggleDemo={this.toggleDemo} />
           {isDemo ? (
             <DemoSwitch
               accountData={accountData}
               budgetCategories={budgetCategories}
-              updateAccountData={this.updateAccountData}
+              updateAccountData={this.setAccountData}
               currentUser={currentUser}
               handleAddTransaction={this.handleAddTransaction}
               toggleDemo={this.toggleDemo}
@@ -237,7 +239,7 @@ export default class App extends Component {
             <ProtectedSwitch
               accountData={accountData}
               budgetCategories={budgetCategories}
-              updateAccountData={this.updateAccountData}
+              updateAccountData={this.setAccountData}
               currentUser={currentUser}
               handleAddTransaction={this.handleAddTransaction}
               toggleDemo={this.toggleDemo}

@@ -20,7 +20,7 @@ const styles = {
 };
 
 function ButtonAppBar(props) {
-  const { classes } = props;
+  const { classes, isDemo, toggleDemo } = props;
   const { isAuthenticated, loading, loginWithRedirect, logout } = useAuth0();
 
   const logoutWithRedirect = () =>

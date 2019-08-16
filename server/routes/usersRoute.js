@@ -30,7 +30,7 @@ router.post('/upsertData', (req, res) => {
 
   console.log(`Received POST request to update ${userID}`);
 
-  if (userID === 'e06d2c2c-b712-4e98-868e-9d6ba683a595') {
+  if (userID === 'Ihearthetrainacomin') {
     res.status(200).send('demo mode');
   }
   db.upsertUserDataByUserID(req.body.userUpdate)
