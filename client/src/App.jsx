@@ -116,7 +116,7 @@ export default class App extends Component {
       },
       () => {
         this.setState({ loadingUser: false }, () => {
-          // db.postUserData(this.state.accountData);
+          db.postUserData(this.state.accountData);
         });
       }
     );

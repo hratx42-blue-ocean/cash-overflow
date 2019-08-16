@@ -26,9 +26,13 @@ router.post('/upsertData', (req, res) => {
 
   console.log(`Received POST request to update ${userID}`);
 
-  db.upsertUserData(req.body.userUpdate).then(() => {
-    res.send('user updated!');
-  });
+  db.upsertUserDataByUserID(req.body.userUpdate)
+    .then(() => {
+      res.send('user updated!');
+    })
+    .catch(err => {
+      console.error(err);
+    });
 });
 
 // below route will seed DB with 10 fake users
