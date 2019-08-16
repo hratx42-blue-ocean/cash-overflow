@@ -73,11 +73,11 @@ const BudgetCategoryName = ({ category, handleDeleteCategory }) => {
         </DialogTitle>
         <DialogContent>
           <DialogContentText>
-            {`Are you sure you want to delete ${category}?`}:
+            {`Are you sure you want to delete ${category}?`}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleDeleteDialog} color="primary">
+          <Button onClick={handleDeleteDialog} color="secondary">
             Cancel
           </Button>
           <Button onClick={deleteCategory} color="primary">
