@@ -11,6 +11,7 @@ export default class BudgetAllottment extends Component {
       category,
       month,
       name,
+      recalculate,
       updateAllotments,
       year
     } = this.props;
@@ -26,7 +27,8 @@ export default class BudgetAllottment extends Component {
       year: year
     };
 
-    this.updateAllotments = this.props.updateAllotments;
+    this.recalculate = recalculate;
+    this.updateAllotments = updateAllotments;
 
     this.handleClick = this.handleClick.bind(this);
     this.handleClickAway = this.handleClickAway.bind(this);
@@ -43,12 +45,14 @@ export default class BudgetAllottment extends Component {
   }
 
   handleKeyPress(e) {
-    const { name, month, year } = this.state;
+    const { name } = this.state;
     if (e.key === 'Enter') {
       e.preventDefault();
       const val = Number(e.target.value);
-      this.updateAllotments(name, val, year, month);
       this.setState({ clicked: false });
+      Promise.resolve(this.updateAllotments(name, val)).then(
+        this.recalculate()
+      );
     }
   }
 

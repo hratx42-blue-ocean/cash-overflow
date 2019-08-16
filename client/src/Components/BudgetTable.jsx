@@ -51,7 +51,8 @@ const BudgetTable = ({
   handleSaveCategory,
   handleClose,
   handleTextInput,
-  handleMonthChange
+  handleMonthChange,
+  recalculate
 }) => {
   const classes = useStyles();
   return (
@@ -108,6 +109,7 @@ const BudgetTable = ({
                         allotment={breakdown[category].alloted}
                         name={category}
                         updateAllotments={updateAllotments}
+                        recalculate={recalculate}
                       />
                     </TableCell>
                     <TableCell align="right">

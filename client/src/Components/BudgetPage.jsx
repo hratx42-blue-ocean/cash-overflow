@@ -22,21 +22,22 @@ class BudgetPage extends Component {
       currentYear: 2019,
       currentMonth: 8,
       open: false,
-      textInput: ''
+      textInput: '',
+      counter: props.counter
     };
+    this.handleUpdateCategories = props.handleUpdateCategories;
+
     this.handleAddCategory = this.handleAddCategory.bind(this);
     this.handleSaveCategory = this.handleSaveCategory.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.handleTextInput = this.handleTextInput.bind(this);
     this.handleMonthChange = this.handleMonthChange.bind(this);
+    this.recalculate = this.recalculate.bind(this);
     this.updateAllotments = this.updateAllotments.bind(this);
   }
 
   componentDidMount() {
-    const { accounts, categories } = this.state;
-    const txsByMonth = compileTxs(accounts);
-    const categoryBreakdown = compileSpent(categories, txsByMonth);
-    this.setState({ txsByMonth, categoryBreakdown });
+    this.recalculate();
   }
 
   // change current month
@@ -64,8 +65,8 @@ class BudgetPage extends Component {
       }
     });
 
-    // TODO add function that sets app state
-    console.log('state not set', categories);
+    // TODO make this async?
+    this.handleUpdateCategories(categories);
   }
 
   handleAddCategory() {
@@ -91,8 +92,14 @@ class BudgetPage extends Component {
     });
   }
 
+  recalculate() {
+    const { accounts, categories } = this.state;
+    const txsByMonth = compileTxs(accounts);
+    const categoryBreakdown = compileSpent(categories, txsByMonth);
+    this.setState({ txsByMonth, categoryBreakdown });
+  }
+
   render() {
-    this.updateAllotments('bills', 100, 2019, 8);
     const { loading, isAuthenticated } = this.props;
     if (loading || !isAuthenticated) {
       return (
@@ -121,6 +128,7 @@ class BudgetPage extends Component {
         handleSaveCategory={this.handleSaveCategory}
         handleClose={this.handleClose}
         handleTextInput={this.handleTextInput}
+        recalculate={this.recalculate}
       />
     );
   }
@@ -184,7 +192,16 @@ function compileSpent(categories = [], transactions) {
             spent += Number(tx.amount);
           }
         });
-        result[year][month][name] = { alloted: 0, spent: spent.toFixed(2) };
+        const allotted =
+          category.allotment !== undefined &&
+          category.allotment[year] !== undefined &&
+          category.allotment[year][month] !== undefined
+            ? category.allotment[year][month]
+            : 0;
+        result[year][month][name] = {
+          alloted: allotted,
+          spent: spent.toFixed(2)
+        };
       });
     });
   });
