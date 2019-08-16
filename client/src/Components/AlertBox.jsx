@@ -4,7 +4,6 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable arrow-parens */
 import React, { Component } from 'react';
-import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import PropTypes from 'prop-types';
 import MobileStepper from '@material-ui/core/MobileStepper';
@@ -184,4 +183,10 @@ export default class AlertBox extends Component {
       </div>
     );
   }
+}
+
+AlertBox.propTypes = {
+  accounts: PropTypes.array.isRequired,
+  budget: PropTypes.array.isRequired,
+  recurringTransactions: PropTypes.array.isRequired
 }
