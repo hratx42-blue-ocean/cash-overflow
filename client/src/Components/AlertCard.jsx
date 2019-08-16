@@ -15,7 +15,31 @@ const useStyles = makeStyles(theme => ({
 
 export default function AlertCard(props) {
   const classes = useStyles();
-
+  if (props.alertType === 'Payment Reminder') {
+    return (
+      <Card className={classes.card}>
+        <CardHeader
+          avatar={
+            <Avatar aria-label="alertCircle" className={classes.avatar}>
+              !
+            </Avatar>
+          }
+          title="Budget Alert"
+          subheader={props.alertHeader}
+        />
+        <CardContent>
+          <Typography variant="h5" color="textSecondary" component="p">
+            Alert for {props.budgetCategory}
+          </Typography>
+          <Typography variant="body2" component="p">
+            You have {props.alertType} for your {props.budgetCategory} category.
+            You have a payment coming up to {props.payee} for ${props.amount}{' '}
+            coming up on {props.date.toDateString()}. Don't forget!
+          </Typography>
+        </CardContent>
+      </Card>
+    );
+  }
   return (
     <Card className={classes.card}>
       <CardHeader

@@ -16,7 +16,7 @@ import AlertCard from './AlertCard.jsx';
 export default class AlertBox extends Component {
   constructor(props) {
     super(props);
-    console.log(props)
+    
     this.state = {
       alerts: [],
       maxSteps: 0,
@@ -28,10 +28,10 @@ export default class AlertBox extends Component {
   }
 
   componentDidMount() {
-    this.getAlerts(this.props.accounts, this.props.budget);
+    this.getAlerts(this.props.accounts, this.props.budget, this.props.recurringTransactions);
   }
 
-  getAlerts(accounts, budget) {
+  getAlerts(accounts, budget, transactions) {
     let alertType = null;
     let alertHeader = null;
     const alerts = [];
@@ -70,11 +70,31 @@ export default class AlertBox extends Component {
         });
       }
     }
+  
+
+     for (let payment of transactions) {
+      
+      let date = new Date(payment.startDate)
+      if ((date.getDate() - today.getDate() < 4) && (date.getDate() - today.getDate() > 0)) {
+        date.setMonth(today.getMonth())
+        alerts.push({
+        budgetCategoryName: payment.category,
+        amount: payment.amount,
+        date: date,
+        payee: payment.payee,
+        alertType: 'Payment Reminder',
+        alertHeader: 'You have a payment coming up!'
+        })
+      }
+     }
+   
+
     this.setState({
       alerts: alerts,
       maxSteps: alerts.length
     });
   }
+
 
   handleNext() {
     let nextStep = this.state.activeStep + 1;
@@ -127,6 +147,9 @@ export default class AlertBox extends Component {
             allotment={alerts[activeStep].amountBudgeted}
             spent={alerts[activeStep].amountSpent}
             alertHeader={alerts[activeStep].alertHeader}
+            date={alerts[activeStep].date}
+            payee={alerts[activeStep].payee}
+            amount={alerts[activeStep].amount}
           />
         </Paper>
         <MobileStepper
