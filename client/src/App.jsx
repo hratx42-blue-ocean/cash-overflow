@@ -42,22 +42,20 @@ export default class App extends Component {
   }
 
   componentDidMount() {
-    const { user, isAuthenticated, loading } = this.context;
+    const { isAuthenticated } = this.context;
 
+    // if the user is unauthenticated, stop loading
     if (!isAuthenticated) {
       this.setState({
         loadingUser: false
       });
     }
-
-    console.log(
-      `componentDidMount gets the following from Auth0Context user:${user}, isAuthenticated:${isAuthenticated}, loading:${loading}`
-    );
   }
 
   componentDidUpdate() {
     const { user } = this.context;
 
+    // See if a user has authenticated
     if (user && user.sub.substring(6) !== this.state.userID) {
       console.log(`Looks like you're logged in as: ${user.email}`);
 
@@ -69,17 +67,18 @@ export default class App extends Component {
           userID,
           loadingUser: true
         },
-        // check to see if the user exists
+        // check to see if the user exists in the database
         async () => {
           const response = await db.getUserData(userID);
 
           const { data: userData } = response;
 
-          // if the user is new, give them demo data
+          // if they exist, set their data in state
           if (userData.length > 0) {
             this.setAccountData(userData[0]);
             console.log(`Welcome back ${userData[0].firstName}!`);
           } else {
+            // give the demo data if they don't exit
             console.log(`Welcome to CashOverflow!`);
             // TODO: Fake user data should be replaced with SignUp flow logic.
             const newUserData = createFakeUser();
@@ -163,9 +162,11 @@ export default class App extends Component {
         budgetCategories: updatedCategories,
         accountData: accountUpdate
       },
-      () => console.log('handle update state now', this.state)
+      () => {
+        console.log('handle update state now', this.state);
+        this.setAccountData(accountUpdate);
+      }
     );
-    this.updateAccountData(accountUpdate);
   }
 
   render() {

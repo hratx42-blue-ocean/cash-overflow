@@ -40,6 +40,15 @@ class BudgetPage extends Component {
     this.recalculate();
   }
 
+  componentDidUpdate() {
+    const { categories: propCatagories } = this.props;
+    const { categories: stateCatagories } = this.state;
+
+    if (JSON.stringify(propCatagories) !== JSON.stringify(stateCatagories)) {
+      this.recalculate();
+    }
+  }
+
   // change current month
   handleMonthChange(increment) {
     const { currentMonth } = this.state;
@@ -122,7 +131,6 @@ class BudgetPage extends Component {
         breakdown={breakdown}
         handleMonthChange={this.handleMonthChange}
         updateAllotments={this.updateAllotments}
-        breakdown={breakdown}
         open={open}
         handleAddCategory={this.handleAddCategory}
         handleSaveCategory={this.handleSaveCategory}
