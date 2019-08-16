@@ -14,11 +14,15 @@ router.get('/getData', (req, res) => {
   const { userid } = query;
 
   console.log('Query received as:', req.query);
-
-  db.getUserDataByUserID(userid).then(userData => {
-    console.log('UserID is:', userid);
+  if (userid) {
+    db.getUserDataByUserID(userid).then(userData => {
+      console.log('UserID is:', userid);
+      res.send(userData);
+    });
+  } else {
+    const userData = [];
     res.send(userData);
-  });
+  }
 });
 
 router.post('/upsertData', (req, res) => {

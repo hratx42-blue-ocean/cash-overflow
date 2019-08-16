@@ -25,7 +25,7 @@ const getUserDataByUserID = async userID => {
       .toArray();
     return result;
   } catch (err) {
-    console.log(err);
+    throw new Error(err);
   }
 };
 

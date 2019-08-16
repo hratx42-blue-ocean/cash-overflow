@@ -69,27 +69,21 @@ export default class App extends Component {
         },
         // check to see if the user exists
         async () => {
-          const response = await db.getUserData();
+          const response = await db.getUserData(userID);
 
           const { data: userData } = response;
 
-          console.log(
-            `We have this many pieces of data for your account: ${
-              Object.keys(userData).length
-            }`
-          );
-
           // if the user is new, give them demo data
           if (userData.length > 0) {
-            this.setAccountData(userData);
-            console.log(`Welcome back ${userData.firstName}`);
+            this.setAccountData(userData[0]);
+            console.log(`Welcome back ${userData[0].firstName}!`);
           } else {
             console.log(`Welcome to CashOverflow!`);
             // TODO: Fake user data should be replaced with SignUp flow logic.
             const newUserData = createFakeUser();
 
             console.log(
-              `We'll give you some sample data based on the average American to get you started.`
+              `We'll give you some sample data based on the average American's to get you started.`
             );
             newUserData.email = user.email;
             newUserData.userID = userID;
@@ -102,11 +96,6 @@ export default class App extends Component {
   }
 
   setAccountData(newAccountData) {
-    console.log(
-      'Attempting to set account data to:',
-      JSON.stringify(newAccountData)
-    );
-
     const { budgetCategories, email } = newAccountData;
     this.setState(
       {
