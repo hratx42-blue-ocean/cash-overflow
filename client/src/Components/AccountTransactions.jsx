@@ -17,8 +17,21 @@ import ChevronLeft from '@material-ui/icons/ChevronLeft';
 import ChevronRight from '@material-ui/icons/ChevronRight';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
+import { withStyles } from '@material-ui/styles';
+
+const styles = {
+  root: {
+    background: 'linear-gradient(180deg, #fff 30%, #DAF7DC 90%)',
+    border: 0,
+    borderRadius: 3,
+    boxShadow: '0 3px 5px 2px #DAF7DC',
+    height: 48,
+    padding: '0 30px'
+  }
+};
 
 const AccountTransactions = props => {
+  const { classes } = props;
   const date = new Date();
   const currentMonth = date.toLocaleString('default', { month: 'long' });
   return (
@@ -49,7 +62,7 @@ const AccountTransactions = props => {
         </FormControl>
         <Paper style={{ maxHeight: 500, overflow: 'auto' }}>
           <List>
-            <Table>
+            <Table className={classes.root}>
               <TableHead>
                 <TableRow>
                   <TableCell
@@ -109,4 +122,4 @@ AccountTransactions.propTypes = {
   accountsList: PropTypes.array
 };
 
-export default AccountTransactions;
+export default withStyles(styles)(AccountTransactions);

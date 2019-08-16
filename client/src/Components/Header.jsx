@@ -1,5 +1,4 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -7,26 +6,23 @@ import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
 import Box from '@material-ui/core/Box';
 import { useAuth0 } from '../react-auth0-wrapper';
+import { withStyles } from '@material-ui/styles';
 
-const useStyles = makeStyles(theme => ({
+const styles = {
   root: {
-    flexGrow: 1
-  },
-  navBox: {
-    flexDirection: 'row',
-    justifyContent: 'flex-start'
-  },
-  title: {
-    flexGrow: 1
+    background: '#fff',
+    height: 48,
+    padding: '0 30px',
+    boxShadow: '#fff'
   },
   link: {
-    textDecoration: 'none',
-    color: '#ffffff'
+    color: '#000000',
+    underline: false
   }
-}));
+};
 
-export default function ButtonAppBar() {
-  const classes = useStyles();
+function ButtonAppBar(props) {
+  const { classes } = props;
   const { isAuthenticated, loading, loginWithRedirect, logout } = useAuth0();
 
   const logoutWithRedirect = () =>
@@ -35,8 +31,8 @@ export default function ButtonAppBar() {
     });
 
   return (
-    <div className={classes.root}>
-      <AppBar position="static">
+    <div>
+      <AppBar className={classes.root} position="static">
         <Toolbar>
           <Typography variant="h6" className={classes.title}>
             Cash Overflow
@@ -81,7 +77,11 @@ export default function ButtonAppBar() {
               <></>
             )
           ) : (
-            <Button onClick={() => logoutWithRedirect()} color="inherit">
+            <Button
+              className={classes.link}
+              onClick={() => logoutWithRedirect()}
+              color="inherit"
+            >
               Logout
             </Button>
           )}
@@ -90,3 +90,5 @@ export default function ButtonAppBar() {
     </div>
   );
 }
+
+export default withStyles(styles)(ButtonAppBar);

@@ -6,7 +6,8 @@
   "scripts": {
     "build": "webpack --config webpack.config.js",
     "test": "jest",
-    "server": "webpack-dev-server --mode development --open --hot"
+    "server": "webpack-dev-server --mode development --open --hot",
+    "start": "webpack --config webpack.config.js --watch"
   },
   "author": "",
   "license": "ISC",

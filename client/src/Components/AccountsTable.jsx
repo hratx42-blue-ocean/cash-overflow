@@ -22,13 +22,26 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/styles';
+
+const styles = {
+  root: {
+    background: 'linear-gradient(45deg, #fff 30%, #DAF7DC 90%)',
+    border: 0,
+    borderRadius: 3,
+    boxShadow: '0 3px 5px 2px #DAF7DC',
+    height: 48,
+    padding: '0 30px'
+  }
+};
 
 const AccountsTable = props => {
+  const { classes } = props;
   return (
     <>
       <Grid item xs={4}>
         <Paper>
-          <Table>
+          <Table className={classes.root}>
             <TableHead>
               <TableRow>
                 <TableCell align="center">Account</TableCell>
@@ -120,4 +133,4 @@ AccountsTable.propTypes = {
   open: PropTypes.bool
 };
 
-export default AccountsTable;
+export default withStyles(styles)(AccountsTable);
