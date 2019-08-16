@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Axios from 'axios';
+import axios from 'axios';
 
 // Routing
 import { Switch, Route, Redirect } from 'react-router-dom';
@@ -20,11 +20,15 @@ import ProfilePage from './Components/ProfilePage.jsx';
 import Footer from './Components/Footer.jsx';
 import ErrorPage from './Components/ErrorPage.jsx';
 import Loading from './Components/Loading.jsx';
+import db from './utils/databaseRequests';
+
+import createFakeUser from './fakeUserGenerator.js';
 
 export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      userID: null,
       loadingUser: true,
       currentUser: '',
       budgetCategories: [],
@@ -32,48 +36,81 @@ export default class App extends Component {
         accounts: [{ transactions: { year: { month: [] } } }]
       }
     };
-    this.getUserData = this.getUserData.bind(this);
-    this.postUserData = this.postUserData.bind(this);
-    this.updateAccountData = this.updateAccountData.bind(this);
     this.setAccountData = this.setAccountData.bind(this);
     this.handleAddTransaction = this.handleAddTransaction.bind(this);
     this.handleUpdateCategories = this.handleUpdateCategories.bind(this);
   }
 
   componentDidMount() {
-    this.getUserData('chadchadson@gmail.com')
-      .then(this.setAccountData)
-      .then(() => {
-        console.log('the user object is: ', this.state.accountData);
-      })
-      .catch(err => {
-        console.log('mounting error: ', err);
+    const { user, isAuthenticated, loading } = this.context;
+
+    if (!isAuthenticated) {
+      this.setState({
+        loadingUser: false
       });
+    }
+
+    console.log(
+      `componentDidMount gets the following from Auth0Context user:${user}, isAuthenticated:${isAuthenticated}, loading:${loading}`
+    );
   }
 
-  getUserData(userEmail) {
-    return Axios.get(`http://0.0.0.0:8000/api/users/getData?user=${userEmail}`);
+  componentDidUpdate() {
+    const { user } = this.context;
+
+    if (user && user.sub.substring(6) !== this.state.userID) {
+      console.log(`Looks like you're logged in as: ${user.email}`);
+
+      // set the userID to the UUID provided
+      const userID = user.sub.substring(6);
+      console.log(`Your UserID is ${userID}`);
+      this.setState(
+        {
+          userID,
+          loadingUser: true
+        },
+        // check to see if the user exists
+        async () => {
+          const response = await db.getUserData(userID);
+
+          const { data: userData } = response;
+
+          // if the user is new, give them demo data
+          if (userData.length > 0) {
+            this.setAccountData(userData[0]);
+            console.log(`Welcome back ${userData[0].firstName}!`);
+          } else {
+            console.log(`Welcome to CashOverflow!`);
+            // TODO: Fake user data should be replaced with SignUp flow logic.
+            const newUserData = createFakeUser();
+
+            console.log(
+              `We'll give you some sample data based on the average American's to get you started.`
+            );
+            newUserData.email = user.email;
+            newUserData.userID = userID;
+
+            this.setAccountData(newUserData);
+          }
+        }
+      );
+    }
   }
 
-  postUserData(userObject) {
-    Axios.post('http://0.0.0.0:8000/api/users/upsertData', {
-      userUpdate: userObject
-    }).then(okResponse => console.log(okResponse));
-  }
-
-  setAccountData(incomingAccountData) {
-    const [currentAccountData] = incomingAccountData.data;
-    const { budgetCategories, email } = currentAccountData;
-    this.setState({
-      accountData: currentAccountData,
-      budgetCategories,
-      currentUser: email,
-      loadingUser: false
-    });
-  }
-
-  updateAccountData(updatedAccountData) {
-    this.postUserData(updatedAccountData);
+  setAccountData(newAccountData) {
+    const { budgetCategories, email } = newAccountData;
+    this.setState(
+      {
+        accountData: newAccountData,
+        budgetCategories,
+        currentUser: email
+      },
+      () => {
+        this.setState({ loadingUser: false }, () => {
+          db.postUserData(this.state.accountData);
+        });
+      }
+    );
   }
 
   handleAddTransaction(stateObject) {
@@ -105,7 +142,7 @@ export default class App extends Component {
         accountUpdate.accounts[i].transactions[year][month].push(transaction);
         break;
       }
-      this.updateAccountData(accountUpdate);
+      this.setAccountData(accountUpdate);
     }
 
     this.setState({
@@ -114,7 +151,7 @@ export default class App extends Component {
 
     // fn below will update app state, and then POST updated userObject to DB
 
-    this.updateAccountData(accountUpdate);
+    this.setAccountData(accountUpdate);
   }
 
   handleUpdateCategories(updatedCategories) {
@@ -163,7 +200,7 @@ export default class App extends Component {
                   accountData={accountData}
                   loading={loading}
                   isAuthenticated={isAuthenticated}
-                  updateAccountData={this.updateAccountData}
+                  updateAccountData={this.setAccountData}
                 />
               )}
             />
@@ -175,7 +212,7 @@ export default class App extends Component {
                   categories={budgetCategories}
                   loading={loading}
                   isAuthenticated={isAuthenticated}
-                  updateAccountData={this.updateAccountData}
+                  updateAccountData={this.setAccountData}
                   handleUpdateCategories={this.handleUpdateCategories}
                 />
               )}
@@ -201,7 +238,7 @@ export default class App extends Component {
                   accountData={accountData}
                   loading={loading}
                   isAuthenticated={isAuthenticated}
-                  updateAccountData={this.updateAccountData}
+                  updateAccountData={this.setAccountData}
                 />
               )}
             />
