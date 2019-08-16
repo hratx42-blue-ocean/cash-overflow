@@ -52,6 +52,12 @@ export default class App extends Component {
   componentDidMount() {
     const { user, isAuthenticated, loading } = this.context;
 
+    if (!isAuthenticated) {
+      this.setState({
+        loadingUser: false
+      });
+    }
+
     console.log(
       `componentDidMount gets the following from Auth0Context user:${user}, isAuthenticated:${isAuthenticated}, loading:${loading}`
     );
@@ -70,7 +76,8 @@ export default class App extends Component {
       console.log(`From componentDidUpdate, your UserID is ${userID}`);
       this.setState(
         {
-          userID
+          userID,
+          loadingUser: true
         },
         // check to see if the user exists
         async () => {
@@ -89,16 +96,12 @@ export default class App extends Component {
               `From componentDidUpdate, Welcome back ${userData.data.firstName}`
             );
           } else {
-            console.log(
-              `From componentDidUpdate, Welcome to CashOverflow new user!`
-            );
+            console.log(`Welcome to CashOverflow!`);
             // TODO: Fake user data should be replaced with SignUp flow logic.
             const newUserData = createFakeUser();
 
             console.log(
-              `From componentDidUpdate, here's some sample account data to get you started: ${JSON.stringify(
-                newUserData
-              )}`
+              `We'll give you some sample data based on the average American to get you started.`
             );
             newUserData.email = user.email;
             newUserData.userID = userID;
