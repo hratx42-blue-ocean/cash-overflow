@@ -13,6 +13,7 @@ import ChevronRight from '@material-ui/icons/ChevronRight';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import BudgetAllottment from './BudgetAllotment.jsx';
+import BudgetAddCatgory from './BudgetAddCategory.jsx';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -40,7 +41,16 @@ const translateMonths = {
   12: 'dec'
 };
 
-const BudgetTable = ({ month, breakdown = {}, handleMonthChange }) => {
+const BudgetTable = ({
+  month,
+  open,
+  handleAddCategory,
+  handleSaveCategory,
+  handleClose,
+  handleTextInput,
+  handleMonthChange,
+  breakdown = {}
+}) => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
@@ -63,10 +73,26 @@ const BudgetTable = ({ month, breakdown = {}, handleMonthChange }) => {
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell>Category</TableCell>
-                  <TableCell align="right">Allotted</TableCell>
-                  <TableCell align="right">Spent</TableCell>
-                  <TableCell align="right">Remaining</TableCell>
+                  <TableCell>
+                    {
+                      <BudgetAddCatgory
+                        open={open}
+                        handleAddCategory={handleAddCategory}
+                        handleSaveCategory={handleSaveCategory}
+                        handleClose={handleClose}
+                        handleTextInput={handleTextInput}
+                      />
+                    }
+                  </TableCell>
+                  <TableCell align="right">
+                    <Typography>Allotted</Typography>
+                  </TableCell>
+                  <TableCell align="right">
+                    <Typography>Spent</Typography>
+                  </TableCell>
+                  <TableCell align="right">
+                    <Typography>Remaining</Typography>
+                  </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -98,7 +124,12 @@ const BudgetTable = ({ month, breakdown = {}, handleMonthChange }) => {
 };
 
 BudgetTable.propTypes = {
-  rows: PropTypes.arrayOf(PropTypes.object)
+  rows: PropTypes.arrayOf(PropTypes.object),
+  open: PropTypes.bool,
+  handleAddCategory: PropTypes.func,
+  handleSaveCategory: PropTypes.func,
+  handleClose: PropTypes.func,
+  handleTextInput: PropTypes.func
 };
 
 export default BudgetTable;
