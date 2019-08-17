@@ -44,20 +44,43 @@ Some challenges we ran into while building the app:
 
 Our team strived to meet the expectations of our primary user by organizing deliverables into user stories listed below:
 
+- As a user, when I navigate to the app, I see a home page with the option to login page if they’re not already logged in
+- Upon logging in, I want to be presented with my net account balance (checking account balance - credit card debt) and a form to record expenses/income
+- Throughout the app, I want to see a horizontal navigation bar along the top with various options
+- On the accounts page, I want to be able to see all of my accounts with their individual balances
+  - By default, I should see transactions for the current month only, there should be an easy selector to move between past months
+  - I want to be able to select an account and only see transactions associated with a particular account
+  - I should be able to add accounts
+- On the budget page, the most important information to me is seeing how much money is currently remaining for each category.
+  - I should be able to see all of the expense categories that I have previously defined.
+  - I should also be able to see my current caps for each category, and expenditure toward those caps.
+- On the trends page, I want to see filterable visualizations of my current and past spending.
+  - I should be able to see what percentage of my spending each category is currently making up.
+  - I should be able to see my spending habits on any given category visualized in a way I can easily understand.
+  - I should be able to compare my profile spending between any two months I select.
+- When I navigate to the settings page, I should be able to see and change my contact information and preferences.
+
 ### Minimum Viable Product (MVP)
 
-The MVP requirement was to be able to performantly serve 250 RPS(requests per second) deployed using micro instances.
+The MVP was asked to be an app where a user could see how much money they have currently, add transactions, and set a simple monthly budget.
 
 ### How the App Works
 
-Behind the scenes, the app uses Docker Swarm deployed to GCP with a ElasticSearch instance on a manager node and 6 Express servers spread across 5 other swarm nodes to serve 500 RPS/CPS ([test results](https://ldr.io/2KlKOuh)).
+![](GIF OF APP IN ACTION)
 
-The tests used MongoDB deployed on GCP for the backend, PSQL was equally performant for median response time but the spread was much greater (see [DevJournal](https://github.com/lazylowesing/Search-Banner/blob/master/DevJournal.md) on July 29, 2019 for details)
+### Workflow
+
+We used an Agile workflow with Github's new Project feature to keep track of tickets/issues, milestones, and sprint progression.
+
+The project tracking features also ingrated very well with our Git workflow.
+
+Our team used feature branches and had two reviewers required on all merges the the master branch(in addition to TravisCI) in order to ensure that we always had working code in the master branch.
 
 ### Future Features
 
-Given time, I'd implement:
+Given time, we'd like to implement:
 
-- JDBC for live connection between ElasticSearch and database. Would also write enhanced startup script for ElasticSearch, right now index is built manually.
-
-- Refactor and retest PSQL to use horizontal partitioning. I'm reasonably certain it would end up being faster than MongoDB in that scenario and the original wasn't built with ElasticSearch implemented.
+- Refactor financial calculations to happen on the server/database.
+- The App state holds only user information, each page requests it's own information as needed (i.e. start to move towards lazy loading over greedy loading of information).
+- Production grade API authentication.
+- Plaid API integration.
