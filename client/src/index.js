@@ -15,7 +15,7 @@ const appTheme = {
     },
     secondary: {
       light: '#bdbdbd',
-      main: '#8bc34a',
+      main: '#7ed957',
       contrastText: 'rgba(0, 0, 0, 0.87)'
     },
     tableRow: {
