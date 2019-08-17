@@ -2,11 +2,9 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import '@testing-library/jest-dom/extend-expect';
 import { render } from '@testing-library/react';
-import fakeData from '../../../db/dataSeeder';
-
 import ProfilePage from '../Components/ProfilePage.jsx';
+import data from './data.json';
 
-const data = fakeData.createData();
 
 describe('ProfilePage component --->', () => {
   test('should render without throwing an error', async () => {
