@@ -9,15 +9,35 @@ import DialogActions from '@material-ui/core/DialogActions';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-const engineers = [
-  {name: 'Garett Welson', link:'https://www.linkedin.com/in/garrettwelson/' },
-  {name: 'Ross Calimlin', link: 'https://www.linkedin.com/in/rcalimlim/' },
-  {name: 'Doris Hui', link: 'https://www.linkedin.com/in/dorishui/'},
-  {name: 'Kevin Bench', link: 'https://www.linkedin.com/in/kevin-bench/'},
-  {name: 'Evelyn Binkard', link: 'https://www.linkedin.com/in/evelynbinkard/'},
-  {name: 'Mitchell Dill', link: 'https://www.linkedin.com/in/mitchelladill/'},
-  {name: 'Jordan Dilliard', link: 'https://www.linkedin.com/in/jordan-dillard/'},
-  {name: 'Brandon Leafman', link: 'https://www.linkedin.com/in/brandonleafman/'}
+import Grid from '@material-ui/core/Grid';
+
+const engineersLeft = [
+  { name: 'Garett Welson', link: 'https://www.linkedin.com/in/garrettwelson/' , imageURL: 'https://binkardfecimages.s3.us-east-2.amazonaws.com/cashOverflowHeadshots/GW+Headshot.jpg'},
+  { name: 'Ross Calimlin', link: 'https://www.linkedin.com/in/rcalimlim/' },
+  {
+    name: 'Doris Hui',
+    link: 'https://www.linkedin.com/in/dorishui/',
+    imageURL:
+      'https://binkardfecimages.s3.us-east-2.amazonaws.com/cashOverflowHeadshots/DH+headshot.png'
+  },
+  { name: 'Kevin Bench', link: 'https://www.linkedin.com/in/kevin-bench/', imageURL: 'https://binkardfecimages.s3.us-east-2.amazonaws.com/cashOverflowHeadshots/KB+Headshot.png' }
+];
+
+const engineersRight = [
+  {
+    name: 'Evelyn Binkard',
+    link: 'https://www.linkedin.com/in/evelynbinkard/', imageURL: 'https://binkardfecimages.s3.us-east-2.amazonaws.com/cashOverflowHeadshots/EB+HeadShot.png'
+  },
+  { name: 'Mitchell Dill', link: 'https://www.linkedin.com/in/mitchelladill/',
+    imageURL: 'https://binkardfecimages.s3.us-east-2.amazonaws.com/cashOverflowHeadshots/MD+Headshot.jpg'},
+  {
+    name: 'Jordan Dilliard',
+    link: 'https://www.linkedin.com/in/jordan-dillard/', imageURL: 'https://binkardfecimages.s3.us-east-2.amazonaws.com/cashOverflowHeadshots/JD+Headshot.jpg'
+  },
+  {
+    name: 'Brandon Leafman',
+    link: 'https://www.linkedin.com/in/brandonleafman/', imageURL: 'https://binkardfecimages.s3.us-east-2.amazonaws.com/cashOverflowHeadshots/BL+Headshot.png'
+  }
 ];
 
 const useStyles = makeStyles(theme => ({
@@ -35,9 +55,7 @@ const useStyles = makeStyles(theme => ({
     textDecoration: 'none',
     color: '#ffffff',
     padding: 0,
-    margin: 2,
-
-
+    margin: 2
   },
   toolbar: {
     position: 'fixed',
@@ -50,8 +68,8 @@ const useStyles = makeStyles(theme => ({
   engineer: {
     color: '#3f51b5',
     '&:hover': {
-      color: "blue",
-   }
+      color: 'blue'
+    }
   }
 }));
 
@@ -73,16 +91,44 @@ export default function Footer() {
         <Button onClick={handleClickOpen} className={classes.link}>
           About Us
         </Button>
-        <Dialog aria-labelledby="simple-dialog-title" open={open}>
+        <Dialog fullWidth={true} aria-labelledby="simple-dialog-title" open={open}>
           <DialogTitle>Team Cash Overflow</DialogTitle>
-          <List>
-            {engineers.map(engineer => (
-          
-              <ListItem className={classes.engineer} key={engineer.name} onClick={()=> window.open(engineer.link, "_blank")}>
-                <ListItemText primary={engineer.name} />
-              </ListItem>
-            ))}
-          </List>
+          <Grid container spacing={1}>
+            <Grid item xs={6}>
+              <List>
+                {engineersLeft.map(engineer => (
+                  <ListItem
+                    className={classes.engineer}
+                    key={engineer.name}
+                    onClick={() => window.open(engineer.link, '_blank')}
+                  >
+                    <img
+                      style={{ width: 60, borderRadius: '50%' }}
+                      src={engineer.imageURL}
+                    ></img>{' '}
+                    <ListItemText style={{padding: '15px'}} primary={engineer.name} />
+                  </ListItem>
+                ))}
+              </List>
+            </Grid>
+            <Grid item xs={6}>
+              <List>
+                {engineersRight.map(engineer => (
+                  <ListItem
+                    className={classes.engineer}
+                    key={engineer.name}
+                    onClick={() => window.open(engineer.link, '_blank')}
+                  >
+                    <img
+                      style={{ width: 60, 'border-radius': '50%' }}
+                      src={engineer.imageURL}
+                    ></img>{' '}
+                    <ListItemText style={{padding: '15px'}} primary={engineer.name} />
+                  </ListItem>
+                ))}
+              </List>
+            </Grid>
+          </Grid>
           <DialogActions>
             <Button onClick={handleClose} color="primary">
               Close
