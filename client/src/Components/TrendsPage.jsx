@@ -78,7 +78,7 @@ export default function TrendsPage(props) {
   }
 
   return (
-    <Paper className={classes.root}>
+    <Paper style={{marginBottom:25}} className={classes.root}>
       <Tabs
         value={value}
         onChange={handleChange}
