@@ -138,7 +138,7 @@ const TrendsHabits = props => {
     }
   }, [months, years, props.view, category]);
 
-  return <Line data={graphData} />;
+  return <Line data={graphData} width={400} height={400}/>;
 };
 export default TrendsHabits;
 
