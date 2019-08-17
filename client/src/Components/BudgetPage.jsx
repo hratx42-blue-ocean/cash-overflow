@@ -1,12 +1,5 @@
 import React, { Component } from 'react';
-import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
 import PropTypes from 'prop-types';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
 import BudgetTable from './BudgetTable.jsx';
 import Loading from './Loading.jsx';
 
@@ -16,13 +9,13 @@ class BudgetPage extends Component {
     this.state = {
       accounts: props.accounts,
       categories: props.categories,
-      txsByMonth: {},
+      // txsByMonth: {},
       categoryBreakdown: {},
       currentYear: 2019,
       currentMonth: 8,
       open: false,
-      textInput: '',
-      counter: props.counter
+      textInput: ''
+      // counter: props.counter
     };
     this.handleAddCategory = this.handleAddCategory.bind(this);
     this.handleSaveCategory = this.handleSaveCategory.bind(this);
@@ -76,9 +69,9 @@ class BudgetPage extends Component {
   }
 
   async handleSaveCategory() {
-    const { categories, textInput } = this.state;
+    const { categories, textInput, currentYear, currentMonth } = this.state;
     const categoryUpdate = JSON.parse(JSON.stringify(categories));
-    const newCategory = new Category(textInput);
+    const newCategory = new Category(textInput, currentYear, currentMonth);
     categoryUpdate.push(newCategory);
     console.log(
       'Updated categories after addition should be: ',
@@ -159,13 +152,13 @@ class BudgetPage extends Component {
 }
 
 BudgetPage.propTypes = {
-  allotments: PropTypes.arrayOf(PropTypes.object),
-  categories: PropTypes.arrayOf(PropTypes.object),
+  allotments: PropTypes.arrayOf(PropTypes.object).isRequired,
+  categories: PropTypes.arrayOf(PropTypes.object).isRequired,
   transactions: PropTypes.object,
   loading: PropTypes.bool.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
   updateAccountData: PropTypes.func,
-  asyncHandleUpdateCategories: PropTypes.func
+  asyncHandleUpdateCategories: PropTypes.func.isRequired
 };
 
 const totalSpent = txs => {
@@ -232,10 +225,12 @@ function compileSpent(categories = [], transactions) {
   return result;
 }
 
-function Category(name) {
+function Category(name, year, month) {
   this.id = (420420420420 + Math.floor(Math.random() * 69696969)).toString();
   this.name = name;
-  this.allotment = { '2019': { '6': 0, '7': 0, '8': 0 } };
+  this.allotment = {};
+  this.allotment[year] = {};
+  this.allotment[year][month] = 0;
 }
 
 export default BudgetPage;
