@@ -2,11 +2,9 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import '@testing-library/jest-dom/extend-expect';
 import { render } from '@testing-library/react';
-import fakeData from '../../../db/dataSeeder';
-
 import TrendsPage from '../Components/TrendsPage.jsx';
+import data from './data.json';
 
-const data = fakeData.createData();
 
 describe('TrendsPage component --->', () => {
   test('should render without throwing an error', async () => {
