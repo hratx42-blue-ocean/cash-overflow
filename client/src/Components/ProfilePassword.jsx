@@ -12,8 +12,9 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1
   },
   paper: {
-    padding: theme.spacing(2),
-    width: 300,
+    padding: 10,
+    height: '100%',
+    width: '100%',
     margin: 20,
     textAlign: 'center'
   }
@@ -23,7 +24,6 @@ const ProfilePassword = props => {
   const classes = useStyles();
 
   ProfilePassword.propTypes = {
-    // lastName: PropTypes.string,
     passwordIsHidden: PropTypes.bool,
     passwordButtonHandler: PropTypes.func,
     closePasswordResetMessage: PropTypes.func,
@@ -32,29 +32,20 @@ const ProfilePassword = props => {
   };
   return (
     <div className={classes.root}>
-      <Grid container spacing={1}>
-        <Grid item xs>
-          <Paper className={classes.paper}>
-            <Typography variant="h5" component="h5">
-              Password
-            </Typography>
-            {/* <Typography>{props.lastName}</Typography> */}
-            <Typography>
-              <Button onClick={props.passwordButtonHandler}>
-                Reset Password
-              </Button>
-              {!props.passwordIsHidden && (
-                <>
-                  <p>Check your email for password reset instructions!</p>
-                  <Button onClick={props.closePasswordResetMessage}>
-                    Close
-                  </Button>
-                </>
-              )}
-            </Typography>
-          </Paper>
-        </Grid>
-      </Grid>
+      <Paper className={classes.paper}>
+        <Typography variant="h5" component="h5">
+          Password
+        </Typography>
+        <Typography>
+          <Button onClick={props.passwordButtonHandler}>Reset Password</Button>
+          {!props.passwordIsHidden && (
+            <>
+              <p>Check your email for password reset instructions!</p>
+              <Button onClick={props.closePasswordResetMessage}>Close</Button>
+            </>
+          )}
+        </Typography>
+      </Paper>
     </div>
   );
 };

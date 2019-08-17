@@ -12,8 +12,9 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1
   },
   paper: {
-    padding: theme.spacing(2),
-    width: 300,
+    padding: 10,
+    height: '100%',
+    width: '100%',
     margin: 20,
     textAlign: 'center'
   }

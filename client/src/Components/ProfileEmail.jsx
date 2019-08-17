@@ -13,8 +13,9 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1
   },
   paper: {
-    padding: theme.spacing(2),
-    width: 300,
+    padding: 10,
+    height: '100%',
+    width: '100%',
     margin: 20,
     textAlign: 'center'
   }
@@ -32,8 +33,7 @@ const ProfileEmail = props => {
   };
   return (
     <div className={classes.root}>
-      <Grid container spacing={1}>
-        <Grid item xs>
+    
           <Paper className={classes.paper}>
             <Typography variant="h5" component="h5">
               Email
@@ -51,8 +51,7 @@ const ProfileEmail = props => {
               )}
             </Typography>
           </Paper>
-        </Grid>
-      </Grid>
+       
     </div>
   );
 };
