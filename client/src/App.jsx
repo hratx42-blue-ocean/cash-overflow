@@ -157,16 +157,18 @@ export default class App extends Component {
     console.log('modified cats sent in', updatedCategories);
     const accountUpdate = { ...this.state.accountData };
     accountUpdate.budgetCategories = updatedCategories;
-    this.setState(
-      {
-        budgetCategories: updatedCategories,
-        accountData: accountUpdate
-      },
-      () => {
-        console.log('handle update state now', this.state);
-        this.setAccountData(accountUpdate);
-      }
-    );
+    this.setAccountData(accountUpdate);
+
+    // this.setState(
+    //   {
+    //     budgetCategories: updatedCategories,
+    //     accountData: accountUpdate
+    //   },
+    //   () => {
+    //     console.log('handle update state now', this.state);
+
+    //   }
+    // );
   }
 
   render() {

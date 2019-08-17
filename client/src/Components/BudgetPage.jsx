@@ -40,14 +40,14 @@ class BudgetPage extends Component {
     this.recalculate();
   }
 
-  componentDidUpdate() {
-    const { categories: propCatagories } = this.props;
-    const { categories: stateCatagories } = this.state;
+  // componentDidUpdate() {
+  //   const { categories: propCatagories } = this.props;
+  //   const { categories: stateCatagories } = this.state;
 
-    if (JSON.stringify(propCatagories) !== JSON.stringify(stateCatagories)) {
-      this.recalculate();
-    }
-  }
+  //   if (JSON.stringify(propCatagories) !== JSON.stringify(stateCatagories)) {
+  //     this.recalculate();
+  //   }
+  // }
 
   // change current month
   handleMonthChange(increment) {
@@ -102,7 +102,7 @@ class BudgetPage extends Component {
   }
 
   recalculate() {
-    const { accounts, categories } = this.state;
+    const { accounts, categories } = this.props;
     const txsByMonth = compileTxs(accounts);
     const categoryBreakdown = compileSpent(categories, txsByMonth);
     this.setState({ txsByMonth, categoryBreakdown });
