@@ -65,14 +65,14 @@ const TrendsComparison = props => {
           data: Object.keys(categories)
             .sort()
             .map(cat => (m1Data[cat] ? m1Data[cat].toFixed(2) : 0)),
-          backgroundColor: '#B24C63'
+          backgroundColor: '#7ED957'
         },
         {
           label: month[props.m2] + ' ' + props.y2 || 2,
           data: Object.keys(categories)
             .sort()
             .map(cat => (m2Data[cat] ? m2Data[cat].toFixed(2) : 0)),
-          backgroundColor: '#58355E'
+          backgroundColor: '#FF6F27'
         }
       ]
     });

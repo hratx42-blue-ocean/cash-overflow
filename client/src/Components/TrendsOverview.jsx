@@ -3,21 +3,16 @@ import { Doughnut } from 'react-chartjs-2';
 import PropTypes from 'prop-types';
 
 const colors = [
-  '#880E4F',
-  '#B5364E',
-  '#D9624A',
-  '#F09248',
-  '#FBC452',
-  '#79457B',
-  '#374C6D',
-  '#678434',
-  '#009B95',
-  '#9D3A6B',
-  '#00C9B9',
-  '#5CC68E',
-  '#8CDA83',
-  '#FA7484',
-  '#FF9A6E'
+  '#7ED957',
+  '#00A48C',
+  '#00858C',
+  '#00E1FF',
+  '#00A9E5',
+  '#FF6F27',
+  '#40493B',
+  '#002E00',
+  '#A4AE9E',
+  '#FF217C'
 ];
 const TrendsOverview = props => {
   const [labels, setLabels] = React.useState([]);
@@ -28,7 +23,7 @@ const TrendsOverview = props => {
   React.useEffect(() => {
     const cats = {};
     props.data.accountData.budgetCategories.forEach(
-      (category, i) => (cats[category.name] = i > 14 ? i % 14 : i)
+      (category, i) => (cats[category.name] = i > 9 ? i % 9 : i)
     );
     setCategories(cats);
   }, []);

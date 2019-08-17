@@ -116,7 +116,7 @@ const TrendsHabits = props => {
                 {
                   label: category[0].name,
                   data: numbers.map(num => months[num].toFixed(2)),
-                  backgroundColor: 'rgba(88, 53, 95, 0.8)'
+                  backgroundColor: 'rgba(127, 217, 89, 0.8)'
                 }
               ]
             });
@@ -128,7 +128,7 @@ const TrendsHabits = props => {
                 {
                   label: category[0].name,
                   data: numbers.map(num => years[num].toFixed(2)),
-                  backgroundColor: 'rgba(179, 77, 100, 0.8)'
+                  backgroundColor: 'rgba(255, 112, 41, 0.8)'
                 }
               ]
             });
