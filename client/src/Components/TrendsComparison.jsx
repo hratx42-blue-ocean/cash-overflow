@@ -77,7 +77,7 @@ const TrendsComparison = props => {
       ]
     });
   }, [m1Data, m2Data, categories]);
-  return <Bar data={graphData} />;
+  return <Bar data={graphData} width={400} height={400}/>;
 };
 
 export default TrendsComparison;
