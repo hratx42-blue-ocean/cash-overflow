@@ -33,7 +33,6 @@ export default class App extends Component {
     this.asyncHandleUpdateCategories = this.asyncHandleUpdateCategories.bind(
       this
     );
-    this.promiseSetState = this.promiseSetState.bind(this);
     this.toggleDemo = this.toggleDemo.bind(this);
   }
 
@@ -176,15 +175,16 @@ export default class App extends Component {
     this.setAccountData(accountUpdate);
   }
 
-  promiseSetState(userObject) {
-    return new Promise((resolve, reject) => {
+  promisifySetState(userObject) {
+    return new Promise(resolve => {
       this.setState(
         {
           accountData: userObject,
           budgetCategories: userObject.budgetCategories
         },
         () => {
-          resolve(this.state.accountData);
+          const { accountData } = this.state;
+          resolve(accountData);
         }
       );
     });
@@ -201,18 +201,14 @@ export default class App extends Component {
   asyncHandleUpdateCategories(updatedCategories, callback) {
     const accountUpdate = { ...this.state.accountData };
     accountUpdate.budgetCategories = updatedCategories;
-    console.log('modified cats sent in', updatedCategories, accountUpdate);
-    this.promiseSetState(accountUpdate)
+    this.promisifySetState(accountUpdate)
       .then(updatedAccount => {
-        console.log('app level cats: ', updatedAccount);
-        callback(updatedAccount.budgetCategories, accountUpdate.accounts);
-        return updatedAccount;
-      })
-      .then(updatedAccount => {
+        const { budgetCategories, accounts } = updatedAccount;
+        callback(budgetCategories, accounts);
         this.setAccountData(updatedAccount);
       })
       .catch(err => {
-        console.log(err);
+        console.log('category update error: ', err);
       });
   }
 
