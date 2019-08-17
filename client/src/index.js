@@ -11,7 +11,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 const appTheme = {
   palette: {
     primary: {
-      main: '#494949'
+      main: '#474446'
     },
     secondary: {
       light: '#bdbdbd',
@@ -20,8 +20,7 @@ const appTheme = {
     },
     tableRow: {
       hoverColor: 'rgba(136, 14, 79, 0.5)'
-    },
-    type: 'dark'
+    }
   }
 };
 

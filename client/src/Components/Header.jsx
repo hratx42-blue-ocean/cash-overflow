@@ -41,7 +41,7 @@ function ButtonAppBar(props) {
           className={classes.title}
           style={{ fontFamily: 'Lobster Two', fontWeight: 'fontWeightBold' }}
         >
-          Cash Overflow
+          <img src="darkLogo.png" style={{ width: 90, height: 60 }} />
         </Typography>
         {isAuthenticated ? (
           <Box className={classes.root}>
