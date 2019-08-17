@@ -14,7 +14,7 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1
   },
   paper: {
-    padding: theme.spacing(2),
+    margin: theme.spacing(4),
     textAlign: 'center',
     alignContent: 'center',
     color: theme.palette.text.secondary
@@ -28,8 +28,9 @@ const useStyles = makeStyles(theme => ({
   },
   button: {
     fontFamily: 'Open Sans',
-    backgroundColor: '#71E7C7',
-    color: '#ffffff'
+    backgroundColor: '#7ED957',
+    color: '#ffffff',
+    margin: theme.spacing(6)
   },
   link: {
     textDecoration: 'none',
@@ -50,7 +51,29 @@ function LandingPage(props) {
       className="landingPage"
       style={{ display: 'flex', justifyContent: 'center' }}
     >
-      <img src="Logo.png" style={{ margin: 20 }} />
+      <Grid item />
+      <Grid item xs={6}>
+        <Paper className={classes.paper}>
+          <img
+            src="Logo.png"
+            style={{ margin: 20, width: '25vw' }}
+            alt="logo"
+          />
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <Grid item />
+            <Grid item xs={6}>
+              <Button
+                onClick={props.toggleDemo}
+                color="inherit"
+                className={classes.button}
+              >
+                Demo Mode
+              </Button>
+            </Grid>
+            <Grid item />
+          </div>
+        </Paper>
+      </Grid>
       <Grid item />
     </div>
   );

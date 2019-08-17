@@ -19,7 +19,8 @@ const appTheme = {
     tableRow: {
       hoverColor: 'rgba(136, 14, 79, 0.5)'
     }
-  }
+  },
+  spacing: 2
 };
 
 const theme = createMuiTheme(appTheme);
@@ -44,7 +45,7 @@ ReactDOM.render(
       redirect_uri={window.location.origin}
       onRedirectCallback={onRedirectCallback}
     >
-      {/* <CssBaseline /> */}
+      <CssBaseline />
       <BrowserRouter>
         <App />
       </BrowserRouter>

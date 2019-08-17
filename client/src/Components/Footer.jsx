@@ -12,31 +12,51 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Grid from '@material-ui/core/Grid';
 
 const engineersLeft = [
-  { name: 'Garett Welson', link: 'https://www.linkedin.com/in/garrettwelson/' , imageURL: 'https://binkardfecimages.s3.us-east-2.amazonaws.com/cashOverflowHeadshots/GW+Headshot.jpg'},
-  { name: 'Ross Calimlin', link: 'https://www.linkedin.com/in/rcalimlim/', imageURL: 'https://binkardfecimages.s3.us-east-2.amazonaws.com/cashOverflowHeadshots/RC+Headshot.png' },
+  {
+    name: 'Garett Welson',
+    link: 'https://www.linkedin.com/in/garrettwelson/',
+    imageURL:
+      'https://binkardfecimages.s3.us-east-2.amazonaws.com/cashOverflowHeadshots/GW+Headshot.jpg'
+  },
+  { name: 'Ross Calimlin', link: 'https://www.linkedin.com/in/rcalimlim/' },
   {
     name: 'Doris Hui',
     link: 'https://www.linkedin.com/in/dorishui/',
     imageURL:
       'https://binkardfecimages.s3.us-east-2.amazonaws.com/cashOverflowHeadshots/DH+headshot.png'
   },
-  { name: 'Kevin Bench', link: 'https://www.linkedin.com/in/kevin-bench/', imageURL: 'https://binkardfecimages.s3.us-east-2.amazonaws.com/cashOverflowHeadshots/KB+Headshot.png' }
+  {
+    name: 'Kevin Bench',
+    link: 'https://www.linkedin.com/in/kevin-bench/',
+    imageURL:
+      'https://binkardfecimages.s3.us-east-2.amazonaws.com/cashOverflowHeadshots/KB+Headshot.png'
+  }
 ];
 
 const engineersRight = [
   {
     name: 'Evelyn Binkard',
-    link: 'https://www.linkedin.com/in/evelynbinkard/', imageURL: 'https://binkardfecimages.s3.us-east-2.amazonaws.com/cashOverflowHeadshots/EB+HeadShot.png'
+    link: 'https://www.linkedin.com/in/evelynbinkard/',
+    imageURL:
+      'https://binkardfecimages.s3.us-east-2.amazonaws.com/cashOverflowHeadshots/EB+HeadShot.png'
   },
-  { name: 'Mitchell Dill', link: 'https://www.linkedin.com/in/mitchelladill/',
-    imageURL: 'https://binkardfecimages.s3.us-east-2.amazonaws.com/cashOverflowHeadshots/MD+Headshot.jpg'},
+  {
+    name: 'Mitchell Dill',
+    link: 'https://www.linkedin.com/in/mitchelladill/',
+    imageURL:
+      'https://binkardfecimages.s3.us-east-2.amazonaws.com/cashOverflowHeadshots/MD+Headshot.jpg'
+  },
   {
     name: 'Jordan Dilliard',
-    link: 'https://www.linkedin.com/in/jordan-dillard/', imageURL: 'https://binkardfecimages.s3.us-east-2.amazonaws.com/cashOverflowHeadshots/JD+Headshot.jpg'
+    link: 'https://www.linkedin.com/in/jordan-dillard/',
+    imageURL:
+      'https://binkardfecimages.s3.us-east-2.amazonaws.com/cashOverflowHeadshots/JD+Headshot.jpg'
   },
   {
     name: 'Brandon Leafman',
-    link: 'https://www.linkedin.com/in/brandonleafman/', imageURL: 'https://binkardfecimages.s3.us-east-2.amazonaws.com/cashOverflowHeadshots/BL+Headshot.png'
+    link: 'https://www.linkedin.com/in/brandonleafman/',
+    imageURL:
+      'https://binkardfecimages.s3.us-east-2.amazonaws.com/cashOverflowHeadshots/BL+Headshot.png'
   }
 ];
 
@@ -91,7 +111,11 @@ export default function Footer() {
         <Button onClick={handleClickOpen} className={classes.link}>
           About Us
         </Button>
-        <Dialog fullWidth={true} aria-labelledby="simple-dialog-title" open={open}>
+        <Dialog
+          fullWidth={true}
+          aria-labelledby="simple-dialog-title"
+          open={open}
+        >
           <DialogTitle>Team Cash Overflow</DialogTitle>
           <Grid container spacing={1}>
             <Grid item xs={6}>
@@ -106,7 +130,10 @@ export default function Footer() {
                       style={{ width: 60, borderRadius: '50%' }}
                       src={engineer.imageURL}
                     ></img>{' '}
-                    <ListItemText style={{padding: '15px'}} primary={engineer.name} />
+                    <ListItemText
+                      style={{ padding: '15px' }}
+                      primary={engineer.name}
+                    />
                   </ListItem>
                 ))}
               </List>
@@ -123,7 +150,10 @@ export default function Footer() {
                       style={{ width: 60, 'border-radius': '50%' }}
                       src={engineer.imageURL}
                     ></img>{' '}
-                    <ListItemText style={{padding: '15px'}} primary={engineer.name} />
+                    <ListItemText
+                      style={{ padding: '15px' }}
+                      primary={engineer.name}
+                    />
                   </ListItem>
                 ))}
               </List>
