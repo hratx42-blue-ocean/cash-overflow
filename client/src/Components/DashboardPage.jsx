@@ -21,11 +21,12 @@ import PropTypes from 'prop-types';
 import Loading from './Loading.jsx';
 import AlertBox from './AlertBox.jsx';
 import { Auth0Context } from '../react-auth0-wrapper';
+import { positions } from '@material-ui/system';
 
 export default class DashboardPage extends Component {
   constructor(props) {
     super(props);
-    
+
     const { accountData } = this.props;
     const {
       firstName,

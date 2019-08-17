@@ -17,15 +17,15 @@ module.exports = {
       {
         context: () => true,
         target: 'http://localhost:8000',
-        secure: false,
-      },
-    ],
+        secure: false
+      }
+    ]
   },
   // devtool: 'source-map',
   entry: `${SRC_DIR}/index.js`,
   output: {
     filename: 'bundle.js',
-    path: DIST_DIR,
+    path: DIST_DIR
   },
   mode: 'production',
   module: {
@@ -36,9 +36,9 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['@babel/preset-env', '@babel/preset-react'],
-          },
-        },
+            presets: ['@babel/preset-env', '@babel/preset-react']
+          }
+        }
       },
       {
         test: /\.css$/,
@@ -49,36 +49,50 @@ module.exports = {
 
             options: {
               minimize: true,
-              sourceMap: true,
-            },
-          },
-        ],
+              sourceMap: true
+            }
+          }
+        ]
       },
-    ],
+      {
+        test: /\.(jpg|png|svg)$/,
+        loader: 'url-loader',
+        options: {
+          limit: 25000
+        }
+      },
+      {
+        test: /\.(jpg|png|svg)$/,
+        loader: 'file-loader',
+        options: {
+          name: '[path][name].[hash].[ext]'
+        }
+      }
+    ]
   },
   performance: {
     maxEntrypointSize: 10000,
     maxAssetSize: 10000,
-    hints: false,
+    hints: false
   },
   plugins: [
     new HtmlWebpackPlugin(
       {
         title: 'CashOverflow',
-        template: `${__dirname  }/src/index.html`, // create index.html with js script
+        template: `${__dirname}/src/index.html`, // create index.html with js script
         inject: 'body',
-        filename: 'index.html',
+        filename: 'index.html'
       },
       new MiniCssExtractPlugin({
         filename: '[name]-[hash].css',
-        chunkFilename: '[id][hash].css',
+        chunkFilename: '[id][hash].css'
       }),
       new UglifyJsPlugin({ sourceMap: true }),
       new webpack.DefinePlugin({
         'process.env': {
-          NODE_ENV: JSON.stringify('production'),
-        },
-      }),
-    ),
-  ],
+          NODE_ENV: JSON.stringify('production')
+        }
+      })
+    )
+  ]
 };

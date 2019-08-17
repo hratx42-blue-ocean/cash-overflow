@@ -7,6 +7,7 @@ import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
 import { useAuth0 } from '../react-auth0-wrapper';
 import Loading from './Loading.jsx';
+// import Logo from './Logo.png';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -45,9 +46,13 @@ function LandingPage() {
   }
 
   return (
-    <div className="landingPage">
+    <div
+      className="landingPage"
+      style={{ display: 'flex', justifyContent: 'center' }}
+    >
+      <img src="Logo.png" style={{ margin: 20 }} />
       <Grid item />
-      <Grid item xs={12}>
+      {/* <Grid item xs={6}>
         <Paper className={classes.paper}>
           <Typography variant="h2" className={classes.mainTitle}>
             Cash Overflow
@@ -55,27 +60,27 @@ function LandingPage() {
           <Typography variant="subtitle1" className={classes.subtitle}>
             The simplest way to manage your money, figure out your overspending,
             and get peace of mind about your budget
-          </Typography>
-          {!isAuthenticated ? (
-            <Link to="/dashboard" className={classes.link}>
-              <Button
-                onClick={() => loginWithRedirect({})}
-                color="inherit"
-                className={classes.button}
-              >
-                Login
-              </Button>
-            </Link>
-          ) : (
-            <Link to="/dashboard" className={classes.link}>
-              <Button color="inherit" className={classes.button}>
-                Dashboard
-              </Button>
-            </Link>
-          )}
-        </Paper>
+          </Typography> */}
+      {!isAuthenticated ? (
+        <Link to="/dashboard" className={classes.link}>
+          {/* <Button
+            onClick={() => loginWithRedirect({})}
+            color="inherit"
+            className={classes.button}
+          >
+            Login
+          </Button> */}
+        </Link>
+      ) : (
+        <Link to="/dashboard" className={classes.link}>
+          <Button color="inherit" className={classes.button}>
+            Dashboard
+          </Button>
+        </Link>
+      )}
+      {/* </Paper>
       </Grid>
-      <Grid item />
+      <Grid item /> */}
     </div>
   );
 }

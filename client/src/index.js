@@ -11,16 +11,17 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 const appTheme = {
   palette: {
     primary: {
-      main: '#880e4f'
+      main: '#494949'
     },
     secondary: {
       light: '#bdbdbd',
-      main: '#9e9e9e',
+      main: '#8bc34a',
       contrastText: 'rgba(0, 0, 0, 0.87)'
     },
     tableRow: {
       hoverColor: 'rgba(136, 14, 79, 0.5)'
-    }
+    },
+    type: 'dark'
   }
 };
 
@@ -46,7 +47,7 @@ ReactDOM.render(
     onRedirectCallback={onRedirectCallback}
   >
     <MuiThemeProvider theme={theme}>
-      <CssBaseline />
+      {/* <CssBaseline /> */}
       <BrowserRouter>
         <App />
       </BrowserRouter>
