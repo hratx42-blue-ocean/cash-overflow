@@ -79,7 +79,7 @@ class BudgetPage extends Component {
   async handleSaveCategory() {
     const { categories, textInput } = this.state;
     const categoryUpdate = JSON.parse(JSON.stringify(categories));
-    // const newCategory = new Category(textInput);
+    const newCategory = new Category(textInput);
     categoryUpdate.push(newCategory);
     console.log(
       'Updated categories after addition should be: ',

@@ -36,16 +36,6 @@ export default class App extends Component {
     this.toggleDemo = this.toggleDemo.bind(this);
   }
 
-  getUserData(userEmail) {
-    return axios.get(`/api/users/getData?user=${userEmail}`);
-  }
-
-  postUserData(userObject) {
-    Axios.post('/api/users/upsertData', {
-      userUpdate: userObject
-    }).then(okResponse => console.log(okResponse));
-  }
-
   componentDidMount() {
     const { isAuthenticated } = this.context;
 
