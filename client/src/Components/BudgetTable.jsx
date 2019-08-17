@@ -44,7 +44,10 @@ const translateMonths = {
 };
 
 const BudgetTable = ({
+  breakdown = {},
   month,
+  year,
+  updateAllotments,
   open,
   handleAddCategory,
   handleSaveCategory,
@@ -53,7 +56,7 @@ const BudgetTable = ({
   handleClose,
   handleTextInput,
   handleMonthChange,
-  breakdown = {}
+  recalculate
 }) => {
   const classes = useStyles();
 
@@ -112,6 +115,9 @@ const BudgetTable = ({
                     <TableCell align="right">
                       <BudgetAllottment
                         allotment={breakdown[category].alloted}
+                        name={category}
+                        updateAllotments={updateAllotments}
+                        recalculate={recalculate}
                       />
                     </TableCell>
                     <TableCell align="right">
