@@ -2,10 +2,36 @@ import React from 'react';
 import { Doughnut } from 'react-chartjs-2';
 import PropTypes from 'prop-types';
 
+const colors = [
+  '#880E4F',
+  '#B5364E',
+  '#D9624A',
+  '#F09248',
+  '#FBC452',
+  '#79457B',
+  '#374C6D',
+  '#678434',
+  '#009B95',
+  '#9D3A6B',
+  '#00C9B9',
+  '#5CC68E',
+  '#8CDA83',
+  '#FA7484',
+  '#FF9A6E'
+];
 const TrendsOverview = props => {
   const [labels, setLabels] = React.useState([]);
   const [data, setData] = React.useState([]);
   const [transactions, setTransactions] = React.useState([]);
+  const [categories, setCategories] = React.useState({});
+
+  React.useEffect(() => {
+    const cats = {};
+    props.data.accountData.budgetCategories.forEach(
+      (category, i) => (cats[category.name] = i > 14 ? i % 14 : i)
+    );
+    setCategories(cats);
+  }, []);
 
   React.useEffect(() => {
     const transactions = {};
@@ -26,7 +52,7 @@ const TrendsOverview = props => {
   }, [props.year, props.month, props.data.accountData.accounts]);
 
   React.useEffect(() => {
-    setLabels(Object.keys(transactions));
+    setLabels(Object.keys(transactions).sort());
   }, [transactions]);
 
   React.useEffect(() => {
@@ -38,8 +64,7 @@ const TrendsOverview = props => {
     datasets: [
       {
         data,
-        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
-        hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56']
+        backgroundColor: labels.map(name => colors[categories[name]])
       }
     ]
   };

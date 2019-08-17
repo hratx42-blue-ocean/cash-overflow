@@ -2,7 +2,19 @@ import React from 'react';
 import { Bar } from 'react-chartjs-2';
 import PropTypes from 'prop-types';
 // test data for display
-
+const month = new Array();
+month[0] = 'January';
+month[1] = 'February';
+month[2] = 'March';
+month[3] = 'April';
+month[4] = 'May';
+month[5] = 'June';
+month[6] = 'July';
+month[7] = 'August';
+month[8] = 'September';
+month[9] = 'October';
+month[10] = 'November';
+month[11] = 'December';
 const TrendsComparison = props => {
   const [m1Data, setm1Data] = React.useState({});
   const [m2Data, setm2Data] = React.useState({});
@@ -49,20 +61,18 @@ const TrendsComparison = props => {
       labels: Object.keys(categories).sort(),
       datasets: [
         {
-          label: 'Month 1',
+          label: month[props.m1] + ' ' + props.y1 || 1,
           data: Object.keys(categories)
             .sort()
-            .map(cat => m1Data[cat] || 0),
-          backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
-          hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56']
+            .map(cat => (m1Data[cat] ? m1Data[cat].toFixed(2) : 0)),
+          backgroundColor: '#B24C63'
         },
         {
-          label: 'Month 2',
+          label: month[props.m2] + ' ' + props.y2 || 2,
           data: Object.keys(categories)
             .sort()
-            .map(cat => m2Data[cat] || 0),
-          backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
-          hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56']
+            .map(cat => (m2Data[cat] ? m2Data[cat].toFixed(2) : 0)),
+          backgroundColor: '#58355E'
         }
       ]
     });

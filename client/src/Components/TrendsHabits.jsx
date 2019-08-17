@@ -45,9 +45,8 @@ const TrendsHabits = props => {
             ].reduce((x, y) => {
               if (y.category === category[0].name) {
                 return x + Number(y.amount);
-              } 
-                return x + 0;
-              
+              }
+              return x + 0;
             }, 0);
           } else {
             possibleMonths[month] = account.transactions[currentYear][
@@ -55,9 +54,8 @@ const TrendsHabits = props => {
             ].reduce((x, y) => {
               if (y.category === category[0].name) {
                 return x + Number(y.amount);
-              } 
-                return x + 0;
-              
+              }
+              return x + 0;
             }, 0);
           }
         });
@@ -74,9 +72,8 @@ const TrendsHabits = props => {
                 (x, y) => {
                   if (y.category === category[0].name) {
                     return x + Number(y.amount);
-                  } 
-                    return x + 0;
-                  
+                  }
+                  return x + 0;
                 },
                 0
               );
@@ -85,9 +82,8 @@ const TrendsHabits = props => {
                 (x, y) => {
                   if (y.category === category[0].name) {
                     return x + Number(y.amount);
-                  } 
-                    return x + 0;
-                  
+                  }
+                  return x + 0;
                 },
                 0
               );
@@ -119,9 +115,8 @@ const TrendsHabits = props => {
               datasets: [
                 {
                   label: category[0].name,
-                  data: numbers.map(
-                    num => Math.floor(months[num] * 1000) / 1000
-                  )
+                  data: numbers.map(num => months[num].toFixed(2)),
+                  backgroundColor: 'rgba(88, 53, 95, 0.8)'
                 }
               ]
             });
@@ -132,7 +127,8 @@ const TrendsHabits = props => {
               datasets: [
                 {
                   label: category[0].name,
-                  data: numbers.map(num => Math.floor(years[num] * 1000) / 1000)
+                  data: numbers.map(num => years[num].toFixed(2)),
+                  backgroundColor: 'rgba(179, 77, 100, 0.8)'
                 }
               ]
             });

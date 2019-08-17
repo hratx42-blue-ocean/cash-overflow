@@ -21,8 +21,8 @@ const useStyles = makeStyles(theme => ({
 
 const date = new Date();
 const year = date.getFullYear();
-const month = date.getMonth();
-const month2 = month === 0 ? 11 : month - 1;
+const month2 = date.getMonth();
+const month = month2 === 0 ? 11 : month2 - 1;
 
 export default function ComparisonSelector(props) {
   const classes = useStyles();
@@ -70,7 +70,7 @@ export default function ComparisonSelector(props) {
           <InputLabel>Month 1</InputLabel>
           <Select
             native
-            value={state.month}
+            value={state.month1}
             onChange={handleChange('month1')}
             inputProps={{
               name: 'month1'
@@ -95,7 +95,7 @@ export default function ComparisonSelector(props) {
           <InputLabel>Year 1</InputLabel>
           <Select
             native
-            value={state.year}
+            value={state.year1}
             onChange={handleChange('year1')}
             inputProps={{
               name: 'year1'
@@ -115,7 +115,7 @@ export default function ComparisonSelector(props) {
           <InputLabel>Month 2</InputLabel>
           <Select
             native
-            value={state.month}
+            value={state.month2}
             onChange={handleChange('month2')}
             inputProps={{
               name: 'month2'
@@ -140,7 +140,7 @@ export default function ComparisonSelector(props) {
           <InputLabel>Year 2</InputLabel>
           <Select
             native
-            value={state.year}
+            value={state.year2}
             onChange={handleChange('year2')}
             inputProps={{
               name: 'year2'
