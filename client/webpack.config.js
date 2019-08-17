@@ -7,6 +7,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
+const CompressionPlugin = require('compression-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 module.exports = {
@@ -63,28 +64,34 @@ module.exports = {
     maxAssetSize: 10000,
     hints: false,
   },
-  // optimization: {
-  //   minimize: true,
-  //   minimizer: [
-  //     new TerserPlugin({
-  //       parallel: true,
-  //       terserOptions: {
-  //         compress: {
-  //           drop_console: true,
-  //           booleans_as_integers: true,
-  //           passes: 5,
-  //           unsafe_arrows: true,
-  //           unsafe_undefined: true
-  //         },
-  //         ecma: 6,
-  //         output: {
-  //           comments: false
-  //         }
-  //       },
-  //     }),
-  //   ],
-  // },
+  optimization: {
+    minimize: true,
+    minimizer: [
+      new TerserPlugin({
+        parallel: true,
+        terserOptions: {
+          compress: {
+            drop_console: true,
+            booleans_as_integers: true,
+            passes: 5,
+            unsafe_arrows: true,
+            unsafe_undefined: true
+          },
+          ecma: 6,
+          output: {
+            comments: false
+          }
+        },
+      }),
+    ],
+  },
   plugins: [
+    new CompressionPlugin({
+      algorithm: 'gzip',
+      test: /\.js$|\.css$|\.html$/,
+      threshold: 10240,
+      minRatio: 0.8,
+    }),
     new HtmlWebpackPlugin(
       {
         title: 'CashOverflow',
@@ -104,5 +111,6 @@ module.exports = {
       }),
     ),
     // new BundleAnalyzerPlugin(),
+    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
   ],
 };
