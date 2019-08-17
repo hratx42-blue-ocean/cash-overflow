@@ -52,42 +52,6 @@ function LandingPage(props) {
     >
       <img src="Logo.png" style={{ margin: 20 }} />
       <Grid item />
-      {/* <Grid item xs={6}>
-        <Paper className={classes.paper}>
-          <Typography variant="h2" className={classes.mainTitle}>
-            Cash Overflow
-          </Typography>
-          <Typography variant="subtitle1" className={classes.subtitle}>
-            The simplest way to manage your money, figure out your overspending,
-            and get peace of mind about your budget
-          </Typography>
-          {!isAuthenticated ? (
-            <>
-              <Button
-                onClick={() => loginWithRedirect({})}
-                color="inherit"
-                className={classes.button}
-              >
-                Login
-              </Button>
-              <Button
-                onClick={props.toggleDemo}
-                color="inherit"
-                className={classes.button}
-              >
-                Demo Mode
-              </Button>
-            </>
-          ) : (
-            <Link to="/dashboard" className={classes.link}>
-              <Button color="inherit" className={classes.button}>
-                Dashboard
-              </Button>
-            </Link>
-          )}
-        </Paper>
-      </Grid>
-      <Grid item /> */}
     </div>
   );
 }

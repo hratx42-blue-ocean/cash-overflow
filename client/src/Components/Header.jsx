@@ -69,7 +69,7 @@ function ButtonAppBar(props) {
   }
 
   return (
-    <AppBar color="primary" position="static">
+    <AppBar color="secondary" position="static">
       <Toolbar>
         <Typography
           variant="h4"
@@ -81,27 +81,27 @@ function ButtonAppBar(props) {
         {isAuthenticated || isDemo ? (
           <Box className={classes.root}>
             <Button>
-              <Link className={classes.root} color="secondary" to="/dashboard">
+              <Link className={classes.root} color="primary" to="/dashboard">
                 Dashboard
               </Link>
             </Button>
             <Button>
-              <Link className={classes.root} color="secondary" to="/accounts">
+              <Link className={classes.root} color="primary" to="/accounts">
                 Accounts
               </Link>
             </Button>
             <Button>
-              <Link className={classes.root} color="secondary" to="/budget">
+              <Link className={classes.root} color="primary" to="/budget">
                 Budget
               </Link>
             </Button>
             <Button>
-              <Link className={classes.root} color="secondary" to="/trends">
+              <Link className={classes.root} color="primary" to="/trends">
                 Trends
               </Link>
             </Button>
             <Button>
-              <Link className={classes.root} color="secondary" to="/profile">
+              <Link className={classes.root} color="primary" to="/profile">
                 Profile
               </Link>
             </Button>
@@ -110,18 +110,9 @@ function ButtonAppBar(props) {
         ) : (
           <div>
             <Button
-              onClick={props.toggleDemo}
-              color="inherit"
-              className={classes.link}
-              style={{ margin: 30 }}
-            >
-              Demo Mode
-            </Button>
-            <Button
               onClick={() => loginWithRedirect({})}
               className={classes.link}
               color="secondary"
-              style={{ margin: 30 }}
             >
               Login
             </Button>
