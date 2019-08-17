@@ -18,11 +18,12 @@ const useStyles = makeStyles(theme => ({
   paper: {
     padding: theme.spacing(2),
     width: '100%',
-    margin: 20,
+    marginTop: 20,
     textAlign: 'center',
     height: '100%',
     maxHeight: 300,
-    overflowY: 'auto'
+    overflowY: 'auto',
+    alignContent: 'center'
   },
   tablecell: {
     position: 'sticky',
@@ -35,14 +36,14 @@ const useStyles = makeStyles(theme => ({
 const ProfileRPList = props => {
   const classes = useStyles();
   return (
-    <Paper className={classes.paper} style={{ maxHeight: 500, overflow: 'auto' }}>
-      <Typography >Monthly Payment Reminders:</Typography>
-      <List style={{maxHeight: 400, overflow: 'auto'}} >
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell style={{ position: 'sticky', top: 0, background: 'white' }}>Payee</TableCell>
-              <TableCell style={{ position: 'sticky', top: 0, background: 'white' }}>Amount</TableCell>
+    <Paper className={classes.paper} style={{ maxHeight: 480, overflow: 'auto' }}>
+      <Typography style={{margin: 0}}>Monthly Payment Reminders:</Typography>
+      <List style={{maxHeight: 380, overflow: 'auto', paddingTop: 0}}>
+        <Table >
+          <TableHead >
+            <TableRow >
+              <TableCell style={{ margin: 0, position: 'sticky', top: 0, background: 'white' }}>Payee</TableCell>
+              <TableCell style={{ margin: 0, position: 'sticky', top: 0, background: 'white' }}>Amount</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>

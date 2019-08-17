@@ -13,7 +13,7 @@ const useStyles = makeStyles(theme => ({
   paper: {
     padding: theme.spacing(2),
     width: '100%',
-    margin: 20,
+    marginTop: 20,
     textAlign: 'center'
   }
 }));
@@ -21,7 +21,7 @@ const useStyles = makeStyles(theme => ({
 const ProfileRecurringPayments = props => {
   const classes = useStyles();
   const days = Array.from(Array(31).keys()).splice(1);
-  
+
   return (
     <div>
       {props.showSuccessMessage ? (

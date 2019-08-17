@@ -212,9 +212,7 @@ export default class ProfilePage extends React.Component {
       <Grid
         container
         direction="row"
-        justify="center"
-        alignItems="center"
-        // spacing={1}
+        width="100%"
         className="profilePage"
       >
         <Grid container spacing={3}>
