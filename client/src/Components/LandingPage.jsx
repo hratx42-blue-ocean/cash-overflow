@@ -15,6 +15,7 @@ const useStyles = makeStyles(theme => ({
   paper: {
     padding: theme.spacing(2),
     textAlign: 'center',
+    alignContent: 'center',
     color: theme.palette.text.secondary
   },
   mainTitle: {
@@ -26,12 +27,12 @@ const useStyles = makeStyles(theme => ({
   },
   button: {
     fontFamily: 'Lobster Two',
-    backgroundColor: '#71E7C7',
+    backgroundColor: '#bdbdbd',
     color: '#ffffff'
   },
   link: {
     textDecoration: 'none',
-    color: '#ffffff'
+    color: '#880e4f'
   }
 }));
 

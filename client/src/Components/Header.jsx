@@ -10,11 +10,27 @@ import { withStyles } from '@material-ui/styles';
 
 const styles = {
   root: {
+    display: 'flex',
+    background: 'transparent',
+    borderRadius: 3,
+    border: 0,
+    spacing: 4,
+    color: 'white',
+    textDecoration: 'none',
+    flexDirection: 'row',
+    marginLeft: '50'
+  },
+  link: {
     background: 'transparent',
     borderRadius: 3,
     border: 0,
     color: 'white',
-    textDecoration: 'none'
+    textDecoration: 'none',
+    display: 'flex',
+    flexDirection: 'row',
+    float: 'right',
+    position: 'absolute',
+    right: '0'
   }
 };
 
@@ -28,63 +44,65 @@ function ButtonAppBar(props) {
     });
 
   return (
-    <div>
-      <AppBar color="primary" position="static">
-        <Toolbar>
-          <Typography variant="h6" className={classes.title}>
-            Cash Overflow
-          </Typography>
-          {isAuthenticated ? (
-            <Box>
-              <Button>
-                <Link to="/dashboard" className={classes.root}>
-                  Dashboard
-                </Link>
-              </Button>
-              <Button>
-                <Link className={classes.root} to="/accounts">
-                  Accounts
-                </Link>
-              </Button>
-              <Button>
-                <Link className={classes.root} to="/budget">
-                  Budget
-                </Link>
-              </Button>
-              <Button>
-                <Link className={classes.root} to="/trends">
-                  Trends
-                </Link>
-              </Button>
-              <Button>
-                <Link className={classes.root} to="/profile">
-                  Profile
-                </Link>
-              </Button>
-            </Box>
-          ) : (
-            <></>
-          )}
-          {!isAuthenticated ? (
-            !loading ? (
-              <Button onClick={() => loginWithRedirect({})} color="secondary">
-                Login
-              </Button>
-            ) : (
-              <></>
-            )
-          ) : (
+    <AppBar color="primary" position="static">
+      <Toolbar>
+        <Typography variant="h6" className={classes.title}>
+          Cash Overflow
+        </Typography>
+        {isAuthenticated ? (
+          <Box className={classes.root}>
+            <Button>
+              <Link to="/dashboard" className={classes.root}>
+                Dashboard
+              </Link>
+            </Button>
+            <Button>
+              <Link className={classes.root} to="/accounts">
+                Accounts
+              </Link>
+            </Button>
+            <Button>
+              <Link className={classes.root} to="/budget">
+                Budget
+              </Link>
+            </Button>
+            <Button>
+              <Link className={classes.root} to="/trends">
+                Trends
+              </Link>
+            </Button>
+            <Button>
+              <Link className={classes.root} to="/profile">
+                Profile
+              </Link>
+            </Button>
+          </Box>
+        ) : (
+          <></>
+        )}
+        {!isAuthenticated ? (
+          !loading ? (
             <Button
               className={classes.link}
-              onClick={() => logoutWithRedirect()}
-              color="inherit"
+              onClick={() => loginWithRedirect({})}
+              color="secondary"
             >
-              Logout
+              Login
             </Button>
-          )}
-        </Toolbar>
-      </AppBar>
-    </div>
+          ) : (
+            <></>
+          )
+        ) : (
+          <Button
+            className={classes.link}
+            onClick={() => logoutWithRedirect()}
+            color="inherit"
+          >
+            Logout
+          </Button>
+        )}
+      </Toolbar>
+    </AppBar>
   );
 }
 
