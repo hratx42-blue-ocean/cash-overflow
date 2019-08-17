@@ -2,25 +2,14 @@ import React, { Component } from 'react';
 import axios from 'axios';
 
 // Routing
-import { Switch, Route, Redirect } from 'react-router-dom';
 import Container from '@material-ui/core/Container';
-import PrivateRoute from './Components/PrivateRoute.jsx';
 import { Auth0Context } from './react-auth0-wrapper';
-// Material Components
-
-// Custom Components
 import ProtectedSwitch from './Components/ProtectedSwitch.jsx';
 import DemoSwitch from './Components/DemoSwitch.jsx';
+
+// Custom Components
 import ButtonAppBar from './Components/Header.jsx';
-import AccountsPage from './Components/AccountsPage.jsx';
-import BudgetPage from './Components/BudgetPage.jsx';
-import DashboardPage from './Components/DashboardPage.jsx';
-import LandingPage from './Components/LandingPage.jsx';
-import TrendsPage from './Components/TrendsPage.jsx';
-import LoginPage from './Components/LoginPage.jsx';
-import ProfilePage from './Components/ProfilePage.jsx';
 import Footer from './Components/Footer.jsx';
-import ErrorPage from './Components/ErrorPage.jsx';
 import Loading from './Components/Loading.jsx';
 import db from './utils/databaseRequests';
 
@@ -209,7 +198,7 @@ export default class App extends Component {
       currentUser,
       loadingUser
     } = this.state;
-    const { isAuthenticated, loading } = this.context;
+    const { isAuthenticated } = this.context;
     console.log('is authenticated is: ', isAuthenticated);
     if (loadingUser) {
       return (
@@ -244,86 +233,8 @@ export default class App extends Component {
               handleAddTransaction={this.handleAddTransaction}
               toggleDemo={this.toggleDemo}
               isDemo={isDemo}
-              isAuthenticated={isAuthenticated}
-              loading={loading}
             />
           )}
-          {/* <Container>
-          <Switch>
-            <Route
-              exact
-              path="/"
-              render={() =>
-                !isAuthenticated ? (
-                  <LandingPage toggleDemo={this.toggleDemo} />
-                ) : (
-                  <Redirect to="/dashboard" />
-                )
-              }
-            />
-            <PrivateRoute
-              path="/accounts"
-              render={props => (
-                <AccountsPage
-                  {...props}
-                  accountData={accountData}
-                  loading={loading}
-                  isAuthenticated={isAuthenticated}
-                  setAccountData={this.setAccountData}
-                />
-              )}
-            />
-            <PrivateRoute
-              path="/budget"
-              render={props => (
-                <BudgetPage
-                  accounts={accountData.accounts}
-                  categories={budgetCategories}
-                  loading={loading}
-                  isAuthenticated={isAuthenticated}
-                  updateAccountData={this.setAccountData}
-                  handleUpdateCategories={this.handleUpdateCategories}
-                />
-              )}
-            />
-            <PrivateRoute
-              path="/dashboard"
-              render={props => (
-                <DashboardPage
-                  {...props}
-                  handleAddTransaction={this.handleAddTransaction}
-                  accountData={accountData}
-                  currentUser={this.state.currentUser}
-                  loading={loading}
-                  isAuthenticated={isAuthenticated}
-                />
-              )}
-            />
-            <PrivateRoute
-              path="/profile"
-              render={props => (
-                <ProfilePage
-                  {...props}
-                  accountData={accountData}
-                  loading={loading}
-                  isAuthenticated={isAuthenticated}
-                  updateAccountData={this.setAccountData}
-                />
-              )}
-            />
-            <PrivateRoute
-              path="/trends"
-              render={props => (
-                <TrendsPage
-                  {...props}
-                  accountData={accountData}
-                  loading={loading}
-                  isAuthenticated={isAuthenticated}
-                />
-              )}
-            />
-            <Route component={ErrorPage} />
-          </Switch> */}
         </Container>
         <Footer />
       </div>

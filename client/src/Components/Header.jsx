@@ -36,8 +36,10 @@ function ButtonAppBar(props) {
 
   if (isDemo) {
     statusButton = (
-      <Button onClick={toggleDemo} color="inherit">
-        <Link to="/home">Exit the Demo</Link>
+      <Button onClick={toggleDemo} color="secondary">
+        <Link to="/home" className={classes.root}>
+          Exit the Demo
+        </Link>
       </Button>
     );
   } else if (!isAuthenticated && !loading) {

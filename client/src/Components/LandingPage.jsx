@@ -57,15 +57,13 @@ function LandingPage(props) {
           </Typography>
           {!isAuthenticated ? (
             <>
-              <Link to="/dashboard" className={classes.link}>
-                <Button
-                  onClick={() => loginWithRedirect({})}
-                  color="inherit"
-                  className={classes.button}
-                >
-                  Login
-                </Button>
-              </Link>
+              <Button
+                onClick={() => loginWithRedirect({})}
+                color="inherit"
+                className={classes.button}
+              >
+                Login
+              </Button>
               <Button
                 onClick={props.toggleDemo}
                 color="inherit"

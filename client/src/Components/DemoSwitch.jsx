@@ -28,17 +28,7 @@ export default function DemoSwitch(props) {
 
   return (
     <Switch>
-      <Route
-        exact
-        path="/"
-        render={() =>
-          !isDemo ? (
-            <LandingPage toggleDemo={toggleDemo} />
-          ) : (
-            <Redirect to="/dashboard" />
-          )
-        }
-      />
+      <Route exact path="/" render={() => <Redirect to="/dashboard" />} />
       <Route
         path="/home"
         render={() => <LandingPage toggleDemo={toggleDemo} />}

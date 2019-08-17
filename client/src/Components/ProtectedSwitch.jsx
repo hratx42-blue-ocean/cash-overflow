@@ -1,14 +1,12 @@
 import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import PrivateRoute from './PrivateRoute.jsx';
-import { Auth0Context } from '../react-auth0-wrapper';
-import Header from './Header.jsx';
+import { useAuth0 } from '../react-auth0-wrapper';
 import AccountsPage from './AccountsPage.jsx';
 import BudgetPage from './BudgetPage.jsx';
 import DashboardPage from './DashboardPage.jsx';
 import LandingPage from './LandingPage.jsx';
 import TrendsPage from './TrendsPage.jsx';
-import LoginPage from './LoginPage.jsx';
 import ProfilePage from './ProfilePage.jsx';
 import ErrorPage from './ErrorPage.jsx';
 import PropTypes from 'prop-types';
@@ -20,11 +18,10 @@ export default function ProtectedSwitch(props) {
     updateAccountData,
     currentUser,
     handleAddTransaction,
-    toggleDemo,
-    isDemo,
-    isAuthenticated,
-    loading
+    toggleDemo
   } = props;
+
+  const { isAuthenticated, loading } = useAuth0();
 
   return (
     <Switch>
@@ -59,6 +56,7 @@ export default function ProtectedSwitch(props) {
         path="/budget"
         render={props => (
           <BudgetPage
+            {...props}
             accounts={accountData.accounts}
             categories={budgetCategories}
             loading={loading}
@@ -115,7 +113,5 @@ ProtectedSwitch.propTypes = {
   currentUser: PropTypes.string.isRequired,
   handleAddTransaction: PropTypes.func.isRequired,
   toggleDemo: PropTypes.func.isRequired,
-  isDemo: PropTypes.bool.isRequired,
-  isAuthenticated: PropTypes.bool.isRequired,
-  loading: PropTypes.bool.isRequired
+  isDemo: PropTypes.bool.isRequired
 };
