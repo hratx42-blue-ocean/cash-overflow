@@ -9,7 +9,11 @@ import Box from '@material-ui/core/Box';
 import TrendsOverview from './TrendsOverview.jsx';
 import TrendsHabits from './TrendsHabits.jsx';
 import TrendsComparison from './TrendsComparison.jsx';
+import OverviewSelector from './TrendsOverviewSelector.jsx';
+import HabitsSelector from './TrendsHabitsSelector.jsx';
+import ComparisonSelector from './TrendsComparisonSelector.jsx';
 import Loading from './Loading.jsx';
+import { useAuth0 } from '../react-auth0-wrapper';
 
 const useStyles = makeStyles({
   root: {
@@ -49,13 +53,20 @@ function a11yProps(index) {
 
 export default function TrendsPage(props) {
   const classes = useStyles();
+  const { loading, isAuthenticated } = props;
   const [value, setValue] = React.useState(0);
+  const [overviewYear, setOverviewYear] = React.useState('');
+  const [overviewMonth, setOverviewMonth] = React.useState('');
+  const [habitView, setHabitView] = React.useState('month');
+  const [habitCategory, setHabitCategory] = React.useState('');
+  const [compareMonth1, setCompareMonth1] = React.useState('');
+  const [compareMonth2, setCompareMonth2] = React.useState('');
+  const [compareYear1, setCompareYear1] = React.useState('');
+  const [compareYear2, setCompareYear2] = React.useState('');
 
   function handleChange(event, newValue) {
     setValue(newValue);
   }
-
-  const { loading, isAuthenticated } = props;
 
   if (loading || !isAuthenticated) {
     return (
@@ -79,13 +90,40 @@ export default function TrendsPage(props) {
         <Tab label="Comparison" {...a11yProps(2)} />
       </Tabs>
       <TabPanel value={value} index={0}>
-        <TrendsOverview />
+        <TrendsOverview
+          data={props}
+          year={overviewYear}
+          month={overviewMonth}
+        />
+        <OverviewSelector
+          data={props}
+          setYear={setOverviewYear}
+          setMonth={setOverviewMonth}
+        />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <TrendsHabits />
+        <TrendsHabits data={props} view={habitView} category={habitCategory} />
+        <HabitsSelector
+          data={props}
+          setView={setHabitView}
+          setCategory={setHabitCategory}
+        />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <TrendsComparison />
+        <TrendsComparison
+          data={props}
+          m1={compareMonth1}
+          m2={compareMonth2}
+          y1={compareYear1}
+          y2={compareYear2}
+        />
+        <ComparisonSelector
+          data={props}
+          setM1={setCompareMonth1}
+          setM2={setCompareMonth2}
+          setY1={setCompareYear1}
+          setY2={setCompareYear2}
+        />
       </TabPanel>
     </Paper>
   );
