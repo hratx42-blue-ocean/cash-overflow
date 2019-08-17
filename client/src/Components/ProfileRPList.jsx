@@ -7,23 +7,23 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import List from '@material-ui/core/List';
-import Grid from '@material-ui/core/Grid';
-import Select from '@material-ui/core/Select';
-import TextField from '@material-ui/core/TextField';
-import MenuItem from '@material-ui/core/MenuItem';
-import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
+
+
 
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1
   },
   paper: {
-    width: 400,
-    maxHeight: 200,
-    overflow: 'auto',
-    margin: 20,
-    textAlign: 'center'
+    padding: theme.spacing(2),
+    width: '100%',
+    marginTop: 20,
+    textAlign: 'center',
+    height: '100%',
+    maxHeight: 300,
+    overflowY: 'auto',
+    alignContent: 'center'
   },
   tablecell: {
     position: 'sticky',
@@ -36,14 +36,14 @@ const useStyles = makeStyles(theme => ({
 const ProfileRPList = props => {
   const classes = useStyles();
   return (
-    <Paper className={classes.paper}>
-      <Typography>Monthly Payment Reminders:</Typography>
-      <List>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell className={classes.tablecell}>Payee</TableCell>
-              <TableCell className={classes.tablecell}>Amount</TableCell>
+    <Paper className={classes.paper} style={{ maxHeight: 480, overflow: 'auto' }}>
+      <Typography style={{margin: 0}}>Monthly Payment Reminders:</Typography>
+      <List style={{maxHeight: 380, overflow: 'auto', paddingTop: 0}}>
+        <Table >
+          <TableHead >
+            <TableRow >
+              <TableCell style={{ margin: 0, position: 'sticky', top: 0, background: 'white' }}>Payee</TableCell>
+              <TableCell style={{ margin: 0, position: 'sticky', top: 0, background: 'white' }}>Amount</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>

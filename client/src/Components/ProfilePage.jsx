@@ -211,14 +211,12 @@ export default class ProfilePage extends React.Component {
     return (
       <Grid
         container
-        direction="column"
-        justify="center"
-        alignItems="center"
-        // spacing={1}
+        direction="row"
+        width="100%"
         className="profilePage"
       >
-        <Grid container>
-          <Grid item xs={4}>
+        <Grid container spacing={3}>
+          <Grid item xs={4} style={{width: '100%'}}>
             <ProfileFirstName
               className="firstName"
               firstNameIsHidden={this.state.firstNameIsHidden}
@@ -226,6 +224,7 @@ export default class ProfilePage extends React.Component {
               firstNameButtonHandler={this.firstNameButtonHandler}
               handleInput={this.handleInput}
               handleFirstNameSubmit={this.handleFirstNameSubmit}
+              
             />
 
             <ProfileLastName
@@ -234,6 +233,7 @@ export default class ProfilePage extends React.Component {
               lastNameButtonHandler={this.lastNameButtonHandler}
               handleInput={this.handleInput}
               handleLastNameSubmit={this.handleLastNameSubmit}
+             
             />
 
             <ProfileEmail
@@ -242,12 +242,14 @@ export default class ProfilePage extends React.Component {
               emailButtonHandler={this.emailButtonHandler}
               handleInput={this.handleInput}
               handleEmailSubmit={this.handleEmailSubmit}
+              style={{height: '100%'}}
             />
 
             <ProfilePassword
               passwordIsHidden={this.state.passwordIsHidden}
               passwordButtonHandler={this.passwordButtonHandler}
               closePasswordResetMessage={this.closePasswordResetMessage}
+              style={{height: '100%'}}
             />
           </Grid>
           <Grid item xs={4}>
@@ -266,15 +268,18 @@ export default class ProfilePage extends React.Component {
               handleRecurringPayment={this.handleRecurringPayment}
               showSuccessMessage={this.state.showSuccessMessage}
               toggleSuccessMessage={this.toggleSuccessMessage}
+              
             />
+            </Grid>
             <Grid item xs={4}>
               <ProfileRPList
                 recurringTransactions={this.state.recurringTransactions}
+               
               />
+              </Grid>
             </Grid>
           </Grid>
-        </Grid>
-      </Grid>
+       
     );
   }
 }
