@@ -30,36 +30,27 @@ export default class App extends Component {
     };
     this.setAccountData = this.setAccountData.bind(this);
     this.handleAddTransaction = this.handleAddTransaction.bind(this);
+    this.asyncHandleUpdateCategories = this.asyncHandleUpdateCategories.bind(
+      this
+    );
     this.toggleDemo = this.toggleDemo.bind(this);
   }
 
-  getUserData(userEmail) {
-    return axios.get(`http://0.0.0.0:8000/api/users/getData?user=${userEmail}`);
-  }
-
-  postUserData(userObject) {
-    Axios.post('http://0.0.0.0:8000/api/users/upsertData', {
-      userUpdate: userObject
-    }).then(okResponse => console.log(okResponse));
-  }
-
   componentDidMount() {
-    const { user, isAuthenticated, loading } = this.context;
+    const { isAuthenticated } = this.context;
 
+    // if the user is unauthenticated, stop loading
     if (!isAuthenticated) {
       this.setState({
         loadingUser: false
       });
     }
-
-    console.log(
-      `componentDidMount gets the following from Auth0Context user:${user}, isAuthenticated:${isAuthenticated}, loading:${loading}`
-    );
   }
 
   componentDidUpdate() {
     const { user } = this.context;
 
+    // See if a user has authenticated
     if (user && user.sub.substring(6) !== this.state.userID) {
       console.log(`Looks like you're logged in as: ${user.email}`);
 
@@ -71,17 +62,18 @@ export default class App extends Component {
           userID,
           loadingUser: true
         },
-        // check to see if the user exists
+        // check to see if the user exists in the database
         async () => {
           const response = await db.getUserData(userID);
 
           const { data: userData } = response;
 
-          // if the user is new, give them demo data
+          // if they exist, set their data in state
           if (userData.length > 0) {
             this.setAccountData(userData[0]);
             console.log(`Welcome back ${userData[0].firstName}!`);
           } else {
+            // give the demo data if they don't exit
             console.log(`Welcome to CashOverflow!`);
             // TODO: Fake user data should be replaced with SignUp flow logic.
             const newUserData = createFakeUser();
@@ -166,7 +158,9 @@ export default class App extends Component {
 
     for (let i = 0; i < accounts.length; i++) {
       if (accounts[i].name === inputAccount) {
-        accountUpdate.accounts[i].transactions[year][month - 1].push(transaction);
+        accountUpdate.accounts[i].transactions[year][month - 1].push(
+          transaction
+        );
         break;
       }
       this.setAccountData(accountUpdate);
@@ -181,14 +175,41 @@ export default class App extends Component {
     this.setAccountData(accountUpdate);
   }
 
-  handleUpdateCategories(updatedCategories) {
+  promisifySetState(userObject) {
+    return new Promise(resolve => {
+      this.setState(
+        {
+          accountData: userObject,
+          budgetCategories: userObject.budgetCategories
+        },
+        () => {
+          const { accountData } = this.state;
+          resolve(accountData);
+        }
+      );
+    });
+  }
+
+  /**
+   * WARNING WARNING WARNING
+   * This is a major antipattern, we are aware.
+   * Somewhere in the complex finanical calcuations, the alloment relays on state and not props, so it's not update as props change.
+   * We're not sure where that happens and we plan to refactor finanical calucations to the backend shortly,
+   * making this abomination moot.
+   */
+
+  asyncHandleUpdateCategories(updatedCategories, callback) {
     const accountUpdate = { ...this.state.accountData };
     accountUpdate.budgetCategories = updatedCategories;
-    this.setState({
-      budgetCategories: updatedCategories,
-      accountData: accountUpdate
-    });
-    this.setAccountData(accountUpdate);
+    this.promisifySetState(accountUpdate)
+      .then(updatedAccount => {
+        const { budgetCategories, accounts } = updatedAccount;
+        callback(budgetCategories, accounts);
+        this.setAccountData(updatedAccount);
+      })
+      .catch(err => {
+        console.log('category update error: ', err);
+      });
   }
 
   render() {
@@ -218,6 +239,7 @@ export default class App extends Component {
               accountData={accountData}
               budgetCategories={budgetCategories}
               updateAccountData={this.setAccountData}
+              asyncHandleUpdateCategories={this.asyncHandleUpdateCategories}
               currentUser={currentUser}
               handleAddTransaction={this.handleAddTransaction}
               toggleDemo={this.toggleDemo}
@@ -230,6 +252,7 @@ export default class App extends Component {
               accountData={accountData}
               budgetCategories={budgetCategories}
               updateAccountData={this.setAccountData}
+              asyncHandleUpdateCategories={this.asyncHandleUpdateCategories}
               currentUser={currentUser}
               handleAddTransaction={this.handleAddTransaction}
               toggleDemo={this.toggleDemo}

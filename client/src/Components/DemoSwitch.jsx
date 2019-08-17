@@ -18,6 +18,7 @@ export default function DemoSwitch(props) {
     accountData,
     budgetCategories,
     updateAccountData,
+    asyncHandleUpdateCategories,
     currentUser,
     handleAddTransaction,
     toggleDemo,
@@ -49,9 +50,11 @@ export default function DemoSwitch(props) {
         path="/budget"
         render={props => (
           <BudgetPage
+            {...props}
             accounts={accountData.accounts}
             categories={budgetCategories}
             updateAccountData={updateAccountData}
+            asyncHandleUpdateCategories={asyncHandleUpdateCategories}
             loading={loading}
             isAuthenticated={isAuthenticated}
           />
@@ -102,6 +105,7 @@ DemoSwitch.propTypes = {
   accountData: PropTypes.object.isRequired,
   budgetCategories: PropTypes.array.isRequired,
   updateAccountData: PropTypes.func.isRequired,
+  asyncHandleUpdateCategories: PropTypes.func.isRequired,
   currentUser: PropTypes.string.isRequired,
   handleAddTransaction: PropTypes.func.isRequired,
   toggleDemo: PropTypes.func.isRequired,
