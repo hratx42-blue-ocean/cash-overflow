@@ -26,7 +26,7 @@ import PropTypes from 'prop-types';
 const AccountsTable = props => {
   return (
     <>
-      <Grid item xs={4}>
+      <Grid item xs={4} style={{'paddingTop':'100px'}}>
         <Paper>
           <Table>
             <TableHead>
@@ -73,6 +73,7 @@ const AccountsTable = props => {
           color="primary"
           onClick={props.handleAddAccount}
           variant="outlined"
+          style={{'marginTop':'20px'}}
         />
         <Dialog
           open={props.open}
