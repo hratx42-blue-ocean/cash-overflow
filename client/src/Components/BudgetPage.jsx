@@ -9,7 +9,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import BudgetTable from './BudgetTable.jsx';
 import Loading from './Loading.jsx';
-import faker from 'faker';
+// import faker from 'faker';
 
 class BudgetPage extends Component {
   constructor(props) {
@@ -80,7 +80,7 @@ class BudgetPage extends Component {
   handleSaveCategory() {
     const { categories, textInput } = this.state;
     const categoryUpdate = JSON.parse(JSON.stringify(categories));
-    const newCategory = new Category(textInput);
+    // const newCategory = new Category(textInput);
     categoryUpdate.push(newCategory);
 
     console.log(
@@ -212,10 +212,10 @@ function compileSpent(categories = [], transactions) {
   return result;
 }
 
-function Category(name) {
-  this.id = faker.random.uuid();
-  this.name = name;
-  this.allotment = { '2019': { '6': 0, '7': 0, '8': 0 } };
-}
+// function Category(name) {
+//   this.id = faker.random.uuid();
+//   this.name = name;
+//   this.allotment = { '2019': { '6': 0, '7': 0, '8': 0 } };
+// }
 
 export default BudgetPage;
