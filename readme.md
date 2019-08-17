@@ -31,8 +31,11 @@ CashOverflow was primarily built using ReactJS on the Front End and a NodeJS/Exp
 <img src="https://www.docker.com/sites/default/files/d8/styles/role_icon/public/2019-07/Moby-logo.png?itok=sYH_JEaJ" width="100">
 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Amazon_Web_Services_Logo.svg/150px-Amazon_Web_Services_Logo.svg.png" width="100">
 <img src="https://cloud.mongodb.com/static/images/mdb_logo.svg" width='100'/>
+
 ### Technical Challenges / Research
+
 Some challenges we ran into while building the app:
+
 - Balancing speed of development with best practices -- we made some good choices here to slow things down in the Git workflow and use Travis and work with an existing component library for styling but other choices ended up biting us. Implementing the logic for computing balances and budgets client side and greedily pulling all account data into state ended up actually slowing development and brought unanticipated bugs.
 
 - Authentication was a much larger undertaking than initially expected. Most of the components need to be authentication aware and/or render differently depending on authentication state. Took coordination across the team, lead to a lot of hard to test bugs, and the MVP build was still not production grade secure.
@@ -75,10 +78,11 @@ Our team used feature branches and had two reviewers required on all merges the 
 
 ### Future Features
 
-Given time, we'd like to implement:
+Given time, we'd like to:
 
 - Refactor financial calculations to happen on the server/database.
 - The App state holds only user information, each page requests it's own information as needed (i.e. start to move towards lazy loading over greedy loading of information).
-- Implement end to end testing with Selinium or Cypress
+- Implement end to end testing with Selinium or Cypress.
+- Full responsiveness for all pages (requires refactor to new visualization library)
 - Production grade API authentication.
 - Plaid API integration.
