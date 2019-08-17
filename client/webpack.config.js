@@ -8,6 +8,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
+const HtmlWebpackChangeAssetsExtensionPlugin = require('html-webpack-change-assets-extension-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 module.exports = {
@@ -99,6 +100,7 @@ module.exports = {
         template: `${__dirname}/src/index.html`, // create index.html with js script
         inject: 'body',
         filename: 'index.html',
+        jsExtension: '.gz',
       },
       new MiniCssExtractPlugin({
         filename: '[name]-[hash].css',
@@ -113,5 +115,6 @@ module.exports = {
     ),
     // new BundleAnalyzerPlugin(),
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+    new HtmlWebpackChangeAssetsExtensionPlugin(),
   ],
 };
