@@ -12,7 +12,8 @@ export default class AccountsPage extends React.Component {
       accountType: '',
       accountFilter: '',
       currentMonth: 0,
-      currentYear: 0
+      currentYear: 0,
+      accountName: ''
     };
 
     this.handleAddAccount = this.handleAddAccount.bind(this);
@@ -21,6 +22,8 @@ export default class AccountsPage extends React.Component {
     this.handleAccountFilter = this.handleAccountFilter.bind(this);
     this.handleLeftArrow = this.handleLeftArrow.bind(this);
     this.handleRightArrow = this.handleRightArrow.bind(this);
+    this.handleSaveAccount = this.handleSaveAccount.bind(this);
+    this.handleAccountNameInput = this.handleAccountNameInput.bind(this);
   }
 
   componentDidMount(){
@@ -33,6 +36,20 @@ export default class AccountsPage extends React.Component {
 
   handleAddAccount() {
     this.setState({ open: true });
+  }
+
+  handleAccountNameInput(event){
+    this.setState({accountName: event.target.value});
+  }
+
+  handleSaveAccount(){
+    this.setState({ open: false });
+    console.log(this.state.accountName,this.state.accountType)
+    const accountDataUpdate = JSON.parse(JSON.stringify(this.props.accountData));
+    const newAcct = {name:this.state.accountName, transactions: {'2019': {'6': [], '7': [], '8': []}}, type:this.state.accountType};
+    accountDataUpdate.accounts.push(newAcct);
+
+    this.props.setAccountData(accountDataUpdate);
   }
 
   handleClose() {
@@ -49,12 +66,16 @@ export default class AccountsPage extends React.Component {
   }
 
   handleLeftArrow(){
-    this.setState({ currentMonth: this.state.currentMonth - 1})
+    if(this.state.currentMonth > 1){
+      this.setState({ currentMonth: this.state.currentMonth - 1}, () => console.log(this.state.currentMonth))
+    }
     
   }
 
   handleRightArrow(){
-    this.setState({ currentMonth: this.state.currentMonth + 1})
+    if(this.state.currentMonth < 12){
+      this.setState({ currentMonth: this.state.currentMonth + 1}, () => console.log(this.state.currentMonth))
+    }
   }
 
   render() {
@@ -89,8 +110,7 @@ export default class AccountsPage extends React.Component {
         });
       } else {
         accountData.accounts.forEach(account => {
-          console.log(account.name === this.state.accountFilter)
-          if(account.name === this.state.accountFilter){
+          if(account.name === this.state.accountFilter && account.transactions[this.state.currentYear][this.state.currentMonth]){
             let txs = account.transactions[this.state.currentYear][this.state.currentMonth];
             txs.forEach(record => {
               record.accountName = account.name
@@ -98,8 +118,8 @@ export default class AccountsPage extends React.Component {
             data.push(...txs);
           }
         });
-      }   
-      data = data.sort((a, b) => b.date - a.date);
+      } 
+      data = data.sort((a, b) => new Date(b.date) - new Date(a.date));
       accountsList = accountData.accounts;
     }
     return (
@@ -113,6 +133,8 @@ export default class AccountsPage extends React.Component {
             handleSelect={this.handleSelect}
             accountType={this.state.accountType}
             open={this.state.open}
+            handleAccountNameInput={this.handleAccountNameInput}
+            handleSaveAccount={this.handleSaveAccount}
           />
           <AccountTransactions
             data={data}

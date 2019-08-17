@@ -9,7 +9,6 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import BudgetTable from './BudgetTable.jsx';
 import Loading from './Loading.jsx';
-import faker from 'faker';
 
 class BudgetPage extends Component {
   constructor(props) {
@@ -27,6 +26,7 @@ class BudgetPage extends Component {
     };
     this.handleAddCategory = this.handleAddCategory.bind(this);
     this.handleSaveCategory = this.handleSaveCategory.bind(this);
+    this.handleDeleteCategory = this.handleDeleteCategory.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.handleTextInput = this.handleTextInput.bind(this);
     this.handleMonthChange = this.handleMonthChange.bind(this);
@@ -35,8 +35,8 @@ class BudgetPage extends Component {
   }
 
   componentDidMount() {
-    console.log('component did mount');
-    this.recalculate(this.state.categories, this.state.accounts);
+    const { categories, accounts } = this.state;
+    this.recalculate(categories, accounts);
   }
 
   // change current month
@@ -75,11 +75,37 @@ class BudgetPage extends Component {
     this.setState({ open: false });
   }
 
-  handleSaveCategory() {
-    const categoryUpdate = this.state.categories.slice();
-    const newCategory = new Category(this.state.textInput);
+  async handleSaveCategory() {
+    const { categories, textInput } = this.state;
+    const categoryUpdate = JSON.parse(JSON.stringify(categories));
+    const newCategory = new Category(textInput);
     categoryUpdate.push(newCategory);
-    this.props.asyncHandleUpdateCategories(categoryUpdate, this.recalculate);
+    console.log(
+      'Updated categories after addition should be: ',
+      categoryUpdate
+    );
+    await this.props.asyncHandleUpdateCategories(
+      categoryUpdate,
+      this.recalculate
+    );
+    this.handleClose();
+  }
+
+  async handleDeleteCategory(deletedCategory) {
+    const { categories } = this.state;
+    const categoryUpdate = JSON.parse(JSON.stringify(categories)).filter(
+      category => {
+        return category.name !== deletedCategory;
+      }
+    );
+    console.log(
+      'Updated categories after deletion should be: ',
+      categoryUpdate
+    );
+    await this.props.asyncHandleUpdateCategories(
+      categoryUpdate,
+      this.recalculate
+    );
     this.handleClose();
   }
 
@@ -93,12 +119,6 @@ class BudgetPage extends Component {
   recalculate(categories, accounts) {
     const txsByMonth = compileTxs(accounts);
     const categoryBreakdown = compileSpent(categories, txsByMonth);
-    console.log('recalculate thinks its categories are: ', categories);
-    console.log('recalculate thinks state is: ', this.state);
-    console.log(
-      'recalculate thinks its categories breakdown is: ',
-      categoryBreakdown
-    );
     this.setState({ categories, accounts, txsByMonth, categoryBreakdown });
   }
 
@@ -128,6 +148,8 @@ class BudgetPage extends Component {
         open={open}
         handleAddCategory={this.handleAddCategory}
         handleSaveCategory={this.handleSaveCategory}
+        handleDeleteCategory={this.handleDeleteCategory}
+        handleDeleteDialog={this.handleDeleteDialog}
         handleClose={this.handleClose}
         handleTextInput={this.handleTextInput}
         recalculate={this.recalculate}

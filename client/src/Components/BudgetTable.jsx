@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
@@ -12,8 +12,10 @@ import ChevronLeft from '@material-ui/icons/ChevronLeft';
 import ChevronRight from '@material-ui/icons/ChevronRight';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
+import Badge from '@material-ui/core/Badge';
 import BudgetAllottment from './BudgetAllotment.jsx';
 import BudgetAddCatgory from './BudgetAddCategory.jsx';
+import BudgetCategoryName from './BudgetCategoryName.jsx';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -49,12 +51,15 @@ const BudgetTable = ({
   open,
   handleAddCategory,
   handleSaveCategory,
+  handleDeleteCategory,
+  handleDeleteDialog,
   handleClose,
   handleTextInput,
   handleMonthChange,
   recalculate
 }) => {
   const classes = useStyles();
+
   return (
     <div className={classes.root}>
       {/** month selector */}
@@ -102,7 +107,10 @@ const BudgetTable = ({
                 {Object.keys(breakdown).map(category => (
                   <TableRow key={category}>
                     <TableCell component="th" scope="row">
-                      {category}
+                      <BudgetCategoryName
+                        category={category}
+                        handleDeleteCategory={handleDeleteCategory}
+                      />
                     </TableCell>
                     <TableCell align="right">
                       <BudgetAllottment
@@ -134,6 +142,8 @@ BudgetTable.propTypes = {
   open: PropTypes.bool,
   handleAddCategory: PropTypes.func,
   handleSaveCategory: PropTypes.func,
+  handleDeleteCategory: PropTypes.func,
+  handleDeleteDialog: PropTypes.func,
   handleClose: PropTypes.func,
   handleTextInput: PropTypes.func
 };

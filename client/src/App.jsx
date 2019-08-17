@@ -2,23 +2,14 @@ import React, { Component } from 'react';
 import axios from 'axios';
 
 // Routing
-import { Switch, Route, Redirect } from 'react-router-dom';
 import Container from '@material-ui/core/Container';
-import PrivateRoute from './Components/PrivateRoute.jsx';
 import { Auth0Context } from './react-auth0-wrapper';
-// Material Components
+import ProtectedSwitch from './Components/ProtectedSwitch.jsx';
+import DemoSwitch from './Components/DemoSwitch.jsx';
 
 // Custom Components
-import Header from './Components/Header.jsx';
-import AccountsPage from './Components/AccountsPage.jsx';
-import BudgetPage from './Components/BudgetPage.jsx';
-import DashboardPage from './Components/DashboardPage.jsx';
-import LandingPage from './Components/LandingPage.jsx';
-import TrendsPage from './Components/TrendsPage.jsx';
-import LoginPage from './Components/LoginPage.jsx';
-import ProfilePage from './Components/ProfilePage.jsx';
+import ButtonAppBar from './Components/Header.jsx';
 import Footer from './Components/Footer.jsx';
-import ErrorPage from './Components/ErrorPage.jsx';
 import Loading from './Components/Loading.jsx';
 import db from './utils/databaseRequests';
 
@@ -34,7 +25,8 @@ export default class App extends Component {
       budgetCategories: [],
       accountData: {
         accounts: [{ transactions: { year: { month: [] } } }]
-      }
+      },
+      isDemo: false
     };
     this.setAccountData = this.setAccountData.bind(this);
     this.handleAddTransaction = this.handleAddTransaction.bind(this);
@@ -42,6 +34,7 @@ export default class App extends Component {
       this
     );
     this.promiseSetState = this.promiseSetState.bind(this);
+    this.toggleDemo = this.toggleDemo.bind(this);
   }
 
   componentDidMount() {
@@ -115,6 +108,30 @@ export default class App extends Component {
     );
   }
 
+  toggleDemo() {
+    db.getUserData('Ihearthetrainacomin')
+      .then(result => {
+        this.setAccountData(result.data[0]);
+      })
+      .then(() => {
+        if (!this.state.isDemo) {
+          this.setState({
+            isDemo: true,
+            loadingUser: false
+          });
+          console.log('demo mode now on');
+        } else {
+          this.setState(
+            {
+              isDemo: false,
+              loadingUser: false
+            },
+            () => console.log('demo mode turned off')
+          );
+        }
+      });
+  }
+
   handleAddTransaction(stateObject) {
     // this function will live at the dashboard level eventually
 
@@ -138,10 +155,13 @@ export default class App extends Component {
       payee: inputPayee,
       recurring: false
     };
+    console.log(transaction);
 
     for (let i = 0; i < accounts.length; i++) {
       if (accounts[i].name === inputAccount) {
-        accountUpdate.accounts[i].transactions[year][month].push(transaction);
+        accountUpdate.accounts[i].transactions[year][month - 1].push(
+          transaction
+        );
         break;
       }
       this.setAccountData(accountUpdate);
@@ -197,9 +217,15 @@ export default class App extends Component {
   }
 
   render() {
-    const { accountData, budgetCategories, loadingUser } = this.state;
-    const { isAuthenticated, loading } = this.context;
-
+    const {
+      accountData,
+      budgetCategories,
+      isDemo,
+      currentUser,
+      loadingUser
+    } = this.state;
+    const { isAuthenticated } = this.context;
+    console.log('is authenticated is: ', isAuthenticated);
     if (loadingUser) {
       return (
         <div data-testid="loading-user">
@@ -210,84 +236,33 @@ export default class App extends Component {
 
     return (
       <div className="app">
-        <Header />
         <Container>
-          <Switch>
-            <Route
-              exact
-              path="/"
-              render={() =>
-                !isAuthenticated ? (
-                  <LandingPage />
-                ) : (
-                  <Redirect to="/dashboard" />
-                )
-              }
+          <ButtonAppBar isDemo={isDemo} toggleDemo={this.toggleDemo} />
+          {isDemo ? (
+            <DemoSwitch
+              accountData={accountData}
+              budgetCategories={budgetCategories}
+              updateAccountData={this.setAccountData}
+              asyncHandleUpdateCategories={this.asyncHandleUpdateCategories}
+              currentUser={currentUser}
+              handleAddTransaction={this.handleAddTransaction}
+              toggleDemo={this.toggleDemo}
+              isDemo={isDemo}
+              loading={false}
+              isAuthenticated
             />
-            <PrivateRoute
-              path="/accounts"
-              render={props => (
-                <AccountsPage
-                  {...props}
-                  accountData={accountData}
-                  loading={loading}
-                  isAuthenticated={isAuthenticated}
-                  updateAccountData={this.setAccountData}
-                />
-              )}
+          ) : (
+            <ProtectedSwitch
+              accountData={accountData}
+              budgetCategories={budgetCategories}
+              updateAccountData={this.setAccountData}
+              asyncHandleUpdateCategories={this.asyncHandleUpdateCategories}
+              currentUser={currentUser}
+              handleAddTransaction={this.handleAddTransaction}
+              toggleDemo={this.toggleDemo}
+              isDemo={isDemo}
             />
-            <PrivateRoute
-              path="/budget"
-              render={props => (
-                <BudgetPage
-                  {...props}
-                  accounts={accountData.accounts}
-                  categories={budgetCategories}
-                  loading={loading}
-                  isAuthenticated={isAuthenticated}
-                  updateAccountData={this.setAccountData}
-                  asyncHandleUpdateCategories={this.asyncHandleUpdateCategories}
-                />
-              )}
-            />
-            <PrivateRoute
-              path="/dashboard"
-              render={props => (
-                <DashboardPage
-                  {...props}
-                  handleAddTransaction={this.handleAddTransaction}
-                  accountData={accountData}
-                  currentUser={this.state.currentUser}
-                  loading={loading}
-                  isAuthenticated={isAuthenticated}
-                />
-              )}
-            />
-            <PrivateRoute
-              path="/profile"
-              render={props => (
-                <ProfilePage
-                  {...props}
-                  accountData={accountData}
-                  loading={loading}
-                  isAuthenticated={isAuthenticated}
-                  updateAccountData={this.setAccountData}
-                />
-              )}
-            />
-            <PrivateRoute
-              path="/trends"
-              render={props => (
-                <TrendsPage
-                  {...props}
-                  accountData={accountData}
-                  loading={loading}
-                  isAuthenticated={isAuthenticated}
-                />
-              )}
-            />
-            <Route component={ErrorPage} />
-          </Switch>
+          )}
         </Container>
         <Footer />
       </div>
