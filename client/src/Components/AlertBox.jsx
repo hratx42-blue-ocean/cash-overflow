@@ -39,9 +39,17 @@ export default class AlertBox extends Component {
     let alertHeader = null;
     const alerts = [];
     const today = new Date();
-    const month = today.getMonth();
+    const month = today.getMonth() + 1;
     const year = today.getFullYear();
-    for (let category of budget) {
+    const filteredBudget = budget.filter(category => {
+      if (category.allotment[year]) {
+        if (category.allotment[year][month]) {
+          return true;
+        }
+      }
+    });
+    console.log('filtered cats: ', filteredBudget);
+    for (let category of filteredBudget) {
       let categoryName = category.name;
       let allotment = category.allotment[year][month];
       let subtotal = 0;
@@ -52,6 +60,7 @@ export default class AlertBox extends Component {
           }
         }
       }
+      console.log('subtotal is: ', subtotal, 'allotment is: ', allotment);
       if (subtotal > allotment) {
         alertType = 'overspent';
         alertHeader = `Overspending in ${categoryName}`;
@@ -61,9 +70,13 @@ export default class AlertBox extends Component {
       } else if (subtotal >= allotment * 0.9) {
         alertType = 'almost reached your limit';
         alertHeader = `Slow down with spending in ${categoryName}`;
+      } else if (subtotal < allotment) {
+        alertType = 'you\'re doing great! i love you';
+        alertHeader = 'keep it up, champ';
       }
 
       if (alertType) {
+        console.log('has alert type');
         alerts.push({
           budgetCategory: categoryName,
           alertType,
@@ -185,9 +198,8 @@ export default class AlertBox extends Component {
   }
 }
 
-
 AlertBox.propTypes = {
   accounts: PropTypes.array.isRequired,
   budget: PropTypes.array.isRequired,
   recurringTransactions: PropTypes.array.isRequired
-}
+};
