@@ -124,7 +124,6 @@ export default class AccountsPage extends React.Component {
     }
     return (
       <div>
-        <h1>Accounts</h1>
         <Grid container spacing={3}>
           <AccountsTable
             accountData={this.props.accountData}

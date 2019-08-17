@@ -24,32 +24,54 @@ const AccountTransactions = props => {
   return (
     <>
       <Grid item xs={8}>
-        <IconButton onClick={props.handleLeftArrow} aria-label="previous-month">
-          <ChevronLeft />
-        </IconButton>
-        <Typography variant="button">{currentMonthStr}</Typography>
-        <IconButton onClick={props.handleRightArrow} aria-label="next-month">
-          <ChevronRight />
-        </IconButton>
-        <FormControl style={{ minWidth: '30%' }}>
-          <InputLabel htmlFor="account-filter">Filter by Account</InputLabel>
-          <Select
-            value={props.accountFilter}
-            onChange={props.handleAccountFilter}
-            input={<Input id="account-filter" />}
-          >
-            <MenuItem key={`accountFilter_blank`} value="">
-              All Accounts
-            </MenuItem>
-            {props.accountsList.map((acct, i) => {
-              return (
-                <MenuItem key={`accountFilter_${i}`} value={acct.name}>
-                  {acct.name}
-                </MenuItem>
-              );
-            })}
-          </Select>
-        </FormControl>
+        <Grid container spacing={3}>
+          <Grid item xs={12}>
+            <Grid container justify="center">
+              <Grid item xs={3}></Grid>
+              <Grid item xs={6} align="center" style={{ paddingTop: 30 }}>
+                <IconButton
+                  onClick={props.handleLeftArrow}
+                  aria-label="previous-month"
+                >
+                  <ChevronLeft />
+                </IconButton>
+                <Typography variant="button">{currentMonthStr}</Typography>
+                <IconButton
+                  onClick={props.handleRightArrow}
+                  aria-label="next-month"
+                >
+                  <ChevronRight />
+                </IconButton>
+              </Grid>
+              <Grid item xs={3}>
+                <FormControl
+                  fullWidth={true}
+                  style={{ paddingBottom: 20, marginTop: 20 }}
+                >
+                  <InputLabel htmlFor="account-filter">
+                    Filter by Account
+                  </InputLabel>
+                  <Select
+                    value={props.accountFilter}
+                    onChange={props.handleAccountFilter}
+                    input={<Input id="account-filter" />}
+                  >
+                    <MenuItem key={`accountFilter_blank`} value="">
+                      All Accounts
+                    </MenuItem>
+                    {props.accountsList.map((acct, i) => {
+                      return (
+                        <MenuItem key={`accountFilter_${i}`} value={acct.name}>
+                          {acct.name}
+                        </MenuItem>
+                      );
+                    })}
+                  </Select>
+                </FormControl>
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
         <Paper style={{ maxHeight: 500, overflow: 'auto' }}>
           <List>
             <Table>
