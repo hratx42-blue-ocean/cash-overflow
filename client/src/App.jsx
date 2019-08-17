@@ -39,6 +39,10 @@ export default class App extends Component {
     this.setAccountData = this.setAccountData.bind(this);
     this.handleAddTransaction = this.handleAddTransaction.bind(this);
     this.handleUpdateCategories = this.handleUpdateCategories.bind(this);
+    this.asyncHandleUpdateCategories = this.asyncHandleUpdateCategories.bind(
+      this
+    );
+    this.promiseSetState = this.promiseSetState.bind(this);
   }
 
   componentDidMount() {
@@ -153,6 +157,39 @@ export default class App extends Component {
     this.setAccountData(accountUpdate);
   }
 
+  promiseSetState(userObject, callback) {
+    return new Promise((resolve, reject) => {
+      this.setState(
+        {
+          accountData: userObject,
+          budgetCategories: userObject.budgetCategories
+        },
+        () => {
+          resolve(this.state.budgetCategories);
+        }
+      );
+    });
+  }
+
+  /**
+   * WARNING WARNING WARNING
+   * This is a major antipattern, we are aware.
+   * Somewhere in the complex finanical calcuations, the alloment relays on state and not props, so it's not update as props change.
+   * We're not sure where that happens and we plan to refactor finanical calucations to the backend shortly,
+   * making this abomination moot.
+   */
+
+  asyncHandleUpdateCategories(updatedCategories, callback) {
+    const accountUpdate = { ...this.state.accountData };
+    accountUpdate.budgetCategories = updatedCategories;
+    console.log('modified cats sent in', updatedCategories, accountUpdate);
+    this.promiseSetState(accountUpdate).then(updatedCategories => {
+      callback(updatedCategories);
+      console.log('callback fired');
+      console.log(updatedCategories);
+    });
+  }
+
   handleUpdateCategories(updatedCategories) {
     console.log('modified cats sent in', updatedCategories);
     const accountUpdate = { ...this.state.accountData };
@@ -213,12 +250,14 @@ export default class App extends Component {
               path="/budget"
               render={props => (
                 <BudgetPage
+                  {...props}
                   accounts={accountData.accounts}
                   categories={budgetCategories}
                   loading={loading}
                   isAuthenticated={isAuthenticated}
                   updateAccountData={this.setAccountData}
                   handleUpdateCategories={this.handleUpdateCategories}
+                  asyncHandleUpdateCategories={this.asyncHandleUpdateCategories}
                 />
               )}
             />

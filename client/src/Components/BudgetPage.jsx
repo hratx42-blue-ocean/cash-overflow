@@ -37,16 +37,16 @@ class BudgetPage extends Component {
   }
 
   componentDidMount() {
-    this.recalculate();
+    console.log('component did mount');
+    this.recalculate(this.state.categories);
   }
 
   componentDidUpdate() {
-    const { categories: propCatagories } = this.props;
-    const { categories: stateCatagories } = this.state;
-
-    if (JSON.stringify(propCatagories) !== JSON.stringify(stateCatagories)) {
-      this.recalculate();
-    }
+    // const { categories: propCatagories } = this.props;
+    // const { categories: stateCatagories } = this.state;
+    // if (JSON.stringify(propCatagories) !== JSON.stringify(stateCatagories)) {
+    //   this.recalculate();
+    // }
   }
 
   // change current month
@@ -58,7 +58,7 @@ class BudgetPage extends Component {
     }
   }
 
-  updateAllotments(name, val) {
+  async updateAllotments(name, val) {
     let { categories, currentMonth, currentYear } = this.state;
     categories = categories || [];
     categories = JSON.parse(JSON.stringify(categories));
@@ -75,7 +75,7 @@ class BudgetPage extends Component {
     });
 
     // TODO make this async?
-    this.handleUpdateCategories(categories);
+    await this.props.asyncHandleUpdateCategories(categories, this.recalculate);
   }
 
   handleAddCategory() {
@@ -101,10 +101,12 @@ class BudgetPage extends Component {
     });
   }
 
-  recalculate() {
-    const { accounts, categories } = this.state;
+  recalculate(categories) {
+    const { accounts } = this.state;
     const txsByMonth = compileTxs(accounts);
     const categoryBreakdown = compileSpent(categories, txsByMonth);
+    console.log('recalculate thinks state is: ', this.state);
+    console.log('recalculate thinks its categories are: ', categoryBreakdown);
     this.setState({ txsByMonth, categoryBreakdown });
   }
 
