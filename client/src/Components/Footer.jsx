@@ -42,7 +42,7 @@ export default function Footer() {
   return (
     <div className={classes.root} color="primary">
       <Toolbar height={4} width={1} className={classes.toolbar} color="primary">
-        <Button className={classes.link} color="secondary.light">
+        <Button className={classes.link} color="inherit">
           About Us
         </Button>
       </Toolbar>
