@@ -30,6 +30,9 @@ router.post('/upsertData', (req, res) => {
 
   console.log(`Received POST request to update ${userID}`);
 
+  if (userID === 'Ihearthetrainacomin') {
+    res.status(200).send('demo mode');
+  }
   db.upsertUserDataByUserID(req.body.userUpdate)
     .then(() => {
       res.send('user updated!');
