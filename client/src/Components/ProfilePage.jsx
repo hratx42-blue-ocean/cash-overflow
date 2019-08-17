@@ -214,11 +214,11 @@ export default class ProfilePage extends React.Component {
         direction="column"
         justify="center"
         alignItems="center"
-        spacing={1}
+        // spacing={1}
         className="profilePage"
       >
-        <Grid container spacing={1}>
-          <Grid item xs>
+        <Grid container>
+          <Grid item xs={4}>
             <ProfileFirstName
               className="firstName"
               firstNameIsHidden={this.state.firstNameIsHidden}
@@ -250,7 +250,7 @@ export default class ProfilePage extends React.Component {
               closePasswordResetMessage={this.closePasswordResetMessage}
             />
           </Grid>
-          <Grid item xs>
+          <Grid item xs={4}>
             <ProfileRecurringPayments
               handleDayChange={this.handleDayChange}
               handleInputAmount={this.handleInputAmount}
@@ -267,7 +267,11 @@ export default class ProfilePage extends React.Component {
               showSuccessMessage={this.state.showSuccessMessage}
               toggleSuccessMessage={this.toggleSuccessMessage}
             />
-            <ProfileRPList recurringTransactions={this.state.recurringTransactions}/>
+            <Grid item xs={4}>
+              <ProfileRPList
+                recurringTransactions={this.state.recurringTransactions}
+              />
+            </Grid>
           </Grid>
         </Grid>
       </Grid>

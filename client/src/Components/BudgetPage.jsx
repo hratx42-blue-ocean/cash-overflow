@@ -26,6 +26,7 @@ class BudgetPage extends Component {
     };
     this.handleAddCategory = this.handleAddCategory.bind(this);
     this.handleSaveCategory = this.handleSaveCategory.bind(this);
+    this.handleDeleteCategory = this.handleDeleteCategory.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.handleTextInput = this.handleTextInput.bind(this);
     this.handleMonthChange = this.handleMonthChange.bind(this);
@@ -77,9 +78,30 @@ class BudgetPage extends Component {
   }
 
   handleSaveCategory() {
-    const categoryUpdate = this.state.categories.slice();
-    const newCategory = new Category(this.state.textInput);
+    const { categories, textInput } = this.state;
+    const categoryUpdate = JSON.parse(JSON.stringify(categories));
+    const newCategory = new Category(textInput);
     categoryUpdate.push(newCategory);
+
+    console.log(
+      'Updated categories after addition should be: ',
+      categoryUpdate
+    );
+    this.props.handleUpdateCategories(categoryUpdate);
+    this.handleClose();
+  }
+
+  handleDeleteCategory(deletedCategory) {
+    const { categories } = this.state;
+    const categoryUpdate = JSON.parse(JSON.stringify(categories)).filter(
+      category => {
+        return category.name !== deletedCategory;
+      }
+    );
+    console.log(
+      'Updated categories after deletion should be: ',
+      categoryUpdate
+    );
     this.props.handleUpdateCategories(categoryUpdate);
     this.handleClose();
   }
@@ -115,6 +137,8 @@ class BudgetPage extends Component {
         open={open}
         handleAddCategory={this.handleAddCategory}
         handleSaveCategory={this.handleSaveCategory}
+        handleDeleteCategory={this.handleDeleteCategory}
+        handleDeleteDialog={this.handleDeleteDialog}
         handleClose={this.handleClose}
         handleTextInput={this.handleTextInput}
         handleMonthChange={this.handleMonthChange}
