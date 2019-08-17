@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import Paper from '@material-ui/core/Paper';
@@ -13,6 +13,7 @@ import OverviewSelector from './TrendsOverviewSelector.jsx';
 import HabitsSelector from './TrendsHabitsSelector.jsx';
 import ComparisonSelector from './TrendsComparisonSelector.jsx';
 import Loading from './Loading.jsx';
+import { useAuth0 } from '../react-auth0-wrapper';
 
 const useStyles = makeStyles({
   root: {
@@ -52,6 +53,7 @@ function a11yProps(index) {
 
 export default function TrendsPage(props) {
   const classes = useStyles();
+  const { loading, isAuthenticated } = props;
   const [value, setValue] = React.useState(0);
   const [overviewYear, setOverviewYear] = React.useState('');
   const [overviewMonth, setOverviewMonth] = React.useState('');
@@ -65,8 +67,6 @@ export default function TrendsPage(props) {
   function handleChange(event, newValue) {
     setValue(newValue);
   }
-
-  const { loading, isAuthenticated } = props;
 
   if (loading || !isAuthenticated) {
     return (
