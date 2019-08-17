@@ -76,7 +76,7 @@ function ButtonAppBar(props) {
           className={classes.title}
           style={{ fontFamily: 'Lobster Two', fontWeight: 'fontWeightBold' }}
         >
-          <img src="darkLogo.png" style={{ width: 90, height: 60 }} />
+          <img src="darkLogo.png" style={{ width: 220, height: 80 }} />
         </Typography>
         {isAuthenticated || isDemo ? (
           <Box className={classes.root}>
@@ -108,13 +108,24 @@ function ButtonAppBar(props) {
             {statusButton}
           </Box>
         ) : (
-          <Button
-            onClick={() => loginWithRedirect({})}
-            className={classes.link}
-            color="secondary"
-          >
-            Login
-          </Button>
+          <div>
+            <Button
+              onClick={props.toggleDemo}
+              color="inherit"
+              className={classes.link}
+              style={{ margin: 30 }}
+            >
+              Demo Mode
+            </Button>
+            <Button
+              onClick={() => loginWithRedirect({})}
+              className={classes.link}
+              color="secondary"
+              style={{ margin: 30 }}
+            >
+              Login
+            </Button>
+          </div>
         )}
       </Toolbar>
     </AppBar>
