@@ -6,7 +6,7 @@ const DIST_DIR = path.join(__dirname, '/public');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-const TerserPlugin = require('terser');
+const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
   devServer: {
