@@ -12,23 +12,13 @@ const styles = {
   root: {
     display: 'flex',
     background: 'transparent',
-    borderRadius: 3,
-    border: 0,
-    spacing: 4,
     color: 'white',
     textDecoration: 'none',
-    flexDirection: 'row',
     marginLeft: '50'
   },
   link: {
     background: 'transparent',
-    borderRadius: 3,
-    border: 0,
-    color: 'white',
     textDecoration: 'none',
-    display: 'flex',
-    flexDirection: 'row',
-    float: 'right',
     position: 'absolute',
     right: '0'
   }
@@ -46,7 +36,11 @@ function ButtonAppBar(props) {
   return (
     <AppBar color="primary" position="static">
       <Toolbar>
-        <Typography variant="h6" className={classes.title}>
+        <Typography
+          variant="h4"
+          className={classes.title}
+          style={{ fontFamily: 'Lobster Two', fontWeight: 'fontWeightBold' }}
+        >
           Cash Overflow
         </Typography>
         {isAuthenticated ? (
