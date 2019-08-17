@@ -25,8 +25,6 @@ class BudgetPage extends Component {
       textInput: '',
       counter: props.counter
     };
-    this.handleUpdateCategories = props.handleUpdateCategories;
-
     this.handleAddCategory = this.handleAddCategory.bind(this);
     this.handleSaveCategory = this.handleSaveCategory.bind(this);
     this.handleClose = this.handleClose.bind(this);
@@ -38,15 +36,7 @@ class BudgetPage extends Component {
 
   componentDidMount() {
     console.log('component did mount');
-    this.recalculate(this.state.categories);
-  }
-
-  componentDidUpdate() {
-    // const { categories: propCatagories } = this.props;
-    // const { categories: stateCatagories } = this.state;
-    // if (JSON.stringify(propCatagories) !== JSON.stringify(stateCatagories)) {
-    //   this.recalculate();
-    // }
+    this.recalculate(this.state.categories, this.state.accounts);
   }
 
   // change current month
@@ -74,7 +64,6 @@ class BudgetPage extends Component {
       }
     });
 
-    // TODO make this async?
     await this.props.asyncHandleUpdateCategories(categories, this.recalculate);
   }
 
@@ -90,7 +79,7 @@ class BudgetPage extends Component {
     const categoryUpdate = this.state.categories.slice();
     const newCategory = new Category(this.state.textInput);
     categoryUpdate.push(newCategory);
-    this.props.handleUpdateCategories(categoryUpdate);
+    this.props.asyncHandleUpdateCategories(categoryUpdate, this.recalculate);
     this.handleClose();
   }
 
@@ -101,13 +90,16 @@ class BudgetPage extends Component {
     });
   }
 
-  recalculate(categories) {
-    const { accounts } = this.state;
+  recalculate(categories, accounts) {
     const txsByMonth = compileTxs(accounts);
     const categoryBreakdown = compileSpent(categories, txsByMonth);
+    console.log('recalculate thinks its categories are: ', categories);
     console.log('recalculate thinks state is: ', this.state);
-    console.log('recalculate thinks its categories are: ', categoryBreakdown);
-    this.setState({ txsByMonth, categoryBreakdown });
+    console.log(
+      'recalculate thinks its categories breakdown is: ',
+      categoryBreakdown
+    );
+    this.setState({ categories, accounts, txsByMonth, categoryBreakdown });
   }
 
   render() {
@@ -151,7 +143,7 @@ BudgetPage.propTypes = {
   loading: PropTypes.bool.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
   updateAccountData: PropTypes.func,
-  handleUpdateCategories: PropTypes.func
+  asyncHandleUpdateCategories: PropTypes.func
 };
 
 const totalSpent = txs => {
@@ -219,7 +211,7 @@ function compileSpent(categories = [], transactions) {
 }
 
 function Category(name) {
-  this.id = faker.random.uuid();
+  this.id = (420420420420 + Math.floor(Math.random() * 69696969)).toString();
   this.name = name;
   this.allotment = { '2019': { '6': 0, '7': 0, '8': 0 } };
 }

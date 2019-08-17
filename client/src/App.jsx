@@ -38,7 +38,6 @@ export default class App extends Component {
     };
     this.setAccountData = this.setAccountData.bind(this);
     this.handleAddTransaction = this.handleAddTransaction.bind(this);
-    this.handleUpdateCategories = this.handleUpdateCategories.bind(this);
     this.asyncHandleUpdateCategories = this.asyncHandleUpdateCategories.bind(
       this
     );
@@ -157,7 +156,7 @@ export default class App extends Component {
     this.setAccountData(accountUpdate);
   }
 
-  promiseSetState(userObject, callback) {
+  promiseSetState(userObject) {
     return new Promise((resolve, reject) => {
       this.setState(
         {
@@ -165,7 +164,7 @@ export default class App extends Component {
           budgetCategories: userObject.budgetCategories
         },
         () => {
-          resolve(this.state.budgetCategories);
+          resolve(this.state.accountData);
         }
       );
     });
@@ -183,27 +182,18 @@ export default class App extends Component {
     const accountUpdate = { ...this.state.accountData };
     accountUpdate.budgetCategories = updatedCategories;
     console.log('modified cats sent in', updatedCategories, accountUpdate);
-    this.promiseSetState(accountUpdate).then(updatedCategories => {
-      callback(updatedCategories);
-      console.log('callback fired');
-      console.log(updatedCategories);
-    });
-  }
-
-  handleUpdateCategories(updatedCategories) {
-    console.log('modified cats sent in', updatedCategories);
-    const accountUpdate = { ...this.state.accountData };
-    accountUpdate.budgetCategories = updatedCategories;
-    this.setState(
-      {
-        budgetCategories: updatedCategories,
-        accountData: accountUpdate
-      },
-      () => {
-        console.log('handle update state now', this.state);
-        this.setAccountData(accountUpdate);
-      }
-    );
+    this.promiseSetState(accountUpdate)
+      .then(updatedAccount => {
+        console.log('app level cats: ', updatedAccount);
+        callback(updatedAccount.budgetCategories, accountUpdate.accounts);
+        return updatedAccount;
+      })
+      .then(updatedAccount => {
+        this.setAccountData(updatedAccount);
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }
 
   render() {
@@ -256,7 +246,6 @@ export default class App extends Component {
                   loading={loading}
                   isAuthenticated={isAuthenticated}
                   updateAccountData={this.setAccountData}
-                  handleUpdateCategories={this.handleUpdateCategories}
                   asyncHandleUpdateCategories={this.asyncHandleUpdateCategories}
                 />
               )}
