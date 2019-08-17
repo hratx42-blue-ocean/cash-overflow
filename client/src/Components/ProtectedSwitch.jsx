@@ -16,6 +16,7 @@ export default function ProtectedSwitch(props) {
     accountData,
     budgetCategories,
     updateAccountData,
+    asyncHandleUpdateCategories,
     currentUser,
     handleAddTransaction,
     toggleDemo
@@ -62,6 +63,7 @@ export default function ProtectedSwitch(props) {
             loading={loading}
             isAuthenticated={isAuthenticated}
             updateAccountData={updateAccountData}
+            asyncHandleUpdateCategories={asyncHandleUpdateCategories}
           />
         )}
       />
@@ -110,6 +112,7 @@ ProtectedSwitch.propTypes = {
   accountData: PropTypes.object.isRequired,
   budgetCategories: PropTypes.array.isRequired,
   updateAccountData: PropTypes.func.isRequired,
+  asyncHandleUpdateCategories: PropTypes.func.isRequired,
   currentUser: PropTypes.string.isRequired,
   handleAddTransaction: PropTypes.func.isRequired,
   toggleDemo: PropTypes.func.isRequired,

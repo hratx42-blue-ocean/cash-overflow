@@ -22,7 +22,8 @@ class BudgetPage extends Component {
       currentYear: 2019,
       currentMonth: 8,
       open: false,
-      textInput: ''
+      textInput: '',
+      counter: props.counter
     };
     this.handleAddCategory = this.handleAddCategory.bind(this);
     this.handleSaveCategory = this.handleSaveCategory.bind(this);
@@ -30,14 +31,13 @@ class BudgetPage extends Component {
     this.handleClose = this.handleClose.bind(this);
     this.handleTextInput = this.handleTextInput.bind(this);
     this.handleMonthChange = this.handleMonthChange.bind(this);
+    this.recalculate = this.recalculate.bind(this);
     this.updateAllotments = this.updateAllotments.bind(this);
   }
 
   componentDidMount() {
-    const { accounts, categories } = this.state;
-    const txsByMonth = compileTxs(accounts);
-    const categoryBreakdown = compileSpent(categories, txsByMonth);
-    this.setState({ txsByMonth, categoryBreakdown });
+    const { categories, accounts } = this.state;
+    this.recalculate(categories, accounts);
   }
 
   // change current month
@@ -49,24 +49,23 @@ class BudgetPage extends Component {
     }
   }
 
-  updateAllotments(name, val, year, month) {
-    let { categories } = this.state;
-    categories = categories ? categories : [];
+  async updateAllotments(name, val) {
+    let { categories, currentMonth, currentYear } = this.state;
+    categories = categories || [];
     categories = JSON.parse(JSON.stringify(categories));
 
     categories.forEach(category => {
       if (
         category.name === name &&
         category.allotment &&
-        category.allotment[year] &&
-        category.allotment[year][month] !== undefined
+        category.allotment[currentYear] &&
+        category.allotment[currentYear][currentMonth] !== undefined
       ) {
-        category.allotment[year][month] = val;
+        category.allotment[currentYear][currentMonth] = val;
       }
     });
 
-    // TODO add function that sets app state
-    console.log(categories);
+    await this.props.asyncHandleUpdateCategories(categories, this.recalculate);
   }
 
   handleAddCategory() {
@@ -77,21 +76,23 @@ class BudgetPage extends Component {
     this.setState({ open: false });
   }
 
-  handleSaveCategory() {
+  async handleSaveCategory() {
     const { categories, textInput } = this.state;
     const categoryUpdate = JSON.parse(JSON.stringify(categories));
     // const newCategory = new Category(textInput);
     categoryUpdate.push(newCategory);
-
     console.log(
       'Updated categories after addition should be: ',
       categoryUpdate
     );
-    this.props.handleUpdateCategories(categoryUpdate);
+    await this.props.asyncHandleUpdateCategories(
+      categoryUpdate,
+      this.recalculate
+    );
     this.handleClose();
   }
 
-  handleDeleteCategory(deletedCategory) {
+  async handleDeleteCategory(deletedCategory) {
     const { categories } = this.state;
     const categoryUpdate = JSON.parse(JSON.stringify(categories)).filter(
       category => {
@@ -102,7 +103,10 @@ class BudgetPage extends Component {
       'Updated categories after deletion should be: ',
       categoryUpdate
     );
-    this.props.handleUpdateCategories(categoryUpdate);
+    await this.props.asyncHandleUpdateCategories(
+      categoryUpdate,
+      this.recalculate
+    );
     this.handleClose();
   }
 
@@ -113,8 +117,13 @@ class BudgetPage extends Component {
     });
   }
 
+  recalculate(categories, accounts) {
+    const txsByMonth = compileTxs(accounts);
+    const categoryBreakdown = compileSpent(categories, txsByMonth);
+    this.setState({ categories, accounts, txsByMonth, categoryBreakdown });
+  }
+
   render() {
-    this.updateAllotments('bills', 100, 2019, 8);
     const { loading, isAuthenticated } = this.props;
     if (loading || !isAuthenticated) {
       return (
@@ -133,7 +142,10 @@ class BudgetPage extends Component {
     return (
       <BudgetTable
         month={currentMonth}
+        year={currentYear}
         breakdown={breakdown}
+        handleMonthChange={this.handleMonthChange}
+        updateAllotments={this.updateAllotments}
         open={open}
         handleAddCategory={this.handleAddCategory}
         handleSaveCategory={this.handleSaveCategory}
@@ -141,7 +153,7 @@ class BudgetPage extends Component {
         handleDeleteDialog={this.handleDeleteDialog}
         handleClose={this.handleClose}
         handleTextInput={this.handleTextInput}
-        handleMonthChange={this.handleMonthChange}
+        recalculate={this.recalculate}
       />
     );
   }
@@ -154,7 +166,7 @@ BudgetPage.propTypes = {
   loading: PropTypes.bool.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
   updateAccountData: PropTypes.func,
-  handleUpdateCategories: PropTypes.func
+  asyncHandleUpdateCategories: PropTypes.func
 };
 
 const totalSpent = txs => {
@@ -205,17 +217,26 @@ function compileSpent(categories = [], transactions) {
             spent += Number(tx.amount);
           }
         });
-        result[year][month][name] = { alloted: 0, spent: spent.toFixed(2) };
+        const allotted =
+          category.allotment !== undefined &&
+          category.allotment[year] !== undefined &&
+          category.allotment[year][month] !== undefined
+            ? category.allotment[year][month]
+            : 0;
+        result[year][month][name] = {
+          alloted: allotted,
+          spent: spent.toFixed(2)
+        };
       });
     });
   });
   return result;
 }
 
-// function Category(name) {
-//   this.id = faker.random.uuid();
-//   this.name = name;
-//   this.allotment = { '2019': { '6': 0, '7': 0, '8': 0 } };
-// }
+function Category(name) {
+  this.id = (420420420420 + Math.floor(Math.random() * 69696969)).toString();
+  this.name = name;
+  this.allotment = { '2019': { '6': 0, '7': 0, '8': 0 } };
+}
 
 export default BudgetPage;

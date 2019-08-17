@@ -1,15 +1,35 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import BudgetAllottmentField from './BudgetAllotmentField.jsx';
+import BudgetAllotmentField from './BudgetAllotmentField.jsx';
 
 export default class BudgetAllottment extends Component {
   constructor(props) {
     super(props);
+
+    const {
+      allotment,
+      category,
+      month,
+      name,
+      recalculate,
+      updateAllotments,
+      year
+    } = this.props;
+
     this.state = {
-      allotment: props.allotment,
-      display: props.allotment,
-      clicked: false
+      allotment: allotment,
+      category: category,
+      clicked: false,
+      display: allotment,
+      month: month,
+      name: name,
+      updateAllotments: updateAllotments,
+      year: year
     };
+
+    this.recalculate = recalculate;
+    this.updateAllotments = updateAllotments;
+
     this.handleClick = this.handleClick.bind(this);
     this.handleClickAway = this.handleClickAway.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
@@ -25,11 +45,14 @@ export default class BudgetAllottment extends Component {
   }
 
   handleKeyPress(e) {
-    const { display, clicked } = this.state;
+    const { name } = this.state;
     if (e.key === 'Enter') {
       e.preventDefault();
       const val = Number(e.target.value);
-      this.setState({ allotment: val, clicked: false });
+      this.setState({ clicked: false });
+      Promise.resolve(this.updateAllotments(name, val)).then(
+        this.recalculate()
+      );
     }
   }
 
@@ -42,7 +65,7 @@ export default class BudgetAllottment extends Component {
     // handle switch the input based on the click
     if (clicked) {
       renderedComponent = (
-        <BudgetAllottmentField
+        <BudgetAllotmentField
           handleClickAway={this.handleClickAway}
           handleKeyPress={this.handleKeyPress}
         />
