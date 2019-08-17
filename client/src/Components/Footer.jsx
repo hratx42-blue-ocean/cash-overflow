@@ -13,7 +13,7 @@ import Grid from '@material-ui/core/Grid';
 
 const engineersLeft = [
   { name: 'Garett Welson', link: 'https://www.linkedin.com/in/garrettwelson/' , imageURL: 'https://binkardfecimages.s3.us-east-2.amazonaws.com/cashOverflowHeadshots/GW+Headshot.jpg'},
-  { name: 'Ross Calimlin', link: 'https://www.linkedin.com/in/rcalimlim/' },
+  { name: 'Ross Calimlin', link: 'https://www.linkedin.com/in/rcalimlim/', imageURL: 'https://binkardfecimages.s3.us-east-2.amazonaws.com/cashOverflowHeadshots/RC+Headshot.png' },
   {
     name: 'Doris Hui',
     link: 'https://www.linkedin.com/in/dorishui/',

@@ -12,25 +12,16 @@ const useStyles = makeStyles(theme => ({
   },
   paper: {
     padding: theme.spacing(2),
-    width: 400,
-    margin: 20,
-    textAlign: 'center'
+    width: '100%',
+    marginTop: 20,
+    textAlign: 'center', 
+    height: 480
   }
 }));
 
 const ProfileRecurringPayments = props => {
   const classes = useStyles();
   const days = Array.from(Array(31).keys()).splice(1);
-
-  if (props.showSuccessMessage) {
-    return (
-      <div>
-        <Paper className={classes.paper}>
-          <ProfileRPSuccess toggleSuccessMessage={props.toggleSuccessMessage} />
-        </Paper>
-      </div>
-    );
-  }
 
   return (
     <div>
@@ -39,7 +30,7 @@ const ProfileRecurringPayments = props => {
           <ProfileRPSuccess toggleSuccessMessage={props.toggleSuccessMessage} />
         </Paper>
       ) : (
-        <Paper style={{ margin: 20, padding: 15 }}>
+        <Paper className={classes.paper}>
           <ProfileSetRP
             inputDay={props.inputDay}
             handleDayChange={props.handleDayChange}
