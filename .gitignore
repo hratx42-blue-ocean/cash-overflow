@@ -65,6 +65,7 @@ typings/
 
 # Webpack
 bundle.js
+bundle.js.gz
 
 # Auth0
 client/src/auth_config.js
