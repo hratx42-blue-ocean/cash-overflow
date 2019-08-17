@@ -2,7 +2,9 @@
 
 ![] IMAGE/GIF GOES HERE
 
-### About
+<img src="./cashoverflowIcon.png" width="100" />
+
+## About
 
 CashOverflow is a web app aimed at providing a simple, minimalist way to track your budget and transactions.
 
@@ -40,7 +42,7 @@ Some challenges we ran into while building the app:
 
 - Authentication was a much larger undertaking than initially expected. Most of the components need to be authentication aware and/or render differently depending on authentication state. Took coordination across the team, lead to a lot of hard to test bugs, and the MVP build was still not production grade secure.
 
-# Client Deliverables
+## Client Deliverables
 
 Our team worked to meet the expectations of our primary user by organizing deliverables into user stories listed below:
 
