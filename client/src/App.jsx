@@ -34,11 +34,11 @@ export default class App extends Component {
   }
 
   getUserData(userEmail) {
-    return axios.get(`http://0.0.0.0:8000/api/users/getData?user=${userEmail}`);
+    return axios.get(`/api/users/getData?user=${userEmail}`);
   }
 
   postUserData(userObject) {
-    Axios.post('http://0.0.0.0:8000/api/users/upsertData', {
+    Axios.post('/api/users/upsertData', {
       userUpdate: userObject
     }).then(okResponse => console.log(okResponse));
   }
