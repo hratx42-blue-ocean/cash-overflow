@@ -59,7 +59,7 @@ const useStyles = makeStyles(theme => ({
   },
   toolbar: {
     position: 'fixed',
-    background: '#3f51b5',
+    background: '#7F7F7F',
     left: 10,
     right: 10,
     bottom: 4,

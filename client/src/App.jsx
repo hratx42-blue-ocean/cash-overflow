@@ -136,10 +136,11 @@ export default class App extends Component {
       payee: inputPayee,
       recurring: false
     };
+    console.log(transaction);
 
     for (let i = 0; i < accounts.length; i++) {
       if (accounts[i].name === inputAccount) {
-        accountUpdate.accounts[i].transactions[year][month].push(transaction);
+        accountUpdate.accounts[i].transactions[year][month - 1].push(transaction);
         break;
       }
       this.setAccountData(accountUpdate);
@@ -161,7 +162,7 @@ export default class App extends Component {
       budgetCategories: updatedCategories,
       accountData: accountUpdate
     });
-    this.updateAccountData(accountUpdate);
+    this.setAccountData(accountUpdate);
   }
 
   render() {
@@ -200,7 +201,7 @@ export default class App extends Component {
                   accountData={accountData}
                   loading={loading}
                   isAuthenticated={isAuthenticated}
-                  updateAccountData={this.setAccountData}
+                  setAccountData={this.setAccountData}
                 />
               )}
             />

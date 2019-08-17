@@ -250,7 +250,7 @@ export default class ProfilePage extends React.Component {
               closePasswordResetMessage={this.closePasswordResetMessage}
             />
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs>
             <ProfileRecurringPayments
               handleDayChange={this.handleDayChange}
               handleInputAmount={this.handleInputAmount}
@@ -267,11 +267,7 @@ export default class ProfilePage extends React.Component {
               showSuccessMessage={this.state.showSuccessMessage}
               toggleSuccessMessage={this.toggleSuccessMessage}
             />
-            <Grid item xs={4}>
-              <ProfileRPList
-                recurringTransactions={this.state.recurringTransactions}
-              />
-            </Grid>
+            <ProfileRPList recurringTransactions={this.state.recurringTransactions}/>
           </Grid>
         </Grid>
       </Grid>
