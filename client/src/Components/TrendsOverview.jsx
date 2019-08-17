@@ -63,7 +63,7 @@ const TrendsOverview = props => {
       }
     ]
   };
-  return <Doughnut data={userData} />;
+  return <Doughnut data={userData} width={400} height={400}/>;
 };
 
 export default TrendsOverview;
