@@ -1,12 +1,9 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
-import fakeData from '../../../db/dataSeeder';
 import '@testing-library/jest-dom/extend-expect';
 import { render } from '@testing-library/react';
-
 import DashboardPage from '../Components/DashboardPage';
-
-const data = fakeData.createData();
+import data from './data.json';
 
 describe('DashboardPage component --->', () => {
   test('should render without throwing an error', async () => {
