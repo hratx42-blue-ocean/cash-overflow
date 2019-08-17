@@ -232,34 +232,32 @@ export default class App extends Component {
 
     return (
       <div className="app">
-        <Container>
-          <ButtonAppBar isDemo={isDemo} toggleDemo={this.toggleDemo} />
-          {isDemo ? (
-            <DemoSwitch
-              accountData={accountData}
-              budgetCategories={budgetCategories}
-              updateAccountData={this.setAccountData}
-              asyncHandleUpdateCategories={this.asyncHandleUpdateCategories}
-              currentUser={currentUser}
-              handleAddTransaction={this.handleAddTransaction}
-              toggleDemo={this.toggleDemo}
-              isDemo={isDemo}
-              loading={false}
-              isAuthenticated
-            />
-          ) : (
-            <ProtectedSwitch
-              accountData={accountData}
-              budgetCategories={budgetCategories}
-              updateAccountData={this.setAccountData}
-              asyncHandleUpdateCategories={this.asyncHandleUpdateCategories}
-              currentUser={currentUser}
-              handleAddTransaction={this.handleAddTransaction}
-              toggleDemo={this.toggleDemo}
-              isDemo={isDemo}
-            />
-          )}
-        </Container>
+        <ButtonAppBar isDemo={isDemo} toggleDemo={this.toggleDemo} />
+        {isDemo ? (
+          <DemoSwitch
+            accountData={accountData}
+            budgetCategories={budgetCategories}
+            updateAccountData={this.setAccountData}
+            asyncHandleUpdateCategories={this.asyncHandleUpdateCategories}
+            currentUser={currentUser}
+            handleAddTransaction={this.handleAddTransaction}
+            toggleDemo={this.toggleDemo}
+            isDemo={isDemo}
+            loading={false}
+            isAuthenticated
+          />
+        ) : (
+          <ProtectedSwitch
+            accountData={accountData}
+            budgetCategories={budgetCategories}
+            updateAccountData={this.setAccountData}
+            asyncHandleUpdateCategories={this.asyncHandleUpdateCategories}
+            currentUser={currentUser}
+            handleAddTransaction={this.handleAddTransaction}
+            toggleDemo={this.toggleDemo}
+            isDemo={isDemo}
+          />
+        )}
         <Footer />
       </div>
     );

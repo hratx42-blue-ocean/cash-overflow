@@ -7,14 +7,16 @@ import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
 import { useAuth0 } from '../react-auth0-wrapper';
 import Loading from './Loading.jsx';
+// import Logo from './Logo.png';
 
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1
   },
   paper: {
-    padding: theme.spacing(2),
+    margin: theme.spacing(4),
     textAlign: 'center',
+    alignContent: 'center',
     color: theme.palette.text.secondary
   },
   mainTitle: {
@@ -26,12 +28,13 @@ const useStyles = makeStyles(theme => ({
   },
   button: {
     fontFamily: 'Open Sans',
-    backgroundColor: '#71E7C7',
-    color: '#ffffff'
+    backgroundColor: '#7ED957',
+    color: '#ffffff',
+    margin: theme.spacing(6)
   },
   link: {
     textDecoration: 'none',
-    color: '#ffffff'
+    color: '#880e4f'
   }
 }));
 
@@ -44,26 +47,21 @@ function LandingPage(props) {
   }
 
   return (
-    <div className="landingPage">
+    <div
+      className="landingPage"
+      style={{ display: 'flex', justifyContent: 'center' }}
+    >
       <Grid item />
-      <Grid item xs={12}>
+      <Grid item xs={6}>
         <Paper className={classes.paper}>
-          <Typography variant="h2" className={classes.mainTitle}>
-            Cash Overflow
-          </Typography>
-          <Typography variant="subtitle1" className={classes.subtitle}>
-            The simplest way to manage your money, figure out your overspending,
-            and get peace of mind about your budget
-          </Typography>
-          {!isAuthenticated ? (
-            <>
-              <Button
-                onClick={() => loginWithRedirect({})}
-                color="inherit"
-                className={classes.button}
-              >
-                Login
-              </Button>
+          <img
+            src="Logo.png"
+            style={{ margin: 20, width: '25vw' }}
+            alt="logo"
+          />
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <Grid item />
+            <Grid item xs={6}>
               <Button
                 onClick={props.toggleDemo}
                 color="inherit"
@@ -71,14 +69,9 @@ function LandingPage(props) {
               >
                 Demo Mode
               </Button>
-            </>
-          ) : (
-            <Link to="/dashboard" className={classes.link}>
-              <Button color="inherit" className={classes.button}>
-                Dashboard
-              </Button>
-            </Link>
-          )}
+            </Grid>
+            <Grid item />
+          </div>
         </Paper>
       </Grid>
       <Grid item />
