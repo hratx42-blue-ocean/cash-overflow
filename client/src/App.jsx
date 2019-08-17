@@ -2,23 +2,14 @@ import React, { Component } from 'react';
 import axios from 'axios';
 
 // Routing
-import { Switch, Route, Redirect } from 'react-router-dom';
 import Container from '@material-ui/core/Container';
-import PrivateRoute from './Components/PrivateRoute.jsx';
 import { Auth0Context } from './react-auth0-wrapper';
-// Material Components
+import ProtectedSwitch from './Components/ProtectedSwitch.jsx';
+import DemoSwitch from './Components/DemoSwitch.jsx';
 
 // Custom Components
-import Header from './Components/Header.jsx';
-import AccountsPage from './Components/AccountsPage.jsx';
-import BudgetPage from './Components/BudgetPage.jsx';
-import DashboardPage from './Components/DashboardPage.jsx';
-import LandingPage from './Components/LandingPage.jsx';
-import TrendsPage from './Components/TrendsPage.jsx';
-import LoginPage from './Components/LoginPage.jsx';
-import ProfilePage from './Components/ProfilePage.jsx';
+import ButtonAppBar from './Components/Header.jsx';
 import Footer from './Components/Footer.jsx';
-import ErrorPage from './Components/ErrorPage.jsx';
 import Loading from './Components/Loading.jsx';
 import db from './utils/databaseRequests';
 
@@ -34,30 +25,32 @@ export default class App extends Component {
       budgetCategories: [],
       accountData: {
         accounts: [{ transactions: { year: { month: [] } } }]
-      }
+      },
+      isDemo: false
     };
     this.setAccountData = this.setAccountData.bind(this);
     this.handleAddTransaction = this.handleAddTransaction.bind(this);
-    this.handleUpdateCategories = this.handleUpdateCategories.bind(this);
+    this.asyncHandleUpdateCategories = this.asyncHandleUpdateCategories.bind(
+      this
+    );
+    this.toggleDemo = this.toggleDemo.bind(this);
   }
 
   componentDidMount() {
-    const { user, isAuthenticated, loading } = this.context;
+    const { isAuthenticated } = this.context;
 
+    // if the user is unauthenticated, stop loading
     if (!isAuthenticated) {
       this.setState({
         loadingUser: false
       });
     }
-
-    console.log(
-      `componentDidMount gets the following from Auth0Context user:${user}, isAuthenticated:${isAuthenticated}, loading:${loading}`
-    );
   }
 
   componentDidUpdate() {
     const { user } = this.context;
 
+    // See if a user has authenticated
     if (user && user.sub.substring(6) !== this.state.userID) {
       console.log(`Looks like you're logged in as: ${user.email}`);
 
@@ -69,17 +62,18 @@ export default class App extends Component {
           userID,
           loadingUser: true
         },
-        // check to see if the user exists
+        // check to see if the user exists in the database
         async () => {
           const response = await db.getUserData(userID);
 
           const { data: userData } = response;
 
-          // if the user is new, give them demo data
+          // if they exist, set their data in state
           if (userData.length > 0) {
             this.setAccountData(userData[0]);
             console.log(`Welcome back ${userData[0].firstName}!`);
           } else {
+            // give the demo data if they don't exit
             console.log(`Welcome to CashOverflow!`);
             // TODO: Fake user data should be replaced with SignUp flow logic.
             const newUserData = createFakeUser();
@@ -113,6 +107,30 @@ export default class App extends Component {
     );
   }
 
+  toggleDemo() {
+    db.getUserData('Ihearthetrainacomin')
+      .then(result => {
+        this.setAccountData(result.data[0]);
+      })
+      .then(() => {
+        if (!this.state.isDemo) {
+          this.setState({
+            isDemo: true,
+            loadingUser: false
+          });
+          console.log('demo mode now on');
+        } else {
+          this.setState(
+            {
+              isDemo: false,
+              loadingUser: false
+            },
+            () => console.log('demo mode turned off')
+          );
+        }
+      });
+  }
+
   handleAddTransaction(stateObject) {
     // this function will live at the dashboard level eventually
 
@@ -136,10 +154,13 @@ export default class App extends Component {
       payee: inputPayee,
       recurring: false
     };
+    console.log(transaction);
 
     for (let i = 0; i < accounts.length; i++) {
       if (accounts[i].name === inputAccount) {
-        accountUpdate.accounts[i].transactions[year][month].push(transaction);
+        accountUpdate.accounts[i].transactions[year][month - 1].push(
+          transaction
+        );
         break;
       }
       this.setAccountData(accountUpdate);
@@ -154,20 +175,53 @@ export default class App extends Component {
     this.setAccountData(accountUpdate);
   }
 
-  handleUpdateCategories(updatedCategories) {
+  promisifySetState(userObject) {
+    return new Promise(resolve => {
+      this.setState(
+        {
+          accountData: userObject,
+          budgetCategories: userObject.budgetCategories
+        },
+        () => {
+          const { accountData } = this.state;
+          resolve(accountData);
+        }
+      );
+    });
+  }
+
+  /**
+   * WARNING WARNING WARNING
+   * This is a major antipattern, we are aware.
+   * Somewhere in the complex finanical calcuations, the alloment relays on state and not props, so it's not update as props change.
+   * We're not sure where that happens and we plan to refactor finanical calucations to the backend shortly,
+   * making this abomination moot.
+   */
+
+  asyncHandleUpdateCategories(updatedCategories, callback) {
     const accountUpdate = { ...this.state.accountData };
     accountUpdate.budgetCategories = updatedCategories;
-    this.setState({
-      budgetCategories: updatedCategories,
-      accountData: accountUpdate
-    });
-    this.updateAccountData(accountUpdate);
+    this.promisifySetState(accountUpdate)
+      .then(updatedAccount => {
+        const { budgetCategories, accounts } = updatedAccount;
+        callback(budgetCategories, accounts);
+        this.setAccountData(updatedAccount);
+      })
+      .catch(err => {
+        console.log('category update error: ', err);
+      });
   }
 
   render() {
-    const { accountData, budgetCategories, loadingUser } = this.state;
-    const { isAuthenticated, loading } = this.context;
-
+    const {
+      accountData,
+      budgetCategories,
+      isDemo,
+      currentUser,
+      loadingUser
+    } = this.state;
+    const { isAuthenticated } = this.context;
+    console.log('is authenticated is: ', isAuthenticated);
     if (loadingUser) {
       return (
         <div data-testid="loading-user">
@@ -178,84 +232,32 @@ export default class App extends Component {
 
     return (
       <div className="app">
-        <Header />
-        <Container>
-          <Switch>
-            <Route
-              exact
-              path="/"
-              render={() =>
-                !isAuthenticated ? (
-                  <LandingPage />
-                ) : (
-                  <Redirect to="/dashboard" />
-                )
-              }
-            />
-            <PrivateRoute
-              path="/accounts"
-              render={props => (
-                <AccountsPage
-                  {...props}
-                  accountData={accountData}
-                  loading={loading}
-                  isAuthenticated={isAuthenticated}
-                  updateAccountData={this.setAccountData}
-                />
-              )}
-            />
-            <PrivateRoute
-              path="/budget"
-              render={props => (
-                <BudgetPage
-                  accounts={accountData.accounts}
-                  categories={budgetCategories}
-                  loading={loading}
-                  isAuthenticated={isAuthenticated}
-                  updateAccountData={this.setAccountData}
-                  handleUpdateCategories={this.handleUpdateCategories}
-                />
-              )}
-            />
-            <PrivateRoute
-              path="/dashboard"
-              render={props => (
-                <DashboardPage
-                  {...props}
-                  handleAddTransaction={this.handleAddTransaction}
-                  accountData={accountData}
-                  currentUser={this.state.currentUser}
-                  loading={loading}
-                  isAuthenticated={isAuthenticated}
-                />
-              )}
-            />
-            <PrivateRoute
-              path="/profile"
-              render={props => (
-                <ProfilePage
-                  {...props}
-                  accountData={accountData}
-                  loading={loading}
-                  isAuthenticated={isAuthenticated}
-                  updateAccountData={this.setAccountData}
-                />
-              )}
-            />
-            <PrivateRoute
-              path="/trends"
-              render={props => (
-                <TrendsPage
-                  {...props}
-                  accountData={accountData}
-                  loading={loading}
-                  isAuthenticated={isAuthenticated}
-                />
-              )}
-            />
-            <Route component={ErrorPage} />
-          </Switch>
-        </Container>
+        <ButtonAppBar isDemo={isDemo} toggleDemo={this.toggleDemo} />
+        {isDemo ? (
+          <DemoSwitch
+            accountData={accountData}
+            budgetCategories={budgetCategories}
+            updateAccountData={this.setAccountData}
+            asyncHandleUpdateCategories={this.asyncHandleUpdateCategories}
+            currentUser={currentUser}
+            handleAddTransaction={this.handleAddTransaction}
+            toggleDemo={this.toggleDemo}
+            isDemo={isDemo}
+            loading={false}
+            isAuthenticated
+          />
+        ) : (
+          <ProtectedSwitch
+            accountData={accountData}
+            budgetCategories={budgetCategories}
+            updateAccountData={this.setAccountData}
+            asyncHandleUpdateCategories={this.asyncHandleUpdateCategories}
+            currentUser={currentUser}
+            handleAddTransaction={this.handleAddTransaction}
+            toggleDemo={this.toggleDemo}
+            isDemo={isDemo}
+          />
+        )}
         <Footer />
       </div>
     );

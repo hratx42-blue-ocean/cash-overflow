@@ -14,9 +14,7 @@ const appTheme = {
       main: '#474446'
     },
     secondary: {
-      light: '#bdbdbd',
-      main: '#7ed957',
-      contrastText: 'rgba(0, 0, 0, 0.87)'
+      main: '#7ed957'
     },
     tableRow: {
       hoverColor: 'rgba(136, 14, 79, 0.5)'
@@ -39,18 +37,18 @@ const onRedirectCallback = appState => {
 };
 
 ReactDOM.render(
-  <Auth0Provider
-    domain={config.domain}
-    client_id={config.clientId}
-    redirect_uri={window.location.origin}
-    onRedirectCallback={onRedirectCallback}
-  >
-    <MuiThemeProvider theme={theme}>
+  <MuiThemeProvider theme={theme}>
+    <Auth0Provider
+      domain={config.domain}
+      client_id={config.clientId}
+      redirect_uri={window.location.origin}
+      onRedirectCallback={onRedirectCallback}
+    >
       {/* <CssBaseline /> */}
       <BrowserRouter>
         <App />
       </BrowserRouter>
-    </MuiThemeProvider>
-  </Auth0Provider>,
+    </Auth0Provider>
+  </MuiThemeProvider>,
   document.getElementById('root')
 );

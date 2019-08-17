@@ -7,6 +7,7 @@ import ProfileEmail from './ProfileEmail.jsx';
 import PropTypes from 'prop-types';
 import ProfilePassword from './ProfilePassword.jsx';
 import ProfileRecurringPayments from './ProfileRecurringPayments.jsx';
+import ProfileRPList from './ProfileRPList.jsx';
 import Loading from './Loading.jsx';
 
 export default class ProfilePage extends React.Component {
@@ -213,11 +214,11 @@ export default class ProfilePage extends React.Component {
         direction="column"
         justify="center"
         alignItems="center"
-        spacing={1}
+        // spacing={1}
         className="profilePage"
       >
-        <Grid container spacing={1}>
-          <Grid item xs>
+        <Grid container>
+          <Grid item xs={4}>
             <ProfileFirstName
               className="firstName"
               firstNameIsHidden={this.state.firstNameIsHidden}
@@ -249,22 +250,29 @@ export default class ProfilePage extends React.Component {
               closePasswordResetMessage={this.closePasswordResetMessage}
             />
           </Grid>
-          <ProfileRecurringPayments
-            handleDayChange={this.handleDayChange}
-            handleInputAmount={this.handleInputAmount}
-            handlePayeeInput={this.handlePayeeInput}
-            handleAccountInput={this.handleAccountInput}
-            handleCategoryInput={this.handleCategoryInput}
-            categories={this.state.budgetCategories}
-            accounts={this.state.accounts}
-            inputAmount={this.state.inputAmount}
-            inputAccount={this.state.inputAccount}
-            inputDay={this.state.inputDay}
-            inputCategory={this.state.inputCategory}
-            handleRecurringPayment={this.handleRecurringPayment}
-            showSuccessMessage={this.state.showSuccessMessage}
-            toggleSuccessMessage={this.toggleSuccessMessage}
-          />
+          <Grid item xs={4}>
+            <ProfileRecurringPayments
+              handleDayChange={this.handleDayChange}
+              handleInputAmount={this.handleInputAmount}
+              handlePayeeInput={this.handlePayeeInput}
+              handleAccountInput={this.handleAccountInput}
+              handleCategoryInput={this.handleCategoryInput}
+              categories={this.state.budgetCategories}
+              accounts={this.state.accounts}
+              inputAmount={this.state.inputAmount}
+              inputAccount={this.state.inputAccount}
+              inputDay={this.state.inputDay}
+              inputCategory={this.state.inputCategory}
+              handleRecurringPayment={this.handleRecurringPayment}
+              showSuccessMessage={this.state.showSuccessMessage}
+              toggleSuccessMessage={this.toggleSuccessMessage}
+            />
+            <Grid item xs={4}>
+              <ProfileRPList
+                recurringTransactions={this.state.recurringTransactions}
+              />
+            </Grid>
+          </Grid>
         </Grid>
       </Grid>
     );

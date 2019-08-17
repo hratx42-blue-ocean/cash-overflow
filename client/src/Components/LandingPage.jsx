@@ -27,8 +27,8 @@ const useStyles = makeStyles(theme => ({
     fontFamily: 'Open Sans'
   },
   button: {
-    fontFamily: 'Lobster Two',
-    backgroundColor: '#bdbdbd',
+    fontFamily: 'Open Sans',
+    backgroundColor: '#71E7C7',
     color: '#ffffff'
   },
   link: {
@@ -37,7 +37,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function LandingPage() {
+function LandingPage(props) {
   const classes = useStyles();
   const { loginWithRedirect, isAuthenticated, loading } = useAuth0();
 
@@ -60,25 +60,32 @@ function LandingPage() {
           <Typography variant="subtitle1" className={classes.subtitle}>
             The simplest way to manage your money, figure out your overspending,
             and get peace of mind about your budget
-          </Typography> */}
-      {!isAuthenticated ? (
-        <Link to="/dashboard" className={classes.link}>
-          {/* <Button
-            onClick={() => loginWithRedirect({})}
-            color="inherit"
-            className={classes.button}
-          >
-            Login
-          </Button> */}
-        </Link>
-      ) : (
-        <Link to="/dashboard" className={classes.link}>
-          <Button color="inherit" className={classes.button}>
-            Dashboard
-          </Button>
-        </Link>
-      )}
-      {/* </Paper>
+          </Typography>
+          {!isAuthenticated ? (
+            <>
+              <Button
+                onClick={() => loginWithRedirect({})}
+                color="inherit"
+                className={classes.button}
+              >
+                Login
+              </Button>
+              <Button
+                onClick={props.toggleDemo}
+                color="inherit"
+                className={classes.button}
+              >
+                Demo Mode
+              </Button>
+            </>
+          ) : (
+            <Link to="/dashboard" className={classes.link}>
+              <Button color="inherit" className={classes.button}>
+                Dashboard
+              </Button>
+            </Link>
+          )}
+        </Paper>
       </Grid>
       <Grid item /> */}
     </div>

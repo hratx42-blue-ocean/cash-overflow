@@ -90,6 +90,7 @@ const AccountsTable = props => {
               id="name"
               label="Account Name"
               fullWidth
+              onChange={props.handleAccountNameInput}
             />
 
             <FormControl style={{ minWidth: '100%' }}>
@@ -115,7 +116,7 @@ const AccountsTable = props => {
             <Button onClick={props.handleClose} color="primary">
               Cancel
             </Button>
-            <Button onClick={props.handleClose} color="primary">
+            <Button onClick={props.handleSaveAccount} color="primary">
               Save
             </Button>
           </DialogActions>
