@@ -158,9 +158,7 @@ export default class App extends Component {
 
     for (let i = 0; i < accounts.length; i++) {
       if (accounts[i].name === inputAccount) {
-        accountUpdate.accounts[i].transactions[year][month - 1].push(
-          transaction
-        );
+        accountUpdate.accounts[i].transactions[year][month].push(transaction);
         break;
       }
       this.setAccountData(accountUpdate);

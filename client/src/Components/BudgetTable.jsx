@@ -51,13 +51,14 @@ const BudgetTable = ({
   handleAddCategory,
   handleSaveCategory,
   handleDeleteCategory,
-  handleDeleteDialog,
   handleClose,
   handleTextInput,
   handleMonthChange,
   recalculate
 }) => {
   const classes = useStyles();
+
+  console.log('table breakdown is: ', breakdown);
 
   return (
     <div className={classes.root}>

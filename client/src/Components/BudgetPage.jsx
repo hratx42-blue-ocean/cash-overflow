@@ -126,6 +126,7 @@ class BudgetPage extends Component {
     }
 
     const { currentMonth, currentYear, categoryBreakdown, open } = this.state;
+    console.log('category breakdown is: ', categoryBreakdown);
     const breakdown =
       categoryBreakdown[currentYear] &&
       categoryBreakdown[currentYear][currentMonth]

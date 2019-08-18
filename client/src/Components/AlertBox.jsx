@@ -131,7 +131,8 @@ export default class AlertBox extends Component {
           alertType: 'No Alerts',
           amountBudgeted: '0',
           amountSpent: '0',
-          alertHeader: "Your spending is within all of your category allotments this month"
+          alertHeader:
+            'Your spending is within all of your category allotments this month'
         }
       ];
     }
