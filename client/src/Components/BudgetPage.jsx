@@ -71,7 +71,22 @@ class BudgetPage extends Component {
   async handleSaveCategory() {
     const { categories, textInput, currentYear, currentMonth } = this.state;
     const categoryUpdate = JSON.parse(JSON.stringify(categories));
-    const newCategory = new Category(textInput, currentYear, currentMonth);
+    let newCategory;
+    // check for category existing for other months
+    const extantCategory = categoryUpdate.filter(category => {
+      return category.name === textInput;
+    });
+    if (extantCategory.length > 0) {
+      if (extantCategory[0].allotment[currentYear]) {
+        extantCategory[0].allotment[currentYear][currentMonth] = 0;
+      } else {
+        extantCategory[0].allotment[currentYear] = {};
+        extantCategory[0].allotment[currentYear][currentMonth] = 0;
+      }
+      [newCategory] = extantCategory;
+    } else {
+      newCategory = new Category(textInput, currentYear, currentMonth);
+    }
     categoryUpdate.push(newCategory);
     console.log(
       'Updated categories after addition should be: ',
@@ -85,10 +100,13 @@ class BudgetPage extends Component {
   }
 
   async handleDeleteCategory(deletedCategory) {
-    const { categories } = this.state;
-    const categoryUpdate = JSON.parse(JSON.stringify(categories)).filter(
+    const { categories, currentMonth, currentYear } = this.state;
+    const categoryUpdate = JSON.parse(JSON.stringify(categories)).map(
       category => {
-        return category.name !== deletedCategory;
+        if (category.name === deletedCategory) {
+          delete category.allotment[currentYear][currentMonth];
+        }
+        return category;
       }
     );
     console.log(
