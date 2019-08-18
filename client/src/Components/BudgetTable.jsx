@@ -105,7 +105,7 @@ const BudgetTable = ({
               </TableHead>
               <TableBody>
                 {Object.keys(breakdown).map(category => (
-                  <TableRow key={category}>
+                  <TableRow key={category + month + year}>
                     <TableCell component="th" scope="row">
                       <BudgetCategoryName
                         category={category}
