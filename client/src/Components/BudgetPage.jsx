@@ -10,13 +10,13 @@ class BudgetPage extends Component {
     this.state = {
       accounts: props.accounts,
       categories: props.categories,
-      // txsByMonth: {},
+      txsByMonth: {},
       categoryBreakdown: {},
       currentYear: 2019,
       currentMonth: 8,
       open: false,
-      textInput: ''
-      // counter: props.counter
+      textInput: '',
+      counter: props.counter
     };
     this.handleAddCategory = this.handleAddCategory.bind(this);
     this.handleSaveCategory = this.handleSaveCategory.bind(this);
