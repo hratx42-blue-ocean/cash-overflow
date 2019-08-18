@@ -11,17 +11,16 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 const appTheme = {
   palette: {
     primary: {
-      main: '#880e4f'
+      main: '#7ed957'
     },
     secondary: {
-      light: '#bdbdbd',
-      main: '#9e9e9e',
-      contrastText: 'rgba(0, 0, 0, 0.87)'
+      main: '#474446'
     },
     tableRow: {
       hoverColor: 'rgba(136, 14, 79, 0.5)'
     }
-  }
+  },
+  spacing: 2
 };
 
 const theme = createMuiTheme(appTheme);

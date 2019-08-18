@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import BudgetTable from './BudgetTable.jsx';
 import Loading from './Loading.jsx';
+// import faker from 'faker';
 
 class BudgetPage extends Component {
   constructor(props) {

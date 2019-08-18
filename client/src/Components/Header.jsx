@@ -10,16 +10,18 @@ import { withStyles } from '@material-ui/styles';
 
 const styles = {
   root: {
+    display: 'flex',
     background: 'transparent',
-    borderRadius: 3,
-    border: 0,
-    color: 'white',
+    color: '#7ed957',
     textDecoration: 'none',
-    flexGrow: 1
+    marginLeft: '50'
   },
-  navBox: {
-    flexDirection: 'row',
-    justifyContent: 'flex-start'
+  link: {
+    background: 'transparent',
+    textDecoration: 'none',
+    position: 'absolute',
+    color: '#7ed957',
+    right: '0'
   }
 };
 
@@ -36,7 +38,7 @@ function ButtonAppBar(props) {
 
   if (isDemo) {
     statusButton = (
-      <Button onClick={toggleDemo} color="secondary">
+      <Button onClick={toggleDemo} className={classes.link} color="secondary">
         <Link to="/home" className={classes.root}>
           Exit the Demo
         </Link>
@@ -44,13 +46,21 @@ function ButtonAppBar(props) {
     );
   } else if (!isAuthenticated && !loading) {
     statusButton = (
-      <Button onClick={() => loginWithRedirect({})} color="secondary">
+      <Button
+        onClick={() => loginWithRedirect({})}
+        className={classes.link}
+        color="secondary"
+      >
         Login
       </Button>
     );
   } else if (isAuthenticated) {
     statusButton = (
-      <Button onClick={() => logoutWithRedirect()} color="inherit">
+      <Button
+        onClick={() => logoutWithRedirect()}
+        className={classes.link}
+        color="inherit"
+      >
         Logout
       </Button>
     );
@@ -59,47 +69,57 @@ function ButtonAppBar(props) {
   }
 
   return (
-    <div className={styles.root}>
-      <AppBar color="primary" position="static">
-        <Toolbar>
-          <Typography variant="h6" className={classes.title}>
-            Cash Overflow
-          </Typography>
-          {isAuthenticated || isDemo ? (
-            <Box className={styles.navBox}>
-              <Button>
-                <Link to="/dashboard" className={classes.root}>
-                  Dashboard
-                </Link>
-              </Button>
-              <Button>
-                <Link className={classes.root} to="/accounts">
-                  Accounts
-                </Link>
-              </Button>
-              <Button>
-                <Link className={classes.root} to="/budget">
-                  Budget
-                </Link>
-              </Button>
-              <Button>
-                <Link className={classes.root} to="/trends">
-                  Trends
-                </Link>
-              </Button>
-              <Button>
-                <Link className={classes.root} to="/profile">
-                  Profile
-                </Link>
-              </Button>
-            </Box>
-          ) : (
-            <></>
-          )}
-          {statusButton}
-        </Toolbar>
-      </AppBar>
-    </div>
+    <AppBar color="secondary" position="static">
+      <Toolbar>
+        <Typography
+          variant="h4"
+          className={classes.title}
+          style={{ fontFamily: 'Lobster Two', fontWeight: 'fontWeightBold' }}
+        >
+          <img src="darkLogo.png" style={{ width: 220, height: 80 }} />
+        </Typography>
+        {isAuthenticated || isDemo ? (
+          <Box className={classes.root}>
+            <Button>
+              <Link className={classes.root} color="primary" to="/dashboard">
+                Dashboard
+              </Link>
+            </Button>
+            <Button>
+              <Link className={classes.root} color="primary" to="/accounts">
+                Accounts
+              </Link>
+            </Button>
+            <Button>
+              <Link className={classes.root} color="primary" to="/budget">
+                Budget
+              </Link>
+            </Button>
+            <Button>
+              <Link className={classes.root} color="primary" to="/trends">
+                Trends
+              </Link>
+            </Button>
+            <Button>
+              <Link className={classes.root} color="primary" to="/profile">
+                Profile
+              </Link>
+            </Button>
+            {statusButton}
+          </Box>
+        ) : (
+          <div>
+            <Button
+              onClick={() => loginWithRedirect({})}
+              className={classes.link}
+              color="secondary"
+            >
+              Login
+            </Button>
+          </div>
+        )}
+      </Toolbar>
+    </AppBar>
   );
 }
 
