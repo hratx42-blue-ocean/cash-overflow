@@ -5,11 +5,14 @@ import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
-import { red } from '@material-ui/core/colors';
+import { red, green } from '@material-ui/core/colors';
 
 const useStyles = makeStyles(theme => ({
   avatar: {
     backgroundColor: red[500]
+  },
+  avatarHappy: {
+    backgroundColor: green[500]
   }
 }));
 
@@ -35,6 +38,29 @@ export default function AlertCard(props) {
             You have {props.alertType} for your {props.budgetCategory} category.
             You have a payment coming up to {props.payee} for ${props.amount}{' '}
             coming up on {props.date.toDateString()}. Don't forget!
+          </Typography>
+        </CardContent>
+      </Card>
+    );
+  }
+  if (props.alertType === 'No Alerts') {
+    return (
+      <Card className={classes.card}>
+        <CardHeader
+          avatar={
+            <Avatar aria-label="alertCircle" className={classes.avatarHappy}>
+              {':)'}
+            </Avatar>
+          }
+          title="Keep it up!"
+          subheader={props.alertHeader}
+        />
+        <CardContent>
+          <Typography variant="h5" color="textSecondary" component="p">
+            Budgeting can be tough,
+          </Typography>
+          <Typography variant="body2" component="p">
+            but it looks like you're making it work. Great job!
           </Typography>
         </CardContent>
       </Card>

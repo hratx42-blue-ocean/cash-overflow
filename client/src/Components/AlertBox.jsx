@@ -70,9 +70,6 @@ export default class AlertBox extends Component {
       } else if (subtotal >= allotment * 0.9) {
         alertType = 'almost reached your limit';
         alertHeader = `Slow down with spending in ${categoryName}`;
-      } else if (subtotal < allotment) {
-        alertType = 'you\'re doing great! i love you';
-        alertHeader = 'keep it up, champ';
       }
 
       if (alertType) {
@@ -131,10 +128,10 @@ export default class AlertBox extends Component {
       alerts = [
         {
           budgetCategory: 'none',
-          alertType: 'dev alert',
+          alertType: 'No Alerts',
           amountBudgeted: '0',
           amountSpent: '0',
-          alertHeader: 'dev alert - dummy data'
+          alertHeader: "Your spending is within all of your category allotments this month"
         }
       ];
     }
@@ -167,32 +164,34 @@ export default class AlertBox extends Component {
             amount={alerts[activeStep].amount}
           />
         </Paper>
-        <MobileStepper
-          steps={maxSteps}
-          position="static"
-          variant="text"
-          activeStep={activeStep}
-          nextButton={
-            <Button
-              size="small"
-              onClick={this.handleNext}
-              disabled={activeStep === maxSteps - 1}
-            >
-              Next Alert
-              <KeyboardArrowRight />
-            </Button>
-          }
-          backButton={
-            <Button
-              size="small"
-              onClick={this.handleBack}
-              disabled={activeStep === 0}
-            >
-              <KeyboardArrowLeft />
-              Previous Alert
-            </Button>
-          }
-        />
+        {alerts.length > 1 ? (
+          <MobileStepper
+            steps={maxSteps}
+            position="static"
+            variant="text"
+            activeStep={activeStep}
+            nextButton={
+              <Button
+                size="small"
+                onClick={this.handleNext}
+                disabled={activeStep === maxSteps - 1}
+              >
+                Next Alert
+                <KeyboardArrowRight />
+              </Button>
+            }
+            backButton={
+              <Button
+                size="small"
+                onClick={this.handleBack}
+                disabled={activeStep === 0}
+              >
+                <KeyboardArrowLeft />
+                Previous Alert
+              </Button>
+            }
+          />
+        ) : null}
       </div>
     );
   }
