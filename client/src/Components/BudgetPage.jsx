@@ -9,6 +9,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import BudgetTable from './BudgetTable.jsx';
 import Loading from './Loading.jsx';
+// import faker from 'faker';
 
 class BudgetPage extends Component {
   constructor(props) {

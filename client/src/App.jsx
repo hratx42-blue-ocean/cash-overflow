@@ -13,7 +13,7 @@ import Footer from './Components/Footer.jsx';
 import Loading from './Components/Loading.jsx';
 import db from './utils/databaseRequests';
 
-import createFakeUser from './fakeUserGenerator.js';
+// import createFakeUser from './fakeUserGenerator.js';
 
 export default class App extends Component {
   constructor(props) {
@@ -76,15 +76,15 @@ export default class App extends Component {
             // give the demo data if they don't exit
             console.log(`Welcome to CashOverflow!`);
             // TODO: Fake user data should be replaced with SignUp flow logic.
-            const newUserData = createFakeUser();
+            // const newUserData = createFakeUser();
 
             console.log(
               `We'll give you some sample data based on the average American's to get you started.`
             );
-            newUserData.email = user.email;
-            newUserData.userID = userID;
+            // newUserData.email = user.email;
+            // newUserData.userID = userID;
 
-            this.setAccountData(newUserData);
+            // this.setAccountData(newUserData);
           }
         }
       );
@@ -232,34 +232,32 @@ export default class App extends Component {
 
     return (
       <div className="app">
-        <Container>
-          <ButtonAppBar isDemo={isDemo} toggleDemo={this.toggleDemo} />
-          {isDemo ? (
-            <DemoSwitch
-              accountData={accountData}
-              budgetCategories={budgetCategories}
-              updateAccountData={this.setAccountData}
-              asyncHandleUpdateCategories={this.asyncHandleUpdateCategories}
-              currentUser={currentUser}
-              handleAddTransaction={this.handleAddTransaction}
-              toggleDemo={this.toggleDemo}
-              isDemo={isDemo}
-              loading={false}
-              isAuthenticated
-            />
-          ) : (
-            <ProtectedSwitch
-              accountData={accountData}
-              budgetCategories={budgetCategories}
-              updateAccountData={this.setAccountData}
-              asyncHandleUpdateCategories={this.asyncHandleUpdateCategories}
-              currentUser={currentUser}
-              handleAddTransaction={this.handleAddTransaction}
-              toggleDemo={this.toggleDemo}
-              isDemo={isDemo}
-            />
-          )}
-        </Container>
+        <ButtonAppBar isDemo={isDemo} toggleDemo={this.toggleDemo} />
+        {isDemo ? (
+          <DemoSwitch
+            accountData={accountData}
+            budgetCategories={budgetCategories}
+            updateAccountData={this.setAccountData}
+            asyncHandleUpdateCategories={this.asyncHandleUpdateCategories}
+            currentUser={currentUser}
+            handleAddTransaction={this.handleAddTransaction}
+            toggleDemo={this.toggleDemo}
+            isDemo={isDemo}
+            loading={false}
+            isAuthenticated
+          />
+        ) : (
+          <ProtectedSwitch
+            accountData={accountData}
+            budgetCategories={budgetCategories}
+            updateAccountData={this.setAccountData}
+            asyncHandleUpdateCategories={this.asyncHandleUpdateCategories}
+            currentUser={currentUser}
+            handleAddTransaction={this.handleAddTransaction}
+            toggleDemo={this.toggleDemo}
+            isDemo={isDemo}
+          />
+        )}
         <Footer />
       </div>
     );

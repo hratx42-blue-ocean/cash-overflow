@@ -63,16 +63,23 @@ const BudgetTable = ({
   return (
     <div className={classes.root}>
       {/** month selector */}
-      <IconButton
-        onClick={() => handleMonthChange(-1)}
-        aria-label="previous-month"
-      >
-        <ChevronLeft />
-      </IconButton>
-      <Typography variant="button">{translateMonths[month]}</Typography>
-      <IconButton onClick={() => handleMonthChange(1)} aria-label="next-month">
-        <ChevronRight />
-      </IconButton>
+      <Grid container justify="center">
+        <Grid item xs={12} align="center" style={{ paddingTop: 30 }}>
+          <IconButton
+            onClick={() => handleMonthChange(-1)}
+            aria-label="previous-month"
+          >
+            <ChevronLeft />
+          </IconButton>
+          <Typography variant="button">{translateMonths[month]}</Typography>
+          <IconButton
+            onClick={() => handleMonthChange(1)}
+            aria-label="next-month"
+          >
+            <ChevronRight />
+          </IconButton>
+        </Grid>
+      </Grid>
 
       {/** category table */}
       <Grid container justify="center">

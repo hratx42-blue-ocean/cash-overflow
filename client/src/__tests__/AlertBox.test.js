@@ -1,10 +1,9 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
-import fakeData from '../../../db/dataSeeder';
 import AlertBox from '../Components/AlertBox.jsx';
 import AlertCard from '../Components/AlertCard.jsx';
+import data from './data.json';
 
-const data = fakeData.createData();
 
 describe('Alert Box --->', () => {
   test('should render without throwing an error', async () => {
