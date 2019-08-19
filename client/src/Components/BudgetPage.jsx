@@ -89,6 +89,7 @@ class BudgetPage extends Component {
       newCategory = new Category(textInput, currentYear, currentMonth);
     }
     categoryUpdate.push(newCategory);
+    console.log('new cat generated is: ', newCategory);
     console.log(
       'Updated categories after addition should be: ',
       categoryUpdate
@@ -130,6 +131,7 @@ class BudgetPage extends Component {
 
   recalculate(categories, accounts) {
     const txsByMonth = compileTxs(accounts);
+    console.log('all transactions by month: ', txsByMonth);
     const categoryBreakdown = compileSpent(categories, txsByMonth);
     this.setState({ categories, accounts, txsByMonth, categoryBreakdown });
   }
@@ -145,7 +147,12 @@ class BudgetPage extends Component {
     }
 
     const { currentMonth, currentYear, categoryBreakdown, open } = this.state;
-    console.log('category breakdown is: ', categoryBreakdown);
+    console.log(
+      'category breakdown is: ',
+      categoryBreakdown,
+      'state currently is: ',
+      this.state
+    );
     const breakdown =
       categoryBreakdown[currentYear] &&
       categoryBreakdown[currentYear][currentMonth]
@@ -172,7 +179,7 @@ class BudgetPage extends Component {
 }
 
 BudgetPage.propTypes = {
-  allotments: PropTypes.arrayOf(PropTypes.object).isRequired,
+  accounts: PropTypes.arrayOf(PropTypes.object).isRequired,
   categories: PropTypes.arrayOf(PropTypes.object).isRequired,
   transactions: PropTypes.object,
   loading: PropTypes.bool.isRequired,
@@ -217,11 +224,15 @@ function compileSpent(categories = [], transactions) {
     const { allotment, name } = category;
     const years = Object.keys(allotment);
     // add entry for this category for every year it existed
+    console.log('years in comp spent are: ', years);
     years.forEach(year => {
       const months = Object.keys(allotment[year]);
       result[year] = result[year] ? result[year] : {};
+      console.log('months in comp spent are: ', months);
       months.forEach(month => {
-        const monthTxs = transactions[year][month];
+        const monthTxs = transactions[year]
+          ? transactions[year][month]
+          : [{ category: '', amount: 0 }];
         let spent = 0;
         result[year][month] = result[year][month] ? result[year][month] : {};
         monthTxs.forEach(tx => {
