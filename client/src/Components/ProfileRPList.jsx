@@ -37,7 +37,7 @@ const ProfileRPList = props => {
   const classes = useStyles();
   return (
     <Paper className={classes.paper} style={{ maxHeight: 480, overflow: 'auto' }}>
-      <Typography style={{margin: 0}}>Monthly Payment Reminders:</Typography>
+      <Typography style={{margin: 0, padding: 15}}>Monthly Payment Reminders:</Typography>
       <List style={{maxHeight: 380, overflow: 'auto', paddingTop: 0}}>
         <Table >
           <TableHead >

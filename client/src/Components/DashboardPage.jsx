@@ -142,32 +142,34 @@ export default class DashboardPage extends Component {
     }
 
     return (
-      <div style={styles.root}>
+      <div>
         <Grid
           container
           direction="row"
-          justify="space-between"
-          alignItems="center"
+          justify="center"
+          alignItems="flex-start"
+          style={{padding: 20}}
         >
           <Grid
             container
             direction="column"
             justify="space-between"
-            alignItems="center"
-            style={{ width: '40%' }}
+            alignItems="flex-start"
+            style={{ width: '40%', margin: 20 }}
           >
             <Paper
               style={{
                 width: '100%',
                 height: 150,
-                margin: 20,
+                marginBottom: 20,
                 padding: 25
               }}
             >
               <Typography
-                style={{ textAlign: 'center' }}
+                style={{ textAlign: 'center'}}
                 variant="h3"
                 gutterBottom
+                
               >
                 Hello, {this.state.firstName}!
               </Typography>
@@ -186,7 +188,7 @@ export default class DashboardPage extends Component {
               recurringTransactions={this.state.recurringTransactions}
             />
           </Grid>
-          <Paper style={{ width: '40%', margin: 20, padding: 15 }}>
+          <Paper style={{ width: '40%', margin: 20, padding: 25 }}>
             <Grid
               container
               direction="column"

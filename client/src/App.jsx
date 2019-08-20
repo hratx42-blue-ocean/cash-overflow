@@ -3,6 +3,7 @@ import axios from 'axios';
 
 // Routing
 import Container from '@material-ui/core/Container';
+import Grid from '@material-ui/core/Grid';
 import { Auth0Context } from './react-auth0-wrapper';
 import ProtectedSwitch from './Components/ProtectedSwitch.jsx';
 import DemoSwitch from './Components/DemoSwitch.jsx';
@@ -231,10 +232,11 @@ export default class App extends Component {
     }
 
     return (
-      <div className="app">
-        <ButtonAppBar isDemo={isDemo} toggleDemo={this.toggleDemo} />
-        {isDemo ? (
-          <DemoSwitch
+      <Container maxWidth="lg" className="app">
+      
+          <ButtonAppBar isDemo={isDemo} toggleDemo={this.toggleDemo} xs={12} />
+          {isDemo ? (
+            <DemoSwitch
             accountData={accountData}
             budgetCategories={budgetCategories}
             updateAccountData={this.setAccountData}
@@ -245,21 +247,23 @@ export default class App extends Component {
             isDemo={isDemo}
             loading={false}
             isAuthenticated
-          />
-        ) : (
-          <ProtectedSwitch
-            accountData={accountData}
-            budgetCategories={budgetCategories}
-            updateAccountData={this.setAccountData}
-            asyncHandleUpdateCategories={this.asyncHandleUpdateCategories}
-            currentUser={currentUser}
-            handleAddTransaction={this.handleAddTransaction}
-            toggleDemo={this.toggleDemo}
-            isDemo={isDemo}
-          />
-        )}
-        <Footer />
-      </div>
+            />
+            ) : (
+              <ProtectedSwitch
+              accountData={accountData}
+              budgetCategories={budgetCategories}
+              updateAccountData={this.setAccountData}
+              asyncHandleUpdateCategories={this.asyncHandleUpdateCategories}
+              currentUser={currentUser}
+              handleAddTransaction={this.handleAddTransaction}
+              toggleDemo={this.toggleDemo}
+              isDemo={isDemo}
+              />
+              )}
+              <Footer />
+        
+        
+      </Container>
     );
   }
 }

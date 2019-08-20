@@ -130,7 +130,8 @@ export default class AlertBox extends Component {
         style={{
           width: '100%',
           height: 150,
-          flexGrow: 1
+          flexGrow: 1,
+          marginTop: 15
         }}
       >
         <Paper
@@ -155,6 +156,7 @@ export default class AlertBox extends Component {
           />
         </Paper>
         <MobileStepper
+          style={{marginTop: 15}}
           steps={maxSteps}
           position="static"
           variant="text"

@@ -42,7 +42,7 @@ const engineersRight = [
       'https://binkardfecimages.s3.us-east-2.amazonaws.com/cashOverflowHeadshots/MD+Headshot.jpg'
   },
   {
-    name: 'Jordan Dilliard',
+    name: 'Jordan Dillard',
     link: 'https://www.linkedin.com/in/jordan-dillard/',
     imageURL:
       'https://binkardfecimages.s3.us-east-2.amazonaws.com/cashOverflowHeadshots/JD+Headshot.jpg'
@@ -57,15 +57,11 @@ const engineersRight = [
 
 const useStyles = makeStyles(theme => ({
   root: {
-    flexGrow: 1
+    ...theme.mixins.gutters(),
+    paddingTop: theme.spacing.unit * 2,
+    paddingBottom: theme.spacing.unit * 2,
   },
-  navBox: {
-    flexDirection: 'row',
-    justifyContent: 'flex-start'
-  },
-  title: {
-    flexGrow: 1
-  },
+ 
   link: {
     textDecoration: 'none',
     color: '#ffffff',
@@ -73,12 +69,15 @@ const useStyles = makeStyles(theme => ({
     margin: 2
   },
   toolbar: {
-    position: 'fixed',
+    position: 'sticky',
+    display: 'flex',
     background: '#7F7F7F',
-    left: 10,
-    right: 10,
-    bottom: 4,
-    minHeight: 10
+    width: '100%',
+    bottom: 0,
+    minHeight: 10,
+    marginTop: 'calc(5% + 50px)',
+    bottom: 0
+    
   },
   engineer: {
     color: '#3f51b5',
@@ -102,7 +101,7 @@ export default function Footer() {
 
   return (
     <div className={classes.root}>
-      <Toolbar height={4} width={1} className={classes.toolbar}>
+      <Toolbar className={classes.toolbar}>
         <Button onClick={handleClickOpen} className={classes.link}>
           About Us
         </Button>
