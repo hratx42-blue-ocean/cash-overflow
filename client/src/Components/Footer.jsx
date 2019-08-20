@@ -12,18 +12,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Grid from '@material-ui/core/Grid';
 
 const engineersLeft = [
-<<<<<<< HEAD
   { name: 'Garett Welson', link: 'https://www.linkedin.com/in/garrettwelson/' , imageURL: 'https://binkardfecimages.s3.us-east-2.amazonaws.com/cashOverflowHeadshots/GW+Headshot.jpg'},
   { name: 'Ross Calimlin', link: 'https://www.linkedin.com/in/rcalimlim/', imageURL: 'https://binkardfecimages.s3.us-east-2.amazonaws.com/cashOverflowHeadshots/RC+Headshot.png' },
-=======
-  {
-    name: 'Garett Welson',
-    link: 'https://www.linkedin.com/in/garrettwelson/',
-    imageURL:
-      'https://binkardfecimages.s3.us-east-2.amazonaws.com/cashOverflowHeadshots/GW+Headshot.jpg'
-  },
-  { name: 'Ross Calimlin', link: 'https://www.linkedin.com/in/rcalimlim/' },
->>>>>>> 265207018fed27230a435bd712e3b44780671614
   {
     name: 'Doris Hui',
     link: 'https://www.linkedin.com/in/dorishui/',
