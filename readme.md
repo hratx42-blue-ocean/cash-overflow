@@ -1,7 +1,4 @@
 # CashOverflow
-
-![] IMAGE/GIF GOES HERE
-
 <img src="./cashoverflowIcon.png" width="100" />
 
 ## About
