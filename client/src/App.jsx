@@ -232,9 +232,10 @@ export default class App extends Component {
     }
 
     return (
+      <>
+          <ButtonAppBar isDemo={isDemo} toggleDemo={this.toggleDemo} xs={12} />
       <Container maxWidth="lg" className="app">
       
-          <ButtonAppBar isDemo={isDemo} toggleDemo={this.toggleDemo} xs={12} />
           {isDemo ? (
             <DemoSwitch
             accountData={accountData}
@@ -260,10 +261,11 @@ export default class App extends Component {
               isDemo={isDemo}
               />
               )}
-              <Footer />
         
         
       </Container>
+              <Footer />
+              </>
     );
   }
 }

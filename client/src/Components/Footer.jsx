@@ -69,14 +69,14 @@ const useStyles = makeStyles(theme => ({
     margin: 2
   },
   toolbar: {
-    position: 'sticky',
-    display: 'flex',
+    position: 'fixed',
+    // display: 'flex',
     background: '#7F7F7F',
     width: '100%',
-    bottom: 0,
+    bottom: 2,
     minHeight: 10,
     marginTop: 'calc(5% + 50px)',
-    bottom: 0
+   
     
   },
   engineer: {
