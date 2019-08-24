@@ -48,7 +48,6 @@ export default class AlertBox extends Component {
         }
       }
     });
-    console.log('filtered cats: ', filteredBudget);
     for (let category of filteredBudget) {
       let categoryName = category.name;
       let allotment = category.allotment[year][month];
@@ -73,7 +72,6 @@ export default class AlertBox extends Component {
       }
 
       if (alertType) {
-        console.log('has alert type');
         alerts.push({
           budgetCategory: categoryName,
           alertType,
