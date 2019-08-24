@@ -58,8 +58,6 @@ const BudgetTable = ({
 }) => {
   const classes = useStyles();
 
-  console.log('table breakdown is: ', breakdown);
-
   return (
     <div className={classes.root}>
       {/** month selector */}
