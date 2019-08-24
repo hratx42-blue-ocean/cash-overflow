@@ -89,11 +89,6 @@ class BudgetPage extends Component {
       newCategory = new Category(textInput, currentYear, currentMonth);
     }
     categoryUpdate.push(newCategory);
-    console.log('new cat generated is: ', newCategory);
-    console.log(
-      'Updated categories after addition should be: ',
-      categoryUpdate
-    );
     await this.props.asyncHandleUpdateCategories(
       categoryUpdate,
       this.recalculate
@@ -110,10 +105,6 @@ class BudgetPage extends Component {
         }
         return category;
       }
-    );
-    console.log(
-      'Updated categories after deletion should be: ',
-      categoryUpdate
     );
     await this.props.asyncHandleUpdateCategories(
       categoryUpdate,
@@ -147,12 +138,6 @@ class BudgetPage extends Component {
     }
 
     const { currentMonth, currentYear, categoryBreakdown, open } = this.state;
-    console.log(
-      'category breakdown is: ',
-      categoryBreakdown,
-      'state currently is: ',
-      this.state
-    );
     const breakdown =
       categoryBreakdown[currentYear] &&
       categoryBreakdown[currentYear][currentMonth]
@@ -224,22 +209,26 @@ function compileSpent(categories = [], transactions) {
     const { allotment, name } = category;
     const years = Object.keys(allotment);
     // add entry for this category for every year it existed
-    console.log('years in comp spent are: ', years);
+
     years.forEach(year => {
       const months = Object.keys(allotment[year]);
       result[year] = result[year] ? result[year] : {};
-      console.log('months in comp spent are: ', months);
+      let monthTxs;
       months.forEach(month => {
-        const monthTxs = transactions[year]
-          ? transactions[year][month]
-          : [{ category: '', amount: 0 }];
+        if (transactions[year]) {
+          if (transactions[year][month]) {
+            monthTxs = transactions[year][month];
+          }
+        }
         let spent = 0;
         result[year][month] = result[year][month] ? result[year][month] : {};
-        monthTxs.forEach(tx => {
-          if (tx.category === name) {
-            spent += Number(tx.amount);
-          }
-        });
+        if (monthTxs) {
+          monthTxs.forEach(tx => {
+            if (tx.category === name) {
+              spent += Number(tx.amount);
+            }
+          });
+        }
         const allotted =
           category.allotment !== undefined &&
           category.allotment[year] !== undefined &&
