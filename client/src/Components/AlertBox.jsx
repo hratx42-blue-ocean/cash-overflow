@@ -35,7 +35,6 @@ export default class AlertBox extends Component {
   }
 
   getAlerts(accounts, budget, transactions) {
-    let alertType = null;
     let alertHeader = null;
     const alerts = [];
     const today = new Date();
@@ -49,6 +48,7 @@ export default class AlertBox extends Component {
       }
     });
     for (let category of filteredBudget) {
+      let alertType = null;
       let categoryName = category.name;
       let allotment = category.allotment[year][month];
       let subtotal = 0;
@@ -59,7 +59,6 @@ export default class AlertBox extends Component {
           }
         }
       }
-      console.log('subtotal is: ', subtotal, 'allotment is: ', allotment);
       if (subtotal > allotment) {
         alertType = 'overspent';
         alertHeader = `Overspending in ${categoryName}`;

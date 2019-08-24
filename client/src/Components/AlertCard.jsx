@@ -57,7 +57,7 @@ export default function AlertCard(props) {
         />
         <CardContent>
           <Typography variant="h5" color="textSecondary" component="p">
-            Budgeting can be tough,
+            Sticking to a budget can be tough,
           </Typography>
           <Typography variant="body2" component="p">
             but it looks like you're making it work. Great job!
