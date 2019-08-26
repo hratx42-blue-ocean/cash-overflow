@@ -94,6 +94,7 @@ export default class App extends Component {
 
   setAccountData(newAccountData) {
     const { budgetCategories, email } = newAccountData;
+    console.log('newAccountData', newAccountData)
     this.setState(
       {
         accountData: newAccountData,
@@ -155,7 +156,7 @@ export default class App extends Component {
       payee: inputPayee,
       recurring: false
     };
-    console.log(transaction);
+    
 
     for (let i = 0; i < accounts.length; i++) {
       if (accounts[i].name === inputAccount) {
@@ -164,6 +165,7 @@ export default class App extends Component {
         );
         break;
       }
+      
       this.setAccountData(accountUpdate);
     }
 
