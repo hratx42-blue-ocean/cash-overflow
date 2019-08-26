@@ -163,35 +163,6 @@ export default class AlertBox extends Component {
             amount={alerts[activeStep].amount}
           />
         </Paper>
-<<<<<<< HEAD
-        <MobileStepper
-          style={{marginTop: 15}}
-          steps={maxSteps}
-          position="static"
-          variant="text"
-          activeStep={activeStep}
-          nextButton={
-            <Button
-              size="small"
-              onClick={this.handleNext}
-              disabled={activeStep === maxSteps - 1}
-            >
-              Next Alert
-              <KeyboardArrowRight />
-            </Button>
-          }
-          backButton={
-            <Button
-              size="small"
-              onClick={this.handleBack}
-              disabled={activeStep === 0}
-            >
-              <KeyboardArrowLeft />
-              Previous Alert
-            </Button>
-          }
-        />
-=======
         {alerts.length > 1 ? (
           <MobileStepper
             steps={maxSteps}
@@ -220,7 +191,6 @@ export default class AlertBox extends Component {
             }
           />
         ) : null}
->>>>>>> 8fad1ce3d94782abf7f8366401d81d867ddea9fa
       </div>
     );
   }
