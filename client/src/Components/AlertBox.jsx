@@ -35,13 +35,20 @@ export default class AlertBox extends Component {
   }
 
   getAlerts(accounts, budget, transactions) {
-    let alertType = null;
     let alertHeader = null;
     const alerts = [];
     const today = new Date();
-    const month = today.getMonth();
+    const month = today.getMonth() + 1;
     const year = today.getFullYear();
-    for (let category of budget) {
+    const filteredBudget = budget.filter(category => {
+      if (category.allotment[year]) {
+        if (category.allotment[year][month]) {
+          return true;
+        }
+      }
+    });
+    for (let category of filteredBudget) {
+      let alertType = null;
       let categoryName = category.name;
       let allotment = category.allotment[year][month];
       let subtotal = 0;
@@ -118,10 +125,11 @@ export default class AlertBox extends Component {
       alerts = [
         {
           budgetCategory: 'none',
-          alertType: 'dev alert',
+          alertType: 'No Alerts',
           amountBudgeted: '0',
           amountSpent: '0',
-          alertHeader: 'dev alert - dummy data'
+          alertHeader:
+            'Your spending is within all of your category allotments this month'
         }
       ];
     }
@@ -155,6 +163,7 @@ export default class AlertBox extends Component {
             amount={alerts[activeStep].amount}
           />
         </Paper>
+<<<<<<< HEAD
         <MobileStepper
           style={{marginTop: 15}}
           steps={maxSteps}
@@ -182,14 +191,43 @@ export default class AlertBox extends Component {
             </Button>
           }
         />
+=======
+        {alerts.length > 1 ? (
+          <MobileStepper
+            steps={maxSteps}
+            position="static"
+            variant="text"
+            activeStep={activeStep}
+            nextButton={
+              <Button
+                size="small"
+                onClick={this.handleNext}
+                disabled={activeStep === maxSteps - 1}
+              >
+                Next Alert
+                <KeyboardArrowRight />
+              </Button>
+            }
+            backButton={
+              <Button
+                size="small"
+                onClick={this.handleBack}
+                disabled={activeStep === 0}
+              >
+                <KeyboardArrowLeft />
+                Previous Alert
+              </Button>
+            }
+          />
+        ) : null}
+>>>>>>> 8fad1ce3d94782abf7f8366401d81d867ddea9fa
       </div>
     );
   }
 }
 
-
 AlertBox.propTypes = {
   accounts: PropTypes.array.isRequired,
   budget: PropTypes.array.isRequired,
   recurringTransactions: PropTypes.array.isRequired
-}
+};

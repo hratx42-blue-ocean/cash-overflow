@@ -51,6 +51,7 @@ export default class BudgetAllottment extends Component {
       const val = Number(e.target.value);
       this.setState({ clicked: false });
       Promise.resolve(this.updateAllotments(name, val)).then(
+        // need to see if this recalculate is still doing something
         this.recalculate()
       );
     }

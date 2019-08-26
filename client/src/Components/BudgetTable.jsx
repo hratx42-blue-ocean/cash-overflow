@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
@@ -12,7 +12,6 @@ import ChevronLeft from '@material-ui/icons/ChevronLeft';
 import ChevronRight from '@material-ui/icons/ChevronRight';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import Badge from '@material-ui/core/Badge';
 import BudgetAllottment from './BudgetAllotment.jsx';
 import BudgetAddCatgory from './BudgetAddCategory.jsx';
 import BudgetCategoryName from './BudgetCategoryName.jsx';
@@ -52,7 +51,6 @@ const BudgetTable = ({
   handleAddCategory,
   handleSaveCategory,
   handleDeleteCategory,
-  handleDeleteDialog,
   handleClose,
   handleTextInput,
   handleMonthChange,
@@ -112,7 +110,7 @@ const BudgetTable = ({
               </TableHead>
               <TableBody>
                 {Object.keys(breakdown).map(category => (
-                  <TableRow key={category}>
+                  <TableRow key={category + month + year}>
                     <TableCell component="th" scope="row">
                       <BudgetCategoryName
                         category={category}
