@@ -114,11 +114,21 @@ export default class DashboardPage extends Component {
     let totalBudget = 0;
     let currentlySpent = 0;
 
-    this.state.categories.forEach(category => {
-      totalBudget += category.allotment[year][month];
-    });
+    const { categories } = this.state;
+    categories
+      .filter(category => {
+        if (category.allotment[year]) {
+          if (category.allotment[year][month]) {
+            return true;
+          }
+        }
+      })
+      .forEach(category => {
+        totalBudget += category.allotment[year][month];
+      });
 
-    this.state.accounts.forEach(account => {
+    const { accounts } = this.state;
+    accounts.forEach(account => {
       account.transactions[year][month].forEach(transaction => {
         currentlySpent += Number(transaction.amount);
       });

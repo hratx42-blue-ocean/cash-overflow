@@ -1,12 +1,5 @@
 import React, { Component } from 'react';
-import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
 import PropTypes from 'prop-types';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
 import BudgetTable from './BudgetTable.jsx';
 import Loading from './Loading.jsx';
 // import faker from 'faker';
@@ -77,14 +70,25 @@ class BudgetPage extends Component {
   }
 
   async handleSaveCategory() {
-    const { categories, textInput } = this.state;
+    const { categories, textInput, currentYear, currentMonth } = this.state;
     const categoryUpdate = JSON.parse(JSON.stringify(categories));
-    const newCategory = new Category(textInput);
+    let newCategory;
+    // check for category existing for other months
+    const extantCategory = categoryUpdate.filter(category => {
+      return category.name === textInput;
+    });
+    if (extantCategory.length > 0) {
+      if (extantCategory[0].allotment[currentYear]) {
+        extantCategory[0].allotment[currentYear][currentMonth] = 0;
+      } else {
+        extantCategory[0].allotment[currentYear] = {};
+        extantCategory[0].allotment[currentYear][currentMonth] = 0;
+      }
+      [newCategory] = extantCategory;
+    } else {
+      newCategory = new Category(textInput, currentYear, currentMonth);
+    }
     categoryUpdate.push(newCategory);
-    console.log(
-      'Updated categories after addition should be: ',
-      categoryUpdate
-    );
     await this.props.asyncHandleUpdateCategories(
       categoryUpdate,
       this.recalculate
@@ -93,15 +97,14 @@ class BudgetPage extends Component {
   }
 
   async handleDeleteCategory(deletedCategory) {
-    const { categories } = this.state;
-    const categoryUpdate = JSON.parse(JSON.stringify(categories)).filter(
+    const { categories, currentMonth, currentYear } = this.state;
+    const categoryUpdate = JSON.parse(JSON.stringify(categories)).map(
       category => {
-        return category.name !== deletedCategory;
+        if (category.name === deletedCategory) {
+          delete category.allotment[currentYear][currentMonth];
+        }
+        return category;
       }
-    );
-    console.log(
-      'Updated categories after deletion should be: ',
-      categoryUpdate
     );
     await this.props.asyncHandleUpdateCategories(
       categoryUpdate,
@@ -119,6 +122,7 @@ class BudgetPage extends Component {
 
   recalculate(categories, accounts) {
     const txsByMonth = compileTxs(accounts);
+    console.log('all transactions by month: ', txsByMonth);
     const categoryBreakdown = compileSpent(categories, txsByMonth);
     this.setState({ categories, accounts, txsByMonth, categoryBreakdown });
   }
@@ -160,13 +164,13 @@ class BudgetPage extends Component {
 }
 
 BudgetPage.propTypes = {
-  allotments: PropTypes.arrayOf(PropTypes.object),
-  categories: PropTypes.arrayOf(PropTypes.object),
+  accounts: PropTypes.arrayOf(PropTypes.object).isRequired,
+  categories: PropTypes.arrayOf(PropTypes.object).isRequired,
   transactions: PropTypes.object,
   loading: PropTypes.bool.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
   updateAccountData: PropTypes.func,
-  asyncHandleUpdateCategories: PropTypes.func
+  asyncHandleUpdateCategories: PropTypes.func.isRequired
 };
 
 const totalSpent = txs => {
@@ -205,18 +209,26 @@ function compileSpent(categories = [], transactions) {
     const { allotment, name } = category;
     const years = Object.keys(allotment);
     // add entry for this category for every year it existed
+
     years.forEach(year => {
       const months = Object.keys(allotment[year]);
       result[year] = result[year] ? result[year] : {};
+      let monthTxs;
       months.forEach(month => {
-        const monthTxs = transactions[year][month];
+        if (transactions[year]) {
+          if (transactions[year][month]) {
+            monthTxs = transactions[year][month];
+          }
+        }
         let spent = 0;
         result[year][month] = result[year][month] ? result[year][month] : {};
-        monthTxs.forEach(tx => {
-          if (tx.category === name) {
-            spent += Number(tx.amount);
-          }
-        });
+        if (monthTxs) {
+          monthTxs.forEach(tx => {
+            if (tx.category === name) {
+              spent += Number(tx.amount);
+            }
+          });
+        }
         const allotted =
           category.allotment !== undefined &&
           category.allotment[year] !== undefined &&
@@ -233,10 +245,12 @@ function compileSpent(categories = [], transactions) {
   return result;
 }
 
-function Category(name) {
+function Category(name, year, month) {
   this.id = (420420420420 + Math.floor(Math.random() * 69696969)).toString();
   this.name = name;
-  this.allotment = { '2019': { '6': 0, '7': 0, '8': 0 } };
+  this.allotment = {};
+  this.allotment[year] = {};
+  this.allotment[year][month] = 0;
 }
 
 export default BudgetPage;

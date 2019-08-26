@@ -158,9 +158,22 @@ export default class App extends Component {
 
     for (let i = 0; i < accounts.length; i++) {
       if (accounts[i].name === inputAccount) {
-        accountUpdate.accounts[i].transactions[year][month - 1].push(
-          transaction
-        );
+        if (accountUpdate.accounts[i].transactions[year]) {
+          if (accountUpdate.accounts[i].transactions[year][month]) {
+            accountUpdate.accounts[i].transactions[year][month].push(
+              transaction
+            );
+          } else {
+            accountUpdate.accounts[i].transactions[year][month] = [];
+            accountUpdate.accounts[i].transactions[year][month].push(
+              transaction
+            );
+          }
+        } else {
+          accountUpdate.accounts[i].transactions[year] = {};
+          accountUpdate.accounts[i].transactions[year][month] = [];
+          accountUpdate.accounts[i].transactions[year][month].push(transaction);
+        }
         break;
       }
       this.setAccountData(accountUpdate);
@@ -176,6 +189,7 @@ export default class App extends Component {
   }
 
   promisifySetState(userObject) {
+    console.log('the user object has: ', userObject);
     return new Promise(resolve => {
       this.setState(
         {
@@ -204,8 +218,9 @@ export default class App extends Component {
     this.promisifySetState(accountUpdate)
       .then(updatedAccount => {
         const { budgetCategories, accounts } = updatedAccount;
+        console.log('the updated account data of course is: ', updatedAccount);
+        db.postUserData(updatedAccount);
         callback(budgetCategories, accounts);
-        this.setAccountData(updatedAccount);
       })
       .catch(err => {
         console.log('category update error: ', err);
