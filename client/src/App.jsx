@@ -21,6 +21,7 @@ export default class App extends Component {
     super(props);
     this.state = {
       userID: null,
+      user: {}, // TODO: RFC part of the refactor
       loadingUser: true,
       currentUser: '',
       budgetCategories: [],
@@ -94,7 +95,7 @@ export default class App extends Component {
 
   setAccountData(newAccountData) {
     const { budgetCategories, email } = newAccountData;
-    console.log('newAccountData', newAccountData);
+    console.log('newAccountData', newAccountData)
     this.setState(
       {
         accountData: newAccountData,
@@ -109,11 +110,15 @@ export default class App extends Component {
     );
   }
 
+  setUser(userData) {
+    this.setState({ user: userData });
+  }
+
   toggleDemo() {
     db.getUserData('johnny.cash@cashoverflow.app')
       .then(result => {
-        // this.setAccountData(result.data[0]);
         console.log('in demo mode', result);
+        this.setUser(result.data);
       })
       .then(() => {
         if (!this.state.isDemo) {
@@ -157,6 +162,7 @@ export default class App extends Component {
       payee: inputPayee,
       recurring: false
     };
+
 
     for (let i = 0; i < accounts.length; i++) {
       if (accounts[i].name === inputAccount) {
@@ -250,10 +256,24 @@ export default class App extends Component {
 
     return (
       <>
-        <ButtonAppBar isDemo={isDemo} toggleDemo={this.toggleDemo} xs={12} />
-        <Container maxWidth="lg" className="app">
+          <ButtonAppBar isDemo={isDemo} toggleDemo={this.toggleDemo} xs={12} />
+      <Container maxWidth="lg" className="app">
+
           {isDemo ? (
             <DemoSwitch
+            accountData={accountData}
+            budgetCategories={budgetCategories}
+            updateAccountData={this.setAccountData}
+            asyncHandleUpdateCategories={this.asyncHandleUpdateCategories}
+            currentUser={currentUser}
+            handleAddTransaction={this.handleAddTransaction}
+            toggleDemo={this.toggleDemo}
+            isDemo={isDemo}
+            loading={false}
+            isAuthenticated
+            />
+            ) : (
+              <ProtectedSwitch
               accountData={accountData}
               budgetCategories={budgetCategories}
               updateAccountData={this.setAccountData}
@@ -262,24 +282,13 @@ export default class App extends Component {
               handleAddTransaction={this.handleAddTransaction}
               toggleDemo={this.toggleDemo}
               isDemo={isDemo}
-              loading={false}
-              isAuthenticated
-            />
-          ) : (
-            <ProtectedSwitch
-              accountData={accountData}
-              budgetCategories={budgetCategories}
-              updateAccountData={this.setAccountData}
-              asyncHandleUpdateCategories={this.asyncHandleUpdateCategories}
-              currentUser={currentUser}
-              handleAddTransaction={this.handleAddTransaction}
-              toggleDemo={this.toggleDemo}
-              isDemo={isDemo}
-            />
-          )}
-        </Container>
-        <Footer />
-      </>
+              />
+              )}
+
+
+      </Container>
+              <Footer />
+              </>
     );
   }
 }
