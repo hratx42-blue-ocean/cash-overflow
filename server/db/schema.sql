@@ -25,9 +25,12 @@ create table account_types (
 
 create table allotments (
   id serial,
+  user bigint unsigned not null,
   amount decimal(65, 2) not null,
   date date not null,
   category bigint unsigned not null,
+  foreign key (user)
+    references users(id),
   foreign key (category)
     references categories(id)
 );
@@ -92,15 +95,15 @@ insert into accounts (name, balance, type, user) values
   ('Prison Blues Inc.', 1000.00, 2, 1),
   ('The Man Comes Around Credit Card', 400.00, 3, 1);
 
-insert into allotments (category, date, amount) values
-  (1, '2019-09-01', 1500),
-  (2, '2019-09-01', 200),
-  (3, '2019-09-01', 200),
-  (4, '2019-09-01', 600),
-  (5, '2019-09-01', 500),
-  (6, '2019-09-01', 300),
-  (7, '2019-09-01', 200),
-  (8, '2019-09-01', 3000);
+insert into allotments (category, user, date, amount) values
+  (1, 1, '2019-09-01', 1500),
+  (2, 1, '2019-09-01', 200),
+  (3, 1, '2019-09-01', 200),
+  (4, 1, '2019-09-01', 600),
+  (5, 1, '2019-09-01', 500),
+  (6, 1, '2019-09-01', 300),
+  (7, 1, '2019-09-01', 200),
+  (8, 1, '2019-09-01', 3000);
 
 insert into transaction_types (name) values
   ('debit'),
