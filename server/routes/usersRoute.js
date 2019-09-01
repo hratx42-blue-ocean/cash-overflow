@@ -3,19 +3,19 @@ const { users } = require('../db/model');
 
 // middleware below should sanitize to prevent basic table-drop attempts and shenanigans
 
-router.use('/getData', (req, res, next) => {
-  req.query.userid = req.query.userid.replace(/[\\/: +]/g, '');
-  console.log('User ID received as:', req.query.userid);
+router.use('/', (req, res, next) => {
+  req.query.id = req.query.id.replace(/[\\/: +]/g, '');
+  console.log('User ID received as:', req.query.id);
   next();
 });
 
-router.get('/getData', (req, res) => {
-  const { userid } = req.query;
+router.get('/', (req, res) => {
+  const { id } = req.query;
 
   console.log('Query received as:', req.query);
-  if (userid) {
+  if (id) {
     users
-      .byEmail(userid)
+      .byEmail(id)
       .then(user => res.send(user))
       .catch(console.error);
   } else {

@@ -238,6 +238,7 @@ export default class App extends Component {
 
   render() {
     const {
+      user,
       accountData,
       budgetCategories,
       isDemo,
@@ -261,6 +262,7 @@ export default class App extends Component {
 
           {isDemo ? (
             <DemoSwitch
+            user={user}
             accountData={accountData}
             budgetCategories={budgetCategories}
             updateAccountData={this.setAccountData}

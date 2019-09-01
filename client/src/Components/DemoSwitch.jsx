@@ -15,6 +15,7 @@ import PropTypes from 'prop-types';
 
 export default function DemoSwitch(props) {
   const {
+    user,
     accountData,
     budgetCategories,
     updateAccountData,
@@ -30,7 +31,7 @@ export default function DemoSwitch(props) {
   return (
     <Switch>
       <Route exact path="/" render={() => <Redirect to="/dashboard" />} />
-      <Route
+      {/* <Route
         path="/home"
         render={() => <LandingPage toggleDemo={toggleDemo} />}
       />
@@ -59,12 +60,13 @@ export default function DemoSwitch(props) {
             isAuthenticated={isAuthenticated}
           />
         )}
-      />
+      /> */}
       <Route
         path="/dashboard"
         render={props => (
           <DashboardPage
             {...props}
+            user={user}
             handleAddTransaction={handleAddTransaction}
             accountData={accountData}
             currentUser={currentUser}
@@ -73,7 +75,7 @@ export default function DemoSwitch(props) {
           />
         )}
       />
-      <Route
+      {/* <Route
         path="/profile"
         render={props => (
           <ProfilePage
@@ -95,7 +97,7 @@ export default function DemoSwitch(props) {
             isAuthenticated={isAuthenticated}
           />
         )}
-      />
+      /> */}
       <Route component={ErrorPage} />
     </Switch>
   );

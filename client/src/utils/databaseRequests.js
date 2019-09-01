@@ -9,7 +9,7 @@ function postUserData(userObject) {
 }
 
 function getUserData(userId) {
-  return axios.get(`http://localhost:3000/api/users/getData?userid=${userId}`);
+  return axios.get(`http://localhost:3000/api/users?id=${userId}`);
 }
 
 export default {
