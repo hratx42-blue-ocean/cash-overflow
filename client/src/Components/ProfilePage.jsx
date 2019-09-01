@@ -215,8 +215,8 @@ export default class ProfilePage extends React.Component {
         width="100%"
         className="profilePage"
       >
-        <Grid container spacing={3}>
-          <Grid item xs={4} style={{width: '100%'}}>
+        <Grid container spacing={4}>
+          <Grid item xs={3} style={{width: '100%'}}>
             <ProfileFirstName
               className="firstName"
               firstNameIsHidden={this.state.firstNameIsHidden}
@@ -252,7 +252,7 @@ export default class ProfilePage extends React.Component {
               style={{height: '100%'}}
             />
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={5}>
             <ProfileRecurringPayments
               handleDayChange={this.handleDayChange}
               handleInputAmount={this.handleInputAmount}

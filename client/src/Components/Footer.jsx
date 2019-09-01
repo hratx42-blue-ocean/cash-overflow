@@ -12,13 +12,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Grid from '@material-ui/core/Grid';
 
 const engineersLeft = [
-  {
-    name: 'Garett Welson',
-    link: 'https://www.linkedin.com/in/garrettwelson/',
-    imageURL:
-      'https://binkardfecimages.s3.us-east-2.amazonaws.com/cashOverflowHeadshots/GW+Headshot.jpg'
-  },
-  { name: 'Ross Calimlin', link: 'https://www.linkedin.com/in/rcalimlim/' },
+  { name: 'Garett Welson', link: 'https://www.linkedin.com/in/garrettwelson/' , imageURL: 'https://binkardfecimages.s3.us-east-2.amazonaws.com/cashOverflowHeadshots/GW+Headshot.jpg'},
+  { name: 'Ross Calimlin', link: 'https://www.linkedin.com/in/rcalimlim/', imageURL: 'https://binkardfecimages.s3.us-east-2.amazonaws.com/cashOverflowHeadshots/RC+Headshot.png' },
   {
     name: 'Doris Hui',
     link: 'https://www.linkedin.com/in/dorishui/',
@@ -47,7 +42,7 @@ const engineersRight = [
       'https://binkardfecimages.s3.us-east-2.amazonaws.com/cashOverflowHeadshots/MD+Headshot.jpg'
   },
   {
-    name: 'Jordan Dilliard',
+    name: 'Jordan Dillard',
     link: 'https://www.linkedin.com/in/jordan-dillard/',
     imageURL:
       'https://binkardfecimages.s3.us-east-2.amazonaws.com/cashOverflowHeadshots/JD+Headshot.jpg'
@@ -62,15 +57,11 @@ const engineersRight = [
 
 const useStyles = makeStyles(theme => ({
   root: {
-    flexGrow: 1
+    ...theme.mixins.gutters(),
+    paddingTop: theme.spacing.unit * 2,
+    paddingBottom: theme.spacing.unit * 2,
   },
-  navBox: {
-    flexDirection: 'row',
-    justifyContent: 'flex-start'
-  },
-  title: {
-    flexGrow: 1
-  },
+ 
   link: {
     textDecoration: 'none',
     color: '#ffffff',
@@ -79,11 +70,14 @@ const useStyles = makeStyles(theme => ({
   },
   toolbar: {
     position: 'fixed',
+    // display: 'flex',
     background: '#7F7F7F',
-    left: 10,
-    right: 10,
-    bottom: 4,
-    minHeight: 10
+    width: '100%',
+    bottom: 2,
+    minHeight: 10,
+    marginTop: 'calc(5% + 50px)',
+   
+    
   },
   engineer: {
     color: '#3f51b5',
@@ -107,7 +101,7 @@ export default function Footer() {
 
   return (
     <div className={classes.root}>
-      <Toolbar height={4} width={1} className={classes.toolbar}>
+      <Toolbar className={classes.toolbar}>
         <Button onClick={handleClickOpen} className={classes.link}>
           About Us
         </Button>
