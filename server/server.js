@@ -5,7 +5,6 @@ const express = require('express');
 const compression = require('compression');
 const cors = require('cors');
 const { usersRoute } = require('./routes');
-const db = require('./db/model');
 
 const { SERVER_PORT } = process.env;
 const app = express();

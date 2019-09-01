@@ -51,13 +51,28 @@ const transactions = {
         `
       )
       .catch(console.error);
+  },
+  spentByCategoryAndDate: async (userId, category, year, month) => {
+    const txs = await transactions.byCategoryAndDate(
+      userId,
+      category,
+      year,
+      month
+    );
+    return txs.reduce((sum, tx) => {
+      // debit
+      if (tx.type === 1) {
+        return sum + tx.amount;
+      }
+      return sum - tx.amount;
+    }, 0);
   }
 };
 
 // users.byEmail('johnny.cash@cashoverflow.app').then(console.log);
 // accounts.byUserId(1).then(console.log);
-// transactions.byCategoryAndDate(1, 1, '2019', '09').then(console.log);
 // categories.byUserId(1).then(console.log);
 // allotments.byUserIdAndDate(1, '2019', '09').then(console.log);
+transactions.spentByCategoryAndDate(1, 1, '2019', '09').then(console.log);
 
 module.exports = { users, accounts, categories, allotments, transactions };
