@@ -345,6 +345,11 @@ export default class DashboardPage extends Component {
               </Typography>
             </Paper>
           </Grid>
+          <AlertBox
+            budget={this.state.categories}
+            accounts={this.state.accounts}
+            recurringTransactions={this.state.recurringTransactions}
+          />
 
           <Paper style={{ width: '40%', margin: 20, padding: 25 }}>
             <Grid

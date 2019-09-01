@@ -16,6 +16,10 @@ const getUserAccountData = (userId) => {
   return axios.get(`http://localhost:3000/api/accounts?id=${userId}`);
 };
 
+const getUserCategoryData = (userId) => {
+  return axios.get(`http://localhost:3000/api/categories?id=${userId}`);
+};
+
 export default {
   postUserData,
   getUserData,
