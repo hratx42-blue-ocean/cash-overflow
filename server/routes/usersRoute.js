@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const db = require('../db/config');
+const db = require('../db/model');
 
 // middleware below should sanitize to prevent basic table-drop attempts and shenanigans
 
