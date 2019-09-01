@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const db = require('../../db/queries.js');
+const db = require('../db/config');
 
 // middleware below should sanitize to prevent basic table-drop attempts and shenanigans
 
@@ -15,31 +15,14 @@ router.get('/getData', (req, res) => {
 
   console.log('Query received as:', req.query);
   if (userid) {
-    db.getUserDataByUserID(userid).then(userData => {
-      console.log('UserID is:', userid);
-      res.send(userData);
+    db.query('SELECT 1 + 1 AS solution', function(error, results, fields) {
+      if (error) throw error;
+      console.log('The solution is: ', results[0].solution);
     });
   } else {
     const userData = [];
     res.send(userData);
   }
-});
-
-router.post('/upsertData', (req, res) => {
-  const { userID } = req.body.userUpdate;
-
-  console.log(`Received POST request to update ${userID}`);
-
-  if (userID === 'Ihearthetrainacomin') {
-    res.status(200).send('demo mode');
-  }
-  db.upsertUserDataByUserID(req.body.userUpdate)
-    .then(() => {
-      res.send('user updated!');
-    })
-    .catch(err => {
-      console.error(err);
-    });
 });
 
 // below route will seed DB with 10 fake users
