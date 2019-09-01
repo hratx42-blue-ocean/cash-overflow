@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const db = require('../db/model');
+const { users } = require('../db/model');
 
 // middleware below should sanitize to prevent basic table-drop attempts and shenanigans
 
@@ -10,18 +10,16 @@ router.use('/getData', (req, res, next) => {
 });
 
 router.get('/getData', (req, res) => {
-  const { query } = req;
-  const { userid } = query;
+  const { userid } = req.query;
 
   console.log('Query received as:', req.query);
   if (userid) {
-    db.query('SELECT 1 + 1 AS solution', function(error, results, fields) {
-      if (error) throw error;
-      console.log('The solution is: ', results[0].solution);
-    });
+    users
+      .byEmail(userid)
+      .then(user => res.send(user))
+      .catch(console.error);
   } else {
-    const userData = [];
-    res.send(userData);
+    res.send();
   }
 });
 

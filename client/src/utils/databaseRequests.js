@@ -8,10 +8,8 @@ function postUserData(userObject) {
     .then(okResponse => console.log(okResponse));
 }
 
-function getUserData(userID) {
-  return axios.get(
-    `https://cashoverflow.app/api/users/getData?userid=${userID}`
-  );
+function getUserData(userId) {
+  return axios.get(`http://localhost:3000/api/users/getData?userid=${userId}`);
 }
 
 export default {
