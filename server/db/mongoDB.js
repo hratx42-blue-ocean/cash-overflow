@@ -1,5 +1,5 @@
 const MongoClient = require('mongodb').MongoClient;
-const { URI } = require('../server/config.js');
+const { URI } = require('../config.js');
 const options = {
   useNewUrlParser: true
 };
