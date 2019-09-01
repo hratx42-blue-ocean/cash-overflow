@@ -22,6 +22,7 @@ export default class App extends Component {
     this.state = {
       userID: null,
       user: {}, // TODO: RFC part of the refactor
+      accounts: [], // TODO: RFC part of the refactor
       loadingUser: true,
       currentUser: '',
       budgetCategories: [],
@@ -95,7 +96,7 @@ export default class App extends Component {
 
   setAccountData(newAccountData) {
     const { budgetCategories, email } = newAccountData;
-    console.log('newAccountData', newAccountData)
+    console.log('newAccountData', newAccountData);
     this.setState(
       {
         accountData: newAccountData,
@@ -110,17 +111,17 @@ export default class App extends Component {
     );
   }
 
-  setUser(userData) {
-    this.setState({ user: userData });
-  }
-
   toggleDemo() {
-    db.getUserData('johnny.cash@cashoverflow.app')
-      .then(result => {
-        console.log('in demo mode', result);
-        this.setUser(result.data);
+    const user = 'johnny.cash@cashoverflow.app';
+    db.getUserData(user)
+      .then(({ data }) => {
+        this.setState({ user: data });
+        return data.id;
       })
+      .then(id => db.getUserAccountData(id))
+      .then(({ data }) => this.setState({ accounts: data }))
       .then(() => {
+        console.log('state is', this.state);
         if (!this.state.isDemo) {
           this.setState({
             isDemo: true,
@@ -239,6 +240,7 @@ export default class App extends Component {
   render() {
     const {
       user,
+      accounts,
       accountData,
       budgetCategories,
       isDemo,
@@ -263,6 +265,7 @@ export default class App extends Component {
           {isDemo ? (
             <DemoSwitch
             user={user}
+            accounts={accounts}
             accountData={accountData}
             budgetCategories={budgetCategories}
             updateAccountData={this.setAccountData}

@@ -18,15 +18,24 @@ import {
   MuiPickersUtilsProvider
 } from '@material-ui/pickers';
 import PropTypes from 'prop-types';
+import { positions } from '@material-ui/system';
 import Loading from './Loading.jsx';
 import AlertBox from './AlertBox.jsx';
 import { Auth0Context } from '../react-auth0-wrapper';
-import { positions } from '@material-ui/system';
+
+import format from '../utils/formatCurrency';
+
+const styles = {
+  root: {
+    flexGrow: 1
+  }
+};
 
 export default class DashboardPage extends Component {
   constructor(props) {
     super(props);
     this.user = props.user;
+    this.accounts = props.accounts;
     const { accountData } = this.props;
     const {
       firstName,
@@ -38,12 +47,7 @@ export default class DashboardPage extends Component {
     } = accountData;
 
     this.state = {
-      firstName,
-      lastName,
-      email,
       categories: budgetCategories,
-      netBalance: 10000,
-      accounts,
       recurringTransactions,
       accountNames: accounts.map(account => account.name),
       inputAmount: undefined,
@@ -108,9 +112,9 @@ export default class DashboardPage extends Component {
   }
 
   findBalance() {
-    let today = new Date();
-    let year = today.getFullYear();
-    let month = today.getMonth();
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = today.getMonth();
     let totalBudget = 0;
     let currentlySpent = 0;
 
@@ -138,6 +142,17 @@ export default class DashboardPage extends Component {
       style: 'currency',
       currency: 'USD'
     });
+  }
+
+  // TODO: RFC refactor
+  calculateTotalBalance() {
+    return this.accounts.reduce((sum, account) => {
+      // only adds balances for accounts of type checking or savings
+      if (account.type !== 3) {
+        return sum + account.balance;
+      }
+      return sum;
+    }, 0);
   }
 
   render() {
@@ -296,7 +311,7 @@ export default class DashboardPage extends Component {
           direction="row"
           justify="center"
           alignItems="flex-start"
-          style={{padding: 20}}
+          style={{ padding: 20 }}
         >
           <Grid
             container
@@ -314,26 +329,116 @@ export default class DashboardPage extends Component {
               }}
             >
               <Typography
-                style={{ textAlign: 'center'}}
+                style={{ textAlign: 'center' }}
                 variant="h3"
                 gutterBottom
-
               >
                 Hello, {this.user.first_name}!
+                <Tooltip
+                  placement="top"
+                  title="Safe to spend balance: bank accounts less credit card debt"
+                >
+                  <Typography style={{ textAlign: 'center' }} variant="h5">
+                    You have {format(this.calculateTotalBalance())} total
+                  </Typography>
+                </Tooltip>
               </Typography>
             </Paper>
           </Grid>
+
+          <Paper style={{ width: '40%', margin: 20, padding: 25 }}>
+            <Grid
+              container
+              direction="column"
+              justify="center"
+              alignItems="center"
+            >
+              <Typography variant="h4">Add a transaction</Typography>
+              <MuiPickersUtilsProvider utils={MomentUtils}>
+                <KeyboardDatePicker
+                  variant="inline"
+                  format="MM/DD/YYYY"
+                  margin="normal"
+                  value={this.state.inputDate}
+                  onChange={this.handleDateInput}
+                />
+              </MuiPickersUtilsProvider>
+
+              <TextField
+                id="amount"
+                label="amount"
+                type="number"
+                value={this.state.inputAmount}
+                onChange={this.handleAmountInput}
+                margin="normal"
+              />
+              <FormLabel component="legend">
+                Is this an outflow or inflow?{' '}
+              </FormLabel>
+              <RadioGroup
+                aria-label="position"
+                name="position"
+                onChange={this.depositOrDebit}
+                row
+              >
+                <FormControlLabel
+                  value="outflow"
+                  control={<Radio color="primary" />}
+                  label="outflow"
+                  labelPlacement="start"
+                />
+                <FormControlLabel
+                  value="inflow"
+                  control={<Radio color="primary" />}
+                  label="inflow"
+                  labelPlacement="start"
+                />
+              </RadioGroup>
+              <Select
+                value={this.state.inputCategory}
+                onChange={this.handleCategoryInput}
+              >
+                {/* {this.state.categories.map((category, i) => {
+                  return (
+                    <MenuItem key={`categoryInput_${i}`} value={category.name}>
+                      {category.name}
+                    </MenuItem>
+                  );
+                })} */}
+              </Select>
+              <Select
+                value={this.state.inputAccount}
+                onChange={this.handleAccountInput}
+              >
+                {this.accounts.map(account => {
+                  const { id, name } = account;
+                  return (
+                    <MenuItem key={`accountInput_${id}`} value={name}>
+                      {name}
+                    </MenuItem>
+                  );
+                })}
+              </Select>
+              <TextField
+                id="payee"
+                label="payee"
+                value={this.state.inputPayee}
+                onChange={this.handlePayeeInput}
+                margin="normal"
+              />
+              <Button
+                onClick={() => this.props.handleAddTransaction(this.state)}
+                color="primary"
+              >
+                Add transaction
+              </Button>
+            </Grid>
+          </Paper>
         </Grid>
       </div>
     );
   }
 }
-
-const styles = {
-  root: {
-    flexGrow: 1
-  }
-};
 
 DashboardPage.defaultProps = {
   accountData: {

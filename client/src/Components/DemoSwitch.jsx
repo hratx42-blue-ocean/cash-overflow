@@ -16,6 +16,7 @@ import PropTypes from 'prop-types';
 export default function DemoSwitch(props) {
   const {
     user,
+    accounts,
     accountData,
     budgetCategories,
     updateAccountData,
@@ -67,6 +68,7 @@ export default function DemoSwitch(props) {
           <DashboardPage
             {...props}
             user={user}
+            accounts={accounts}
             handleAddTransaction={handleAddTransaction}
             accountData={accountData}
             currentUser={currentUser}

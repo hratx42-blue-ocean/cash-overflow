@@ -4,7 +4,7 @@ const logger = require('morgan');
 const express = require('express');
 const compression = require('compression');
 const cors = require('cors');
-const { usersRoute } = require('./routes');
+const { users, accounts } = require('./routes');
 
 const { SERVER_PORT } = process.env;
 const app = express();
@@ -16,7 +16,8 @@ app.use(express.json({ limit: '2mb' }));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, '../client/public')));
 
-app.use('/api/users', usersRoute);
+app.use('/api/users', users);
+app.use('/api/accounts', accounts);
 
 app.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/public/index.html'), err => {
