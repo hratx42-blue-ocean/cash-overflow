@@ -1,12 +1,6 @@
 const router = require('express').Router();
 const { transactions } = require('../db/model');
 
-router.use('/', (req, res, next) => {
-  req.query.userid = req.query.userid.replace(/[\\/: +]/g, '');
-  console.log('User ID received as:', req.query.userid);
-  next();
-});
-
 router.get('/', (req, res) => {
   const { userid, year, month } = req.query;
 
@@ -19,6 +13,25 @@ router.get('/', (req, res) => {
   } else {
     res.send();
   }
+});
+
+router.post('/', (req, res) => {
+  console.log('Body received as:', req.body);
+  const {
+    account,
+    amount,
+    category,
+    date,
+    memo,
+    recurring,
+    type,
+    user
+  } = req.body.transaction;
+
+  transactions
+    .post(account, amount, category, date, memo, recurring, type, user)
+    .then(ok => res.send(ok))
+    .catch(console.error);
 });
 
 module.exports = router;

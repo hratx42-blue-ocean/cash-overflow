@@ -30,10 +30,35 @@ const getUserTransactionData = (userid, year, month) => {
   });
 };
 
+const postTransaction = (
+  account,
+  amount,
+  category,
+  date,
+  memo,
+  recurring,
+  type,
+  user
+) => {
+  return axios.post('http://localhost:3000/api/transactions', {
+    transaction: {
+      account,
+      amount,
+      category,
+      date,
+      memo,
+      recurring,
+      type,
+      user
+    }
+  });
+};
+
 export default {
   postUserData,
   getUserData,
   getUserAccountData,
   getUserCategoryData,
-  getUserTransactionData
+  getUserTransactionData,
+  postTransaction
 };

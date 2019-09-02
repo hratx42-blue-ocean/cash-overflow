@@ -23,6 +23,7 @@ import Loading from './Loading.jsx';
 import AlertBox from './AlertBox.jsx';
 import { Auth0Context } from '../react-auth0-wrapper';
 
+import db from '../utils/databaseRequests';
 import format from '../utils/formatCurrency';
 
 const styles = {
@@ -45,17 +46,16 @@ export default class DashboardPage extends Component {
       txAmount: undefined,
       txCategory: undefined,
       txCategoryId: '',
-      txDate: moment(),
+      txDate: moment().format('YYYY-MM-DD'),
       txMemo: '',
       txType: ''
     };
-    this.handleDateInput = this.handleDateInput.bind(this);
+    this.handleAccountInput = this.handleAccountInput.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
     this.handleCategoryInput = this.handleCategoryInput.bind(this);
+    this.handleDateInput = this.handleDateInput.bind(this);
     this.handleMemoInput = this.handleMemoInput.bind(this);
-    this.handleAccountInput = this.handleAccountInput.bind(this);
     this.handleTransactionType = this.handleTransactionType.bind(this);
-    this.findBalance = this.findBalance.bind(this);
     this.handleSubmitTransaction = this.handleSubmitTransaction.bind(this);
   }
 
@@ -81,7 +81,7 @@ export default class DashboardPage extends Component {
   }
 
   handleDateInput(event) {
-    this.setState({ txDate: event });
+    this.setState({ txDate: event.format('YYYY-MM-DD') });
   }
 
   handleMemoInput(event) {
@@ -113,40 +113,6 @@ export default class DashboardPage extends Component {
     });
   }
 
-  findBalance() {
-    const today = new Date();
-    const year = today.getFullYear();
-    const month = today.getMonth();
-    let totalBudget = 0;
-    let currentlySpent = 0;
-
-    const { categories } = this.state;
-    categories
-      .filter(category => {
-        if (category.allotment[year]) {
-          if (category.allotment[year][month]) {
-            return true;
-          }
-        }
-      })
-      .forEach(category => {
-        totalBudget += category.allotment[year][month];
-      });
-
-    const { accounts } = this.state;
-    accounts.forEach(account => {
-      account.transactions[year][month].forEach(transaction => {
-        currentlySpent += Number(transaction.amount);
-      });
-    });
-
-    return (totalBudget - currentlySpent).toLocaleString('en-US', {
-      style: 'currency',
-      currency: 'USD'
-    });
-  }
-
-  // TODO: RFC refactor
   calculateTotalBalance() {
     return this.accounts.reduce((sum, account) => {
       // only adds balances for accounts of type checking or savings
@@ -158,7 +124,30 @@ export default class DashboardPage extends Component {
   }
 
   handleSubmitTransaction() {
+    const {
+      txAccountId,
+      txAmount,
+      txCategoryId,
+      txDate,
+      txMemo,
+      txType
+    } = this.state;
+    const txRecurring = 0;
+    const txUser = this.user.id;
+
     console.log('state is', this.state);
+    db.postTransaction(
+      txAccountId,
+      txAmount,
+      txCategoryId,
+      txDate,
+      txMemo,
+      txRecurring,
+      txType,
+      txUser
+    )
+      .then(console.log)
+      .catch(console.error);
   }
 
   render() {

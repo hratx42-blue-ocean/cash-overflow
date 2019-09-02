@@ -77,6 +77,19 @@ const transactions = {
       }
       return sum - tx.amount;
     }, 0);
+  },
+  post: (account, amount, category, date, memo, recurring, type, user) => {
+    return connection
+      .queryAsync(
+        `
+        insert into transactions
+        (account, amount, category, date, memo, recurring, type, user)
+        values
+        (?, ?, ?, ?, ?, ?, ?, ?)
+        `,
+        [account, amount, category, date, memo, recurring, type, user]
+      )
+      .catch(console.error);
   }
 };
 
