@@ -40,6 +40,17 @@ const allotments = {
 };
 
 const transactions = {
+  byUserIdAndDate: (userId, year, month) => {
+    return connection
+      .queryAsync(
+        `
+        select * from transactions where
+          user = ${userId} and
+          date like concat('${year}-${month}', '%')
+        `
+      )
+      .catch(console.error);
+  },
   byCategoryAndDate: (userId, category, year, month) => {
     return connection
       .queryAsync(

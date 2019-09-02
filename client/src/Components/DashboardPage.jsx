@@ -36,79 +36,81 @@ export default class DashboardPage extends Component {
     super(props);
     this.user = props.user;
     this.accounts = props.accounts;
-    const { accountData } = this.props;
-    const {
-      firstName,
-      lastName,
-      email,
-      budgetCategories,
-      accounts,
-      recurringTransactions
-    } = accountData;
+    this.categories = props.categories;
+    this.transactions = props.transactions;
 
     this.state = {
-      categories: budgetCategories,
-      recurringTransactions,
-      accountNames: accounts.map(account => account.name),
-      inputAmount: undefined,
-      inputCategory: 'category',
-      inputPayee: '',
-      inputDate: moment(),
-      inputAccount: 'account',
-      typeOfTransaction: ''
+      txAccount: '',
+      txAccountId: undefined,
+      txAmount: undefined,
+      txCategory: undefined,
+      txCategoryId: '',
+      txDate: moment(),
+      txMemo: '',
+      txType: ''
     };
     this.handleDateInput = this.handleDateInput.bind(this);
     this.handleAmountInput = this.handleAmountInput.bind(this);
     this.handleCategoryInput = this.handleCategoryInput.bind(this);
-    this.handlePayeeInput = this.handlePayeeInput.bind(this);
+    this.handleMemoInput = this.handleMemoInput.bind(this);
     this.handleAccountInput = this.handleAccountInput.bind(this);
-    this.depositOrDebit = this.depositOrDebit.bind(this);
+    this.handleTransactionType = this.handleTransactionType.bind(this);
     this.findBalance = this.findBalance.bind(this);
-  }
-
-  handleDateInput(value) {
-    this.setState({
-      inputDate: value
-    });
-  }
-
-  handleAmountInput(value) {
-    const inputAmount = Number(value.target.value);
-    this.setState({
-      inputAmount
-    });
-  }
-
-  handleCategoryInput(event) {
-    this.setState({
-      inputCategory: event.target.value
-    });
+    this.handleSubmitTransaction = this.handleSubmitTransaction.bind(this);
   }
 
   handleAccountInput(event) {
-    const inputAccount = event.target.value;
-
-    this.setState({
-      inputAccount
-    });
+    const txAccount = event.target.value;
+    const txAccountId = Number(
+      event.nativeEvent.target.getAttribute('recordid')
+    );
+    this.setState({ txAccount, txAccountId });
   }
 
-  handlePayeeInput(value) {
-    this.setState({
-      inputPayee: value.target.value
-    });
+  handleAmountInput(event) {
+    const txAmount = Number(event.target.value);
+    this.setState({ txAmount });
   }
 
-  depositOrDebit(value) {
-    const typeOfTransaction = value.target.value;
-    if (typeOfTransaction === 'debit') {
-      this.setState({
-        typeOfTransaction,
-        inputAmount: -this.state.inputAmount
-      });
+  handleCategoryInput(event) {
+    const txCategory = event.target.value;
+    const txCategoryId = Number(
+      event.nativeEvent.target.getAttribute('recordid')
+    );
+    this.setState({ txCategory, txCategoryId });
+  }
+
+  handleDateInput(event) {
+    this.setState({ txDate: event });
+  }
+
+  handleMemoInput(event) {
+    const txMemo = event.target.value;
+    this.setState({ txMemo });
+  }
+
+  handleTransactionType(event) {
+    const txType = event.target.value;
+    if (txType === 'outflow') {
+      // debit
+      this.setState({ txType: 1 });
     } else {
-      this.setState({ typeOfTransaction });
+      // credit
+      this.setState({ txType: 2 });
     }
+  }
+
+  clearTransactionInput() {
+    this.setState({
+      txAccount: '',
+      txAccountId: undefined,
+      txAmount: undefined,
+      txCategory: undefined,
+      txCategoryId: '',
+      txDate: moment(),
+      txMemo: '',
+      txType: ''
+    });
   }
 
   findBalance() {
@@ -155,6 +157,10 @@ export default class DashboardPage extends Component {
     }, 0);
   }
 
+  handleSubmitTransaction() {
+    console.log('state is', this.state);
+  }
+
   render() {
     const { loading, isAuthenticated } = this.props;
 
@@ -166,144 +172,6 @@ export default class DashboardPage extends Component {
       );
     }
 
-    // return (
-    //   <div>
-    //     <Grid
-    //       container
-    //       direction="row"
-    //       justify="center"
-    //       alignItems="flex-start"
-    //       style={{padding: 20}}
-    //     >
-    //       <Grid
-    //         container
-    //         direction="column"
-    //         justify="space-between"
-    //         alignItems="flex-start"
-    //         style={{ width: '40%', margin: 20 }}
-    //       >
-    //         <Paper
-    //           style={{
-    //             width: '100%',
-    //             height: 150,
-    //             marginBottom: 20,
-    //             padding: 25
-    //           }}
-    //         >
-    //           <Typography
-    //             style={{ textAlign: 'center'}}
-    //             variant="h3"
-    //             gutterBottom
-
-    //           >
-    //             Hello, {this.state.firstName}!
-    //           </Typography>
-    //           <Tooltip
-    //             placement="top"
-    //             title="Safe to spend balance: bank accounts less credit card debt"
-    //           >
-    //             <Typography style={{ textAlign: 'center' }} variant="h5">
-    //               You have {this.findBalance()} total
-    //             </Typography>
-    //           </Tooltip>
-    //         </Paper>
-    //         <AlertBox
-    //           budget={this.state.categories}
-    //           accounts={this.state.accounts}
-    //           recurringTransactions={this.state.recurringTransactions}
-    //         />
-    //       </Grid>
-    //       <Paper style={{ width: '40%', margin: 20, padding: 25 }}>
-    //         <Grid
-    //           container
-    //           direction="column"
-    //           justify="center"
-    //           alignItems="center"
-    //         >
-    //           <Typography variant="h4">Add a transaction</Typography>
-    //           <MuiPickersUtilsProvider utils={MomentUtils}>
-    //             <KeyboardDatePicker
-    //               variant="inline"
-    //               format="MM/DD/YYYY"
-    //               margin="normal"
-    //               value={this.state.inputDate}
-    //               onChange={this.handleDateInput}
-    //             />
-    //           </MuiPickersUtilsProvider>
-
-    //           <TextField
-    //             id="amount"
-    //             label="amount"
-    //             type="number"
-    //             value={this.state.inputAmount}
-    //             onChange={this.handleAmountInput}
-    //             margin="normal"
-    //           />
-    //           <FormLabel component="legend">
-    //             Is this a deposit or debit?{' '}
-    //           </FormLabel>
-    //           <RadioGroup
-    //             aria-label="position"
-    //             name="position"
-    //             // value="deposit"
-    //             onChange={this.depositOrDebit}
-    //             row
-    //           >
-    //             <FormControlLabel
-    //               value="debit"
-    //               control={<Radio color="primary" />}
-    //               label="debit"
-    //               labelPlacement="start"
-    //             />
-    //             <FormControlLabel
-    //               value="deposit"
-    //               control={<Radio color="primary" />}
-    //               label="deposit"
-    //               labelPlacement="start"
-    //             />
-    //           </RadioGroup>
-    //           <Select
-    //             value={this.state.inputCategory}
-    //             onChange={this.handleCategoryInput}
-    //           >
-    //             {this.state.categories.map((category, i) => {
-    //               return (
-    //                 <MenuItem key={`categoryInput_${i}`} value={category.name}>
-    //                   {category.name}
-    //                 </MenuItem>
-    //               );
-    //             })}
-    //           </Select>
-    //           <Select
-    //             value={this.state.inputAccount}
-    //             onChange={this.handleAccountInput}
-    //           >
-    //             {this.state.accountNames.map((account, i) => {
-    //               return (
-    //                 <MenuItem key={`accountInput_${i}`} value={account}>
-    //                   {account}
-    //                 </MenuItem>
-    //               );
-    //             })}
-    //           </Select>
-    //           <TextField
-    //             id="payee"
-    //             label="payee"
-    //             value={this.state.inputPayee}
-    //             onChange={this.handlePayeeInput}
-    //             margin="normal"
-    //           />
-    //           <Button
-    //             onClick={() => this.props.handleAddTransaction(this.state)}
-    //             color="primary"
-    //           >
-    //             Add transaction
-    //           </Button>
-    //         </Grid>
-    //       </Paper>
-    //     </Grid>
-    //   </div>
-    // );
     return (
       <div>
         <Grid
@@ -345,11 +213,6 @@ export default class DashboardPage extends Component {
               </Typography>
             </Paper>
           </Grid>
-          <AlertBox
-            budget={this.state.categories}
-            accounts={this.state.accounts}
-            recurringTransactions={this.state.recurringTransactions}
-          />
 
           <Paper style={{ width: '40%', margin: 20, padding: 25 }}>
             <Grid
@@ -364,7 +227,7 @@ export default class DashboardPage extends Component {
                   variant="inline"
                   format="MM/DD/YYYY"
                   margin="normal"
-                  value={this.state.inputDate}
+                  value={this.state.txDate}
                   onChange={this.handleDateInput}
                 />
               </MuiPickersUtilsProvider>
@@ -373,7 +236,7 @@ export default class DashboardPage extends Component {
                 id="amount"
                 label="amount"
                 type="number"
-                value={this.state.inputAmount}
+                value={this.state.txAmount}
                 onChange={this.handleAmountInput}
                 margin="normal"
               />
@@ -383,7 +246,7 @@ export default class DashboardPage extends Component {
               <RadioGroup
                 aria-label="position"
                 name="position"
-                onChange={this.depositOrDebit}
+                onChange={this.handleTransactionType}
                 row
               >
                 <FormControlLabel
@@ -400,25 +263,26 @@ export default class DashboardPage extends Component {
                 />
               </RadioGroup>
               <Select
-                value={this.state.inputCategory}
+                value={this.state.txCategory}
                 onChange={this.handleCategoryInput}
               >
-                {/* {this.state.categories.map((category, i) => {
+                {this.categories.map(category => {
+                  const { id, name } = category;
                   return (
-                    <MenuItem key={`categoryInput_${i}`} value={category.name}>
-                      {category.name}
+                    <MenuItem key={id} recordid={id} value={name}>
+                      {name}
                     </MenuItem>
                   );
-                })} */}
+                })}
               </Select>
               <Select
-                value={this.state.inputAccount}
+                value={this.state.txAccount}
                 onChange={this.handleAccountInput}
               >
                 {this.accounts.map(account => {
                   const { id, name } = account;
                   return (
-                    <MenuItem key={`accountInput_${id}`} value={name}>
+                    <MenuItem key={id} recordid={id} value={name}>
                       {name}
                     </MenuItem>
                   );
@@ -427,14 +291,11 @@ export default class DashboardPage extends Component {
               <TextField
                 id="payee"
                 label="payee"
-                value={this.state.inputPayee}
-                onChange={this.handlePayeeInput}
+                value={this.state.txMemo}
+                onChange={this.handleMemoInput}
                 margin="normal"
               />
-              <Button
-                onClick={() => this.props.handleAddTransaction(this.state)}
-                color="primary"
-              >
+              <Button onClick={this.handleSubmitTransaction} color="primary">
                 Add transaction
               </Button>
             </Grid>

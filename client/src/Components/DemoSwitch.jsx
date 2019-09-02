@@ -17,6 +17,8 @@ export default function DemoSwitch(props) {
   const {
     user,
     accounts,
+    categories,
+    transactions,
     accountData,
     budgetCategories,
     updateAccountData,
@@ -69,6 +71,8 @@ export default function DemoSwitch(props) {
             {...props}
             user={user}
             accounts={accounts}
+            categories={categories}
+            transactions={transactions}
             handleAddTransaction={handleAddTransaction}
             accountData={accountData}
             currentUser={currentUser}

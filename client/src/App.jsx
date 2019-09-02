@@ -23,6 +23,9 @@ export default class App extends Component {
       userID: null,
       user: {}, // TODO: RFC part of the refactor
       accounts: [], // TODO: RFC part of the refactor
+      transactions: [], // TODO: RFC part of the refactor
+      year: '2019',
+      month: '09',
       loadingUser: true,
       currentUser: '',
       budgetCategories: [],
@@ -113,13 +116,26 @@ export default class App extends Component {
 
   toggleDemo() {
     const user = 'johnny.cash@cashoverflow.app';
+    const { year, month } = this.state;
     db.getUserData(user)
       .then(({ data }) => {
         this.setState({ user: data });
         return data.id;
       })
-      .then(id => db.getUserAccountData(id))
-      .then(({ data }) => this.setState({ accounts: data }))
+      .then(id =>
+        Promise.all([
+          db.getUserAccountData(id),
+          db.getUserCategoryData(id),
+          db.getUserTransactionData(id, year, month)
+        ])
+      )
+      .then(([accounts, categories, transactions]) => {
+        this.setState({
+          accounts: accounts.data,
+          categories: categories.data,
+          transactions: transactions.data
+        });
+      })
       .then(() => {
         console.log('state is', this.state);
         if (!this.state.isDemo) {
@@ -163,7 +179,6 @@ export default class App extends Component {
       payee: inputPayee,
       recurring: false
     };
-
 
     for (let i = 0; i < accounts.length; i++) {
       if (accounts[i].name === inputAccount) {
@@ -241,6 +256,8 @@ export default class App extends Component {
     const {
       user,
       accounts,
+      categories,
+      transactions,
       accountData,
       budgetCategories,
       isDemo,
@@ -259,26 +276,14 @@ export default class App extends Component {
 
     return (
       <>
-          <ButtonAppBar isDemo={isDemo} toggleDemo={this.toggleDemo} xs={12} />
-      <Container maxWidth="lg" className="app">
-
+        <ButtonAppBar isDemo={isDemo} toggleDemo={this.toggleDemo} xs={12} />
+        <Container maxWidth="lg" className="app">
           {isDemo ? (
             <DemoSwitch
-            user={user}
-            accounts={accounts}
-            accountData={accountData}
-            budgetCategories={budgetCategories}
-            updateAccountData={this.setAccountData}
-            asyncHandleUpdateCategories={this.asyncHandleUpdateCategories}
-            currentUser={currentUser}
-            handleAddTransaction={this.handleAddTransaction}
-            toggleDemo={this.toggleDemo}
-            isDemo={isDemo}
-            loading={false}
-            isAuthenticated
-            />
-            ) : (
-              <ProtectedSwitch
+              user={user}
+              accounts={accounts}
+              categories={categories}
+              transactions={transactions}
               accountData={accountData}
               budgetCategories={budgetCategories}
               updateAccountData={this.setAccountData}
@@ -287,13 +292,24 @@ export default class App extends Component {
               handleAddTransaction={this.handleAddTransaction}
               toggleDemo={this.toggleDemo}
               isDemo={isDemo}
-              />
-              )}
-
-
-      </Container>
-              <Footer />
-              </>
+              loading={false}
+              isAuthenticated
+            />
+          ) : (
+            <ProtectedSwitch
+              accountData={accountData}
+              budgetCategories={budgetCategories}
+              updateAccountData={this.setAccountData}
+              asyncHandleUpdateCategories={this.asyncHandleUpdateCategories}
+              currentUser={currentUser}
+              handleAddTransaction={this.handleAddTransaction}
+              toggleDemo={this.toggleDemo}
+              isDemo={isDemo}
+            />
+          )}
+        </Container>
+        <Footer />
+      </>
     );
   }
 }
