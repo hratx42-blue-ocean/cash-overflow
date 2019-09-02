@@ -44,6 +44,7 @@ const useStyles = makeStyles(theme => ({
 const DashboardPage = ({
   user,
   accounts,
+  accountTotalBal,
   categories,
   transactions,
   loading,
@@ -92,16 +93,6 @@ const DashboardPage = ({
       // credit
       setTxType(2);
     }
-  };
-
-  const calculateTotalBalance = () => {
-    return accounts.reduce((sum, account) => {
-      // only adds balances for accounts of type checking or savings
-      if (account.type !== 3) {
-        return sum + account.balance;
-      }
-      return sum;
-    }, 0);
   };
 
   const clearTransactionInput = () => {
@@ -161,9 +152,7 @@ const DashboardPage = ({
               placement="top"
               title="Safe to spend balance: bank accounts less credit card debt"
             >
-              <Typography>
-                You have {format(calculateTotalBalance())} total
-              </Typography>
+              <Typography>You have {format(accountTotalBal)} total</Typography>
             </Tooltip>
           </Paper>
         </Grid>

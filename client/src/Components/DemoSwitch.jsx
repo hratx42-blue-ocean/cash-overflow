@@ -17,8 +17,10 @@ export default function DemoSwitch(props) {
   const {
     user,
     accounts,
+    accountTotalBal,
     categories,
     transactions,
+    targetDate,
     accountData,
     budgetCategories,
     updateAccountData,
@@ -37,20 +39,24 @@ export default function DemoSwitch(props) {
       {/* <Route
         path="/home"
         render={() => <LandingPage toggleDemo={toggleDemo} />}
-      />
+      /> */}
       <Route
         path="/accounts"
         render={props => (
           <AccountsPage
             {...props}
-            accountData={accountData}
-            updateAccountData={updateAccountData}
+            user={user}
+            accounts={accounts}
+            accountTotalBal={accountTotalBal}
+            categories={categories}
+            transactions={transactions}
+            targetDate={targetDate}
             loading={loading}
             isAuthenticated={isAuthenticated}
           />
         )}
       />
-      <Route
+      {/* <Route
         path="/budget"
         render={props => (
           <BudgetPage
@@ -71,6 +77,7 @@ export default function DemoSwitch(props) {
             {...props}
             user={user}
             accounts={accounts}
+            accountTotalBal={accountTotalBal}
             categories={categories}
             transactions={transactions}
             handleAddTransaction={handleAddTransaction}

@@ -14,6 +14,11 @@ const accounts = {
     return connection
       .queryAsync('select * from accounts where user = ?', userId)
       .catch(console.error);
+  },
+  types: () => {
+    return connection
+      .queryAsync('select * from account_types')
+      .catch(console.error);
   }
 };
 

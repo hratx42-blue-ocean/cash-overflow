@@ -1,12 +1,6 @@
 const router = require('express').Router();
 const { accounts } = require('../db/model');
 
-router.use('/', (req, res, next) => {
-  req.query.id = req.query.id.replace(/[\\/: +]/g, '');
-  console.log('User ID received as:', req.query.id);
-  next();
-});
-
 router.get('/', (req, res) => {
   const { id } = req.query;
 
@@ -19,6 +13,14 @@ router.get('/', (req, res) => {
   } else {
     res.send();
   }
+});
+
+router.get('/types', (req, res) => {
+  console.log('at /types');
+  accounts
+    .types()
+    .then(types => res.send(types))
+    .catch(console.error);
 });
 
 module.exports = router;

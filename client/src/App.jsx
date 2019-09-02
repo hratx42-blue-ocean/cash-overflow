@@ -4,6 +4,7 @@ import axios from 'axios';
 // Routing
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
+import moment from 'moment';
 import { Auth0Context } from './react-auth0-wrapper';
 import ProtectedSwitch from './Components/ProtectedSwitch.jsx';
 import DemoSwitch from './Components/DemoSwitch.jsx';
@@ -16,6 +17,17 @@ import db from './utils/databaseRequests';
 
 // import createFakeUser from './fakeUserGenerator.js';
 
+const calculateTotalBalance = (accounts) => {
+  console.log(accounts);
+  return accounts.reduce((sum, account) => {
+    // only adds balances for accounts of type checking or savings
+    if (account.type !== 3) {
+      return sum + account.balance;
+    }
+    return sum;
+  }, 0);
+};
+
 export default class App extends Component {
   constructor(props) {
     super(props);
@@ -23,9 +35,9 @@ export default class App extends Component {
       userID: null,
       user: {}, // TODO: RFC part of the refactor
       accounts: [], // TODO: RFC part of the refactor
+      accountTotalBal: 0, // TODO: RFC
       transactions: [], // TODO: RFC part of the refactor
-      year: '2019',
-      month: '09',
+      targetDate: moment(), // TODO: RFC
       loadingUser: true,
       currentUser: '',
       budgetCategories: [],
@@ -116,7 +128,9 @@ export default class App extends Component {
 
   toggleDemo() {
     const user = 'johnny.cash@cashoverflow.app';
-    const { year, month } = this.state;
+    const { targetDate } = this.state;
+    const year = targetDate.format('YYYY');
+    const month = targetDate.format('MM');
     db.getUserData(user)
       .then(({ data }) => {
         this.setState({ user: data });
@@ -130,8 +144,11 @@ export default class App extends Component {
         ])
       )
       .then(([accounts, categories, transactions]) => {
+        const total = calculateTotalBalance(accounts.data);
+        console.log('transactions are', transactions);
         this.setState({
           accounts: accounts.data,
+          accountTotalBal: total,
           categories: categories.data,
           transactions: transactions.data
         });
@@ -256,8 +273,10 @@ export default class App extends Component {
     const {
       user,
       accounts,
+      accountTotalBal,
       categories,
       transactions,
+      targetDate,
       accountData,
       budgetCategories,
       isDemo,
@@ -282,8 +301,10 @@ export default class App extends Component {
             <DemoSwitch
               user={user}
               accounts={accounts}
+              accountTotalBal={accountTotalBal}
               categories={categories}
               transactions={transactions}
+              targetDate={targetDate}
               accountData={accountData}
               budgetCategories={budgetCategories}
               updateAccountData={this.setAccountData}
