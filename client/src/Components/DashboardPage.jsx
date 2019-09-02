@@ -25,11 +25,22 @@ import Loading from './Loading';
 import db from '../utils/databaseRequests';
 import format from '../utils/formatCurrency';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   root: {
-    flexGrow: 1
+    height: '100vh',
+    flexGrow: 1,
+  },
+  jumbotron: {
+    marginTop: '50px',
+    textAlign: 'center'
+  },
+  paper: {
+    height: '100%',
+    padding: theme.spacing(1),
+    textAlign: 'center'
   }
-});
+}));
+
 const DashboardPage = ({
   user,
   accounts,
@@ -94,16 +105,14 @@ const DashboardPage = ({
   };
 
   const clearTransactionInput = () => {
-    setState({
-      txAccount: '',
-      txAccountId: undefined,
-      txAmount: '',
-      txCategory: '',
-      txCategoryId: undefined,
-      txDate: moment(),
-      txMemo: '',
-      txType: ''
-    });
+    setTxAccount('');
+    setTxAccountId(undefined);
+    setTxAmount('');
+    setTxCategory('');
+    setTxCategoryId(undefined);
+    setTxDate(moment().format('YYYY-MM-DD'));
+    setTxMemo('');
+    setTxType('');
   };
 
   const handleSubmitTransaction = () => {
@@ -138,49 +147,28 @@ const DashboardPage = ({
         container
         direction="row"
         justify="center"
-        alignItems="flex-start"
-        style={{ padding: 20 }}
+        alignItems="stretch"
+        spacing={5}
       >
-        <Grid
-          container
-          direction="column"
-          justify="space-between"
-          alignItems="flex-start"
-          style={{ width: '40%', margin: 20 }}
-        >
-          <Paper
-            style={{
-              width: '100%',
-              height: 150,
-              marginBottom: 20,
-              padding: 25
-            }}
-          >
-            <Typography
-              style={{ textAlign: 'center' }}
-              variant="h3"
-              gutterBottom
+        <Grid item className={classes.jumbotron} xs={12}>
+          <Typography variant="h1" gutterBottom>
+            Hello, {user.first_name}!
+          </Typography>
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <Paper className={classes.paper}>
+            <Tooltip
+              placement="top"
+              title="Safe to spend balance: bank accounts less credit card debt"
             >
-              Hello, {user.first_name}!
-              <Tooltip
-                placement="top"
-                title="Safe to spend balance: bank accounts less credit card debt"
-              >
-                <Typography style={{ textAlign: 'center' }} variant="h5">
-                  You have {format(calculateTotalBalance())} total
-                </Typography>
-              </Tooltip>
-            </Typography>
+              <Typography>
+                You have {format(calculateTotalBalance())} total
+              </Typography>
+            </Tooltip>
           </Paper>
         </Grid>
-
-        <Paper style={{ width: '40%', margin: 20, padding: 25 }}>
-          <Grid
-            container
-            direction="column"
-            justify="center"
-            alignItems="center"
-          >
+        <Grid item xs={12} sm={6}>
+          <Paper className={classes.paper}>
             <Typography variant="h4">Add a transaction</Typography>
             <MuiPickersUtilsProvider utils={MomentUtils}>
               <KeyboardDatePicker
@@ -252,8 +240,8 @@ const DashboardPage = ({
             <Button onClick={handleSubmitTransaction} color="primary">
               Add transaction
             </Button>
-          </Grid>
-        </Paper>
+          </Paper>
+        </Grid>
       </Grid>
     </div>
   );
