@@ -22,14 +22,39 @@ import { makeStyles } from '@material-ui/styles';
 import format from '../utils/formatCurrency';
 
 const useStyles = makeStyles(theme => ({
+  noTxs: {
+    fontStyle: 'italic',
+    textAlign: 'center'
+  },
   paper: {
     height: '100%',
     padding: theme.spacing(1)
   }
 }));
 
+const filterByDate = (transactions, targetDate) => {
+  const targetYearMonth = targetDate.format('YYYY-MM');
+  return transactions.filter(tx => {
+    const { date } = tx;
+    const [yearMonth] = date.match(/^(\d+-\d+)/g);
+    return yearMonth === targetYearMonth;
+  });
+};
+
 const AccountTransactions = ({ transactions, targetDate }) => {
   const classes = useStyles();
+  const filteredTxs = filterByDate(transactions, targetDate);
+
+  const noTxsMessage = txs => {
+    if (txs.length === 0) {
+      return (
+        <div className={classes.noTxs}>
+          No transactions match your criteria.
+        </div>
+      );
+    }
+    return '';
+  };
 
   return (
     <Paper className={classes.paper}>
@@ -44,7 +69,7 @@ const AccountTransactions = ({ transactions, targetDate }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {transactions.map(tx => {
+            {filteredTxs.map(tx => {
               const { id, account, date, amount, category, memo } = tx;
               return (
                 <TableRow color="hoverColor" key={`txRow-${id}`}>
@@ -62,6 +87,7 @@ const AccountTransactions = ({ transactions, targetDate }) => {
           </TableBody>
         </Table>
       </List>
+      {noTxsMessage(filteredTxs)}
     </Paper>
   );
 };
