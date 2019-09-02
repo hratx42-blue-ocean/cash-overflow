@@ -126,5 +126,6 @@ module.exports = {
     ),
     // new BundleAnalyzerPlugin(),
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
-  ]
+  ],
+  resolve: { extensions: ['.js', '.jsx'] }
 };
