@@ -1,12 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import Grid from '@material-ui/core/Grid';
 import PropTypes from 'prop-types';
-import { kMaxLength } from 'buffer';
-import AccountsTable from './AccountsTable';
-import AccountTransactions from './AccountTransactions';
+import Typography from '@material-ui/core/Typography';
+import ChevronLeft from '@material-ui/icons/ChevronLeft';
+import ChevronRight from '@material-ui/icons/ChevronRight';
+import Today from '@material-ui/icons/Today';
+import IconButton from '@material-ui/core/IconButton';
+import { makeStyles } from '@material-ui/styles';
 import Loading from './Loading';
+import AccountTransactions from './AccountTransactions';
+import AccountsTable from './AccountsTable';
 
 import db from '../utils/databaseRequests';
+
+const useStyles = makeStyles(theme => ({
+  root: {
+    height: '100vh',
+    flexGrow: 1
+  },
+  jumbotron: {
+    marginTop: '50px',
+    textAlign: 'center'
+  }
+}));
 
 const AccountsPage = ({
   user,
@@ -14,6 +30,7 @@ const AccountsPage = ({
   accountTotalBal,
   transactions,
   targetDate,
+  handleMonthChange,
   loading,
   isAuthenticated
 }) => {
@@ -22,6 +39,8 @@ const AccountsPage = ({
   const [accountFilter, setAccountFilter] = useState('');
   const [accountName, setAccountName] = useState('');
   const [accountTypeNames, setAccountTypeNames] = useState(undefined);
+
+  const classes = useStyles();
 
   // on mount, get account type names and map for lookup
   useEffect(() => {
@@ -88,16 +107,49 @@ const AccountsPage = ({
 
   return (
     <div>
-      <Grid container spacing={3}>
-        <AccountsTable
-          accounts={accounts}
-          total={accountTotalBal}
-          names={accountTypeNames}
-        />
-        <AccountTransactions
-          transactions={transactions}
-          targetDate={targetDate}
-        />
+      <Grid
+        container
+        direction="row"
+        justify="center"
+        alignItems="flex-start"
+        spacing={5}
+      >
+        <Grid item xs={12} className={classes.jumbotron}>
+          <Typography variant="h2" gutterBottom>
+            {`Your activity for ${targetDate.format('MMMM, YYYY')}`}
+          </Typography>
+          <IconButton
+            onClick={() => handleMonthChange(1)}
+            aria-label="previous-month"
+          >
+            <ChevronLeft />
+          </IconButton>
+          <IconButton
+            onClick={() => handleMonthChange()}
+            aria-label="previous-month"
+          >
+            <Today />
+          </IconButton>
+          <IconButton
+            onClick={() => handleMonthChange(-1)}
+            aria-label="next-month"
+          >
+            <ChevronRight />
+          </IconButton>
+        </Grid>
+        <Grid item sm={12} md={5}>
+          <AccountsTable
+            accounts={accounts}
+            total={accountTotalBal}
+            names={accountTypeNames}
+          />
+        </Grid>
+        <Grid item sm={12} md={7}>
+          <AccountTransactions
+            transactions={transactions}
+            targetDate={targetDate}
+          />
+        </Grid>
       </Grid>
     </div>
   );

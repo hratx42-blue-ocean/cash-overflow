@@ -51,6 +51,7 @@ export default class App extends Component {
     this.asyncHandleUpdateCategories = this.asyncHandleUpdateCategories.bind(
       this
     );
+    this.handleMonthChange = this.handleMonthChange.bind(this);
     this.toggleDemo = this.toggleDemo.bind(this);
   }
 
@@ -124,6 +125,17 @@ export default class App extends Component {
         });
       }
     );
+  }
+
+  handleMonthChange(inc = 0) {
+    const { targetDate } = this.state;
+    let newDate;
+    if (inc === 0) {
+      newDate = moment();
+    } else {
+      newDate = targetDate.subtract(inc, 'months');
+    }
+    this.setState({ targetDate: newDate });
   }
 
   toggleDemo() {
@@ -305,6 +317,7 @@ export default class App extends Component {
               categories={categories}
               transactions={transactions}
               targetDate={targetDate}
+              handleMonthChange={this.handleMonthChange}
               accountData={accountData}
               budgetCategories={budgetCategories}
               updateAccountData={this.setAccountData}

@@ -21,6 +21,7 @@ export default function DemoSwitch(props) {
     categories,
     transactions,
     targetDate,
+    handleMonthChange,
     accountData,
     budgetCategories,
     updateAccountData,
@@ -51,6 +52,7 @@ export default function DemoSwitch(props) {
             categories={categories}
             transactions={transactions}
             targetDate={targetDate}
+            handleMonthChange={handleMonthChange}
             loading={loading}
             isAuthenticated={isAuthenticated}
           />

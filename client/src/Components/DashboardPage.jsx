@@ -28,7 +28,7 @@ import format from '../utils/formatCurrency';
 const useStyles = makeStyles(theme => ({
   root: {
     height: '100vh',
-    flexGrow: 1,
+    flexGrow: 1
   },
   jumbotron: {
     marginTop: '50px',
@@ -142,8 +142,8 @@ const DashboardPage = ({
         spacing={5}
       >
         <Grid item className={classes.jumbotron} xs={12}>
-          <Typography variant="h1" gutterBottom>
-            Hello, {user.first_name}!
+          <Typography variant="h2" gutterBottom>
+            Welcome back, {user.first_name}!
           </Typography>
         </Grid>
         <Grid item xs={12} sm={6}>
