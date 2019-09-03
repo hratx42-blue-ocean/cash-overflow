@@ -17,12 +17,11 @@ export default function DemoSwitch(props) {
   const {
     user,
     accounts,
-    accountTotalBal,
     categories,
     transactions,
     targetDate,
     handleMonthChange,
-    accountData,
+    pushNewItem,
     toggleDemo,
     isDemo,
     isAuthenticated,
@@ -43,11 +42,11 @@ export default function DemoSwitch(props) {
             {...props}
             user={user}
             accounts={accounts}
-            accountTotalBal={accountTotalBal}
             categories={categories}
             transactions={transactions}
             targetDate={targetDate}
             handleMonthChange={handleMonthChange}
+            pushNewItem={pushNewItem}
             loading={loading}
             isAuthenticated={isAuthenticated}
           />
@@ -74,7 +73,6 @@ export default function DemoSwitch(props) {
             {...props}
             user={user}
             accounts={accounts}
-            accountTotalBal={accountTotalBal}
             categories={categories}
             transactions={transactions}
             loading={loading}

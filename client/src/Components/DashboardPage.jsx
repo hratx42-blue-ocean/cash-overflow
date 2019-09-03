@@ -123,7 +123,7 @@ const DashboardPage = ({
               placement="top"
               title="Safe to spend balance: bank accounts less credit card debt"
             >
-              <Typography>You have {format(accountTotalBal)} total</Typography>
+              <Typography>You have FIX ME total</Typography>
             </Tooltip>
           </Paper>
         </Grid>

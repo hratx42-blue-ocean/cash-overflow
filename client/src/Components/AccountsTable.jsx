@@ -44,7 +44,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const AccountsTable = ({ accounts, handleOpenDialog, names, total }) => {
+const AccountsTable = ({ accounts, handleOpenDialog, names }) => {
   const classes = useStyles();
   // human readable account type, prevents crash if names haven't arrived yet
   const mapName = type => {
@@ -53,6 +53,14 @@ const AccountsTable = ({ accounts, handleOpenDialog, names, total }) => {
     }
     return names[type].name;
   };
+
+  const total = accounts.reduce((sum, account) => {
+    // only adds balances for accounts of type checking or savings
+    if (account.type !== 3) {
+      return sum + account.balance;
+    }
+    return sum;
+  }, 0);
 
   return (
     <Paper className={classes.paper}>

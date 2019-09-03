@@ -1,18 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import Grid from '@material-ui/core/Grid';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import { makeStyles } from '@material-ui/styles';
+import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import ChevronLeft from '@material-ui/icons/ChevronLeft';
 import ChevronRight from '@material-ui/icons/ChevronRight';
 import Today from '@material-ui/icons/Today';
 import IconButton from '@material-ui/core/IconButton';
-import { makeStyles } from '@material-ui/styles';
 import Loading from './Loading';
 import AccountTransactions from './AccountTransactions';
 import AccountsTable from './AccountsTable';
 import AccountsDialog from './AccountsDialog';
-
 import db from '../utils/databaseRequests';
 
 const useStyles = makeStyles(theme => ({
@@ -29,15 +28,16 @@ const useStyles = makeStyles(theme => ({
 const AccountsPage = ({
   user,
   accounts,
-  accountTotalBal,
   transactions,
   targetDate,
   handleMonthChange,
+  pushNewItem,
   loading,
   isAuthenticated
 }) => {
   // dialog state
   const [open, setOpen] = useState(false);
+  const [accountTypes, setAccountTypes] = useState([]);
   const [accountTypeNames, setAccountTypeNames] = useState();
 
   const classes = useStyles();
@@ -48,6 +48,7 @@ const AccountsPage = ({
       db.getUserAccountTypes()
         .then(({ data }) => {
           const mapped = {};
+          setAccountTypes(data);
           data.forEach(type => {
             mapped[type.id] = type;
           });
@@ -74,7 +75,14 @@ const AccountsPage = ({
 
   return (
     <div>
-      <AccountsDialog handleOpenDialog={handleOpenDialog} open={open} />
+      <AccountsDialog
+        user={user}
+        accountTypes={accountTypes}
+        accountTypeNames={accountTypeNames}
+        handleOpenDialog={handleOpenDialog}
+        pushNewItem={pushNewItem}
+        open={open}
+      />
       <Grid
         container
         direction="row"
@@ -109,7 +117,6 @@ const AccountsPage = ({
           <AccountsTable
             accounts={accounts}
             handleOpenDialog={handleOpenDialog}
-            total={accountTotalBal}
             names={accountTypeNames}
           />
         </Grid>

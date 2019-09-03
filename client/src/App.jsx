@@ -18,7 +18,6 @@ import db from './utils/databaseRequests';
 // import createFakeUser from './fakeUserGenerator.js';
 
 const calculateTotalBalance = accounts => {
-  console.log(accounts);
   return accounts.reduce((sum, account) => {
     // only adds balances for accounts of type checking or savings
     if (account.type !== 3) {
@@ -35,7 +34,6 @@ export default class App extends Component {
       userID: null,
       user: {}, // TODO: RFC part of the refactor
       accounts: [], // TODO: RFC part of the refactor
-      accountTotalBal: 0, // TODO: RFC
       transactions: [], // TODO: RFC part of the refactor
       targetDate: moment(), // TODO: RFC
       loadingUser: true,
@@ -47,7 +45,7 @@ export default class App extends Component {
       isDemo: false
     };
     this.handleMonthChange = this.handleMonthChange.bind(this);
-    this.pushNewTransaction = this.pushNewTransaction.bind(this);
+    this.pushNewItem = this.pushNewItem.bind(this);
     this.toggleDemo = this.toggleDemo.bind(this);
   }
 
@@ -117,9 +115,10 @@ export default class App extends Component {
     this.setState({ targetDate: newDate });
   }
 
-  pushNewTransaction(tx) {
-    const { transactions } = this.state;
-    this.setState({ transactions: transactions.push(tx) });
+  pushNewItem(type, item) {
+    const array = this.state[type];
+    array.push(item);
+    this.setState({ [type]: array });
   }
 
   toggleDemo() {
@@ -141,30 +140,23 @@ export default class App extends Component {
       )
       .then(([accounts, categories, transactions]) => {
         const total = calculateTotalBalance(accounts.data);
-        console.log('transactions are', transactions);
         this.setState({
           accounts: accounts.data,
-          accountTotalBal: total,
           categories: categories.data,
           transactions: transactions.data
         });
       })
       .then(() => {
-        console.log('state is', this.state);
         if (!this.state.isDemo) {
           this.setState({
             isDemo: true,
             loadingUser: false
           });
-          console.log('demo mode now on');
         } else {
-          this.setState(
-            {
-              isDemo: false,
-              loadingUser: false
-            },
-            () => console.log('demo mode turned off')
-          );
+          this.setState({
+            isDemo: false,
+            loadingUser: false
+          });
         }
       });
   }
@@ -173,7 +165,6 @@ export default class App extends Component {
     const {
       user,
       accounts,
-      accountTotalBal,
       categories,
       transactions,
       targetDate,
@@ -201,11 +192,11 @@ export default class App extends Component {
             <DemoSwitch
               user={user}
               accounts={accounts}
-              accountTotalBal={accountTotalBal}
               categories={categories}
               transactions={transactions}
               targetDate={targetDate}
               handleMonthChange={this.handleMonthChange}
+              pushNewItem={this.pushNewItem}
               accountData={accountData}
               budgetCategories={budgetCategories}
               updateAccountData={this.setAccountData}
