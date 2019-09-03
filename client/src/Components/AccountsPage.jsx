@@ -29,6 +29,7 @@ const AccountsPage = ({
   user,
   accounts,
   transactions,
+  categories,
   targetDate,
   handleMonthChange,
   pushNewItem,
@@ -78,6 +79,8 @@ const AccountsPage = ({
     <div>
       <AccountsDialog
         user={user}
+        accounts={accounts}
+        categories={categories}
         accountTypes={accountTypes}
         accountTypeNames={accountTypeNames}
         handleOpenDialog={handleOpenDialog}
@@ -135,6 +138,10 @@ const AccountsPage = ({
       </Grid>
     </div>
   );
+};
+
+AccountsPage.defaultProps = {
+  accounts: []
 };
 
 AccountsPage.propTypes = {
