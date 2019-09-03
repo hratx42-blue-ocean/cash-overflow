@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import moment from 'moment';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
@@ -7,15 +9,13 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import List from '@material-ui/core/List';
-import PropTypes from 'prop-types';
+import IconButton from '@material-ui/core/IconButton';
+import AddIcon from '@material-ui/icons/Add';
 import InputLabel from '@material-ui/core/InputLabel';
 import Input from '@material-ui/core/Input';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import ChevronLeft from '@material-ui/icons/ChevronLeft';
-import ChevronRight from '@material-ui/icons/ChevronRight';
-import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/styles';
 
@@ -29,6 +29,11 @@ const useStyles = makeStyles(theme => ({
   paper: {
     height: '100%',
     padding: theme.spacing(1)
+  },
+  title: {
+    paddingTop: '1rem',
+    paddingLeft: '1rem',
+    paddingRight: '1rem'
   }
 }));
 
@@ -58,6 +63,12 @@ const AccountTransactions = ({ transactions, targetDate }) => {
 
   return (
     <Paper className={classes.paper}>
+      <Typography className={classes.title} variant="h5" align="center">
+        Transactions
+        <IconButton aria-label="add-transaction">
+          <AddIcon fontSize="small" />
+        </IconButton>
+      </Typography>
       <List>
         <Table>
           <TableHead>
@@ -74,7 +85,7 @@ const AccountTransactions = ({ transactions, targetDate }) => {
               return (
                 <TableRow color="hoverColor" key={`txRow-${id}`}>
                   <TableCell key={`txDate-${id}`}>
-                    {new Date(date).toLocaleDateString('en-US')}
+                    {moment(date).format('MMM D')}
                   </TableCell>
                   <TableCell key={`txPayee-${id}`}>{memo}</TableCell>
                   <TableCell key={`txAccount-${id}`}>{account}</TableCell>
