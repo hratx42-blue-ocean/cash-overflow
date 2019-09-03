@@ -48,10 +48,25 @@ const allotments = {
     return connection
       .queryAsync(
         `
-        select amount, category from allotments where
+        select * from allotments where
           user = ${userId} and
           date like concat('${year}-${month}', '%')
         `
+      )
+      .catch(console.error);
+  },
+  post: (userid, category, date, amount, dateCat) => {
+    return connection
+      .queryAsync(
+        `
+        insert into allotments
+          (user, category, date, amount, date_cat)
+          values
+          (?, ?, ?, ?, ?)
+          on duplicate key update
+          amount = values (amount)
+        `,
+        [userid, category, date, amount, dateCat]
       )
       .catch(console.error);
   }
@@ -110,11 +125,5 @@ const transactions = {
       .catch(console.error);
   }
 };
-
-// users.byEmail('johnny.cash@cashoverflow.app').then(console.log);
-// accounts.byUserId(1).then(console.log);
-// categories.byUserId(1).then(console.log);
-// allotments.byUserIdAndDate(1, '2019', '09').then(console.log);
-transactions.spentByCategoryAndDate(1, 1, '2019', '09').then(console.log);
 
 module.exports = { users, accounts, categories, allotments, transactions };

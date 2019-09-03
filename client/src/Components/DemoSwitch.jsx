@@ -1,17 +1,17 @@
 import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import PrivateRoute from './PrivateRoute';
 import { Auth0Context } from '../react-auth0-wrapper';
 import Header from './Appbar/Header';
 import AccountsPage from './Accounts/AccountsPage';
-import BudgetPage from './BudgetPage';
+import BudgetPage from './Budget/BudgetPage';
 import DashboardPage from './Dashboard/DashboardPage';
 import LandingPage from './LandingPage';
 import TrendsPage from './TrendsPage';
 import LoginPage from './LoginPage';
 import ProfilePage from './ProfilePage';
 import ErrorPage from './ErrorPage';
-import PropTypes from 'prop-types';
 
 export default function DemoSwitch(props) {
   const {
@@ -52,20 +52,17 @@ export default function DemoSwitch(props) {
           />
         )}
       />
-      {/* <Route
+      <Route
         path="/budget"
         render={props => (
           <BudgetPage
-            {...props}
-            accounts={accountData.accounts}
-            categories={budgetCategories}
-            updateAccountData={updateAccountData}
-            asyncHandleUpdateCategories={asyncHandleUpdateCategories}
+            targetDate={targetDate}
+            handleMonthChange={handleMonthChange}
             loading={loading}
             isAuthenticated={isAuthenticated}
           />
         )}
-      /> */}
+      />
       <Route
         path="/dashboard"
         render={props => (

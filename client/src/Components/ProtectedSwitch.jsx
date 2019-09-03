@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import PrivateRoute from './PrivateRoute';
 import { useAuth0 } from '../react-auth0-wrapper';
 import AccountsPage from './Accounts/AccountsPage';
-import BudgetPage from './BudgetPage';
+import BudgetPage from './Budget/BudgetPage';
 import DashboardPage from './Dashboard/DashboardPage';
 import LandingPage from './LandingPage';
 import TrendsPage from './TrendsPage';

@@ -29,6 +29,7 @@ create table allotments (
   amount decimal(65, 2) not null,
   date date not null,
   category bigint unsigned not null,
+  date_cat varchar(255) not null unique,
   foreign key (user)
     references users(id),
   foreign key (category)
@@ -95,15 +96,15 @@ insert into accounts (name, balance, type, user) values
   ('Prison Blues Inc.', 1000.00, 2, 1),
   ('The Man Comes Around Credit Card', 400.00, 3, 1);
 
-insert into allotments (category, user, date, amount) values
-  (1, 1, '2019-09-01', 1500),
-  (2, 1, '2019-09-01', 200),
-  (3, 1, '2019-09-01', 200),
-  (4, 1, '2019-09-01', 600),
-  (5, 1, '2019-09-01', 500),
-  (6, 1, '2019-09-01', 300),
-  (7, 1, '2019-09-01', 200),
-  (8, 1, '2019-09-01', 3000);
+insert into allotments (category, user, date, amount, date_cat) values
+  (1, 1, '2019-09-01', 1500, '2019-09-01_1'),
+  (2, 1, '2019-09-01', 200, '2019-09-01_2'),
+  (3, 1, '2019-09-01', 200, '2019-09-01_3'),
+  (4, 1, '2019-09-01', 600, '2019-09-01_4'),
+  (5, 1, '2019-09-01', 500, '2019-09-01_5'),
+  (6, 1, '2019-09-01', 300, '2019-09-01_6'),
+  (7, 1, '2019-09-01', 200, '2019-09-01_7'),
+  (8, 1, '2019-09-01', 3000, '2019-09-01_8');
 
 insert into transaction_types (name) values
   ('debit'),

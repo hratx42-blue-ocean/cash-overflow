@@ -12,9 +12,9 @@ import ChevronLeft from '@material-ui/icons/ChevronLeft';
 import ChevronRight from '@material-ui/icons/ChevronRight';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import BudgetAllottment from './BudgetAllotment.jsx';
-import BudgetAddCatgory from './BudgetAddCategory.jsx';
-import BudgetCategoryName from './BudgetCategoryName.jsx';
+import BudgetAllottment from './BudgetAllotment';
+import BudgetAddCatgory from './BudgetAddCategory';
+import BudgetCategoryName from './BudgetCategoryName';
 
 const useStyles = makeStyles(theme => ({
   root: {

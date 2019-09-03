@@ -4,7 +4,13 @@ const logger = require('morgan');
 const express = require('express');
 const compression = require('compression');
 const cors = require('cors');
-const { users, accounts, categories, transactions } = require('./routes');
+const {
+  users,
+  accounts,
+  categories,
+  transactions,
+  allotments
+} = require('./routes');
 
 const { SERVER_PORT } = process.env;
 const app = express();
@@ -20,6 +26,7 @@ app.use('/api/users', users);
 app.use('/api/accounts', accounts);
 app.use('/api/categories', categories);
 app.use('/api/transactions', transactions);
+app.use('/api/allotments', allotments);
 
 app.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/public/index.html'), err => {

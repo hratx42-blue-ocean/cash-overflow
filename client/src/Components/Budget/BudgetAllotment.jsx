@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import BudgetAllotmentField from './BudgetAllotmentField.jsx';
+import BudgetAllotmentField from './BudgetAllotmentField';
 
 export default class BudgetAllottment extends Component {
   constructor(props) {
