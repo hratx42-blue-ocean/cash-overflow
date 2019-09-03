@@ -27,7 +27,7 @@ import format from '../../utils/formatCurrency';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    height: '100vh',
+    height: '100%',
     flexGrow: 1
   },
   jumbotron: {

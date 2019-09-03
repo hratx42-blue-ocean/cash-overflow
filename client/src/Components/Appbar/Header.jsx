@@ -1,34 +1,28 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { withStyles } from '@material-ui/styles';
+import { Link as RouterLink } from 'react-router-dom';
+import { makeStyles } from '@material-ui/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import Box from '@material-ui/core/Box';
+import Link from '@material-ui/core/Link';
+import Typography from '@material-ui/core/Typography';
 import { useAuth0 } from '../../react-auth0-wrapper';
-import Logo from '../../images/dark-logo.png';
+// import Logo from '../../images/dark-logo.png';
 
-const styles = {
+const useStyles = makeStyles({
   root: {
-    display: 'flex',
-    background: 'transparent',
-    color: '#7ed957',
-    textDecoration: 'none',
-    marginLeft: '50'
+    flewGrow: 1
   },
-  link: {
-    background: 'transparent',
-    textDecoration: 'none',
-    position: 'absolute',
-    color: '#7ed957',
-    right: '0'
+  title: {
+    flexGrow: 1,
+    marginLeft: '30px'
   }
-};
+});
 
-function ButtonAppBar(props) {
-  const { classes, isDemo, toggleDemo } = props;
+const Appbar = props => {
+  const { isDemo, toggleDemo } = props;
   const { isAuthenticated, loading, loginWithRedirect, logout } = useAuth0();
+  const classes = useStyles();
 
   const logoutWithRedirect = () =>
     logout({
@@ -39,29 +33,21 @@ function ButtonAppBar(props) {
 
   if (isDemo) {
     statusButton = (
-      <Button onClick={toggleDemo} className={classes.link} color="secondary">
-        <Link to="/home" className={classes.root}>
-          Exit the Demo
+      <Button onClick={toggleDemo} color="secondary">
+        <Link component={RouterLink} to="/home">
+          Exit Demo
         </Link>
       </Button>
     );
   } else if (!isAuthenticated && !loading) {
     statusButton = (
-      <Button
-        onClick={() => loginWithRedirect({})}
-        className={classes.link}
-        color="secondary"
-      >
+      <Button onClick={() => loginWithRedirect({})} color="secondary">
         Login
       </Button>
     );
   } else if (isAuthenticated) {
     statusButton = (
-      <Button
-        onClick={() => logoutWithRedirect()}
-        className={classes.link}
-        color="inherit"
-      >
+      <Button onClick={() => logoutWithRedirect()} color="inherit">
         Logout
       </Button>
     );
@@ -69,53 +55,100 @@ function ButtonAppBar(props) {
     statusButton = <></>;
   }
 
-  return (
-    <AppBar color="secondary" position="static">
-      <Toolbar>
-        <img src={Logo} style={{ width: 220, height: 80 }} alt="logo" />
-        {isAuthenticated || isDemo ? (
-          <Box className={classes.root}>
-            <Button>
-              <Link className={classes.root} color="primary" to="/dashboard">
-                Dashboard
-              </Link>
-            </Button>
-            <Button>
-              <Link className={classes.root} color="primary" to="/accounts">
-                Accounts
-              </Link>
-            </Button>
-            <Button>
-              <Link className={classes.root} color="primary" to="/budget">
-                Budget
-              </Link>
-            </Button>
-            <Button>
-              <Link className={classes.root} color="primary" to="/trends">
-                Trends
-              </Link>
-            </Button>
-            <Button>
-              <Link className={classes.root} color="primary" to="/profile">
-                Profile
-              </Link>
-            </Button>
-            {statusButton}
-          </Box>
-        ) : (
-          <div>
-            <Button
-              onClick={() => loginWithRedirect({})}
-              className={classes.link}
-              color="secondary"
-            >
-              Login
-            </Button>
-          </div>
-        )}
-      </Toolbar>
-    </AppBar>
-  );
-}
+  // return (
+  //   <div className={classes.root}>
+  //     <AppBar color="secondary" position="static">
+  //       <Toolbar>
+  //         {/* <img className={classes.logo} src={Logo} alt="logo" /> */}
+  //         <div className={classes.grow}> Should grow </div>
+  //         {isAuthenticated || isDemo ? (
+  //           <>
+  //             <Button color="inherit">
+  //               <Link component={RouterLink} to="/dashboard">
+  //                 Dashboard
+  //               </Link>
+  //             </Button>
+  //             <Button>
+  //               <Link component={RouterLink} to="/accounts">
+  //                 Accounts
+  //               </Link>
+  //             </Button>
+  //             <Button>
+  //               <Link component={RouterLink} to="/budget">
+  //                 Budget
+  //               </Link>
+  //             </Button>
+  //             <Button>
+  //               <Link component={RouterLink} to="/trends">
+  //                 Trends
+  //               </Link>
+  //             </Button>
+  //             <Button>
+  //               <Link component={RouterLink} to="/profile">
+  //                 Profile
+  //               </Link>
+  //             </Button>
+  //             {statusButton}
+  //           </>
+  //         ) : (
+  //           <>
+  //             <Button onClick={() => loginWithRedirect({})} color="secondary">
+  //               Login
+  //             </Button>
+  //           </>
+  //         )}
+  //       </Toolbar>
+  //     </AppBar>
+  //   </div>
+  // );
 
-export default withStyles(styles)(ButtonAppBar);
+  return (
+    <div className={classes.root}>
+      <AppBar color="secondary" position="static">
+        <Toolbar>
+          <Typography variant="h6" className={classes.title}>
+            Cash Overflow
+          </Typography>
+          {isAuthenticated || isDemo ? (
+            <>
+              <Button color="inherit">
+                <Link component={RouterLink} to="/dashboard">
+                  Dashboard
+                </Link>
+              </Button>
+              <Button>
+                <Link component={RouterLink} to="/accounts">
+                  Accounts
+                </Link>
+              </Button>
+              <Button>
+                <Link component={RouterLink} to="/budget">
+                  Budget
+                </Link>
+              </Button>
+              <Button>
+                <Link component={RouterLink} to="/trends">
+                  Trends
+                </Link>
+              </Button>
+              <Button>
+                <Link component={RouterLink} to="/profile">
+                  Profile
+                </Link>
+              </Button>
+              {statusButton}
+            </>
+          ) : (
+            <>
+              <Button onClick={() => loginWithRedirect({})} color="secondary">
+                Login
+              </Button>
+            </>
+          )}
+        </Toolbar>
+      </AppBar>
+    </div>
+  );
+};
+
+export default Appbar;
