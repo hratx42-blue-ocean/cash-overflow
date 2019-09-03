@@ -1,15 +1,15 @@
 import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
-import PrivateRoute from './PrivateRoute.jsx';
-import { useAuth0 } from '../react-auth0-wrapper';
-import AccountsPage from './AccountsPage.jsx';
-import BudgetPage from './BudgetPage.jsx';
-import DashboardPage from './DashboardPage.jsx';
-import LandingPage from './LandingPage.jsx';
-import TrendsPage from './TrendsPage.jsx';
-import ProfilePage from './ProfilePage.jsx';
-import ErrorPage from './ErrorPage.jsx';
 import PropTypes from 'prop-types';
+import PrivateRoute from './PrivateRoute';
+import { useAuth0 } from '../react-auth0-wrapper';
+import AccountsPage from './Accounts/AccountsPage';
+import BudgetPage from './BudgetPage';
+import DashboardPage from './Dashboard/DashboardPage';
+import LandingPage from './LandingPage';
+import TrendsPage from './TrendsPage';
+import ProfilePage from './ProfilePage';
+import ErrorPage from './ErrorPage';
 
 export default function ProtectedSwitch(props) {
   const {

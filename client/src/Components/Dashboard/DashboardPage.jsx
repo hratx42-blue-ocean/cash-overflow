@@ -19,11 +19,11 @@ import {
 } from '@material-ui/pickers';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
-import Loading from './Loading';
+import Loading from '../Loading';
 // import { Auth0Context } from '../react-auth0-wrapper';
 
-import db from '../utils/databaseRequests';
-import format from '../utils/formatCurrency';
+import db from '../../utils/databaseRequests';
+import format from '../../utils/formatCurrency';
 
 const useStyles = makeStyles(theme => ({
   root: {

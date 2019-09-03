@@ -20,7 +20,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Radio from '@material-ui/core/Radio';
-import db from '../utils/databaseRequests';
+import db from '../../utils/databaseRequests';
 
 const useStyles = makeStyles(theme => ({
   dropdown: {
@@ -48,7 +48,6 @@ const AccountsDialog = ({
   dialogTab,
   setDialogTab
 }) => {
-  console.log('accounts are', accounts);
   // account state
   const [accountName, setAccountName] = useState('');
   const [accountBalance, setAccountBalance] = useState('');

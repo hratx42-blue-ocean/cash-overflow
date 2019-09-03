@@ -6,13 +6,13 @@ import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import moment from 'moment';
 import { Auth0Context } from './react-auth0-wrapper';
-import ProtectedSwitch from './Components/ProtectedSwitch.jsx';
-import DemoSwitch from './Components/DemoSwitch.jsx';
+import ProtectedSwitch from './Components/ProtectedSwitch';
+import DemoSwitch from './Components/DemoSwitch';
 
 // Custom Components
-import ButtonAppBar from './Components/Header.jsx';
-import Footer from './Components/Footer.jsx';
-import Loading from './Components/Loading.jsx';
+import ButtonAppBar from './Components/Appbar/Header';
+import Footer from './Components/Footer';
+import Loading from './Components/Loading';
 import db from './utils/databaseRequests';
 
 const calculateTotalBalance = accounts => {

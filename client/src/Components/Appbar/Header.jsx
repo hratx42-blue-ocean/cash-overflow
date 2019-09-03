@@ -1,12 +1,13 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { withStyles } from '@material-ui/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import { Link } from 'react-router-dom';
 import Box from '@material-ui/core/Box';
-import { useAuth0 } from '../react-auth0-wrapper';
-import { withStyles } from '@material-ui/styles';
+import { useAuth0 } from '../../react-auth0-wrapper';
+import Logo from '../../images/dark-logo.png';
 
 const styles = {
   root: {
@@ -71,13 +72,7 @@ function ButtonAppBar(props) {
   return (
     <AppBar color="secondary" position="static">
       <Toolbar>
-        <Typography
-          variant="h4"
-          className={classes.title}
-          style={{ fontFamily: 'Lobster Two', fontWeight: 'fontWeightBold' }}
-        >
-          <img src="darkLogo.png" style={{ width: 220, height: 80 }} />
-        </Typography>
+        <img src={Logo} style={{ width: 220, height: 80 }} alt="logo" />
         {isAuthenticated || isDemo ? (
           <Box className={classes.root}>
             <Button>

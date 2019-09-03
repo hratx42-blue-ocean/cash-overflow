@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
 import { makeStyles } from '@material-ui/styles';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -8,11 +7,11 @@ import ChevronLeft from '@material-ui/icons/ChevronLeft';
 import ChevronRight from '@material-ui/icons/ChevronRight';
 import Today from '@material-ui/icons/Today';
 import IconButton from '@material-ui/core/IconButton';
-import Loading from './Loading';
+import Loading from '../Loading';
 import AccountTransactions from './AccountTransactions';
 import AccountsTable from './AccountsTable';
 import AccountsDialog from './AccountsDialog';
-import db from '../utils/databaseRequests';
+import db from '../../utils/databaseRequests';
 
 const useStyles = makeStyles(theme => ({
   root: {
