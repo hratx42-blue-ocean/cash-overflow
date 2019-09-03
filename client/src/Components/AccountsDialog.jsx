@@ -35,10 +35,10 @@ const AccountDialog = ({
   accountTypeNames,
   handleOpenDialog,
   pushNewItem,
-  open
+  open,
+  dialogTab,
+  setDialogTab
 }) => {
-  // tabs
-  const [value, setValue] = React.useState(0);
   // account state
   const [accountName, setAccountName] = useState('');
   const [accountBalance, setAccountBalance] = useState('');
@@ -75,20 +75,23 @@ const AccountDialog = ({
   };
 
   const handleTabChange = (event, newValue) => {
-    setValue(newValue);
+    setDialogTab(newValue);
   };
 
   const handleNewAccount = () => {
-    const account = {
-      id: Math.random(),
-      name: accountName,
-      balance: accountBalance,
-      type: accountType,
-      user: user.id
-    };
-    pushNewItem('accounts', account);
-    handleClearAll();
-    handleOpenDialog();
+    if (accountName && accountBalance && accountType) {
+      const account = {
+        id: Math.random(),
+        name: accountName,
+        balance: accountBalance,
+        type: accountType,
+        user: user.id
+      };
+      pushNewItem('accounts', account);
+      db.postAccount(accountName, accountBalance, accountType, user.id);
+      handleClearAll();
+      handleOpenDialog();
+    }
   };
 
   const handleSubmitTransaction = () => {
@@ -110,55 +113,98 @@ const AccountDialog = ({
   };
 
   // account tab, not separate component because we're too deep
-  const accountTab = () => {
-    return (
-      <>
-        <DialogTitle id="form-dialog-title">Add new account</DialogTitle>
-        <DialogContent>
-          <TextField
-            className={classes.fullwidth}
-            id="account-name"
-            label="Account Name"
-            onChange={e => setAccountName(e.target.value)}
-          />
-          <TextField
-            className={classes.margin}
-            id="account-balance"
-            helperText="Account's balance as of now"
-            label="Balance"
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">$</InputAdornment>
-              )
-            }}
-            onChange={e => setAccountBalance(Number(e.target.value))}
-            value={accountBalance}
-          />
-          <TextField
-            select
-            className={classes.dropdown}
-            label="Type"
-            onChange={handleAccountTypeChange}
-            value={accountType}
-          >
-            {accountTypes.map(account => (
-              <MenuItem key={account.id} value={account.id}>
-                {account.name}
-              </MenuItem>
-            ))}
-          </TextField>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClearAll} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={handleNewAccount} color="primary">
-            Add
-          </Button>
-        </DialogActions>
-      </>
-    );
-  };
+  const accountTab = (
+    <>
+      <DialogTitle id="form-dialog-title">Add new account</DialogTitle>
+      <DialogContent>
+        <TextField
+          className={classes.fullwidth}
+          id="account-name"
+          label="Account Name"
+          onChange={e => setAccountName(e.target.value)}
+        />
+        <TextField
+          className={classes.margin}
+          id="account-balance"
+          helperText="Account's balance as of now"
+          label="Balance"
+          InputProps={{
+            startAdornment: <InputAdornment position="start">$</InputAdornment>
+          }}
+          onChange={e => setAccountBalance(Number(e.target.value))}
+          value={accountBalance}
+        />
+        <TextField
+          select
+          className={classes.dropdown}
+          label="Type"
+          onChange={handleAccountTypeChange}
+          value={accountType}
+        >
+          {accountTypes.map(account => (
+            <MenuItem key={account.id} value={account.id}>
+              {account.name}
+            </MenuItem>
+          ))}
+        </TextField>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleClearAll} color="primary">
+          Cancel
+        </Button>
+        <Button onClick={handleNewAccount} color="primary">
+          Add
+        </Button>
+      </DialogActions>
+    </>
+  );
+
+  // tx tab, not separate component because we're too deep
+  const txTab = (
+    <>
+      <DialogTitle id="form-dialog-title">Add new transaction</DialogTitle>
+      <DialogContent>
+        <TextField
+          className={classes.fullwidth}
+          id="account-name"
+          label="Account Name"
+          onChange={e => setAccountName(e.target.value)}
+        />
+        <TextField
+          className={classes.margin}
+          id="account-balance"
+          helperText="Account's balance as of now"
+          label="Balance"
+          InputProps={{
+            startAdornment: <InputAdornment position="start">$</InputAdornment>
+          }}
+          onChange={e => setAccountBalance(Number(e.target.value))}
+          value={accountBalance}
+        />
+        <TextField
+          select
+          className={classes.dropdown}
+          label="Type"
+          onChange={handleAccountTypeChange}
+          value={accountType}
+        >
+          {accountTypes.map(account => (
+            <MenuItem key={account.id} value={account.id}>
+              {account.name}
+            </MenuItem>
+          ))}
+        </TextField>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleClearAll} color="primary">
+          Cancel
+        </Button>
+        <Button onClick={handleNewAccount} color="primary">
+          Add
+        </Button>
+      </DialogActions>
+    </>
+  );
 
   return (
     <div>
@@ -168,12 +214,12 @@ const AccountDialog = ({
         aria-labelledby="form-dialog-title"
       >
         <AppBar position="static">
-          <Tabs value={value} onChange={handleTabChange} aria-label="tabs">
+          <Tabs value={dialogTab} onChange={handleTabChange} aria-label="tabs">
             <Tab label="Account" />
             <Tab label="Transaction" />
           </Tabs>
         </AppBar>
-        {accountTab()}
+        {dialogTab === 0 ? accountTab : txTab}
       </Dialog>
     </div>
   );

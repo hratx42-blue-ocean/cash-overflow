@@ -37,6 +37,7 @@ const AccountsPage = ({
 }) => {
   // dialog state
   const [open, setOpen] = useState(false);
+  const [dialogTab, setDialogTab] = useState(0);
   const [accountTypes, setAccountTypes] = useState([]);
   const [accountTypeNames, setAccountTypeNames] = useState();
 
@@ -82,6 +83,8 @@ const AccountsPage = ({
         handleOpenDialog={handleOpenDialog}
         pushNewItem={pushNewItem}
         open={open}
+        dialogTab={dialogTab}
+        setDialogTab={setDialogTab}
       />
       <Grid
         container
@@ -118,6 +121,7 @@ const AccountsPage = ({
             accounts={accounts}
             handleOpenDialog={handleOpenDialog}
             names={accountTypeNames}
+            setDialogTab={setDialogTab}
           />
         </Grid>
         <Grid item sm={12} md={7}>
@@ -125,6 +129,7 @@ const AccountsPage = ({
             handleOpenDialog={handleOpenDialog}
             transactions={transactions}
             targetDate={targetDate}
+            setDialogTab={setDialogTab}
           />
         </Grid>
       </Grid>

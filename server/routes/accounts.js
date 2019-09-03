@@ -15,8 +15,15 @@ router.get('/', (req, res) => {
   }
 });
 
+router.post('/', (req, res) => {
+  const { name, balance, type, user } = req.body.account;
+  accounts
+    .post(name, balance, type, user)
+    .then(ok => res.send(ok))
+    .catch(console.error);
+});
+
 router.get('/types', (req, res) => {
-  console.log('at /types');
   accounts
     .types()
     .then(types => res.send(types))

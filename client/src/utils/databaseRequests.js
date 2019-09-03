@@ -34,6 +34,12 @@ const getUserTransactionData = (userid, year, month) => {
   });
 };
 
+const postAccount = (name, balance, type, user) => {
+  return axios.post('http://localhost:3000/api/accounts', {
+    account: { name, balance, type, user }
+  });
+};
+
 const postTransaction = (
   account,
   amount,
@@ -65,5 +71,6 @@ export default {
   getUserAccountTypes,
   getUserCategoryData,
   getUserTransactionData,
+  postAccount,
   postTransaction
 };

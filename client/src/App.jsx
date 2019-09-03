@@ -15,8 +15,6 @@ import Footer from './Components/Footer.jsx';
 import Loading from './Components/Loading.jsx';
 import db from './utils/databaseRequests';
 
-// import createFakeUser from './fakeUserGenerator.js';
-
 const calculateTotalBalance = accounts => {
   return accounts.reduce((sum, account) => {
     // only adds balances for accounts of type checking or savings
@@ -139,7 +137,6 @@ export default class App extends Component {
         ])
       )
       .then(([accounts, categories, transactions]) => {
-        const total = calculateTotalBalance(accounts.data);
         this.setState({
           accounts: accounts.data,
           categories: categories.data,

@@ -19,6 +19,19 @@ const accounts = {
     return connection
       .queryAsync('select * from account_types')
       .catch(console.error);
+  },
+  post: (name, balance, type, user) => {
+    return connection
+      .queryAsync(
+        `
+        insert into accounts
+        (name, balance, type, user)
+        values
+        (?, ?, ?, ?)
+        `,
+        [name, balance, type, user]
+      )
+      .catch(console.error);
   }
 };
 
