@@ -46,7 +46,11 @@ const filterByDate = (transactions, targetDate) => {
   });
 };
 
-const AccountTransactions = ({ transactions, targetDate }) => {
+const AccountTransactions = ({
+  handleOpenDialog,
+  transactions,
+  targetDate
+}) => {
   const classes = useStyles();
   const filteredTxs = filterByDate(transactions, targetDate);
 
@@ -65,7 +69,7 @@ const AccountTransactions = ({ transactions, targetDate }) => {
     <Paper className={classes.paper}>
       <Typography className={classes.title} variant="h5" align="center">
         Transactions
-        <IconButton aria-label="add-transaction">
+        <IconButton onClick={handleOpenDialog} aria-label="add-transaction">
           <AddIcon fontSize="small" />
         </IconButton>
       </Typography>

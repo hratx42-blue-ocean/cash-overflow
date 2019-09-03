@@ -95,35 +95,6 @@ const DashboardPage = ({
     }
   };
 
-  const clearTransactionInput = () => {
-    setTxAccount('');
-    setTxAccountId(undefined);
-    setTxAmount('');
-    setTxCategory('');
-    setTxCategoryId(undefined);
-    setTxDate(moment().format('YYYY-MM-DD'));
-    setTxMemo('');
-    setTxType('');
-  };
-
-  const handleSubmitTransaction = () => {
-    const txRecurring = 0;
-    const txUser = user.id;
-
-    db.postTransaction(
-      txAccountId,
-      txAmount,
-      txCategoryId,
-      txDate,
-      txMemo,
-      txRecurring,
-      txType,
-      txUser
-    )
-      .then(() => clearTransactionInput())
-      .catch(console.error);
-  };
-
   if (loading || !isAuthenticated) {
     return (
       <div data-testid="auth-loading">
@@ -226,7 +197,7 @@ const DashboardPage = ({
               onChange={handleMemoInput}
               margin="normal"
             />
-            <Button onClick={handleSubmitTransaction} color="primary">
+            <Button color="primary">
               Add transaction
             </Button>
           </Paper>

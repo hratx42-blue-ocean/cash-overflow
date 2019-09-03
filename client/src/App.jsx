@@ -17,7 +17,7 @@ import db from './utils/databaseRequests';
 
 // import createFakeUser from './fakeUserGenerator.js';
 
-const calculateTotalBalance = (accounts) => {
+const calculateTotalBalance = accounts => {
   console.log(accounts);
   return accounts.reduce((sum, account) => {
     // only adds balances for accounts of type checking or savings
@@ -46,12 +46,8 @@ export default class App extends Component {
       },
       isDemo: false
     };
-    this.setAccountData = this.setAccountData.bind(this);
-    this.handleAddTransaction = this.handleAddTransaction.bind(this);
-    this.asyncHandleUpdateCategories = this.asyncHandleUpdateCategories.bind(
-      this
-    );
     this.handleMonthChange = this.handleMonthChange.bind(this);
+    this.pushNewTransaction = this.pushNewTransaction.bind(this);
     this.toggleDemo = this.toggleDemo.bind(this);
   }
 
@@ -110,23 +106,6 @@ export default class App extends Component {
     }
   }
 
-  setAccountData(newAccountData) {
-    const { budgetCategories, email } = newAccountData;
-    console.log('newAccountData', newAccountData);
-    this.setState(
-      {
-        accountData: newAccountData,
-        budgetCategories,
-        currentUser: email
-      },
-      () => {
-        this.setState({ loadingUser: false }, () => {
-          db.postUserData(this.state.accountData);
-        });
-      }
-    );
-  }
-
   handleMonthChange(inc = 0) {
     const { targetDate } = this.state;
     let newDate;
@@ -136,6 +115,11 @@ export default class App extends Component {
       newDate = targetDate.subtract(inc, 'months');
     }
     this.setState({ targetDate: newDate });
+  }
+
+  pushNewTransaction(tx) {
+    const { transactions } = this.state;
+    this.setState({ transactions: transactions.push(tx) });
   }
 
   toggleDemo() {
@@ -182,102 +166,6 @@ export default class App extends Component {
             () => console.log('demo mode turned off')
           );
         }
-      });
-  }
-
-  handleAddTransaction(stateObject) {
-    // this function will live at the dashboard level eventually
-
-    const {
-      inputAccount,
-      inputAmount,
-      inputCategory,
-      inputDate,
-      inputPayee
-    } = stateObject;
-    const month = inputDate._d.getMonth();
-    const year = inputDate._d.getFullYear();
-    const accountUpdate = { ...this.state.accountData };
-    const { accounts } = accountUpdate;
-
-    const transaction = {
-      id: (420420420420420 + Math.floor(Math.random() * 69696969)).toString(),
-      amount: inputAmount,
-      category: inputCategory,
-      date: inputDate._d,
-      payee: inputPayee,
-      recurring: false
-    };
-
-    for (let i = 0; i < accounts.length; i++) {
-      if (accounts[i].name === inputAccount) {
-        if (accountUpdate.accounts[i].transactions[year]) {
-          if (accountUpdate.accounts[i].transactions[year][month]) {
-            accountUpdate.accounts[i].transactions[year][month].push(
-              transaction
-            );
-          } else {
-            accountUpdate.accounts[i].transactions[year][month] = [];
-            accountUpdate.accounts[i].transactions[year][month].push(
-              transaction
-            );
-          }
-        } else {
-          accountUpdate.accounts[i].transactions[year] = {};
-          accountUpdate.accounts[i].transactions[year][month] = [];
-          accountUpdate.accounts[i].transactions[year][month].push(transaction);
-        }
-        break;
-      }
-
-      this.setAccountData(accountUpdate);
-    }
-
-    this.setState({
-      currentUser: accountUpdate
-    });
-
-    // fn below will update app state, and then POST updated userObject to DB
-
-    this.setAccountData(accountUpdate);
-  }
-
-  promisifySetState(userObject) {
-    console.log('the user object has: ', userObject);
-    return new Promise(resolve => {
-      this.setState(
-        {
-          accountData: userObject,
-          budgetCategories: userObject.budgetCategories
-        },
-        () => {
-          const { accountData } = this.state;
-          resolve(accountData);
-        }
-      );
-    });
-  }
-
-  /**
-   * WARNING WARNING WARNING
-   * This is a major antipattern, we are aware.
-   * Somewhere in the complex finanical calcuations, the alloment relays on state and not props, so it's not update as props change.
-   * We're not sure where that happens and we plan to refactor finanical calucations to the backend shortly,
-   * making this abomination moot.
-   */
-
-  asyncHandleUpdateCategories(updatedCategories, callback) {
-    const accountUpdate = { ...this.state.accountData };
-    accountUpdate.budgetCategories = updatedCategories;
-    this.promisifySetState(accountUpdate)
-      .then(updatedAccount => {
-        const { budgetCategories, accounts } = updatedAccount;
-        console.log('the updated account data of course is: ', updatedAccount);
-        db.postUserData(updatedAccount);
-        callback(budgetCategories, accounts);
-      })
-      .catch(err => {
-        console.log('category update error: ', err);
       });
   }
 

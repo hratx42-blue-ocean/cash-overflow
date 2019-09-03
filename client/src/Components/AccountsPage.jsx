@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Grid from '@material-ui/core/Grid';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 import Typography from '@material-ui/core/Typography';
 import ChevronLeft from '@material-ui/icons/ChevronLeft';
 import ChevronRight from '@material-ui/icons/ChevronRight';
@@ -10,6 +11,7 @@ import { makeStyles } from '@material-ui/styles';
 import Loading from './Loading';
 import AccountTransactions from './AccountTransactions';
 import AccountsTable from './AccountsTable';
+import AccountsDialog from './AccountsDialog';
 
 import db from '../utils/databaseRequests';
 
@@ -34,11 +36,9 @@ const AccountsPage = ({
   loading,
   isAuthenticated
 }) => {
+  // dialog state
   const [open, setOpen] = useState(false);
-  const [accountType, setAccountType] = useState('');
-  const [accountFilter, setAccountFilter] = useState('');
-  const [accountName, setAccountName] = useState('');
-  const [accountTypeNames, setAccountTypeNames] = useState(undefined);
+  const [accountTypeNames, setAccountTypeNames] = useState();
 
   const classes = useStyles();
 
@@ -60,42 +60,9 @@ const AccountsPage = ({
     }
   });
 
-  // handleAddAccount() {
-  //   this.setState({ open: true });
-  // }
-
-  // handleAccountNameInput(event) {
-  //   this.setState({ accountName: event.target.value });
-  // }
-
-  // handleClose() {
-  //   this.setState({ open: false });
-  //   console.log(this.props.accountData.accounts);
-  // }
-
-  // handleSelect(event) {
-  //   this.setState({ accountType: event.target.value });
-  // }
-
-  // handleAccountFilter(event) {
-  //   this.setState({ accountFilter: event.target.value });
-  // }
-
-  // handleLeftArrow() {
-  //   if (this.state.currentMonth > 1) {
-  //     this.setState({ currentMonth: this.state.currentMonth - 1 }, () =>
-  //       console.log(this.state.currentMonth)
-  //     );
-  //   }
-  // }
-
-  // handleRightArrow() {
-  //   if (this.state.currentMonth < 12) {
-  //     this.setState({ currentMonth: this.state.currentMonth + 1 }, () =>
-  //       console.log(this.state.currentMonth)
-  //     );
-  //   }
-  // }
+  const handleOpenDialog = () => {
+    setOpen(!open);
+  };
 
   if (loading || !isAuthenticated) {
     return (
@@ -107,6 +74,7 @@ const AccountsPage = ({
 
   return (
     <div>
+      <AccountsDialog handleOpenDialog={handleOpenDialog} open={open} />
       <Grid
         container
         direction="row"
@@ -140,12 +108,14 @@ const AccountsPage = ({
         <Grid item sm={12} md={5}>
           <AccountsTable
             accounts={accounts}
+            handleOpenDialog={handleOpenDialog}
             total={accountTotalBal}
             names={accountTypeNames}
           />
         </Grid>
         <Grid item sm={12} md={7}>
           <AccountTransactions
+            handleOpenDialog={handleOpenDialog}
             transactions={transactions}
             targetDate={targetDate}
           />

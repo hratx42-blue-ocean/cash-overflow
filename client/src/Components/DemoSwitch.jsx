@@ -1,16 +1,16 @@
 import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
-import PrivateRoute from './PrivateRoute.jsx';
+import PrivateRoute from './PrivateRoute';
 import { Auth0Context } from '../react-auth0-wrapper';
-import Header from './Header.jsx';
-import AccountsPage from './AccountsPage.jsx';
-import BudgetPage from './BudgetPage.jsx';
-import DashboardPage from './DashboardPage.jsx';
-import LandingPage from './LandingPage.jsx';
-import TrendsPage from './TrendsPage.jsx';
-import LoginPage from './LoginPage.jsx';
-import ProfilePage from './ProfilePage.jsx';
-import ErrorPage from './ErrorPage.jsx';
+import Header from './Header';
+import AccountsPage from './AccountsPage';
+import BudgetPage from './BudgetPage';
+import DashboardPage from './DashboardPage';
+import LandingPage from './LandingPage';
+import TrendsPage from './TrendsPage';
+import LoginPage from './LoginPage';
+import ProfilePage from './ProfilePage';
+import ErrorPage from './ErrorPage';
 import PropTypes from 'prop-types';
 
 export default function DemoSwitch(props) {
@@ -23,11 +23,6 @@ export default function DemoSwitch(props) {
     targetDate,
     handleMonthChange,
     accountData,
-    budgetCategories,
-    updateAccountData,
-    asyncHandleUpdateCategories,
-    currentUser,
-    handleAddTransaction,
     toggleDemo,
     isDemo,
     isAuthenticated,
@@ -82,9 +77,6 @@ export default function DemoSwitch(props) {
             accountTotalBal={accountTotalBal}
             categories={categories}
             transactions={transactions}
-            handleAddTransaction={handleAddTransaction}
-            accountData={accountData}
-            currentUser={currentUser}
             loading={loading}
             isAuthenticated={isAuthenticated}
           />

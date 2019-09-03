@@ -44,7 +44,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const AccountsTable = ({ accounts, names, total }) => {
+const AccountsTable = ({ accounts, handleOpenDialog, names, total }) => {
   const classes = useStyles();
   // human readable account type, prevents crash if names haven't arrived yet
   const mapName = type => {
@@ -58,7 +58,7 @@ const AccountsTable = ({ accounts, names, total }) => {
     <Paper className={classes.paper}>
       <Typography className={classes.title} variant="h5" align="center">
         Accounts
-        <IconButton aria-label="add-account">
+        <IconButton onClick={handleOpenDialog} aria-label="add-account">
           <AddIcon fontSize="small" />
         </IconButton>
       </Typography>
@@ -97,12 +97,13 @@ const AccountsTable = ({ accounts, names, total }) => {
 };
 
 AccountsTable.defaultProps = {
-  accounts: []
+  accounts: [],
+  names: undefined
 };
 
 AccountsTable.propTypes = {
   accounts: PropTypes.arrayOf(PropTypes.object),
-  names: PropTypes.objectOf(PropTypes.object).isRequired,
+  names: PropTypes.objectOf(PropTypes.object),
   total: PropTypes.number.isRequired
 };
 
