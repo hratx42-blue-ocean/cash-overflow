@@ -12,6 +12,7 @@ import IconButton from '@material-ui/core/IconButton';
 import ChevronLeft from '@material-ui/icons/ChevronLeft';
 import ChevronRight from '@material-ui/icons/ChevronRight';
 import Today from '@material-ui/icons/Today';
+import AddIcon from '@material-ui/icons/Add';
 import Loading from '../Loading';
 import db from '../../utils/databaseRequests';
 import filterTxs from '../../utils/filterTxsByDate';
@@ -28,6 +29,11 @@ const useStyles = makeStyles(theme => ({
   },
   table: {
     minWidth: 650
+  },
+  title: {
+    paddingTop: '1rem',
+    paddingLeft: '1rem',
+    paddingRight: '1rem'
   }
 }));
 
@@ -125,6 +131,15 @@ const BudgetPage = props => {
         </IconButton>
       </Grid>
       <Paper className={classes.root}>
+        <Typography className={classes.title} variant="h5" align="center">
+          Budget Categories
+          <IconButton
+            // onClick={handleOpenTransactionDialog}
+            aria-label="add-category"
+          >
+            <AddIcon fontSize="small" />
+          </IconButton>
+        </Typography>
         <Table className={classes.table}>
           <TableHead>
             <TableRow>
