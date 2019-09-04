@@ -56,6 +56,8 @@ export default function DemoSwitch(props) {
         path="/budget"
         render={props => (
           <BudgetPage
+            user={user}
+            categories={categories}
             targetDate={targetDate}
             handleMonthChange={handleMonthChange}
             loading={loading}

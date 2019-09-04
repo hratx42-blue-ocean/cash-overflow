@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -13,6 +13,7 @@ import ChevronLeft from '@material-ui/icons/ChevronLeft';
 import ChevronRight from '@material-ui/icons/ChevronRight';
 import Today from '@material-ui/icons/Today';
 import Loading from '../Loading';
+import db from '../../utils/databaseRequests';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -43,8 +44,31 @@ const rows = [
 
 const BudgetPage = props => {
   const classes = useStyles();
+  const { user, categories } = props;
   const { targetDate, handleMonthChange } = props;
   const { loading, isAuthenticated } = props;
+  const [allotments, setAllotments] = useState(undefined);
+
+  useEffect(() => {
+    if (allotments === undefined) {
+      db.getUserAllotmentData(
+        user.id,
+        targetDate.format('YYYY'),
+        targetDate.format('MM')
+      )
+        .then(({ data }) => {
+          const mapped = {};
+          data.forEach(allotment => {
+            const { category } = allotment;
+            mapped[category] = allotment;
+          });
+          console.log('mapped is', mapped);
+          setAllotments(mapped);
+        })
+        .catch(console.error);
+    }
+  });
+
   if (loading || !isAuthenticated) {
     return (
       <div data-testid="auth-loading">
@@ -66,19 +90,28 @@ const BudgetPage = props => {
           {`Your budget for ${targetDate.format('MMMM, YYYY')}`}
         </Typography>
         <IconButton
-          onClick={() => handleMonthChange(1)}
+          onClick={() => {
+            setAllotments(undefined);
+            handleMonthChange(1);
+          }}
           aria-label="previous-month"
         >
           <ChevronLeft />
         </IconButton>
         <IconButton
-          onClick={() => handleMonthChange()}
+          onClick={() => {
+            setAllotments(undefined);
+            handleMonthChange();
+          }}
           aria-label="previous-month"
         >
           <Today />
         </IconButton>
         <IconButton
-          onClick={() => handleMonthChange(-1)}
+          onClick={() => {
+            setAllotments(undefined);
+            handleMonthChange(-1);
+          }}
           aria-label="next-month"
         >
           <ChevronRight />
@@ -95,16 +128,21 @@ const BudgetPage = props => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map(row => (
-              <TableRow key={row.name}>
-                <TableCell component="th" scope="row">
-                  {row.name}
-                </TableCell>
-                <TableCell align="right">{row.calories}</TableCell>
-                <TableCell align="right">{row.fat}</TableCell>
-                <TableCell align="right">{row.carbs}</TableCell>
-              </TableRow>
-            ))}
+            {categories.map(category => {
+              const { id, name } = category;
+              const allotted =
+                allotments && allotments[id] ? allotments[id].amount : 0;
+              return (
+                <TableRow key={name}>
+                  <TableCell component="th" scope="row">
+                    {name}
+                  </TableCell>
+                  <TableCell align="right">{allotted}</TableCell>
+                  <TableCell align="right">{0}</TableCell>
+                  <TableCell align="right">{0}</TableCell>
+                </TableRow>
+              );
+            })}
           </TableBody>
         </Table>
       </Paper>

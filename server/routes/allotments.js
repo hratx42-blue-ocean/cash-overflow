@@ -1,17 +1,17 @@
 const router = require('express').Router();
 const { allotments } = require('../db/model');
 
-// router.get('/', (req, res) => {
-//   const { userid, year, month } = req.query;
-//   if (userid && year && month) {
-//     allotments
-//       .byUserIdAndDate(userid, year, month)
-//       .then(txs => res.send(txs))
-//       .catch(console.error);
-//   } else {
-//     res.send();
-//   }
-// });
+router.get('/', (req, res) => {
+  const { userid, year, month } = req.query;
+  if (userid && year && month) {
+    allotments
+      .byUserIdAndDate(userid, year, month)
+      .then(txs => res.send(txs))
+      .catch(console.error);
+  } else {
+    res.send();
+  }
+});
 
 router.post('/', (req, res) => {
   const { userid, category, date, amount } = req.body.allotment;

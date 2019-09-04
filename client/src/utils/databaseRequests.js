@@ -34,6 +34,12 @@ const getUserTransactionData = (userid, year, month) => {
   });
 };
 
+const getUserAllotmentData = (userid, year, month) => {
+  return axios.get('http://localhost:3000/api/allotments', {
+    params: { userid, year, month }
+  });
+};
+
 const postAccount = (name, balance, type, user) => {
   return axios.post('http://localhost:3000/api/accounts', {
     account: { name, balance, type, user }
@@ -64,6 +70,17 @@ const postTransaction = (
   });
 };
 
+const postAllotment = (user, category, amount, date) => {
+  return axios.post('http://localhost:3000/api/allotments', {
+    transaction: {
+      user,
+      category,
+      amount,
+      date
+    }
+  });
+};
+
 export default {
   postUserData,
   getUserData,
@@ -71,6 +88,8 @@ export default {
   getUserAccountTypes,
   getUserCategoryData,
   getUserTransactionData,
+  getUserAllotmentData,
   postAccount,
-  postTransaction
+  postTransaction,
+  postAllotment
 };
