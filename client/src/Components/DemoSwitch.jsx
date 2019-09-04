@@ -58,6 +58,7 @@ export default function DemoSwitch(props) {
           <BudgetPage
             user={user}
             categories={categories}
+            transactions={transactions}
             targetDate={targetDate}
             handleMonthChange={handleMonthChange}
             loading={loading}

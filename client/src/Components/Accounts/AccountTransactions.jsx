@@ -14,6 +14,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/styles';
 
 import format from '../../utils/formatCurrency';
+import filterTxs from '../../utils/filterTxsByDate';
 
 const useStyles = makeStyles(theme => ({
   noTxs: {
@@ -31,15 +32,6 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const filterByDate = (transactions, targetDate) => {
-  const targetYearMonth = targetDate.format('YYYY-MM');
-  return transactions.filter(tx => {
-    const { date } = tx;
-    const [yearMonth] = date.match(/^(\d+-\d+)/g);
-    return yearMonth === targetYearMonth;
-  });
-};
-
 const AccountTransactions = ({
   handleOpenDialog,
   transactions,
@@ -47,7 +39,7 @@ const AccountTransactions = ({
   setDialogTab
 }) => {
   const classes = useStyles();
-  const filteredTxs = filterByDate(transactions, targetDate);
+  const filteredTxs = filterTxs(transactions, targetDate);
 
   const noTxsMessage = txs => {
     if (txs.length === 0) {

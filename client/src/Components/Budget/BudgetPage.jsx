@@ -14,6 +14,7 @@ import ChevronRight from '@material-ui/icons/ChevronRight';
 import Today from '@material-ui/icons/Today';
 import Loading from '../Loading';
 import db from '../../utils/databaseRequests';
+import filterTxs from '../../utils/filterTxsByDate';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -44,10 +45,11 @@ const rows = [
 
 const BudgetPage = props => {
   const classes = useStyles();
-  const { user, categories } = props;
+  const { user, categories, transactions } = props;
   const { targetDate, handleMonthChange } = props;
   const { loading, isAuthenticated } = props;
   const [allotments, setAllotments] = useState(undefined);
+  const [spent, setSpent] = useState(undefined);
 
   useEffect(() => {
     if (allotments === undefined) {
@@ -62,10 +64,15 @@ const BudgetPage = props => {
             const { category } = allotment;
             mapped[category] = allotment;
           });
-          console.log('mapped is', mapped);
           setAllotments(mapped);
         })
         .catch(console.error);
+      const spentMapped = {};
+      filterTxs(transactions, targetDate).forEach(tx => {
+        const { category, amount } = tx;
+        spentMapped[category] = spentMapped[category] + amount || amount;
+      });
+      setSpent(spentMapped);
     }
   });
 
@@ -132,14 +139,15 @@ const BudgetPage = props => {
               const { id, name } = category;
               const allotted =
                 allotments && allotments[id] ? allotments[id].amount : 0;
+              const spentAmount = spent && spent[id] ? spent[id] : 0;
               return (
                 <TableRow key={name}>
                   <TableCell component="th" scope="row">
                     {name}
                   </TableCell>
                   <TableCell align="right">{allotted}</TableCell>
-                  <TableCell align="right">{0}</TableCell>
-                  <TableCell align="right">{0}</TableCell>
+                  <TableCell align="right">{spentAmount}</TableCell>
+                  <TableCell align="right">{allotted - spentAmount}</TableCell>
                 </TableRow>
               );
             })}
