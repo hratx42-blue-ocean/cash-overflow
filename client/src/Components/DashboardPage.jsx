@@ -18,10 +18,10 @@ import {
   MuiPickersUtilsProvider
 } from '@material-ui/pickers';
 import PropTypes from 'prop-types';
+import { positions } from '@material-ui/system';
 import Loading from './Loading.jsx';
 import AlertBox from './AlertBox.jsx';
 import { Auth0Context } from '../react-auth0-wrapper';
-import { positions } from '@material-ui/system';
 
 export default class DashboardPage extends Component {
   constructor(props) {
@@ -108,9 +108,9 @@ export default class DashboardPage extends Component {
   }
 
   findBalance() {
-    let today = new Date();
-    let year = today.getFullYear();
-    let month = today.getMonth();
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = today.getMonth();
     let totalBudget = 0;
     let currentlySpent = 0;
 
@@ -129,9 +129,11 @@ export default class DashboardPage extends Component {
 
     const { accounts } = this.state;
     accounts.forEach(account => {
-      account.transactions[year][month].forEach(transaction => {
-        currentlySpent += Number(transaction.amount);
-      });
+      if (account.transactions[year] && account.transactions[year].length > 0) {
+        account.transactions[year][month].forEach(transaction => {
+          currentlySpent += Number(transaction.amount);
+        });
+      }
     });
 
     return (totalBudget - currentlySpent).toLocaleString('en-US', {
@@ -158,7 +160,7 @@ export default class DashboardPage extends Component {
           direction="row"
           justify="center"
           alignItems="flex-start"
-          style={{padding: 20}}
+          style={{ padding: 20 }}
         >
           <Grid
             container
@@ -176,10 +178,9 @@ export default class DashboardPage extends Component {
               }}
             >
               <Typography
-                style={{ textAlign: 'center'}}
+                style={{ textAlign: 'center' }}
                 variant="h3"
                 gutterBottom
-                
               >
                 Hello, {this.state.firstName}!
               </Typography>

@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import AccountsTable from './AccountsTable.jsx';
 import AccountTransactions from './AccountTransactions.jsx';
 import Loading from './Loading.jsx';
+
 export default class AccountsPage extends React.Component {
   constructor(props) {
     super(props);
@@ -26,27 +27,33 @@ export default class AccountsPage extends React.Component {
     this.handleAccountNameInput = this.handleAccountNameInput.bind(this);
   }
 
-  componentDidMount(){
-    let currentDate = new Date();
+  componentDidMount() {
+    const currentDate = new Date();
     this.setState({
       currentMonth: currentDate.getMonth(),
       currentYear: currentDate.getFullYear()
-    })
+    });
   }
 
   handleAddAccount() {
     this.setState({ open: true });
   }
 
-  handleAccountNameInput(event){
-    this.setState({accountName: event.target.value});
+  handleAccountNameInput(event) {
+    this.setState({ accountName: event.target.value });
   }
 
-  handleSaveAccount(){
+  handleSaveAccount() {
     this.setState({ open: false });
-    console.log(this.state.accountName,this.state.accountType)
-    const accountDataUpdate = JSON.parse(JSON.stringify(this.props.accountData));
-    const newAcct = {name:this.state.accountName, transactions: {'2019': {'6': [], '7': [], '8': []}}, type:this.state.accountType};
+    console.log(this.state.accountName, this.state.accountType);
+    const accountDataUpdate = JSON.parse(
+      JSON.stringify(this.props.accountData)
+    );
+    const newAcct = {
+      name: this.state.accountName,
+      transactions: { '2019': { '6': [], '7': [], '8': [] } },
+      type: this.state.accountType
+    };
     accountDataUpdate.accounts.push(newAcct);
 
     this.props.setAccountData(accountDataUpdate);
@@ -65,16 +72,19 @@ export default class AccountsPage extends React.Component {
     this.setState({ accountFilter: event.target.value });
   }
 
-  handleLeftArrow(){
-    if(this.state.currentMonth > 1){
-      this.setState({ currentMonth: this.state.currentMonth - 1}, () => console.log(this.state.currentMonth))
+  handleLeftArrow() {
+    if (this.state.currentMonth > 1) {
+      this.setState({ currentMonth: this.state.currentMonth - 1 }, () =>
+        console.log(this.state.currentMonth)
+      );
     }
-    
   }
 
-  handleRightArrow(){
-    if(this.state.currentMonth < 12){
-      this.setState({ currentMonth: this.state.currentMonth + 1}, () => console.log(this.state.currentMonth))
+  handleRightArrow() {
+    if (this.state.currentMonth < 12) {
+      this.setState({ currentMonth: this.state.currentMonth + 1 }, () =>
+        console.log(this.state.currentMonth)
+      );
     }
   }
 
@@ -97,28 +107,52 @@ export default class AccountsPage extends React.Component {
       accountData.accounts[0] &&
       accountData.accounts[0].transactions &&
       accountData.accounts[0].transactions[this.state.currentYear] &&
-      accountData.accounts[0].transactions[this.state.currentYear][this.state.currentMonth]
+      accountData.accounts[0].transactions[this.state.currentYear][
+        this.state.currentMonth
+      ]
     ) {
-      
-      if(this.state.accountFilter === ''){
+      if (this.state.accountFilter === '') {
         accountData.accounts.forEach(account => {
-          let txs = account.transactions[this.state.currentYear][this.state.currentMonth];
-          txs.forEach(record => {
-            record.accountName = account.name
-          })
-          data.push(...txs);
+          if (
+            account.transactions[this.state.currentYear] &&
+            account.transactions[this.state.currentYear][
+              this.state.currentMonth
+            ]
+          ) {
+            const txs =
+              account.transactions[this.state.currentYear][
+                this.state.currentMonth
+              ];
+            if (txs.length > 0) {
+              txs.forEach(record => {
+                record.accountName = account.name;
+              });
+              data.push(...txs);
+            }
+          }
         });
       } else {
         accountData.accounts.forEach(account => {
-          if(account.name === this.state.accountFilter && account.transactions[this.state.currentYear][this.state.currentMonth]){
-            let txs = account.transactions[this.state.currentYear][this.state.currentMonth];
-            txs.forEach(record => {
-              record.accountName = account.name
-            })
-            data.push(...txs);
+          if (
+            account.name === this.state.accountFilter &&
+            account.transactions[this.state.currentYear] &&
+            account.transactions[this.state.currentYear][
+              this.state.currentMonth
+            ]
+          ) {
+            const txs =
+              account.transactions[this.state.currentYear][
+                this.state.currentMonth
+              ];
+            if (txs.length > 0) {
+              txs.forEach(record => {
+                record.accountName = account.name;
+              });
+              data.push(...txs);
+            }
           }
         });
-      } 
+      }
       data = data.sort((a, b) => new Date(b.date) - new Date(a.date));
       accountsList = accountData.accounts;
     }
@@ -140,10 +174,10 @@ export default class AccountsPage extends React.Component {
             accountsList={accountsList}
             accountFilter={this.state.accountFilter}
             handleAccountFilter={this.handleAccountFilter}
-            currentMonth = {Number(this.state.currentMonth)}
-            currentYear = {Number(this.state.currentYear)}
-            handleLeftArrow = {this.handleLeftArrow}
-            handleRightArrow = {this.handleRightArrow}
+            currentMonth={Number(this.state.currentMonth)}
+            currentYear={Number(this.state.currentYear)}
+            handleLeftArrow={this.handleLeftArrow}
+            handleRightArrow={this.handleRightArrow}
           />
         </Grid>
       </div>
