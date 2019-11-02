@@ -47,15 +47,17 @@ export default class AlertBox extends Component {
         }
       }
     });
-    for (let category of filteredBudget) {
+    for (const category of filteredBudget) {
       let alertType = null;
-      let categoryName = category.name;
-      let allotment = category.allotment[year][month];
+      const categoryName = category.name;
+      const allotment = category.allotment[year][month];
       let subtotal = 0;
-      for (let account of accounts) {
-        for (let transaction of account.transactions[year][month]) {
-          if (transaction.category === categoryName) {
-            subtotal += Number(transaction.amount);
+      for (const account of accounts) {
+        if (account.transactions[year] && account.transactions[year][month]) {
+          for (const transaction of account.transactions[year][month]) {
+            if (transaction.category === categoryName) {
+              subtotal += Number(transaction.amount);
+            }
           }
         }
       }
@@ -81,8 +83,8 @@ export default class AlertBox extends Component {
       }
     }
 
-    for (let payment of transactions) {
-      let date = new Date(payment.startDate);
+    for (const payment of transactions) {
+      const date = new Date(payment.startDate);
       if (
         date.getDate() - today.getDate() < 4 &&
         date.getDate() - today.getDate() > 0
@@ -91,7 +93,7 @@ export default class AlertBox extends Component {
         alerts.push({
           budgetCategoryName: payment.category,
           amount: payment.amount,
-          date: date,
+          date,
           payee: payment.payee,
           alertType: 'Payment Reminder',
           alertHeader: 'You have a payment coming up!'
@@ -100,20 +102,20 @@ export default class AlertBox extends Component {
     }
 
     this.setState({
-      alerts: alerts,
+      alerts,
       maxSteps: alerts.length
     });
   }
 
   handleNext() {
-    let nextStep = this.state.activeStep + 1;
+    const nextStep = this.state.activeStep + 1;
     this.setState({
       activeStep: nextStep
     });
   }
 
   handleBack() {
-    let prevStep = this.state.activeStep - 1;
+    const prevStep = this.state.activeStep - 1;
     this.setState({
       activeStep: prevStep
     });
